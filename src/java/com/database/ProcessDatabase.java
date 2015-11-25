@@ -31,20 +31,6 @@ public class ProcessDatabase {
         
         out.println("<?xml version=\"1.0\" encoding=\"" + encoding + "\"?>");
         
-//        sb.append("<message><sms type=\"").append(mt).append("\">");
-//        sb.append("<service-id>").append(id).append("</service-id>");
-//        sb.append("<destination>");
-//        sb.append("<address>");
-//        sb.append("<number type=\"international\">").append(number).append("</number>");
-//        sb.append("</address></destination><source><address>");
-//        sb.append("<number type=\"abbreviated\">").append(abbreviated).append("</number>");
-//        sb.append("<originate type=\"international\">").append(originate).append("</originate>");
-//        sb.append("<sender>").append(sender).append("</sender>");
-//        sb.append("</address></source>");
-//        sb.append("<ud type=\"").append(type).append("\" encoding=\"").append(encoding_default).append("\">").append(text).append("</ud>");
-//        sb.append("<scts>").append(time).append("</scts>");
-//        sb.append("<dro>").append(dro).append("</dro>");
-//        sb.append("</sms></message>");
 
         return out;
     }
