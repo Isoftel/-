@@ -30,7 +30,7 @@ public class DeliveryRequest_true extends HttpServlet {
             String result = getStringFromInputStream(inStream);
             
             //print PrintWriter 
-            insert.request_printwriter(out, encoding,result);
+            //insert.request_printwriter(out, encoding,result);
 
             //////////////////ส่งค่า HTTP กลับ
             response.setContentLength(result.length());
