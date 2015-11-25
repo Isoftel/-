@@ -78,7 +78,10 @@ public class get_data implements Runnable {
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
-            rs = stmt.executeQuery("select TOP(1)* from View_apimgr");
+            rs = stmt.executeQuery("select TOP(1)* from register" +
+                                   "INNER JOIN subscribe ON subscribe.mobile_id = register.mobile_id" +
+                                   "INNER JOIN services  ON services.id      = register.service_id " +
+                                   "where status = '10'");
             while (rs.next()) {
                 data_user iduser = new data_user();
                 String user = rs.getString("api_user");
@@ -107,6 +110,7 @@ public class get_data implements Runnable {
                 iduser.setSender(sender);
                 iduser.setSms(text);
                 iduser.setOper(oper);
+                
                 //iduser.set
 
 //                String sql = "UPDATE register SET status = '3' WHERE reg_id='" + id + "' ";

@@ -25,60 +25,79 @@ public class PostXML {
     Date date = new Date();
     ResourceBundle msg = ResourceBundle.getBundle("configs");
     String local = msg.getString("localhost");
-    String ip_post = msg.getString("ip_post");
-    String ip_post_part = msg.getString("ip_and_part");
+    String post_xml_true = msg.getString("true_url");
+    String ip_source = msg.getString("ip_post");
+    String ip_destination = msg.getString("ip_and_part");
 
     Logger Log = Logger.getLogger(this.getClass());
 
     ///ส่งค่าเดียวแล้ว reture String ที่ได้รับจากฟั่ง True หลังจากส่ง XML แล้ว
-    public String getXmlReg(String encoding, String mt, String service_id, String number, String abbreviated, String sender, String text,String dro, String id_pass) {
+    public String getXmlReg(String encoding, String mt, String service_id, String number, String abbreviated, String sender, String text, String dro, String id_pass) {
         //DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z // Z // X // a // G // E // S");
         DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ssz");
         //System.out.println("Day : " + dateFormat.format(date));
         //System.out.println("Day : " + dateFormat2.format(date));
-        
+
         String xmlRes = null;
 
         StringBuilder sb = new StringBuilder();
-//        sb.append("<?xml version=\"1.0\" encoding=\"").append(encoding).append("\"?>");
-//        sb.append("<message><sms type=\"").append(mt).append("\">");
-//        sb.append("<service-id>").append(service_id).append("</service-id>");
-//        sb.append("<destination>");
-//        sb.append("<address>");
-//        sb.append("<number type=\"international\">").append(number).append("</number>");
-//        sb.append("</address></destination><source><address>");
-//        sb.append("<number type=\"abbreviated\">").append(abbreviated).append("</number>");
-//        sb.append("<originate type=\"international\">").append(number).append("</originate>");
-//        sb.append("<sender>").append(sender).append("</sender>");
-//        sb.append("</address></source>");
-//        sb.append("<ud type=\"test\" encoding=\"default\">").append(text).append("</ud>");
-//        sb.append("<scts>").append(dateFormat2.format(date)).append("</scts>");
-//        sb.append("<dro>").append(dro).append("</dro>");
-//        sb.append("</sms></message>");
+        sb.append("<?xml version=\"1.0\" encoding=\"").append("").append("\"?>");
+        sb.append("message id=\"").append("").append("\">");
+        sb.append("<rsr type=\"reply\">");
+        sb.append("<service-id>").append("").append("</service-id>");
+        sb.append("<destination messageid=\"").append("").append("\">");
+        sb.append("<address>");
+        sb.append("</destination>");
+        sb.append("<source>");
+        sb.append("<address>");
+        sb.append("</source>");
+        sb.append("<rsr_detail status=\"success\">");
+        sb.append("<code>").append("").append("</code>");
+        sb.append("<description>").append("").append("</description>");
+        sb.append("</rsr_detail>");
+        sb.append("</rsr>");
+        sb.append("</message>");
         
-        /*
-        Pa
-        
+/*
+        <?xml version="1.0" encoding="UTF-8"?>
+<message id="routerTestbed@Testbed:3104400">
+<rsr type="reply">
+<service-id>0101102156</service-id>
+<destination messageid="6156634A">
+<address>
+<number type="abbreviated">1042</number>
+</address>
+</destination>
+<source>
+<address>
+<number type="international">668xxxxxxxx</number>
+</address>
+</source>
+<rsr_detail status="success">
+<code>0</code>
+<description>Success receive request</description>
+</rsr_detail>
+</rsr>
+</message>
         */
+
 
         /////////////////////////////////
 //        Responsed rsp = new Responsed();
 //        rsp.setCode(getdata(sb.toString(), "service-id"));
 //        rsp.setDescription(getdata(sb.toString(), "scts"));
         //ip_post = "http://192.168.0.126:8080/Artemis/DeliveryRequest_true";
-        //ip_post = "http://10.4.13.39:8004/tmcss2/fh.do";
-        
         ///////ส่งค่า XML
-        System.out.println("Post Xml : "+ sb.toString());
+        System.out.println("Post Xml : " + sb.toString());
         this.Log.info("Post XML : " + sb.toString());
         try {
-            PostMethod post = new PostMethod(ip_post);
+            PostMethod post = new PostMethod(post_xml_true);
             post.setRequestHeader("Connection", "Close");
             post.setRequestHeader("Authorization", "Basic " + id_pass);
-            post.setRequestHeader("Host", ip_post_part);
+            post.setRequestHeader("Host", ip_source);
             post.setRequestHeader("Content-Length", String.valueOf(sb.toString().length()));
             post.setRequestHeader("Content-Type", "text/xml");
-
+            
             //RequestEntity entity = new StringRequestEntity(sb.toString(), "text/xml", "TIS-620");
             RequestEntity entity = new StringRequestEntity(sb.toString(), "text/xml", "UTF-8");
             post.setRequestEntity(entity);
@@ -94,7 +113,7 @@ public class PostXML {
                 InputStream inStream = post.getResponseBodyAsStream();
                 xmlRes = parseISToString(inStream, false);
             }
-            
+
         } catch (Exception e) {
             System.out.println("Error Port : " + e);
             this.Log.info("Error Post : " + e);
@@ -103,8 +122,6 @@ public class PostXML {
         //System.out.println("Get Xml : " + xmlRes);
         return xmlRes;
     }
-    
-    
 
     /////ส่งหลายค่า
     public String getXml_true(List<data_user> sub, String oper, String lot, String service) {
@@ -177,37 +194,4 @@ public class PostXML {
         return result;
     }
 
-    public String getdata_cut(String in, String Tag) {
-        StringBuilder sb = new StringBuilder();
-        String result = null;
-        try {
-            String document = in;
-            String startTag = "<" + Tag;
-            String endTag = "\">";
-            int start = document.indexOf(startTag) + startTag.length();
-            int end = document.indexOf(endTag);
-            result = document.substring(start, end);
-        } catch (Exception ex) {
-            //System.out.println("error : "+ex.getMessage());
-            return result;
-        }
-        return result;
-    }
-
-    public String getdata_cut2(String in, String Tag) {
-        StringBuilder sb = new StringBuilder();
-        String result = null;
-        try {
-            String document = in;
-            String startTag = "<" + Tag;
-            String endTag = "\">";
-            int start = document.indexOf(startTag) + startTag.length();
-            int end = document.indexOf(endTag);
-            result = document.substring(start, end);
-        } catch (Exception ex) {
-            //System.out.println("error : "+ex.getMessage());
-            return result;
-        }
-        return result;
-    }
 }
