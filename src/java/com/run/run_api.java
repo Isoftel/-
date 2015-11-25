@@ -16,7 +16,7 @@ public class run_api extends HttpServlet implements Runnable {
     ResourceBundle msg = ResourceBundle.getBundle("configs");
     int ThreadSleep = Integer.parseInt(msg.getString("Thread"));
     Thread th;
-    
+    String m;
     Logger Log = Logger.getLogger(this.getClass());
 
     @Override
