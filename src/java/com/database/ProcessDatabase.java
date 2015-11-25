@@ -67,17 +67,17 @@ public class ProcessDatabase {
         String message      = (getdata(result, "message id=\"",                     3,""));
         String sms          = (getdata(result, "sms type=\"",                       3,""));
         String messageid    = (getdata(result, "destination messageid=\"",          3,""));
+        String destination  = (getdata(result, "number type=\"abbreviated\"",       4,"number"));
+        String number       = (getdata(result, "number type=\"international\"",     4,"number"));
+        String ud           = (getdata(result, "ud type=\"text\"",                  4,"ud"));
+        String time         = (getdata(result, "scts",                              1,"scts"));
         String service      = (getdata(result, "service-id",                        1,""));
-        String destination  = (getdata(result, "number type=\"international\"",     4,"number"));
-        String number       = (getdata(result, "number type=\"abbreviated\"",       4,"number"));
-        String number_type  = (getdata(result, "originate type=\"international\"",  4,"originate"));
-        String rsr_detail   = (getdata(result, "rsr_detail status",                 2,""));
-        String code         = (getdata(result, "code",                              1,""));
-        String description  = (getdata(result, "description",                       1,""));
+        String from         = (getdata(result, "from",                              1,""));
+        String to           = (getdata(result, "to",                                1,""));
         
         
         
-        System.out.println(" 1 " + encoding + " 2 " + sms + " 3 " + service + " 4 " + destination + " 5 " + number + " 6 " + number_type + " 7 " + rsr_detail);
+        //System.out.println(" 1 " + encoding + " 2 " + sms + " 3 " + service + " 4 " + destination + " 5 " + number + " 6 " + number_type + " 7 " + rsr_detail);
         //System.out.println("1 : " + sms );
         //+ "2 : " + service + "3 : " + destination + "4 : " + number + "5 : " + number_type + "6 : " + rsr_detail);
         try {
