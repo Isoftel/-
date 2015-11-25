@@ -57,30 +57,6 @@ public class PostXML {
         sb.append("</rsr_detail>");
         sb.append("</rsr>");
         sb.append("</message>");
-        
-/*
-        <?xml version="1.0" encoding="UTF-8"?>
-<message id="routerTestbed@Testbed:3104400">
-<rsr type="reply">
-<service-id>0101102156</service-id>
-<destination messageid="6156634A">
-<address>
-<number type="abbreviated">1042</number>
-</address>
-</destination>
-<source>
-<address>
-<number type="international">668xxxxxxxx</number>
-</address>
-</source>
-<rsr_detail status="success">
-<code>0</code>
-<description>Success receive request</description>
-</rsr_detail>
-</rsr>
-</message>
-        */
-
 
         /////////////////////////////////
 //        Responsed rsp = new Responsed();
@@ -119,31 +95,9 @@ public class PostXML {
             this.Log.info("Error Post : " + e);
         }
         //this.Log.info("Get Xml true : " + xmlRes);
-        //System.out.println("Get Xml : " + xmlRes);
+        System.out.println("Get Xml : " + xmlRes);
+        getResponsed(xmlRes);
         return xmlRes;
-    }
-
-    /////ส่งหลายค่า
-    public String getXml_true(List<data_user> sub, String oper, String lot, String service) {
-        StringBuilder sb = new StringBuilder();
-//        sb.append("<Request>");
-//        sb.append("<transId>").append(sub.get(0).getApi_job()).append("</transId>");
-//        sb.append("<command>Reg</command>");
-//        sb.append("<lots>").append(lot).append("</lots>");
-//        sb.append("<service>").append(service).append("</service>");
-//        sb.append("<pack>43</pack>");
-//        sb.append("<oper>").append(oper).append("</oper>");
-//        int r = 0;
-//        StringBuilder ani = new StringBuilder();
-//        for (data_user c : sub) {
-//            ani.append("<msisdn>").append(c.getApi_job()).append("</msisdn>");
-//            r++;
-//        }
-//        sb.append("<number size=\"").append(r).append("\">");
-//        sb.append(ani.toString());
-//        sb.append("</number>");
-//        sb.append("</Request>");
-        return sb.toString();
     }
 
     public String parseISToString(InputStream is, boolean appendNewLine) throws IOException {
@@ -168,6 +122,7 @@ public class PostXML {
     /////////  แปลงค่าxml
     public Responsed getResponsed(String str) {
         Responsed rsp = new Responsed();
+        getdata(str, "encoding",1,"");
         //rsp.setEncoding(getdata(str, "encoding"));
 //        rsp.setSize(getdata(str, "size"));
 //        rsp.setStatus(getdata(str, "status"));
