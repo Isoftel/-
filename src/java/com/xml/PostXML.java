@@ -168,7 +168,7 @@ public class PostXML {
     /////////  แปลงค่าxml
     public Responsed getResponsed(String str) {
         Responsed rsp = new Responsed();
-        rsp.setEncoding(getdata(str, "encoding"));
+        //rsp.setEncoding(getdata(str, "encoding"));
 //        rsp.setSize(getdata(str, "size"));
 //        rsp.setStatus(getdata(str, "status"));
 //        rsp.setDescription(getdata(str, "description"));
@@ -177,13 +177,26 @@ public class PostXML {
     }
 
     ///ตัดแยก String
-    public String getdata(String in, String Tag) {
+    public String getdata(String in, String Tag, int ifroob, String back) {
         StringBuilder sb = new StringBuilder();
         String result = null;
         try {
             String document = in;
-            String startTag = "<" + Tag + ">";
-            String endTag = "</" + Tag + ">";
+            String startTag = "";
+            String endTag = "";
+            if (ifroob == 1) {
+                startTag = "<" + Tag + ">";
+                endTag = "</" + Tag + ">";
+            } else if (ifroob == 2) {
+                startTag = "<" + Tag;
+                endTag = "\">";
+            } else if (ifroob == 3) {
+                startTag = "<" + Tag + "";
+                endTag = "\"?>";
+            } else if (ifroob == 4) {
+                startTag = "<" + Tag + ">";
+                endTag = "<" + back + ">";
+            }
             int start = document.indexOf(startTag) + startTag.length();
             int end = document.indexOf(endTag);
             result = document.substring(start, end);
