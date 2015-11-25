@@ -54,11 +54,11 @@ public class get_data implements Runnable {
 
             String RegXML = xml.getXmlReg(id_user_port.get(0).getEncoding(), id_user_port.get(0).getSms_type(), id_user_port.get(0).getService_id(), id_user_port.get(0).getNumber_type(), id_user_port.get(0).getAccess(), id_user_port.get(0).getSender(), id_user_port.get(0).getSms(), id_user_port.get(0).getOper(), encode);
 
-            String sms = getdata(RegXML, "sms type", 2);
-            String destination = getdata(RegXML, "destination messageid", 2);
-            String product_id = getdata(RegXML, "number", 1);
-
-            System.out.println("1 " + sms + " 2 " + destination + " : " + product_id);
+//            String sms = getdata(RegXML, "sms type", 2, "");
+//            String destination = getdata(RegXML, "destination messageid", 2, "");
+//            String product_id = getdata(RegXML, "number", 1, "");
+//
+//            System.out.println("1 " + sms + " 2 " + destination + " : " + product_id);
 
             System.out.println("Get Xml : " + RegXML);
             this.Log.info("Get Xml : " + RegXML);
@@ -144,7 +144,7 @@ public class get_data implements Runnable {
         return user_room;
     }
 
-    public String getdata(String in, String Tag, int ifroob) {
+    public String getdata(String in, String Tag, int ifroob, String back) {
         StringBuilder sb = new StringBuilder();
         String result = null;
         try {
@@ -160,6 +160,9 @@ public class get_data implements Runnable {
             } else if (ifroob == 3) {
                 startTag = "<" + Tag + "";
                 endTag = "\"?>";
+            } else if (ifroob == 4) {
+                startTag = "<" + Tag + ">";
+                endTag = "<" + back + ">";
             }
             int start = document.indexOf(startTag) + startTag.length();
             int end = document.indexOf(endTag);
