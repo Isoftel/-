@@ -54,7 +54,8 @@ public class PostXML {
         sb.append("<originate type=\"international\">").append(Number_type).append("</originate>");
         sb.append("</address>");
         sb.append("</source>");
-        sb.append("<ud type=\"text\" encoding=\"default\">").append(Text_Service).append("</ud>");
+        //Text_Service
+        sb.append("<ud type=\"text\" encoding=\"default\">").append("Test").append("</ud>");
         sb.append("<scts>").append(dateFormat2.format(date)).append("</scts>");
         sb.append("<dro>").append("true").append("</dro>");
         sb.append("</sms>");
@@ -74,9 +75,8 @@ public class PostXML {
              
             
             PostMethod post = new PostMethod(StrUrl);
-
-            //post.setRequestBody("POST /HTTP/1.1");
             
+            post.setRequestBody("POST /HTTP/1.1");
             post.setRequestHeader("Authorization:", "Basic " + id_pass);
             post.setRequestHeader("Content-Type:", "text/xml");
             post.setRequestHeader("Connection:", "Close");

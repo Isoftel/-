@@ -60,10 +60,12 @@ public class get_data implements Runnable {
 //                iduser.setAccess(access);
 //                
 //                iduser.setEncoding("7112409001");
+                System.out.println("Encode : " + encode);
                 String RegXML = xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode);
 
                 this.Log.info("Post Xml : " + RegXML);
                 this.Log.info("URL : " + msg.getString("ip_mo"));
+                System.out.println("Port TRUE : " + msg.getString("ip_mo"));
                 String GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode);
 
                 this.Log.info("Get Xml : " + GetXML);
