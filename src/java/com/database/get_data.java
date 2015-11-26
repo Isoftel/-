@@ -1,12 +1,9 @@
 package com.database;
 
 //import java.util.Base64;
-import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
-import com.table_data.Responsed;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,11 +13,6 @@ import com.table_data.data_user;
 import com.xml.PostXML;
 import java.nio.charset.Charset;
 //import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-import javax.xml.bind.DatatypeConverter;
-import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
 
 public class get_data implements Runnable {
@@ -53,16 +45,27 @@ public class get_data implements Runnable {
         //System.out.print("Base64 : " + s);
         post_xml_true = "http://192.168.0.126:8080/Artemis/DeliveryRequest_true";
         post_xml_true = "http://10.4.13.39:8004/tmcss2/fh.do";
-        this.Log.info("Test");
+        post_xml_true = "203.144.187.120:55000";
+        this.Log.info("Test found data[ "+id_user_port.size() +"] Records");
         for (data_user r : id_user_port) {
             String encode = "";
-            byte[] b = id_user_port.get(0).getNumber_type().getBytes(Charset.forName("UTF-8"));
+            byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
             encode = new sun.misc.BASE64Encoder().encode(b);
             try {
-                String RegXML = xml.getXmlReg(id_user_port.get(0).getEncoding(), id_user_port.get(0).getSms_type(), id_user_port.get(0).getService_id(), id_user_port.get(0).getNumber_type(), id_user_port.get(0).getAccess(), id_user_port.get(0).getSender(), id_user_port.get(0).getSms(), id_user_port.get(0).getOper(), encode);
+                
+                
+//                iduser.setService_id(service);
+//                iduser.setNumber_type(number);
+//                iduser.setDescriptions(descr);
+//                iduser.setDetail(detail);
+//                iduser.setAccess(access);
+//                
+//                iduser.setEncoding("7112409001");
+                
+                String RegXML = xml.getXmlReg(r.getService_id(),r.getNumber_type(),r.getDescriptions(), r.getDetail(), r.getAccess(), encode);
 
-                System.out.println("Post Xml : " + RegXML);
-                String GetXML = xml.PostXml(RegXML, post_xml_true, encode);
+                this.Log.info("Post Xml : " + RegXML);
+                String GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode);
 
                 System.out.println("Get Xml Test : " + GetXML);
                 this.Log.info("Get Xml : " + GetXML);
@@ -71,21 +74,17 @@ public class get_data implements Runnable {
             }
         }
         if (id_user_port.size() > 0) {
-
         }
-
     }
 
     public List<data_user> ProcessRegister_one() {
         user_room.clear();
-
         try {
-
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
-            rs = stmt.executeQuery("select TOP(1)* from register "
+            rs = stmt.executeQuery("select TOP(100)* from register "
                     + "INNER JOIN subscribe ON subscribe.mobile_id = register.mobile_id "
                     + "INNER JOIN services  ON services.id      = register.service_id "
                     + "where status = '10'");
@@ -93,26 +92,35 @@ public class get_data implements Runnable {
                 data_user iduser = new data_user();
 //                String user = rs.getString("api_user");
 //                String pass = rs.getString("api_password");
-                String en = rs.getString("api_req");
-                String sms_type = rs.getString("api_req");
+                
+                
                 String service = rs.getString("service_id");
-                String number = rs.getString("Product_ID");
+                String number = rs.getString("mobile_id");
+                String descr = rs.getString("descriptions");
+                String detail = rs.getString("detail_unreg");
                 String access = rs.getString("access_number");
+                String date = rs.getString("cdate");
 //                String sender = "True";
 //                String text = "test have sender TrueMove ";
 //                String oper = "True";
 
-                if (en.equals("T")) {
-                    iduser.setEncoding("TIS-620");
-                } else if (en.equals("E")) {
-                    iduser.setEncoding("UTF-8");
-                } else if (en.equals("H")) {
-                    iduser.setEncoding("HEX");
-                }
-                iduser.setSms_type(sms_type);
+//                if (en.equals("T")) {
+//                    iduser.setEncoding("TIS-620");
+//                } else if (en.equals("E")) {
+//                    iduser.setEncoding("UTF-8");
+//                } else if (en.equals("H")) {
+//                    iduser.setEncoding("HEX");
+//                }
+                
+                
                 iduser.setService_id(service);
                 iduser.setNumber_type(number);
+                iduser.setDescriptions(descr);
+                iduser.setDetail(detail);
                 iduser.setAccess(access);
+                
+                iduser.setEncoding("7112409001");
+//                iduser.setSms_type(sms_type);
 //                iduser.setSender(sender);
 //                iduser.setSms(text);
 //                iduser.setOper(oper);

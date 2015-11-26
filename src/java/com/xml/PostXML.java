@@ -30,7 +30,8 @@ public class PostXML {
     Logger Log = Logger.getLogger(this.getClass());
 
     ///ส่งค่าเดียวแล้ว reture String ที่ได้รับจากฟั่ง True หลังจากส่ง XML แล้ว
-    public String getXmlReg(String encoding, String mt, String service_id, String number, String abbreviated, String sender, String text, String dro, String id_pass) {
+    //r.getService_id(),r.getNumber_type(),r.getDescriptions(), r.getDetail(), r.getAccess(), encode);
+    public String getXmlReg(String Service_id, String Number_type, String Descriptions, String Detail, String Access, String id_pass) {
         //DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z // Z // X // a // G // E // S");
         DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ssz");
         //System.out.println("Day : " + dateFormat.format(date));
@@ -39,24 +40,24 @@ public class PostXML {
         String xmlRes = null;
 
         StringBuilder sb = new StringBuilder();
-        sb.append("<?xml version=\"1.0\" encoding=\"TIS-620").append("\"?>");
+        sb.append("<?xml version=\"1.0\" encoding=\"TIS-620\"?>");
         sb.append("<message>");
         sb.append("<sms type=\"mt\">");
-        sb.append("<service-id>").append("").append("</service-id>");
+        sb.append("<service-id>").append(Service_id).append("</service-id>");
         sb.append("<destination>");
         sb.append("<address>");
-        sb.append("<number type=\"international\">").append("").append("</number>");
+        sb.append("<number type=\"international\">").append(Number_type).append("</number>");
         sb.append("</address>");
         sb.append("</destination>");
         sb.append("<source>");
         sb.append("<address>");
-        sb.append("<number type=\"abbreviated\">").append("").append("</number>");
-        sb.append("<originate type=\"international\">").append("").append("</originate>");
+        sb.append("<number type=\"abbreviated\">").append(Descriptions).append("</number>");
+        sb.append("<originate type=\"international\">").append(Detail).append("</originate>");
         sb.append("</address>");
         sb.append("</source>");
-        sb.append("<ud type=\"text\" encoding=\"default\">").append("").append("</ud>");
-        sb.append("<scts>").append("").append("</scts>");
-        sb.append("<dro>").append("").append("</dro>");
+        sb.append("<ud type=\"text\" encoding=\"default\">").append(Access).append("</ud>");
+        sb.append("<scts>").append(dateFormat2.format(date)).append("</scts>");
+        sb.append("<dro>").append("true").append("</dro>");
         sb.append("</sms>");
         sb.append("</message>");
 
@@ -68,7 +69,61 @@ public class PostXML {
 
     public String PostXml(String StrXml, String StrUrl, String id_pass) {
         String xmlRes = null;
-       
+       try {
+            System.out.println("URL test : "+StrUrl);
+            // PostXml(String StrXml, String StrUrl);
+            PostMethod post = new PostMethod(StrUrl);
+           
+            post.setRequestBody("OST /HTTP/1.1");
+            post.setRequestHeader("Authorization:", "Basic " + id_pass);
+            post.setRequestHeader("Content-Type:", "text/xml");
+            post.setRequestHeader("Connection:", "Close");
+            post.setRequestHeader("Host:", ip_source);
+            post.setRequestHeader("Content-Length", String.valueOf(StrXml.length()));
+
+            //RequestEntity entity = new StringRequestEntity(sb.toString(), "text/xml", "TIS-620");
+            RequestEntity entity = new StringRequestEntity(StrXml, "text/xml", "UTF-8");
+            post.setRequestEntity(entity);
+            HttpClient httpclient = new HttpClient();
+
+            //////รับค่ากลับมาเป็น XML จากตัวที่เราส่งไป
+            int returnCode = httpclient.executeMethod(post);
+            Log.info("request response from true "+httpclient.getHost() +":"+httpclient.getPort() +" : "+returnCode);
+            if (returnCode == HttpStatus.SC_NOT_IMPLEMENTED) {
+                System.err.println("The Post method is not implemented by this URI");
+                post.getResponseBodyAsString();
+            } else {
+                InputStream inStream = post.getResponseBodyAsStream();
+                xmlRes = parseISToString(inStream, false);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error Port : " + e);
+            this.Log.info("Error Post : " + e);
+        }
+
+//        String xmlRes = null;
+//        URI uri = new URI("http", null, StrUrl, null, null);
+//        URL url = uri.toURL();
+//        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+//        con.setDoOutput(true);
+//        con.setDoInput(true);
+//        con.setRequestMethod("POST /HTTP/1.1");
+//        con.setRequestProperty("Content-type", "text/xml");
+//        con.setRequestProperty("Connection", "close");
+//        con.setRequestProperty("ContentLenght", "0");
+//        con.setUseCaches(false);
+//        PrintWriter pw = new PrintWriter(con.getOutputStream());
+//        pw.write(StrXml);
+//        pw.close();
+//        BufferedInputStream InStream = new BufferedInputStream(con.getInputStream());
+//        InStream.close();
+//        pw.flush();
+//        con.connect();
+//        con.disconnect();
+//        xmlRes = parseISToString(InStream, false);
+        getResponsed(xmlRes);
+        System.out.println("GG");
         return xmlRes;
     }
 

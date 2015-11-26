@@ -2,6 +2,7 @@ package com.table_data;
 
 public class data_user implements java.io.Serializable {
     
+    //private String req_rc;
     private String user;
     private String encoding;
     private String sms_type;
@@ -11,7 +12,26 @@ public class data_user implements java.io.Serializable {
     private String sender;
     private String sms;
     private String oper;
+    private String descriptions;
+    private String detail;
 
+    public String getDetail() {
+        return detail;
+    }
+
+    public void setDetail(String detail) {
+        this.detail = detail;
+    }
+
+    public String getDescriptions() {
+        return descriptions;
+    }
+
+    public void setDescriptions(String descriptions) {
+        this.descriptions = descriptions;
+    }
+    
+    
     public String getOper() {
         return oper;
     }
