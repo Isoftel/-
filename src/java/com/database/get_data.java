@@ -64,8 +64,8 @@ public class get_data implements Runnable {
                 System.out.println("Post Xml : " + RegXML);
                 String GetXML = xml.PostXml(RegXML, post_xml_true,encode);
                 
-                System.out.println("Get Xml Test : " + RegXML);
-                this.Log.info("Get Xml : " + RegXML);
+                System.out.println("Get Xml Test : " + GetXML);
+                this.Log.info("Get Xml : " + GetXML);
             } catch (Exception e) {
 
             }
