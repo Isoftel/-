@@ -31,7 +31,7 @@ public class run_api extends HttpServlet implements Runnable {
     public void run() {
         while (true) {
             try {
-                //System.out.println("Runing");
+                System.out.println("Runing");
                 
                 this.Log.info("Runing");
                 Thread tt = new Thread(new get_data());
