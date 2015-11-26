@@ -50,6 +50,7 @@ public class get_data implements Runnable {
 
         //String U_test = "0101102156:qWACgXb4";
         //System.out.print("Base64 : " + s);
+        post_xml_true = "http://192.168.0.126:8080/Artemis/DeliveryRequest_true";
         this.Log.info("Test");
         for (data_user r : id_user_port) {
             byte[] b = id_user_port.get(0).getNumber_type().getBytes(Charset.forName("UTF-8"));

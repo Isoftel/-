@@ -122,8 +122,9 @@ public class PostXML {
         return xmlRes;
     }
 
-    public void PostXml(String StrXml, String StrUrl)
+    public String PostXml(String StrXml, String StrUrl)
             throws URISyntaxException, MalformedURLException, IOException {
+        String xmlRes = null;
         URI uri = new URI("http", null, StrUrl, null, null);
         URL url = uri.toURL();
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -142,6 +143,8 @@ public class PostXML {
         pw.flush();
         con.connect();
         con.disconnect();
+        xmlRes = parseISToString(InStream, false);
+        return xmlRes; 
     }
 
     public String parseISToString(InputStream is, boolean appendNewLine) throws IOException {
