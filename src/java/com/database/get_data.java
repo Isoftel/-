@@ -46,14 +46,13 @@ public class get_data implements Runnable {
         post_xml_true = "http://192.168.0.126:8080/Artemis/DeliveryRequest_true";
         post_xml_true = "http://10.4.13.39:8004/tmcss2/fh.do";
         post_xml_true = "203.144.187.120:55000";
-        this.Log.info("Test found data[ "+id_user_port.size() +"] Records");
+        this.Log.info("Test found data[ " + id_user_port.size() + "] Records");
         for (data_user r : id_user_port) {
             String encode = "";
             byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
             encode = new sun.misc.BASE64Encoder().encode(b);
             try {
-                
-                
+
 //                iduser.setService_id(service);
 //                iduser.setNumber_type(number);
 //                iduser.setDescriptions(descr);
@@ -61,16 +60,16 @@ public class get_data implements Runnable {
 //                iduser.setAccess(access);
 //                
 //                iduser.setEncoding("7112409001");
-                
-                String RegXML = xml.getXmlReg(r.getService_id(),r.getNumber_type(),r.getDescriptions(), r.getDetail(), r.getAccess(), encode);
+                String RegXML = xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getDetail(), r.getAccess(), encode);
 
                 this.Log.info("Post Xml : " + RegXML);
+                this.Log.info("URL : " + msg.getString("ip_mo"));
                 String GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode);
 
                 System.out.println("Get Xml Test : " + GetXML);
                 this.Log.info("Get Xml : " + GetXML);
             } catch (Exception e) {
-
+                this.Log.info("Error : " + e);
             }
         }
         if (id_user_port.size() > 0) {
@@ -92,8 +91,7 @@ public class get_data implements Runnable {
                 data_user iduser = new data_user();
 //                String user = rs.getString("api_user");
 //                String pass = rs.getString("api_password");
-                
-                
+
                 String service = rs.getString("service_id");
                 String number = rs.getString("mobile_id");
                 String descr = rs.getString("descriptions");
@@ -111,14 +109,12 @@ public class get_data implements Runnable {
 //                } else if (en.equals("H")) {
 //                    iduser.setEncoding("HEX");
 //                }
-                
-                
                 iduser.setService_id(service);
                 iduser.setNumber_type(number);
                 iduser.setDescriptions(descr);
                 iduser.setDetail(detail);
                 iduser.setAccess(access);
-                
+
                 iduser.setEncoding("7112409001");
 //                iduser.setSms_type(sms_type);
 //                iduser.setSender(sender);

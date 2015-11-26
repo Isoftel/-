@@ -16,7 +16,6 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.RequestEntity;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
 
-
 import org.apache.log4j.Logger;
 
 public class PostXML {
@@ -69,12 +68,14 @@ public class PostXML {
 
     public String PostXml(String StrXml, String StrUrl, String id_pass) {
         String xmlRes = null;
-       try {
-            System.out.println("URL test : "+StrUrl);
-            // PostXml(String StrXml, String StrUrl);
+        try {
+            //System.out.println("URL test : "+Log.info();
+            Log.info("URL Post : " + StrUrl);
+             
+            /*
             PostMethod post = new PostMethod(StrUrl);
-           
-            post.setRequestBody("OST /HTTP/1.1");
+
+            post.setRequestBody("POST /HTTP/1.1");
             post.setRequestHeader("Authorization:", "Basic " + id_pass);
             post.setRequestHeader("Content-Type:", "text/xml");
             post.setRequestHeader("Connection:", "Close");
@@ -88,7 +89,7 @@ public class PostXML {
 
             //////รับค่ากลับมาเป็น XML จากตัวที่เราส่งไป
             int returnCode = httpclient.executeMethod(post);
-            Log.info("request response from true "+httpclient.getHost() +":"+httpclient.getPort() +" : "+returnCode);
+            Log.info("request response from true " + httpclient.getHost() + ":" + httpclient.getPort() + " : " + returnCode);
             if (returnCode == HttpStatus.SC_NOT_IMPLEMENTED) {
                 System.err.println("The Post method is not implemented by this URI");
                 post.getResponseBodyAsString();
@@ -96,7 +97,7 @@ public class PostXML {
                 InputStream inStream = post.getResponseBodyAsStream();
                 xmlRes = parseISToString(inStream, false);
             }
-
+                    */
         } catch (Exception e) {
             System.out.println("Error Port : " + e);
             this.Log.info("Error Post : " + e);
@@ -124,6 +125,7 @@ public class PostXML {
 //        xmlRes = parseISToString(InStream, false);
         getResponsed(xmlRes);
         System.out.println("GG");
+                    
         return xmlRes;
     }
 
