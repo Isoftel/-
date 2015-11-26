@@ -23,7 +23,6 @@ import javax.xml.bind.DatatypeConverter;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
 
-
 public class get_data implements Runnable {
 
     Logger Log = Logger.getLogger(this.getClass());
@@ -56,14 +55,15 @@ public class get_data implements Runnable {
         post_xml_true = "http://10.4.13.39:8004/tmcss2/fh.do";
         this.Log.info("Test");
         for (data_user r : id_user_port) {
-            byte[] b = id_user_port.get(0).getNumber_type().getBytes(Charset.forName("UTF-8"));
-            String encode = new sun.misc.BASE64Encoder().encode(b);
+            String encode = "";
+//            byte[] b = id_user_port.get(0).getNumber_type().getBytes(Charset.forName("UTF-8"));
+//            String encode = new sun.misc.BASE64Encoder().encode(b);
             try {
                 String RegXML = xml.getXmlReg(id_user_port.get(0).getEncoding(), id_user_port.get(0).getSms_type(), id_user_port.get(0).getService_id(), id_user_port.get(0).getNumber_type(), id_user_port.get(0).getAccess(), id_user_port.get(0).getSender(), id_user_port.get(0).getSms(), id_user_port.get(0).getOper(), encode);
-                
+
                 System.out.println("Post Xml : " + RegXML);
-                String GetXML = xml.PostXml(RegXML, post_xml_true,encode);
-                
+                String GetXML = xml.PostXml(RegXML, post_xml_true, encode);
+
                 System.out.println("Get Xml Test : " + GetXML);
                 this.Log.info("Get Xml : " + GetXML);
             } catch (Exception e) {
@@ -80,7 +80,7 @@ public class get_data implements Runnable {
         user_room.clear();
 
         try {
-            
+
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
             conn = DriverManager.getConnection(connectionUrl);
@@ -136,10 +136,10 @@ public class get_data implements Runnable {
             System.out.println("");
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             local = "192.168.50.11";
-            local ="27.100.44.80,1133";
-             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
-             conn = DriverManager.getConnection(connectionUrl);
-             
+            local = "27.100.44.80,1133";
+            String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
+            conn = DriverManager.getConnection(connectionUrl);
+
 //            SQLServerDataSource ds = new SQLServerDataSource();
 //            ds.setUser("isfotel");
 //            ds.setPassword("isoftelthailand");
