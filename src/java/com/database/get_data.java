@@ -94,12 +94,12 @@ public class get_data implements Runnable {
 
                 String service = rs.getString("service_user");
                 String number = rs.getString("msisdn");
-                String descr = rs.getString("descriptions");
+                String Text_Service = rs.getString("descriptions");
                 // String detail = rs.getString("detail_unreg");
                 String access = rs.getString("access_number");
                 String date = rs.getString("cdate");
 
-                System.out.println("Sql : " + " 1 " + service + " 2 " + number + " 3 " + descr);
+                System.out.println("Sql : " + " 1 " + service + " 2 " + number + " 3 " + Text_Service);
 //                String sender = "True";
 //                String text = "test have sender TrueMove ";
 //                String oper = "True";
@@ -113,7 +113,7 @@ public class get_data implements Runnable {
 //                }
                 iduser.setService_id(service);
                 iduser.setNumber_type(number);
-                iduser.setDescriptions(descr);
+                iduser.setDescriptions(Text_Service);
                 //iduser.setDetail(detail);
                 iduser.setAccess(access);
 

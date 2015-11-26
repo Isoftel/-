@@ -30,9 +30,9 @@ public class PostXML {
 
     ///ส่งค่าเดียวแล้ว reture String ที่ได้รับจากฟั่ง True หลังจากส่ง XML แล้ว
     //r.getService_id(),r.getNumber_type(),r.getDescriptions(), r.getDetail(), r.getAccess(), encode);
-    public String getXmlReg(String Service_id, String Number_type, String Descriptions, String Access, String id_pass) {
+    public String getXmlReg(String Service_id, String Number_type, String Text_Service, String Access, String id_pass) {
         //DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z // Z // X // a // G // E // S");
-        DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ssz");
+        DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
         //System.out.println("Day : " + dateFormat.format(date));
         //System.out.println("Day : " + dateFormat2.format(date));
 
@@ -50,11 +50,11 @@ public class PostXML {
         sb.append("</destination>");
         sb.append("<source>");
         sb.append("<address>");
-        sb.append("<number type=\"abbreviated\">").append(Descriptions).append("</number>");
+        sb.append("<number type=\"abbreviated\">").append(Access).append("</number>");
         sb.append("<originate type=\"international\">").append(Number_type).append("</originate>");
         sb.append("</address>");
         sb.append("</source>");
-        sb.append("<ud type=\"text\" encoding=\"default\">").append(Access).append("</ud>");
+        sb.append("<ud type=\"text\" encoding=\"default\">").append("").append("</ud>");
         sb.append("<scts>").append(dateFormat2.format(date)).append("</scts>");
         sb.append("<dro>").append("true").append("</dro>");
         sb.append("</sms>");
