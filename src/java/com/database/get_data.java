@@ -1,8 +1,6 @@
 package com.database;
 
 //import java.util.Base64;
-import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
-import com.table_data.Responsed;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -14,13 +12,13 @@ import java.util.ResourceBundle;
 
 import com.table_data.data_user;
 import com.xml.PostXML;
-import java.nio.charset.Charset;
-//import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-import javax.xml.bind.DatatypeConverter;
-import org.apache.commons.codec.binary.Base64;
+//import java.nio.charset.Charset;
+////import java.nio.charset.StandardCharsets;
+//import java.util.HashMap;
+//import java.util.Map;
+//import java.util.UUID;
+//import javax.xml.bind.DatatypeConverter;
+//import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
 
 public class get_data implements Runnable {
