@@ -1,6 +1,7 @@
 package com.database;
 
 //import java.util.Base64;
+import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
 import com.table_data.Responsed;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -33,6 +34,7 @@ public class get_data implements Runnable {
     String data_base = msg.getString("data");
     String user = msg.getString("user");
     String pass = msg.getString("pass");
+    String port = msg.getString("port");
 
     String url = msg.getString("true_url");
     String post_xml_true = msg.getString("true_url");
@@ -57,7 +59,8 @@ public class get_data implements Runnable {
             String encode = new sun.misc.BASE64Encoder().encode(b);
             try {
                 String RegXML = xml.getXmlReg(id_user_port.get(0).getEncoding(), id_user_port.get(0).getSms_type(), id_user_port.get(0).getService_id(), id_user_port.get(0).getNumber_type(), id_user_port.get(0).getAccess(), id_user_port.get(0).getSender(), id_user_port.get(0).getSms(), id_user_port.get(0).getOper(), encode);
-                xml.PostXml("", post_xml_true);
+                post_xml_true = "http://192.168.0.126:8080/Artemis/DeliveryRequest_true";
+                //String GetXML = xml.PostXml(RegXML, post_xml_true);
 
                 System.out.println("Get Xml : " + RegXML);
                 this.Log.info("Get Xml : " + RegXML);
@@ -129,9 +132,20 @@ public class get_data implements Runnable {
     public List<data_user> ProcessRegister() {
         user_room.clear();
         try {
+            System.out.println("");
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
-            conn = DriverManager.getConnection(connectionUrl);
+            local = "192.168.50.11";
+            /*
+             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
+             conn = DriverManager.getConnection(connectionUrl);
+             */
+            SQLServerDataSource ds = new SQLServerDataSource();
+            ds.setUser("isfotel");
+            ds.setPassword("isoftelthailand");
+            ds.setServerName("local");
+            ds.setPortNumber(1133);
+            ds.setDatabaseName("PLAYBOY");
+            conn = ds.getConnection();
             stmt = conn.createStatement();
             rs = stmt.executeQuery("select * from register");
             while (rs.next()) {

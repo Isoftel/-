@@ -33,7 +33,7 @@ public class PostXML {
     ResourceBundle msg = ResourceBundle.getBundle("configs");
     String local = msg.getString("localhost");
     String post_xml_true = msg.getString("true_url");
-    String ip_source = msg.getString("ip_post");
+    String ip_source = msg.getString("ip_mo");
     String ip_destination = msg.getString("ip_and_part");
 
     Logger Log = Logger.getLogger(this.getClass());
@@ -48,7 +48,22 @@ public class PostXML {
         String xmlRes = null;
 
         StringBuilder sb = new StringBuilder();
-        //sb.append("<?xml version=\"1.0\" encoding=\"").append("").append("\"?>");
+        sb.append("<?xml version=\"1.0\" encoding=\"").append("").append("\"?>");
+        sb.append("message id=\"").append("").append("\">");
+        sb.append("<rsr type=\"reply\">");
+        sb.append("<service-id>").append("").append("</service-id>");
+        sb.append("<destination messageid=\"").append("").append("\">");
+        sb.append("<address>");
+        sb.append("</destination>");
+        sb.append("<source>");
+        sb.append("<address>");
+        sb.append("</source>");
+        sb.append("<rsr_detail status=\"success\">");
+        sb.append("<code>").append("").append("</code>");
+        sb.append("<description>").append("").append("</description>");
+        sb.append("</rsr_detail>");
+        sb.append("</rsr>");
+        sb.append("</message>");
 
         /*
          <?xml version="1.0" encoding="TIS-620"?>
