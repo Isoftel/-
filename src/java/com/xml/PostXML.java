@@ -32,7 +32,6 @@ public class PostXML {
     Date date = new Date();
     ResourceBundle msg = ResourceBundle.getBundle("configs");
     String local = msg.getString("localhost");
-    String post_xml_true = msg.getString("true_url");
     String ip_source = msg.getString("ip_mo");
     String ip_destination = msg.getString("ip_and_part");
 
@@ -70,20 +69,18 @@ public class PostXML {
         sb.append("</message>");
 
         ///////ส่งค่า XML
-        
         //this.Log.info("Get Xml true : " + xmlRes);
         System.out.println("Get Xml : " + xmlRes);
         getResponsed(xmlRes);
         return sb.toString();
     }
 
-    public String PostXml(String StrXml, String StrUrl,String id_pass){
+    public String PostXml(String StrXml, String StrUrl, String id_pass) {
         String xmlRes = null;
         try {
-
-       // PostXml(String StrXml, String StrUrl);
-            
-            PostMethod post = new PostMethod(post_xml_true);
+            System.out.println("URL test : "+StrUrl);
+            // PostXml(String StrXml, String StrUrl);
+            PostMethod post = new PostMethod(StrUrl);
             post.setRequestBody("OST /HTTP/1.1");
             post.setRequestHeader("Authorization:", "Basic " + id_pass);
             post.setRequestHeader("Content-Type:", "text/xml");
@@ -106,13 +103,12 @@ public class PostXML {
                 InputStream inStream = post.getResponseBodyAsStream();
                 xmlRes = parseISToString(inStream, false);
             }
-            
-            
+
         } catch (Exception e) {
             System.out.println("Error Port : " + e);
             this.Log.info("Error Post : " + e);
         }
-        
+
 //        String xmlRes = null;
 //        URI uri = new URI("http", null, StrUrl, null, null);
 //        URL url = uri.toURL();

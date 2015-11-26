@@ -53,17 +53,18 @@ public class get_data implements Runnable {
         //String U_test = "0101102156:qWACgXb4";
         //System.out.print("Base64 : " + s);
         post_xml_true = "http://192.168.0.126:8080/Artemis/DeliveryRequest_true";
+        post_xml_true = "http://10.4.13.39:8004/tmcss2/fh.do";
         this.Log.info("Test");
         for (data_user r : id_user_port) {
             byte[] b = id_user_port.get(0).getNumber_type().getBytes(Charset.forName("UTF-8"));
             String encode = new sun.misc.BASE64Encoder().encode(b);
             try {
                 String RegXML = xml.getXmlReg(id_user_port.get(0).getEncoding(), id_user_port.get(0).getSms_type(), id_user_port.get(0).getService_id(), id_user_port.get(0).getNumber_type(), id_user_port.get(0).getAccess(), id_user_port.get(0).getSender(), id_user_port.get(0).getSms(), id_user_port.get(0).getOper(), encode);
-                post_xml_true = "http://192.168.0.126:8080/Artemis/DeliveryRequest_true";
+                
                 System.out.println("Post Xml : " + RegXML);
                 String GetXML = xml.PostXml(RegXML, post_xml_true,encode);
                 
-                System.out.println("Get Xml : " + RegXML);
+                System.out.println("Get Xml Test : " + RegXML);
                 this.Log.info("Get Xml : " + RegXML);
             } catch (Exception e) {
 
