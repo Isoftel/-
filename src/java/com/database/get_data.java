@@ -94,16 +94,16 @@ public class get_data implements Runnable {
 
                 String service = rs.getString("service_user");
                 String number = rs.getString("msisdn");
-                String Text_Service = rs.getString("descriptions");
+                String Text_Service = rs.getString("detail_reg");
                 // String detail = rs.getString("detail_unreg");
                 String access = rs.getString("access_number");
                 String date = rs.getString("cdate");
 
-                System.out.println("Sql : " + " 1 " + service + " 2 " + number + " 3 " + Text_Service);
+                System.out.println("Sql : " + " 1 " + service + " 2 " + number + " 3 " + Text_Service + " 4 " + access);
+
 //                String sender = "True";
 //                String text = "test have sender TrueMove ";
 //                String oper = "True";
-
 //                if (en.equals("T")) {
 //                    iduser.setEncoding("TIS-620");
 //                } else if (en.equals("E")) {

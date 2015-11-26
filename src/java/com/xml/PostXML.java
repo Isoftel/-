@@ -54,12 +54,12 @@ public class PostXML {
         sb.append("<originate type=\"international\">").append(Number_type).append("</originate>");
         sb.append("</address>");
         sb.append("</source>");
-        sb.append("<ud type=\"text\" encoding=\"default\">").append("").append("</ud>");
+        sb.append("<ud type=\"text\" encoding=\"default\">").append(Text_Service).append("</ud>");
         sb.append("<scts>").append(dateFormat2.format(date)).append("</scts>");
         sb.append("<dro>").append("true").append("</dro>");
         sb.append("</sms>");
         sb.append("</message>");
-
+        System.out.println("Post : "+sb.toString());
         ///////ส่งค่า XML
         //this.Log.info("Get Xml true : " + xmlRes);
         System.out.println("Get Xml : " + xmlRes);
