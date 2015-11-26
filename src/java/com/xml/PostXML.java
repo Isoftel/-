@@ -58,6 +58,8 @@ public class PostXML {
         sb.append("</rsr>");
         sb.append("</message>");
 
+        
+        
         /////////////////////////////////
 //        Responsed rsp = new Responsed();
 //        rsp.setCode(getdata(sb.toString(), "service-id"));
