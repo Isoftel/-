@@ -60,16 +60,15 @@ public class get_data implements Runnable {
             try {
                 String RegXML = xml.getXmlReg(id_user_port.get(0).getEncoding(), id_user_port.get(0).getSms_type(), id_user_port.get(0).getService_id(), id_user_port.get(0).getNumber_type(), id_user_port.get(0).getAccess(), id_user_port.get(0).getSender(), id_user_port.get(0).getSms(), id_user_port.get(0).getOper(), encode);
                 post_xml_true = "http://192.168.0.126:8080/Artemis/DeliveryRequest_true";
-                //String GetXML = xml.PostXml(RegXML, post_xml_true);
-
+                System.out.println("Post Xml : " + RegXML);
+                String GetXML = xml.PostXml(RegXML, post_xml_true,encode);
+                
                 System.out.println("Get Xml : " + RegXML);
                 this.Log.info("Get Xml : " + RegXML);
             } catch (Exception e) {
 
             }
-
         }
-
         if (id_user_port.size() > 0) {
 
         }
@@ -80,28 +79,28 @@ public class get_data implements Runnable {
         user_room.clear();
 
         try {
+            
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
-            rs = stmt.executeQuery("select TOP(1)* from register"
-                    + "INNER JOIN subscribe ON subscribe.mobile_id = register.mobile_id"
+            rs = stmt.executeQuery("select TOP(1)* from register "
+                    + "INNER JOIN subscribe ON subscribe.mobile_id = register.mobile_id "
                     + "INNER JOIN services  ON services.id      = register.service_id "
                     + "where status = '10'");
             while (rs.next()) {
                 data_user iduser = new data_user();
-                String user = rs.getString("api_user");
-                String pass = rs.getString("api_password");
-                String en = rs.getString("msgtype");
+//                String user = rs.getString("api_user");
+//                String pass = rs.getString("api_password");
+                String en = rs.getString("api_req");
                 String sms_type = rs.getString("api_req");
                 String service = rs.getString("service_id");
-                String number = "095xxxxxx";
+                String number = rs.getString("Product_ID");
                 String access = rs.getString("access_number");
-                String sender = "True";
-                String text = "test have sender TrueMove ";
-                String oper = "True";
+//                String sender = "True";
+//                String text = "test have sender TrueMove ";
+//                String oper = "True";
 
-                iduser.setUser(user + ":" + pass);
                 if (en.equals("T")) {
                     iduser.setEncoding("TIS-620");
                 } else if (en.equals("E")) {
@@ -113,9 +112,9 @@ public class get_data implements Runnable {
                 iduser.setService_id(service);
                 iduser.setNumber_type(number);
                 iduser.setAccess(access);
-                iduser.setSender(sender);
-                iduser.setSms(text);
-                iduser.setOper(oper);
+//                iduser.setSender(sender);
+//                iduser.setSms(text);
+//                iduser.setOper(oper);
 
                 //iduser.set
 //                String sql = "UPDATE register SET status = '3' WHERE reg_id='" + id + "' ";
@@ -131,21 +130,22 @@ public class get_data implements Runnable {
 
     public List<data_user> ProcessRegister() {
         user_room.clear();
+        System.out.println("GG");
         try {
             System.out.println("");
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             local = "192.168.50.11";
-            /*
+            local ="27.100.44.80,1133";
              String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
              conn = DriverManager.getConnection(connectionUrl);
-             */
-            SQLServerDataSource ds = new SQLServerDataSource();
-            ds.setUser("isfotel");
-            ds.setPassword("isoftelthailand");
-            ds.setServerName("local");
-            ds.setPortNumber(1133);
-            ds.setDatabaseName("PLAYBOY");
-            conn = ds.getConnection();
+             
+//            SQLServerDataSource ds = new SQLServerDataSource();
+//            ds.setUser("isfotel");
+//            ds.setPassword("isoftelthailand");
+//            ds.setServerName("local");
+//            ds.setPortNumber(1133);
+//            ds.setDatabaseName("PLAYBOY");
+//            conn = ds.getConnection();
             stmt = conn.createStatement();
             rs = stmt.executeQuery("select * from register");
             while (rs.next()) {
