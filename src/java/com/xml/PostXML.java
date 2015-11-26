@@ -70,20 +70,21 @@ public class PostXML {
         String xmlRes = null;
         try {
             //System.out.println("URL test : "+Log.info();
-            Log.info("URL Post : " + StrUrl);
+            Log.info("URL Post : " + StrUrl );
              
-            /*
+            
             PostMethod post = new PostMethod(StrUrl);
 
-            post.setRequestBody("POST /HTTP/1.1");
+            //post.setRequestBody("POST /HTTP/1.1");
+            
             post.setRequestHeader("Authorization:", "Basic " + id_pass);
             post.setRequestHeader("Content-Type:", "text/xml");
             post.setRequestHeader("Connection:", "Close");
             post.setRequestHeader("Host:", ip_source);
             post.setRequestHeader("Content-Length", String.valueOf(StrXml.length()));
 
-            //RequestEntity entity = new StringRequestEntity(sb.toString(), "text/xml", "TIS-620");
-            RequestEntity entity = new StringRequestEntity(StrXml, "text/xml", "UTF-8");
+            RequestEntity entity = new StringRequestEntity(StrXml, "text/xml", "TIS-620");
+            //RequestEntity entity = new StringRequestEntity(StrXml, "text/xml", "UTF-8");
             post.setRequestEntity(entity);
             HttpClient httpclient = new HttpClient();
 
@@ -97,7 +98,7 @@ public class PostXML {
                 InputStream inStream = post.getResponseBodyAsStream();
                 xmlRes = parseISToString(inStream, false);
             }
-                    */
+                 
         } catch (Exception e) {
             System.out.println("Error Port : " + e);
             this.Log.info("Error Post : " + e);
@@ -123,8 +124,8 @@ public class PostXML {
 //        con.connect();
 //        con.disconnect();
 //        xmlRes = parseISToString(InStream, false);
-        getResponsed(xmlRes);
-        System.out.println("GG");
+        //getResponsed(xmlRes);
+        //System.out.println("GG");
                     
         return xmlRes;
     }
