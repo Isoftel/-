@@ -30,7 +30,7 @@ public class PostXML {
 
     ///ส่งค่าเดียวแล้ว reture String ที่ได้รับจากฟั่ง True หลังจากส่ง XML แล้ว
     //r.getService_id(),r.getNumber_type(),r.getDescriptions(), r.getDetail(), r.getAccess(), encode);
-    public String getXmlReg(String Service_id, String Number_type, String Descriptions, String Detail, String Access, String id_pass) {
+    public String getXmlReg(String Service_id, String Number_type, String Descriptions, String Access, String id_pass) {
         //DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z // Z // X // a // G // E // S");
         DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ssz");
         //System.out.println("Day : " + dateFormat.format(date));
@@ -51,7 +51,7 @@ public class PostXML {
         sb.append("<source>");
         sb.append("<address>");
         sb.append("<number type=\"abbreviated\">").append(Descriptions).append("</number>");
-        sb.append("<originate type=\"international\">").append(Detail).append("</originate>");
+        sb.append("<originate type=\"international\">").append(Number_type).append("</originate>");
         sb.append("</address>");
         sb.append("</source>");
         sb.append("<ud type=\"text\" encoding=\"default\">").append(Access).append("</ud>");
@@ -82,8 +82,9 @@ public class PostXML {
             post.setRequestHeader("Connection:", "Close");
             post.setRequestHeader("Host:", ip_source);
             post.setRequestHeader("Content-Length", String.valueOf(StrXml.length()));
-
+            Log.info("11111");
             RequestEntity entity = new StringRequestEntity(StrXml, "text/xml", "TIS-620");
+            Log.info("22222");
             //RequestEntity entity = new StringRequestEntity(StrXml, "text/xml", "UTF-8");
             post.setRequestEntity(entity);
             HttpClient httpclient = new HttpClient();

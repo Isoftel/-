@@ -60,13 +60,12 @@ public class get_data implements Runnable {
 //                iduser.setAccess(access);
 //                
 //                iduser.setEncoding("7112409001");
-                String RegXML = xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getDetail(), r.getAccess(), encode);
+                String RegXML = xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode);
 
                 this.Log.info("Post Xml : " + RegXML);
                 this.Log.info("URL : " + msg.getString("ip_mo"));
                 String GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode);
 
-                System.out.println("Get Xml Test : " + GetXML);
                 this.Log.info("Get Xml : " + GetXML);
             } catch (Exception e) {
                 this.Log.info("Error : " + e);
@@ -83,21 +82,24 @@ public class get_data implements Runnable {
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
-            rs = stmt.executeQuery("select TOP(100)* from register "
+            rs = stmt.executeQuery("select *,services.service_id service_user from register "
                     + "INNER JOIN subscribe ON subscribe.mobile_id = register.mobile_id "
-                    + "INNER JOIN services  ON services.id      = register.service_id "
+                    + "INNER JOIN services  ON services.id  = register.service_id "
+                    + "INNER JOIN mobile    ON mobile.mobile_id = register.mobile_id "
                     + "where status = '10'");
             while (rs.next()) {
                 data_user iduser = new data_user();
 //                String user = rs.getString("api_user");
 //                String pass = rs.getString("api_password");
 
-                String service = rs.getString("service_id");
-                String number = rs.getString("mobile_id");
+                String service = rs.getString("service_user");
+                String number = rs.getString("msisdn");
                 String descr = rs.getString("descriptions");
-                String detail = rs.getString("detail_unreg");
+                // String detail = rs.getString("detail_unreg");
                 String access = rs.getString("access_number");
                 String date = rs.getString("cdate");
+
+                System.out.println("Sql : " + " 1 " + service + " 2 " + number + " 3 " + descr);
 //                String sender = "True";
 //                String text = "test have sender TrueMove ";
 //                String oper = "True";
@@ -112,7 +114,7 @@ public class get_data implements Runnable {
                 iduser.setService_id(service);
                 iduser.setNumber_type(number);
                 iduser.setDescriptions(descr);
-                iduser.setDetail(detail);
+                //iduser.setDetail(detail);
                 iduser.setAccess(access);
 
                 iduser.setEncoding("7112409001");
