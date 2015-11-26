@@ -1,6 +1,8 @@
 package com.database;
 
 //import java.util.Base64;
+import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
+import com.table_data.Responsed;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -12,13 +14,13 @@ import java.util.ResourceBundle;
 
 import com.table_data.data_user;
 import com.xml.PostXML;
-//import java.nio.charset.Charset;
-////import java.nio.charset.StandardCharsets;
-//import java.util.HashMap;
-//import java.util.Map;
-//import java.util.UUID;
-//import javax.xml.bind.DatatypeConverter;
-//import org.apache.commons.codec.binary.Base64;
+import java.nio.charset.Charset;
+//import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+import javax.xml.bind.DatatypeConverter;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
 
 public class get_data implements Runnable {
@@ -54,8 +56,8 @@ public class get_data implements Runnable {
         this.Log.info("Test");
         for (data_user r : id_user_port) {
             String encode = "";
-//            byte[] b = id_user_port.get(0).getNumber_type().getBytes(Charset.forName("UTF-8"));
-//            String encode = new sun.misc.BASE64Encoder().encode(b);
+            byte[] b = id_user_port.get(0).getNumber_type().getBytes(Charset.forName("UTF-8"));
+            encode = new sun.misc.BASE64Encoder().encode(b);
             try {
                 String RegXML = xml.getXmlReg(id_user_port.get(0).getEncoding(), id_user_port.get(0).getSms_type(), id_user_port.get(0).getService_id(), id_user_port.get(0).getNumber_type(), id_user_port.get(0).getAccess(), id_user_port.get(0).getSender(), id_user_port.get(0).getSms(), id_user_port.get(0).getOper(), encode);
 
