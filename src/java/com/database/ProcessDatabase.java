@@ -9,7 +9,7 @@ import java.sql.Statement;
 import java.util.ResourceBundle;
 import org.apache.log4j.Logger;
 
-public class ProcessDatabase {
+public class ProcessDatabase  {
     
     Logger Log = Logger.getLogger(this.getClass());
     
@@ -24,19 +24,43 @@ public class ProcessDatabase {
     Connection conn = null;
     Statement stmt = null;
     ResultSet rs = null;
-
+    
     public PrintWriter request_printwriter(PrintWriter out, String encoding,String get_string) {
 
         
         
-        out.println("<?xml version=\"1.0\" encoding=\"" + encoding + "\"?>");
+        //out.println("<?xml version=\"1.0\" encoding=\"" + encoding + "\"?>");
         
 
         return out;
     }
-
+    
+    
     public String ProcessDatabase(String result,PrintWriter out) {
         //System.out.println("Test xml start : " + result);
+        result="<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n" +
+"<message id=\"routerTestbed@Testbed:3104400\">\n" +
+"<sms type=\"mo\">\n" +
+"<retry count=\"0\" max=\"0\"/>\n" +
+"<destination messageid=\"6156634A\">\n" +
+"<address>\n" +
+"<number type=\"abbreviated\">4688900</number>\n" +
+"</address>\n" +
+"</destination>\n" +
+"<source>\n" +
+"<address>\n" +
+"<number type=\"international\">9853435568</number>\n" +
+"</address>\n" +
+"</source>\n" +
+"<ud type=\"text\">R</ud>\n" +
+"<scts>2009-05-21T11:03:20Z</scts>\n" +
+"<service-id>7112402001</service-id>\n" +
+"</sms>\n" +
+"<from>SMPP_CMG1</from>\n" +
+"<to>HttpAdapter:: 0101102156</to>\n" +
+"</message>";
+        //7112402001 -3
+        
         this.Log.info("Get Xml true : " + result);
   
         String encoding     = (getdata(result, "?xml version=\"1.0\" encoding=\"",  2,""));
@@ -52,10 +76,8 @@ public class ProcessDatabase {
         String to           = (getdata(result, "to",                                1,""));
         
         
+        //System.out.println(" 1 " + encoding + " 2 " + sms + " 3 " + service + " 4 " + destination + " 5 " + number + " 6 " + ud + " 7 " +time);
         
-        //System.out.println(" 1 " + encoding + " 2 " + sms + " 3 " + service + " 4 " + destination + " 5 " + number + " 6 " + number_type + " 7 " + rsr_detail);
-        //System.out.println("1 : " + sms );
-        //+ "2 : " + service + "3 : " + destination + "4 : " + number + "5 : " + number_type + "6 : " + rsr_detail);
         try {
 
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -114,4 +136,5 @@ public class ProcessDatabase {
         return result;
     }
 
+ 
 }

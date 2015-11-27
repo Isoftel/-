@@ -53,12 +53,12 @@ public class get_data implements Runnable {
             byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
             encode = new sun.misc.BASE64Encoder().encode(b);
             try {
-                String RegXML = xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode);
-                this.Log.info("Post Xml : " + RegXML);
-                String GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode);
-                
-                System.out.println("Get XML Test : " + GetXML);
-                this.Log.info("Get Xml : " + GetXML);
+//                String RegXML = xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode);
+//                this.Log.info("Post Xml : " + RegXML);
+//                String GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode);
+//                
+//                System.out.println("Get XML Test : " + GetXML);
+//                this.Log.info("Get Xml : " + GetXML);
             } catch (Exception e) {
                 this.Log.info("Error : " + e);
             }
@@ -71,7 +71,7 @@ public class get_data implements Runnable {
         user_room.clear();
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            local = "192.168.50.11";
+            
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
@@ -90,7 +90,7 @@ public class get_data implements Runnable {
                 String access = rs.getString("access_number");
                 String date = rs.getString("cdate");
 
-                System.out.println("Sql : " + " 1 " + service + " 2 " + number + " 3 " + Text_Service + " 4 " + access);
+                //System.out.println("Sql : " + " 1 " + service + " 2 " + number + " 3 " + Text_Service + " 4 " + access);
 
 
                 iduser.setService_id(service);
