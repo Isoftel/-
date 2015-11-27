@@ -29,6 +29,7 @@ public class get_data implements Runnable {
 
     String url = msg.getString("true_url");
     String post_xml_true = msg.getString("true_url");
+    String url_mo = msg.getString("ip_mo");
 
     Connection conn = null;
     Statement stmt = null;
@@ -60,6 +61,7 @@ public class get_data implements Runnable {
 //                iduser.setAccess(access);
 //                
 //                iduser.setEncoding("7112409001");
+                //url_mo=
                 System.out.println("Encode : " + encode);
                 String RegXML = xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode);
 

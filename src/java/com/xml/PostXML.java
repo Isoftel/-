@@ -115,17 +115,22 @@ public class PostXML {
          this.Log.info("Error Post : " + e);
          }
          */
-        try {
 
+        //StrUrl = "http://10.4.13.39:8004/tmcss2/fh.do";
+        try {
+            //URI uri = new URI("http", null, StrUrl, null, null);
             URI uri = new URI("http", null, StrUrl, null, null);
+            this.Log.info("Test : 111");
             URL url = uri.toURL();
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setDoOutput(true);
             con.setDoInput(true);
             con.setRequestMethod("POST /HTTP/1.1");
+            con.setRequestProperty("Authorization:","Basic " + id_pass);
             con.setRequestProperty("Content-type", "text/xml");
             con.setRequestProperty("Connection", "close");
-            con.setRequestProperty("ContentLenght", "0");
+            con.setRequestProperty("Host:", ip_source);
+            con.setRequestProperty("ContentLenght",String.valueOf(StrXml.length()));
             con.setUseCaches(false);
             PrintWriter pw = new PrintWriter(con.getOutputStream());
             pw.write(StrXml);
@@ -137,9 +142,9 @@ public class PostXML {
             con.disconnect();
             xmlRes = parseISToString(InStream, false);
             getResponsed(xmlRes);
-            
+
         } catch (Exception e) {
-            
+            this.Log.info("Error Post : " + e);
         }
 
         return xmlRes;
