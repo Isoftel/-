@@ -35,10 +35,9 @@ public class run_api extends HttpServlet implements Runnable {
             try {
                 System.out.println("Runing 1");
                 this.Log.info("Runing Test");
-                Log.info("Runing");
-//                Thread tt = new Thread(new get_data());
-//                tt.setPriority(1);
-//                tt.start();
+                Thread tt = new Thread(new get_data());
+                tt.setPriority(1);
+                tt.start();
                 
                 Thread.sleep(ThreadSleep);
 

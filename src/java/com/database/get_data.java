@@ -57,7 +57,7 @@ public class get_data implements Runnable {
 //                RegXML = xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode);
 //                GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode);
 //                insert_r.insert_r(GetXML);
-                
+
 //                this.Log.info("Post Xml : " + RegXML);
 //                System.out.println("Get XML Test : " + GetXML);
 //                this.Log.info("Get Xml : " + GetXML);
@@ -81,6 +81,7 @@ public class get_data implements Runnable {
                     + "INNER JOIN subscribe ON subscribe.mobile_id = register.mobile_id "
                     + "INNER JOIN services  ON services.id  = register.service_id "
                     + "INNER JOIN mobile    ON mobile.mobile_id = register.mobile_id "
+                    + "INNER JOIN mgr	    ON mgr.operator_id = mobile.operator_id "
                     + "where status = '10'");
             while (rs.next()) {
                 data_user iduser = new data_user();
@@ -88,9 +89,10 @@ public class get_data implements Runnable {
                 String service = rs.getString("service_user");
                 String number = rs.getString("msisdn");
                 String Text_Service = rs.getString("detail_reg");
-                // String detail = rs.getString("detail_unreg");
                 String access = rs.getString("access_number");
                 String date = rs.getString("cdate");
+                String user = rs.getString("api_user");
+                String pass = rs.getString("api_password");
 
                 //System.out.println("Sql : " + " 1 " + service + " 2 " + number + " 3 " + Text_Service + " 4 " + access);
                 iduser.setService_id(service);
@@ -99,7 +101,7 @@ public class get_data implements Runnable {
                 //iduser.setDetail(detail);
                 iduser.setAccess(access);
 
-                iduser.setEncoding("7112409001");
+                iduser.setEncoding(user + pass);
 //                iduser.setSms_type(sms_type);
 //                iduser.setSender(sender);
 //                iduser.setSms(text);

@@ -17,13 +17,13 @@ public class insert_xml_data {
     Connection conn = null;
     Statement stmt = null;
     ResultSet rs = null;
-    
+
     ResourceBundle msg = ResourceBundle.getBundle("configs");
     String local = msg.getString("localhost");
     String data_base = msg.getString("data");
     String user = msg.getString("user");
     String pass = msg.getString("pass");
-    
+
     public String insert_r(String xml) {
         /*
          <?xml version="1.0" encoding="ISO-8859-1"?>
@@ -62,17 +62,26 @@ public class insert_xml_data {
         String code = getdata(xml, "code", 1, "");
         String description = getdata(xml, "description", 1, "description");
 
-        
-
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
-            
+
             //String sql = "INSERT INTO register (api_req)VALUES('" + jumid_schedules + "')";
-            
             //stmt.execute(sql);
+            String sql = "select * from register "
+                    + "INNER JOIN services  ON services.id  = register.service_id "
+                    + "INNER JOIN mobile    ON mobile.mobile_id = register.mobile_id "
+                    + "where services.service_id = '" + service + "' and mobile.msisdn = '" + number + "' and  register.status = '0'";
+            rs = stmt.executeQuery(sql);
+            String id_register = "";
+            while (rs.next()) {
+                id_register = rs.getString("reg_id");
+            }
+            sql = "UPDATE register SET status = '" + code + "' WHERE reg_id='" + id_register + "'";
+            stmt.executeUpdate(sql);
+
             conn.close();
         } catch (Exception e) {
             //System.out.println("Error : " + e);
