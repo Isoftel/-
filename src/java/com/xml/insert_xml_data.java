@@ -12,14 +12,36 @@ import com.table_data.Responsed;
  * @author Administrator
  */
 public class insert_xml_data {
-    
+
     public String insert_r(String xml) {
-        //String sdd = getdata(xml, "encoding",1,"")
-        
+        /*
+         <?xml version="1.0" encoding="ISO-8859-1"?>
+         <message id="1242878588600">
+         <rsr type="ack">
+         <service-id>0101102156</service-id>
+         <destination messageid="1242878588600">
+         <address>
+         <number type="international">668xxxxxxxx</number>
+         </address>
+         </destination>
+         <source>
+         <address>
+         <number type="">True Move</number>
+         </address>
+         </source>
+         <rsr_detail status="success">
+         <code>000</code>
+         <description>success</description>
+         </rsr_detail>
+         </rsr>
+         </message>
+         */
+        String service = getdata(xml, "service-id", 1, "");
+        String messageid = getdata(xml, "<destination messageid=\"", 3, "");
         
         return xml;
     }
-    
+
     public Responsed getXML(String str) {
         Responsed rsp = new Responsed();
 //        getdata(str, "encoding", 1, "");
@@ -30,6 +52,7 @@ public class insert_xml_data {
 //        rsp.setRdate(getdata(str, "dates"));
         return rsp;
     }
+
     public String getdata(String in, String Tag, int ifroob, String back) {
         StringBuilder sb = new StringBuilder();
         String result = null;
@@ -59,4 +82,5 @@ public class insert_xml_data {
         }
         return result;
     }
+
 }

@@ -20,7 +20,7 @@ public class get_data implements Runnable {
     Logger Log = Logger.getLogger(this.getClass());
     ResourceBundle msg = ResourceBundle.getBundle("configs");
     PostXML xml = new PostXML();
-
+    
     String local = msg.getString("localhost");
     String data_base = msg.getString("data");
     String user = msg.getString("user");
@@ -50,13 +50,16 @@ public class get_data implements Runnable {
         this.Log.info("Test found data[ " + id_user_port.size() + "] Records");
         for (data_user r : id_user_port) {
             String encode = "";
+            String RegXML = "";
+            String GetXML = "";
             byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
             encode = new sun.misc.BASE64Encoder().encode(b);
             try {
-//                String RegXML = xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode);
+//                RegXML = xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode);
 //                this.Log.info("Post Xml : " + RegXML);
-//                String GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode);
+//                GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode);
 //                
+                
 //                System.out.println("Get XML Test : " + GetXML);
 //                this.Log.info("Get Xml : " + GetXML);
             } catch (Exception e) {
@@ -119,28 +122,6 @@ public class get_data implements Runnable {
 
     
     
-    /*
-    <?xml version="1.0" encoding="ISO-8859-1"?>
-<message id="1242878588600">
-<rsr type="ack">
-<service-id>0101102156</service-id>
-<destination messageid="1242878588600">
-<address>
-<number type="international">668xxxxxxxx</number>
-</address>
-</destination>
-<source>
-<address>
-<number type="">True Move</number>
-</address>
-</source>
-<rsr_detail status="success">
-<code>000</code>
-<description>success</description>
-</rsr_detail>
-</rsr>
-</message>
     
-    */
 
 }
