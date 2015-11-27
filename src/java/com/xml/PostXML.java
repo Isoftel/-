@@ -1,7 +1,7 @@
 package com.xml;
 
 import com.table_data.Responsed;
-import com.table_data.data_user;
+//import com.table_data.data_user;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,18 +12,19 @@ import java.util.Date;
 import java.util.ResourceBundle;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
+//import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.RequestEntity;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
 
-/*  7:   */ import java.io.BufferedInputStream;
-/*  8:   */ import java.io.IOException;
-/*  9:   */ import java.io.PrintWriter;
-/* 10:   */ import java.net.HttpURLConnection;
-/* 11:   */ import java.net.MalformedURLException;
-/* 12:   */ import java.net.URI;
-/* 13:   */ import java.net.URISyntaxException;
-/* 14:   */ import java.net.URL;
+//import java.io.BufferedInputStream;
+//import java.io.IOException;
+//import java.io.PrintWriter;
+//import java.net.HttpURLConnection;
+//import java.net.MalformedURLException;
+//import java.net.URI;
+//import java.net.URISyntaxException;
+//import java.net.URL;
 
 import org.apache.log4j.Logger;
 
@@ -77,9 +78,9 @@ public class PostXML {
 
     public String PostXml(String StrXml, String StrUrl, String id_pass) {
         String xmlRes = null;
-        StrUrl = "http://192.168.0.126:8080/Artemis/DeliveryRequest_true";
+        //StrUrl = "http://192.168.0.126:8080/Artemis/DeliveryRequest_true";
         //StrUrl = "http://10.4.13.39:8004/tmcss2/fh.do";
-        //StrUrl = "http://203.144.187.120:55000";
+        StrUrl = "http://203.144.187.120:55000";
 
         try {
             Log.info("URL Post : " + StrUrl);
@@ -97,18 +98,17 @@ public class PostXML {
             post.setRequestEntity(entity);
             HttpClient httpclient = new HttpClient();
 
-//            InputStream inStream = post.getResponseBodyAsStream();
-//                xmlRes = parseISToString(inStream, false);
             //////รับค่ากลับมาเป็น XML จากตัวที่เราส่งไป
-            //int returnCode = httpclient.executeMethod(post);
-//            Log.info("request response from true " + httpclient.getHost() + ":" + httpclient.getPort() + " : " + returnCode);
-//            if (returnCode == HttpStatus.SC_NOT_IMPLEMENTED) {
-//                System.err.println("The Post method is not implemented by this URI");
-//                post.getResponseBodyAsString();
-//            } else {
-//                InputStream inStream = post.getResponseBodyAsStream();
-//                xmlRes = parseISToString(inStream, false);
-//            }
+            int returnCode = httpclient.executeMethod(post);
+
+            if (returnCode == HttpStatus.SC_NOT_IMPLEMENTED) {
+                System.err.println("The Post method is not implemented by this URI");
+                post.getResponseBodyAsString();
+            } else {
+                InputStream inStream = post.getResponseBodyAsStream();
+                xmlRes = parseISToString(inStream, false);
+            }
+            
         } catch (Exception e) {
             System.out.println("Error Port : " + e);
             this.Log.info("Error Post : " + e);

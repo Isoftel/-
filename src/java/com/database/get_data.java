@@ -53,22 +53,10 @@ public class get_data implements Runnable {
             byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
             encode = new sun.misc.BASE64Encoder().encode(b);
             try {
-
-//                iduser.setService_id(service);
-//                iduser.setNumber_type(number);
-//                iduser.setDescriptions(descr);
-//                iduser.setDetail(detail);
-//                iduser.setAccess(access);
-//                
-//                iduser.setEncoding("7112409001");
-                //url_mo=
-                System.out.println("Encode : " + encode);
                 String RegXML = xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode);
-
                 this.Log.info("Post Xml : " + RegXML);
-                this.Log.info("URL : " + msg.getString("ip_mo"));
-                
                 String GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode);
+                
                 System.out.println("Get XML Test : " + GetXML);
                 this.Log.info("Get Xml : " + GetXML);
             } catch (Exception e) {
@@ -94,8 +82,6 @@ public class get_data implements Runnable {
                     + "where status = '10'");
             while (rs.next()) {
                 data_user iduser = new data_user();
-//                String user = rs.getString("api_user");
-//                String pass = rs.getString("api_password");
 
                 String service = rs.getString("service_user");
                 String number = rs.getString("msisdn");
@@ -106,16 +92,7 @@ public class get_data implements Runnable {
 
                 System.out.println("Sql : " + " 1 " + service + " 2 " + number + " 3 " + Text_Service + " 4 " + access);
 
-//                String sender = "True";
-//                String text = "test have sender TrueMove ";
-//                String oper = "True";
-//                if (en.equals("T")) {
-//                    iduser.setEncoding("TIS-620");
-//                } else if (en.equals("E")) {
-//                    iduser.setEncoding("UTF-8");
-//                } else if (en.equals("H")) {
-//                    iduser.setEncoding("HEX");
-//                }
+
                 iduser.setService_id(service);
                 iduser.setNumber_type(number);
                 iduser.setDescriptions(Text_Service);
@@ -140,40 +117,30 @@ public class get_data implements Runnable {
         return user_room;
     }
 
-    public List<data_user> ProcessRegister() {
-        user_room.clear();
-        System.out.println("GG");
-        try {
-            System.out.println("");
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            //local = "192.168.50.11";
-            local = "27.100.44.80,1133";
-            String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
-            conn = DriverManager.getConnection(connectionUrl);
-
-//            SQLServerDataSource ds = new SQLServerDataSource();
-//            ds.setUser("isfotel");
-//            ds.setPassword("isoftelthailand");
-//            ds.setServerName("local");
-//            ds.setPortNumber(1133);
-//            ds.setDatabaseName("PLAYBOY");
-//            conn = ds.getConnection();
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery("select * from register");
-            while (rs.next()) {
-                data_user iduser = new data_user();
-                String id = rs.getString("reg_id");
-                //System.out.println("Test ID : " + id);
-
-                user_room.add(iduser);
-            }
-            conn.close();
-        } catch (Exception e) {
-            System.out.println("Error : " + e);
-        }
-//        int gg = user_room.size();
-//        String gg2 = user_room.get(0).getApi_job();
-        return user_room;
-    }
+    
+    
+    /*
+    <?xml version="1.0" encoding="ISO-8859-1"?>
+<message id="1242878588600">
+<rsr type="ack">
+<service-id>0101102156</service-id>
+<destination messageid="1242878588600">
+<address>
+<number type="international">668xxxxxxxx</number>
+</address>
+</destination>
+<source>
+<address>
+<number type="">True Move</number>
+</address>
+</source>
+<rsr_detail status="success">
+<code>000</code>
+<description>success</description>
+</rsr_detail>
+</rsr>
+</message>
+    
+    */
 
 }

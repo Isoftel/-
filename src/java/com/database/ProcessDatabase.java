@@ -38,31 +38,7 @@ public class ProcessDatabase {
     public String ProcessDatabase(String result,PrintWriter out) {
         //System.out.println("Test xml start : " + result);
         this.Log.info("Get Xml true : " + result);
-        
-        /*
-        <?xml version="1.0" encoding="ISO-8859-1"?>
-<message id="routerTestbed@Testbed:3104400">
-<sms type="mo">
-<retry count="0" max="0"/>
-<destination messageid="6156634A">
-<address>
-<number type="abbreviated">1042</number>
-</address>
-</destination>
-<source>
-<address>
-<number type="international">668xxxxxxxx</number>
-</address>
-</source>
-<ud type="text">R</ud>
-<scts>2009-05-21T11:03:20Z</scts>
-<service-id>0101102156</service-id>
-</sms>
-<from>SMPP_CMG1</from>
-<to>HttpAdapter:: 0101102156</to>
-</message>
-        */
-        
+  
         String encoding     = (getdata(result, "?xml version=\"1.0\" encoding=\"",  2,""));
         String message      = (getdata(result, "message id=\"",                     3,""));
         String sms          = (getdata(result, "sms type=\"",                       3,""));
