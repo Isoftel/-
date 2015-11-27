@@ -16,6 +16,15 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.RequestEntity;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
 
+/*  7:   */ import java.io.BufferedInputStream;
+/*  8:   */ import java.io.IOException;
+/*  9:   */ import java.io.PrintWriter;
+/* 10:   */ import java.net.HttpURLConnection;
+/* 11:   */ import java.net.MalformedURLException;
+/* 12:   */ import java.net.URI;
+/* 13:   */ import java.net.URISyntaxException;
+/* 14:   */ import java.net.URL;
+
 import org.apache.log4j.Logger;
 
 public class PostXML {
@@ -60,7 +69,7 @@ public class PostXML {
         sb.append("<dro>").append("true").append("</dro>");
         sb.append("</sms>");
         sb.append("</message>");
-        System.out.println("Post : "+sb.toString());
+        System.out.println("Post : " + sb.toString());
         ///////ส่งค่า XML
         //this.Log.info("Get Xml true : " + xmlRes);
         System.out.println("Get Xml : " + xmlRes);
@@ -69,65 +78,70 @@ public class PostXML {
 
     public String PostXml(String StrXml, String StrUrl, String id_pass) {
         String xmlRes = null;
-        try {
-            //System.out.println("URL test : "+Log.info();
-            Log.info("URL Post : " + StrUrl );
+        /*
+         try {
+         //System.out.println("URL test : "+Log.info();
+         Log.info("URL Post : " + StrUrl );
              
             
-            PostMethod post = new PostMethod(StrUrl);
+         PostMethod post = new PostMethod(StrUrl);
             
-            post.setRequestBody("POST /HTTP/1.1");
-            post.setRequestHeader("Authorization:", "Basic " + id_pass);
-            post.setRequestHeader("Content-Type:", "text/xml");
-            post.setRequestHeader("Connection:", "Close");
-            post.setRequestHeader("Host:", ip_source);
-            post.setRequestHeader("Content-Length", String.valueOf(StrXml.length()));
-            Log.info("11111");
-            RequestEntity entity = new StringRequestEntity(StrXml, "text/xml", "TIS-620");
-            Log.info("22222");
-            //RequestEntity entity = new StringRequestEntity(StrXml, "text/xml", "UTF-8");
-            post.setRequestEntity(entity);
-            HttpClient httpclient = new HttpClient();
+         post.setRequestBody("POST /HTTP/1.1");
+         post.setRequestHeader("Authorization:", "Basic " + id_pass);
+         post.setRequestHeader("Content-Type:", "text/xml");
+         post.setRequestHeader("Connection:", "Close");
+         post.setRequestHeader("Host:", ip_source);
+         post.setRequestHeader("Content-Length", String.valueOf(StrXml.length()));
+         Log.info("11111");
+         RequestEntity entity = new StringRequestEntity(StrXml, "text/xml", "TIS-620");
+         Log.info("22222");
+         //RequestEntity entity = new StringRequestEntity(StrXml, "text/xml", "UTF-8");
+         post.setRequestEntity(entity);
+         HttpClient httpclient = new HttpClient();
 
-            //////รับค่ากลับมาเป็น XML จากตัวที่เราส่งไป
-            int returnCode = httpclient.executeMethod(post);
-            Log.info("request response from true " + httpclient.getHost() + ":" + httpclient.getPort() + " : " + returnCode);
-            if (returnCode == HttpStatus.SC_NOT_IMPLEMENTED) {
-                System.err.println("The Post method is not implemented by this URI");
-                post.getResponseBodyAsString();
-            } else {
-                InputStream inStream = post.getResponseBodyAsStream();
-                xmlRes = parseISToString(inStream, false);
-            }
+         //////รับค่ากลับมาเป็น XML จากตัวที่เราส่งไป
+         int returnCode = httpclient.executeMethod(post);
+         Log.info("request response from true " + httpclient.getHost() + ":" + httpclient.getPort() + " : " + returnCode);
+         if (returnCode == HttpStatus.SC_NOT_IMPLEMENTED) {
+         System.err.println("The Post method is not implemented by this URI");
+         post.getResponseBodyAsString();
+         } else {
+         InputStream inStream = post.getResponseBodyAsStream();
+         xmlRes = parseISToString(inStream, false);
+         }
                  
+         } catch (Exception e) {
+         System.out.println("Error Port : " + e);
+         this.Log.info("Error Post : " + e);
+         }
+         */
+        try {
+
+            URI uri = new URI("http", null, StrUrl, null, null);
+            URL url = uri.toURL();
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setDoOutput(true);
+            con.setDoInput(true);
+            con.setRequestMethod("POST /HTTP/1.1");
+            con.setRequestProperty("Content-type", "text/xml");
+            con.setRequestProperty("Connection", "close");
+            con.setRequestProperty("ContentLenght", "0");
+            con.setUseCaches(false);
+            PrintWriter pw = new PrintWriter(con.getOutputStream());
+            pw.write(StrXml);
+            pw.close();
+            BufferedInputStream InStream = new BufferedInputStream(con.getInputStream());
+            InStream.close();
+            pw.flush();
+            con.connect();
+            con.disconnect();
+            xmlRes = parseISToString(InStream, false);
+            getResponsed(xmlRes);
+            
         } catch (Exception e) {
-            System.out.println("Error Port : " + e);
-            this.Log.info("Error Post : " + e);
+            
         }
 
-//        String xmlRes = null;
-//        URI uri = new URI("http", null, StrUrl, null, null);
-//        URL url = uri.toURL();
-//        HttpURLConnection con = (HttpURLConnection) url.openConnection();
-//        con.setDoOutput(true);
-//        con.setDoInput(true);
-//        con.setRequestMethod("POST /HTTP/1.1");
-//        con.setRequestProperty("Content-type", "text/xml");
-//        con.setRequestProperty("Connection", "close");
-//        con.setRequestProperty("ContentLenght", "0");
-//        con.setUseCaches(false);
-//        PrintWriter pw = new PrintWriter(con.getOutputStream());
-//        pw.write(StrXml);
-//        pw.close();
-//        BufferedInputStream InStream = new BufferedInputStream(con.getInputStream());
-//        InStream.close();
-//        pw.flush();
-//        con.connect();
-//        con.disconnect();
-//        xmlRes = parseISToString(InStream, false);
-        //getResponsed(xmlRes);
-        //System.out.println("GG");
-                    
         return xmlRes;
     }
 
