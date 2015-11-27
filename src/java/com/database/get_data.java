@@ -20,7 +20,7 @@ public class get_data implements Runnable {
     Logger Log = Logger.getLogger(this.getClass());
     ResourceBundle msg = ResourceBundle.getBundle("configs");
     PostXML xml = new PostXML();
-    
+    insert_xml_data insert_r = new insert_xml_data();
     String local = msg.getString("localhost");
     String data_base = msg.getString("data");
     String user = msg.getString("user");
@@ -43,10 +43,9 @@ public class get_data implements Runnable {
     public void run() {
 
         //String U_test = "0101102156:qWACgXb4";
-        //System.out.print("Base64 : " + s);
-        post_xml_true = "http://192.168.0.126:8080/Artemis/DeliveryRequest_true";
-        post_xml_true = "http://10.4.13.39:8004/tmcss2/fh.do";
-        post_xml_true = "203.144.187.120:55000";
+//        post_xml_true = "http://192.168.0.126:8080/Artemis/DeliveryRequest_true";
+//        post_xml_true = "http://10.4.13.39:8004/tmcss2/fh.do";
+//        post_xml_true = "203.144.187.120:55000";
         this.Log.info("Test found data[ " + id_user_port.size() + "] Records");
         for (data_user r : id_user_port) {
             String encode = "";
@@ -56,10 +55,10 @@ public class get_data implements Runnable {
             encode = new sun.misc.BASE64Encoder().encode(b);
             try {
 //                RegXML = xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode);
-//                this.Log.info("Post Xml : " + RegXML);
 //                GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode);
-//                
+//                insert_r.insert_r(GetXML);
                 
+//                this.Log.info("Post Xml : " + RegXML);
 //                System.out.println("Get XML Test : " + GetXML);
 //                this.Log.info("Get Xml : " + GetXML);
             } catch (Exception e) {
@@ -74,7 +73,7 @@ public class get_data implements Runnable {
         user_room.clear();
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            
+
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
@@ -94,8 +93,6 @@ public class get_data implements Runnable {
                 String date = rs.getString("cdate");
 
                 //System.out.println("Sql : " + " 1 " + service + " 2 " + number + " 3 " + Text_Service + " 4 " + access);
-
-
                 iduser.setService_id(service);
                 iduser.setNumber_type(number);
                 iduser.setDescriptions(Text_Service);
@@ -115,13 +112,9 @@ public class get_data implements Runnable {
             }
             conn.close();
         } catch (Exception e) {
-            System.out.println("Error : " + e);
+            //System.out.println("Error : " + e);
         }
         return user_room;
     }
-
-    
-    
-    
 
 }

@@ -70,7 +70,7 @@ public class PostXML {
         sb.append("<dro>").append("true").append("</dro>");
         sb.append("</sms>");
         sb.append("</message>");
-        System.out.println("Post : " + sb.toString());
+        //System.out.println("Post : " + sb.toString());
         ///////ส่งค่า XML
         //this.Log.info("Get Xml true : " + xmlRes);
         return sb.toString();
@@ -84,7 +84,6 @@ public class PostXML {
 
         try {
             Log.info("URL Post : " + StrUrl);
-            System.out.println("URL Post : " + StrUrl);
             PostMethod post = new PostMethod(StrUrl);
 
             //post.setRequestBody("POST /HTTP/1.1");
@@ -110,7 +109,6 @@ public class PostXML {
             }
             
         } catch (Exception e) {
-            System.out.println("Error Port : " + e);
             this.Log.info("Error Post : " + e);
         }
 

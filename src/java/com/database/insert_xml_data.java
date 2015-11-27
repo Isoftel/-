@@ -3,16 +3,27 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.xml;
+package com.database;
 
 import com.table_data.Responsed;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ResourceBundle;
 
-/**
- *
- * @author Administrator
- */
 public class insert_xml_data {
 
+    Connection conn = null;
+    Statement stmt = null;
+    ResultSet rs = null;
+    
+    ResourceBundle msg = ResourceBundle.getBundle("configs");
+    String local = msg.getString("localhost");
+    String data_base = msg.getString("data");
+    String user = msg.getString("user");
+    String pass = msg.getString("pass");
+    
     public String insert_r(String xml) {
         /*
          <?xml version="1.0" encoding="ISO-8859-1"?>
@@ -26,7 +37,11 @@ public class insert_xml_data {
          </destination>
          <source>
          <address>
+         ///////////////
          <number type="">True Move</number>
+         or
+         <number type="abbreviated">1042</number>
+         ////////////////
          </address>
          </source>
          <rsr_detail status="success">
@@ -38,14 +53,38 @@ public class insert_xml_data {
          */
         String service = getdata(xml, "service-id", 1, "");
         String messageid = getdata(xml, "<destination messageid=\"", 3, "");
+        String number = getdata(xml, "number type=\"international\"", 4, "number");
+
+        String number_text = getdata(xml, "number type=\"\"", 1, "number");
+        if (number_text.equals(null)) {
+            number_text = getdata(xml, "number type=\"abbreviated\"", 1, "number");
+        }
+        String code = getdata(xml, "code", 1, "");
+        String description = getdata(xml, "description", 1, "description");
+
         
+
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
+            conn = DriverManager.getConnection(connectionUrl);
+            stmt = conn.createStatement();
+            
+            //String sql = "INSERT INTO register (api_req)VALUES('" + jumid_schedules + "')";
+            
+            //stmt.execute(sql);
+            conn.close();
+        } catch (Exception e) {
+            //System.out.println("Error : " + e);
+        }
+
         return xml;
     }
 
     public Responsed getXML(String str) {
         Responsed rsp = new Responsed();
 //        getdata(str, "encoding", 1, "");
-        //rsp.setEncoding(getdata(str, "encoding"));
+//        rsp.setEncoding(getdata(str, "encoding"));
 //        rsp.setSize(getdata(str, "size"));
 //        rsp.setStatus(getdata(str, "status"));
 //        rsp.setDescription(getdata(str, "description"));

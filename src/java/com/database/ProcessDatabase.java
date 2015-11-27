@@ -101,7 +101,7 @@ public class ProcessDatabase  {
             
             conn.close();
         } catch (Exception e) {
-            System.out.println("Error SQL : " + e);
+            //System.out.println("Error SQL : " + e);
         }
         return result;
     }
