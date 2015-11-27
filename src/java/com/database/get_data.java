@@ -87,7 +87,7 @@ public class get_data implements Runnable {
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
-            rs = stmt.executeQuery("select *,services.service_id service_user from register "
+            rs = stmt.executeQuery("select TOP(1)*,services.service_id service_user from register "
                     + "INNER JOIN subscribe ON subscribe.mobile_id = register.mobile_id "
                     + "INNER JOIN services  ON services.id  = register.service_id "
                     + "INNER JOIN mobile    ON mobile.mobile_id = register.mobile_id "

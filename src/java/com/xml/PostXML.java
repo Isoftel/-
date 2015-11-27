@@ -82,8 +82,8 @@ public class PostXML {
         //StrUrl = "http://203.144.187.120:55000";
 
         try {
-            System.out.println("URL test : " + StrUrl);
             Log.info("URL Post : " + StrUrl);
+            System.out.println("URL Post : " + StrUrl);
             PostMethod post = new PostMethod(StrUrl);
 
             //post.setRequestBody("POST /HTTP/1.1");
@@ -97,19 +97,18 @@ public class PostXML {
             post.setRequestEntity(entity);
             HttpClient httpclient = new HttpClient();
 
-            
-            
+//            InputStream inStream = post.getResponseBodyAsStream();
+//                xmlRes = parseISToString(inStream, false);
             //////รับค่ากลับมาเป็น XML จากตัวที่เราส่งไป
-            int returnCode = httpclient.executeMethod(post);
-            Log.info("request response from true " + httpclient.getHost() + ":" + httpclient.getPort() + " : " + returnCode);
-            if (returnCode == HttpStatus.SC_NOT_IMPLEMENTED) {
-                System.err.println("The Post method is not implemented by this URI");
-                post.getResponseBodyAsString();
-            } else {
-                InputStream inStream = post.getResponseBodyAsStream();
-                xmlRes = parseISToString(inStream, false);
-            }
-
+            //int returnCode = httpclient.executeMethod(post);
+//            Log.info("request response from true " + httpclient.getHost() + ":" + httpclient.getPort() + " : " + returnCode);
+//            if (returnCode == HttpStatus.SC_NOT_IMPLEMENTED) {
+//                System.err.println("The Post method is not implemented by this URI");
+//                post.getResponseBodyAsString();
+//            } else {
+//                InputStream inStream = post.getResponseBodyAsStream();
+//                xmlRes = parseISToString(inStream, false);
+//            }
         } catch (Exception e) {
             System.out.println("Error Port : " + e);
             this.Log.info("Error Post : " + e);
