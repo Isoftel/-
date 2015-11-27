@@ -21,24 +21,24 @@ public class DeliveryRequest_true extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/xml;charset=UTF-8");
         PrintWriter out = response.getWriter();
+        out.println("<?xml version=\"1.0\" encoding=\"" + "TIS-620" + "\"?>");
         try {
             String encoding = "TIS-620";
-            
 
             //////////////////แปลง InputStream to String
             InputStream inStream = request.getInputStream();
             String result = getStringFromInputStream(inStream);
-            
+
             //print PrintWriter 
-            insert.request_printwriter(out, encoding,result);
-
+            //insert.request_printwriter(out, encoding, result);
+            System.out.println("Delivery : " + result);
             //////////////////ส่งค่า HTTP กลับ
-            response.setContentLength(result.length());
-            response.setHeader("Connection", "close");
-            response.setContentType("text/xml");
-
-            //////////////////นับ XML ไปตัดและส่ง Database
-            String tt = insert.ProcessDatabase(result,out);
+//            response.setContentLength(result.length());
+//            response.setHeader("Connection", "close");
+//            response.setContentType("text/xml");
+//
+//            //////////////////นับ XML ไปตัดและส่ง Database
+//            String tt = insert.ProcessDatabase(result, out);
 
             //System.out.println("Test xml : " + result);
             //this.Log.info("Get Xml true : " + result);

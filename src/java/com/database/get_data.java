@@ -67,9 +67,9 @@ public class get_data implements Runnable {
 
                 this.Log.info("Post Xml : " + RegXML);
                 this.Log.info("URL : " + msg.getString("ip_mo"));
-                System.out.println("Port TRUE : " + msg.getString("ip_mo"));
+                
                 String GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode);
-
+                System.out.println("Get XML Test : " + GetXML);
                 this.Log.info("Get Xml : " + GetXML);
             } catch (Exception e) {
                 this.Log.info("Error : " + e);
@@ -83,6 +83,7 @@ public class get_data implements Runnable {
         user_room.clear();
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            local = "192.168.50.11";
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
@@ -145,7 +146,7 @@ public class get_data implements Runnable {
         try {
             System.out.println("");
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            local = "192.168.50.11";
+            //local = "192.168.50.11";
             local = "27.100.44.80,1133";
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
             conn = DriverManager.getConnection(connectionUrl);

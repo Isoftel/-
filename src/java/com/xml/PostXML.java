@@ -72,81 +72,80 @@ public class PostXML {
         System.out.println("Post : " + sb.toString());
         ///////ส่งค่า XML
         //this.Log.info("Get Xml true : " + xmlRes);
-        System.out.println("Get Xml : " + xmlRes);
         return sb.toString();
     }
 
     public String PostXml(String StrXml, String StrUrl, String id_pass) {
         String xmlRes = null;
-        /*
-         try {
-         //System.out.println("URL test : "+Log.info();
-         Log.info("URL Post : " + StrUrl );
-             
-            
-         PostMethod post = new PostMethod(StrUrl);
-            
-         post.setRequestBody("POST /HTTP/1.1");
-         post.setRequestHeader("Authorization:", "Basic " + id_pass);
-         post.setRequestHeader("Content-Type:", "text/xml");
-         post.setRequestHeader("Connection:", "Close");
-         post.setRequestHeader("Host:", ip_source);
-         post.setRequestHeader("Content-Length", String.valueOf(StrXml.length()));
-         Log.info("11111");
-         RequestEntity entity = new StringRequestEntity(StrXml, "text/xml", "TIS-620");
-         Log.info("22222");
-         //RequestEntity entity = new StringRequestEntity(StrXml, "text/xml", "UTF-8");
-         post.setRequestEntity(entity);
-         HttpClient httpclient = new HttpClient();
-
-         //////รับค่ากลับมาเป็น XML จากตัวที่เราส่งไป
-         int returnCode = httpclient.executeMethod(post);
-         Log.info("request response from true " + httpclient.getHost() + ":" + httpclient.getPort() + " : " + returnCode);
-         if (returnCode == HttpStatus.SC_NOT_IMPLEMENTED) {
-         System.err.println("The Post method is not implemented by this URI");
-         post.getResponseBodyAsString();
-         } else {
-         InputStream inStream = post.getResponseBodyAsStream();
-         xmlRes = parseISToString(inStream, false);
-         }
-                 
-         } catch (Exception e) {
-         System.out.println("Error Port : " + e);
-         this.Log.info("Error Post : " + e);
-         }
-         */
-
+        StrUrl = "http://192.168.0.126:8080/Artemis/DeliveryRequest_true";
         //StrUrl = "http://10.4.13.39:8004/tmcss2/fh.do";
+        //StrUrl = "http://203.144.187.120:55000";
+
         try {
-            //URI uri = new URI("http", null, StrUrl, null, null);
-            URI uri = new URI("http", null, StrUrl, null, null);
-            this.Log.info("Test : 111");
-            URL url = uri.toURL();
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setDoOutput(true);
-            con.setDoInput(true);
-            con.setRequestMethod("POST /HTTP/1.1");
-            con.setRequestProperty("Authorization:","Basic " + id_pass);
-            con.setRequestProperty("Content-type", "text/xml");
-            con.setRequestProperty("Connection", "close");
-            con.setRequestProperty("Host:", ip_source);
-            con.setRequestProperty("ContentLenght",String.valueOf(StrXml.length()));
-            con.setUseCaches(false);
-            PrintWriter pw = new PrintWriter(con.getOutputStream());
-            pw.write(StrXml);
-            pw.close();
-            BufferedInputStream InStream = new BufferedInputStream(con.getInputStream());
-            InStream.close();
-            pw.flush();
-            con.connect();
-            con.disconnect();
-            xmlRes = parseISToString(InStream, false);
-            getResponsed(xmlRes);
+            System.out.println("URL test : " + StrUrl);
+            Log.info("URL Post : " + StrUrl);
+            PostMethod post = new PostMethod(StrUrl);
+
+            //post.setRequestBody("POST /HTTP/1.1");
+            post.setRequestHeader("Authorization:", "Basic " + id_pass);
+            post.setRequestHeader("Content-Type:", "text/xml");
+            post.setRequestHeader("Connection:", "Close");
+            post.setRequestHeader("Host:", ip_source);
+            post.setRequestHeader("Content-Length", String.valueOf(StrXml.length()));
+            RequestEntity entity = new StringRequestEntity(StrXml, "text/xml", "TIS-620");
+            //RequestEntity entity = new StringRequestEntity(StrXml, "text/xml", "UTF-8");
+            post.setRequestEntity(entity);
+            HttpClient httpclient = new HttpClient();
+
+            
+            
+            //////รับค่ากลับมาเป็น XML จากตัวที่เราส่งไป
+            int returnCode = httpclient.executeMethod(post);
+            Log.info("request response from true " + httpclient.getHost() + ":" + httpclient.getPort() + " : " + returnCode);
+            if (returnCode == HttpStatus.SC_NOT_IMPLEMENTED) {
+                System.err.println("The Post method is not implemented by this URI");
+                post.getResponseBodyAsString();
+            } else {
+                InputStream inStream = post.getResponseBodyAsStream();
+                xmlRes = parseISToString(inStream, false);
+            }
 
         } catch (Exception e) {
+            System.out.println("Error Port : " + e);
             this.Log.info("Error Post : " + e);
         }
 
+        /*
+         try {
+         //URI uri = new URI("http", null, StrUrl, null, null);
+         URI uri = new URI(null, null, StrUrl, null, null);
+         System.out.println("Port TRUE : " + uri.toString());
+         URL url = uri.toURL();
+         HttpURLConnection con = (HttpURLConnection) url.openConnection();
+         con.setDoOutput(true);
+         con.setDoInput(true);
+         con.setRequestMethod("POST /HTTP/1.1");
+         con.setRequestProperty("Authorization:", "Basic " + id_pass);
+         con.setRequestProperty("Content-type", "text/xml");
+         con.setRequestProperty("Connection", "close");
+         con.setRequestProperty("Host:", ip_source);
+         con.setRequestProperty("ContentLenght", String.valueOf(StrXml.length()));
+         con.setUseCaches(false);
+         PrintWriter pw = new PrintWriter(con.getOutputStream());
+         pw.write(StrXml);
+         pw.close();
+         BufferedInputStream InStream = new BufferedInputStream(con.getInputStream());
+         xmlRes = parseISToString(InStream, false);
+         System.out.println("TT : " + xmlRes);
+         InStream.close();
+         pw.flush();
+         con.connect();
+         con.disconnect();
+         //getResponsed(xmlRes);
+         } catch (Exception e) {
+         this.Log.info("Error Post : " + e);
+         }
+         */
         return xmlRes;
     }
 
@@ -171,7 +170,7 @@ public class PostXML {
     /////////  แปลงค่าxml
     public Responsed getResponsed(String str) {
         Responsed rsp = new Responsed();
-        getdata(str, "encoding", 1, "");
+//        getdata(str, "encoding", 1, "");
         //rsp.setEncoding(getdata(str, "encoding"));
 //        rsp.setSize(getdata(str, "size"));
 //        rsp.setStatus(getdata(str, "status"));
