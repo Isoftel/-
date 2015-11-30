@@ -40,13 +40,9 @@ public class PostXML {
     ///ส่งค่าเดียวแล้ว reture String ที่ได้รับจากฟั่ง True หลังจากส่ง XML แล้ว
     //r.getService_id(),r.getNumber_type(),r.getDescriptions(), r.getDetail(), r.getAccess(), encode);
     public String getXmlReg(String Service_id, String Number_type, String Text_Service, String Access, String id_pass) {
-        //DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z // Z // X // a // G // E // S");
         DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
-        //System.out.println("Day : " + dateFormat.format(date));
         //System.out.println("Day : " + dateFormat2.format(date));
-
         String xmlRes = null;
-
         StringBuilder sb = new StringBuilder();
         sb.append("<?xml version=\"1.0\" encoding=\"TIS-620\"?>");
         sb.append("<message>");
@@ -63,15 +59,11 @@ public class PostXML {
         sb.append("<originate type=\"international\">").append(Number_type).append("</originate>");
         sb.append("</address>");
         sb.append("</source>");
-        //Text_Service
         sb.append("<ud type=\"text\" encoding=\"default\">").append("Test").append("</ud>");
         sb.append("<scts>").append(dateFormat2.format(date)).append("</scts>");
         sb.append("<dro>").append("true").append("</dro>");
         sb.append("</sms>");
         sb.append("</message>");
-        //System.out.println("Post : " + sb.toString());
-        ///////ส่งค่า XML
-        //this.Log.info("Get Xml true : " + xmlRes);
         return sb.toString();
     }
 

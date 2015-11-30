@@ -37,6 +37,7 @@ public class get_data implements Runnable {
     List<data_user> user_room = new ArrayList<data_user>();
 
     private List<data_user> id_user_port = ProcessRegister_one();
+    
     //private List<data_user> warning  = real_time();
     //private List<data_user> Reg = ProcessRegister();
     String id_user = "";
@@ -51,23 +52,23 @@ public class get_data implements Runnable {
         this.Log.info("Test found data[ " + id_user_port.size() + "] Records");
 
         for (data_user r : id_user_port) {
-//            String encode = "";
-//            String RegXML = "";
-//            String GetXML = "";
-//            byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
-//            encode = new sun.misc.BASE64Encoder().encode(b);
-//            try {
-//                RegXML = xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode);
-//                GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode);
-//                System.out.println("Back XML : " + GetXML);
-//                insert_r.insert_r(GetXML, id_user);
-//
-////                System.out.println("Get XML Test : " + GetXML);
-//                this.Log.info("Get Xml : " + GetXML);
-//            } catch (Exception e) {
-//                this.Log.info("Error : " + e);
-//            }
-            System.out.println("usert : " + r.getNumber_type());
+            String encode = "";
+            String RegXML = "";
+            String GetXML = "";
+            byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
+            encode = new sun.misc.BASE64Encoder().encode(b);
+            try {
+                RegXML = xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode);
+                GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode);
+                System.out.println("Back XML : " + GetXML);
+                insert_r.insert_r(GetXML, id_user);
+
+//                System.out.println("Get XML Test : " + GetXML);
+                this.Log.info("Get Xml : " + GetXML);
+            } catch (Exception e) {
+                this.Log.info("Error : " + e);
+            }
+            //System.out.println("usert : " + r.getNumber_type());
         }
 
         if (id_user_port.size() > 0) {
@@ -75,14 +76,14 @@ public class get_data implements Runnable {
     }
 
     public List<data_user> ProcessRegister_one() {
-        id_user_port.clear();
+        user_room.clear();
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
-            rs = stmt.executeQuery("select TOP(1)*,services.service_id service_user from register "
+            rs = stmt.executeQuery("select TOP(50)*,services.service_id service_user from register "
                     + "INNER JOIN services  ON services.id  = register.service_id  "
                     + "INNER JOIN mobile    ON mobile.mobile_id = register.mobile_id   "
                     + "INNER JOIN mgr       ON mgr.operator_id = mobile.operator_id "
@@ -107,13 +108,13 @@ public class get_data implements Runnable {
 
 //                String sql = "UPDATE register SET status = '0' WHERE reg_id='" + id_user + "' ";
 //                stmt.executeUpdate(sql);
-                id_user_port.add(iduser);
+                user_room.add(iduser);
             }
             conn.close();
         } catch (Exception e) {
             //System.out.println("Error : " + e);
         }
-        return id_user_port;
+        return user_room;
     }
 
     /*

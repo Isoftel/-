@@ -8,6 +8,9 @@ package com.run;
 import com.database.ProcessDatabase;
 import com.database.get_data;
 import com.xml.PostXML;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ResourceBundle;
 import javax.servlet.ServletConfig;
 import javax.servlet.http.HttpServlet;
@@ -21,6 +24,12 @@ public class run_api extends HttpServlet implements Runnable {
     Thread th;
     String msdfsdfd;
     Logger Log = Logger.getLogger(this.getClass());
+
+    Date date = new Date();
+    //HH:mm:ss.S
+    DateFormat dateFormat           = new SimpleDateFormat("yyyy-MM-dd 14:00:01");
+    DateFormat dateFormat_set_start = new SimpleDateFormat("yyyy-MM-dd 14:00:00");
+    DateFormat dateFormat_set_end   = new SimpleDateFormat("yyyy-MM-dd 14:00:02");
 
     @Override
     public void init(ServletConfig config) {
@@ -36,9 +45,27 @@ public class run_api extends HttpServlet implements Runnable {
             try {
                 //System.out.println("Runing 1");
                 this.Log.info("Runing Test");
-                Thread tt = new Thread(new get_data());
-                tt.setPriority(1);
-                tt.start();
+//                Thread tt = new Thread(new get_data());
+//                tt.setPriority(1);
+//                tt.start();
+
+                try {
+
+                    String date_warning = dateFormat.format(date);
+                    String date_start = dateFormat_set_start.format(date);
+                    String date_end = dateFormat_set_end.format(date);
+
+                    Date convertedDate = dateFormat.parse(date_warning);
+                    Date start = dateFormat_set_start.parse(date_start);
+                    Date end = dateFormat_set_end.parse(date_end);
+                    
+                    //System.out.println("D1 tt: " + convertedDate + " Start : " + start+ " End : " + end);
+                    
+//                    System.out.println("Show int : " + start.compareTo(start));
+//                    System.out.println("Show int : " + start.compareTo(end));
+                } catch (Exception e) {
+                    System.out.println("Error Time : " + e);
+                }
 
                 Thread.sleep(ThreadSleep);
 
@@ -63,9 +90,6 @@ public class run_api extends HttpServlet implements Runnable {
                         + "<from>SMPP_CMG1</from>\n"
                         + "<to>HttpAdapter:: 0101102156</to>\n"
                         + "</message>";
-        //7112402001 -3
-                //System.out.println("XML : "+result);
-                //this.Log.info("Get Xml true : " + result);
 
                 String encoding = (xml.getdata(result, "?xml version=\"1.0\" encoding=\"", 2, ""));
                 String message = (xml.getdata(result, "message id=\"", 3, ""));
@@ -79,8 +103,8 @@ public class run_api extends HttpServlet implements Runnable {
                 String from = (xml.getdata(result, "from", 1, ""));
                 String to = (xml.getdata(result, "to", 1, ""));
 
-        //System.out.println(" 1 " + encoding + " 2 " + sms + " 3 " + service + " 4 " + destination + " 5 " + number + " 6 " + ud + " 7 " +time);
-            } catch (InterruptedException ex) {
+                //System.out.println(" 1 " + encoding + " 2 " + sms + " 3 " + service + " 4 " + destination + " 5 " + number + " 6 " + ud + " 7 " +time);
+            } catch (Exception ex) {
                 Log.info("application exception " + ex.getMessage());
             }
 
