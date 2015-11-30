@@ -81,17 +81,17 @@ public class PostXML {
         StrUrl = "http://192.168.0.126:8080/Artemis/DeliveryRequest_true";
         //StrUrl = "http://10.4.13.39:8004/tmcss2/fh.do";
         //StrUrl = "http://203.144.187.120:55000";
-
+        ip_source=StrUrl;
         try {
             Log.info("URL Post : " + StrUrl);
             PostMethod post = new PostMethod(StrUrl);
 
             //post.setRequestBody("POST /HTTP/1.1");
-            post.setRequestHeader("Authorization:", "Basic " + id_pass);
-            post.setRequestHeader("Content-Type:", "text/xml");
-            post.setRequestHeader("Connection:", "Close");
-            post.setRequestHeader("Host:", ip_source);
-            post.setRequestHeader("Content-Length", String.valueOf(StrXml.length()));
+//            post.setRequestHeader("Authorization:", "Basic " + id_pass);
+//            post.setRequestHeader("Content-Type:", "text/xml");
+//            post.setRequestHeader("Connection:", "Close");
+//            post.setRequestHeader("Host:", ip_source);
+//            post.setRequestHeader("Content-Length", String.valueOf(StrXml.length()));
             RequestEntity entity = new StringRequestEntity(StrXml, "text/xml", "TIS-620");
             //RequestEntity entity = new StringRequestEntity(StrXml, "text/xml", "UTF-8");
             post.setRequestEntity(entity);
@@ -100,13 +100,13 @@ public class PostXML {
             //////รับค่ากลับมาเป็น XML จากตัวที่เราส่งไป
             int returnCode = httpclient.executeMethod(post);
 
-            if (returnCode == HttpStatus.SC_NOT_IMPLEMENTED) {
-                System.err.println("The Post method is not implemented by this URI");
-                post.getResponseBodyAsString();
-            } else {
-                InputStream inStream = post.getResponseBodyAsStream();
-                xmlRes = parseISToString(inStream, false);
-            }
+//            if (returnCode == HttpStatus.SC_NOT_IMPLEMENTED) {
+//                System.err.println("The Post method is not implemented by this URI");
+//                post.getResponseBodyAsString();
+//            } else {
+//                InputStream inStream = post.getResponseBodyAsStream();
+//                xmlRes = parseISToString(inStream, false);
+//            }
             
         } catch (Exception e) {
             this.Log.info("Error Post : " + e);

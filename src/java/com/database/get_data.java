@@ -37,11 +37,10 @@ public class get_data implements Runnable {
     List<data_user> user_room = new ArrayList<data_user>();
 
     private List<data_user> id_user_port = ProcessRegister_one();
-    
+
     //private List<data_user> Reg = ProcessRegister();
-    
-    String id_user="";
-    
+    String id_user = "";
+
     @Override
     public void run() {
 
@@ -59,9 +58,8 @@ public class get_data implements Runnable {
             try {
                 RegXML = xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode);
                 GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode);
-                insert_r.insert_r(GetXML,id_user);
-                
-                
+                System.out.println("Back XML : " + GetXML);
+                insert_r.insert_r(GetXML, id_user);
 
 //                this.Log.info("Post Xml : " + RegXML);
 //                System.out.println("Get XML Test : " + GetXML);
@@ -82,10 +80,10 @@ public class get_data implements Runnable {
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
-            rs = stmt.executeQuery("select TOP(1)*,services.service_id service_user from register " 
-                    + "INNER JOIN services  ON services.id  = register.service_id  " 
-                    + "INNER JOIN mobile    ON mobile.mobile_id = register.mobile_id   " 
-                    + "INNER JOIN mgr       ON mgr.operator_id = mobile.operator_id " 
+            rs = stmt.executeQuery("select TOP(1)*,services.service_id service_user from register "
+                    + "INNER JOIN services  ON services.id  = register.service_id  "
+                    + "INNER JOIN mobile    ON mobile.mobile_id = register.mobile_id   "
+                    + "INNER JOIN mgr       ON mgr.operator_id = mobile.operator_id "
                     + "where register.status = '0' and register.api_req = 'REG' and mgr.api_req = 'REG'");
             while (rs.next()) {
                 data_user iduser = new data_user();
@@ -122,16 +120,15 @@ public class get_data implements Runnable {
         }
         return user_room;
     }
-    
+
     /*
     
-    SELECT *  FROM [PLAYBOY].[dbo].[register] r
-join [dbo].[subscribe] s on r.mobile_id = s.mobile_id
-join [dbo].[mobile] m on s.mobile_id = m.mobile_id
-join [dbo].[services] sv on s.service_id = sv.id
-where convert(varchar(10),reg_date,110) = convert(varchar(10),dateadd(day,-5,getdate()),110) 
-and s.description = 'REG'
+     SELECT *  FROM [PLAYBOY].[dbo].[register] r
+     join [dbo].[subscribe] s on r.mobile_id = s.mobile_id
+     join [dbo].[mobile] m on s.mobile_id = m.mobile_id
+     join [dbo].[services] sv on s.service_id = sv.id
+     where convert(varchar(10),reg_date,110) = convert(varchar(10),dateadd(day,-5,getdate()),110) 
+     and s.description = 'REG'
     
-    */
-
+     */
 }
