@@ -6,6 +6,7 @@
 package com.run;
 
 import com.database.ProcessDatabase;
+import com.database.SMS_Worning;
 import com.database.get_data;
 import com.xml.PostXML;
 import java.text.DateFormat;
@@ -26,10 +27,12 @@ public class run_api extends HttpServlet implements Runnable {
     Logger Log = Logger.getLogger(this.getClass());
 
     Date date = new Date();
-    //HH:mm:ss.S
-    DateFormat dateFormat           = new SimpleDateFormat("yyyy-MM-dd 14:00:01");
-    DateFormat dateFormat_set_start = new SimpleDateFormat("yyyy-MM-dd 14:00:00");
-    DateFormat dateFormat_set_end   = new SimpleDateFormat("yyyy-MM-dd 14:00:02");
+    //HH:mm:ss
+    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    DateFormat dateFormat_set_start = new SimpleDateFormat("yyyy-MM-dd 16:00:12");
+    DateFormat dateFormat_set_end = new SimpleDateFormat("yyyy-MM-dd 16:00:14");
+
+    DateFormat Format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
     @Override
     public void init(ServletConfig config) {
@@ -43,29 +46,13 @@ public class run_api extends HttpServlet implements Runnable {
     public void run() {
         while (true) {
             try {
-                //System.out.println("Runing 1");
+                System.out.println("Runing 1");
                 this.Log.info("Runing Test");
-//                Thread tt = new Thread(new get_data());
-//                tt.setPriority(1);
-//                tt.start();
-
-                try {
-
-                    String date_warning = dateFormat.format(date);
-                    String date_start = dateFormat_set_start.format(date);
-                    String date_end = dateFormat_set_end.format(date);
-
-                    Date convertedDate = dateFormat.parse(date_warning);
-                    Date start = dateFormat_set_start.parse(date_start);
-                    Date end = dateFormat_set_end.parse(date_end);
-                    
-                    //System.out.println("D1 tt: " + convertedDate + " Start : " + start+ " End : " + end);
-                    
-//                    System.out.println("Show int : " + start.compareTo(start));
-//                    System.out.println("Show int : " + start.compareTo(end));
-                } catch (Exception e) {
-                    System.out.println("Error Time : " + e);
-                }
+                Thread tt = new Thread(new get_data());
+                tt.setPriority(1);
+                tt.start();
+                
+                worning();
 
                 Thread.sleep(ThreadSleep);
 
@@ -111,4 +98,30 @@ public class run_api extends HttpServlet implements Runnable {
         }
     }
 
+    public void worning() {
+        try {
+            String date_warning = dateFormat.format(date);
+            String date_start = dateFormat_set_start.format(date);
+            String date_end = dateFormat_set_end.format(date);
+
+            Date convertedDate = Format.parse(date_warning);
+            Date start = Format.parse(date_start);
+            Date end = Format.parse(date_end);
+
+           // System.out.println("D1 ttd: " + convertedDate + " Start : " + start + " End : " + end);
+
+            /////// Date < Date = -1 | Date = Date = 0 | Date > Date = 1
+//            System.out.println("Show int : " + convertedDate.compareTo(start));
+//            System.out.println("Show int : " + convertedDate.compareTo(end));
+            if (convertedDate.compareTo(start) == -1 && convertedDate.compareTo(end) == 1) {
+                //System.out.println("SMS Worning");
+                Thread tt = new Thread(new SMS_Worning());
+                tt.setPriority(1);
+                tt.start();
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error Time : " + e);
+        }
+    }
 }
