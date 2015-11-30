@@ -22,7 +22,7 @@ public class DeliveryRequest_true extends HttpServlet {
 
         response.setContentType("text/xml;charset=TIS-620");
         PrintWriter out = response.getWriter();
-        out.println("<?xml version=\"1.0\" encoding=\"?>");
+
         try {
             String encoding = "TIS-620";
             //////////////////แปลง InputStream to String
