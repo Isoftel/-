@@ -59,11 +59,10 @@ public class get_data implements Runnable {
                 RegXML = xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode);
                 GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode);
                 System.out.println("Back XML : " + GetXML);
-                insert_r.insert_r(GetXML, id_user);
+                //insert_r.insert_r(GetXML, id_user);
 
-//                this.Log.info("Post Xml : " + RegXML);
 //                System.out.println("Get XML Test : " + GetXML);
-//                this.Log.info("Get Xml : " + GetXML);
+                this.Log.info("Get Xml : " + GetXML);
             } catch (Exception e) {
                 this.Log.info("Error : " + e);
             }

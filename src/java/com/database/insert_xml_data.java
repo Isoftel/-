@@ -84,7 +84,7 @@ public class insert_xml_data {
 
             conn.close();
         } catch (Exception e) {
-            //System.out.println("Error : " + e);
+            System.out.println("Error : " + e);
         }
 
         return xml;
