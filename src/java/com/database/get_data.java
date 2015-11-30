@@ -37,10 +37,13 @@ public class get_data implements Runnable {
     List<data_user> user_room = new ArrayList<data_user>();
 
     private List<data_user> id_user_port = ProcessRegister_one();
-    
+
     //private List<data_user> warning  = real_time();
     //private List<data_user> Reg = ProcessRegister();
     String id_user = "";
+    String encode = "";
+    String RegXML = "";
+    String GetXML = "";
 
     @Override
     public void run() {
@@ -52,12 +55,11 @@ public class get_data implements Runnable {
         this.Log.info("Test found data[ " + id_user_port.size() + "] Records");
 
         for (data_user r : id_user_port) {
-            String encode = "";
-            String RegXML = "";
-            String GetXML = "";
+
             byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
             encode = new sun.misc.BASE64Encoder().encode(b);
             try {
+                /////////// mt
                 RegXML = xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode);
                 GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode);
                 System.out.println("Back XML : " + GetXML);
@@ -68,6 +70,7 @@ public class get_data implements Runnable {
             } catch (Exception e) {
                 this.Log.info("Error : " + e);
             }
+
             //System.out.println("usert : " + r.getNumber_type());
         }
 
@@ -92,9 +95,12 @@ public class get_data implements Runnable {
                 data_user iduser = new data_user();
                 id_user = rs.getString("reg_id");
                 String service = rs.getString("service_user");
+                //service = "7112402000";
                 String number = rs.getString("msisdn");
                 String Text_Service = rs.getString("detail_reg");
                 String access = rs.getString("access_number");
+                /// Free 7112402000
+                access = "4557000";
                 String date = rs.getString("cdate");
                 String user = rs.getString("api_user");
                 String pass = rs.getString("api_password");
