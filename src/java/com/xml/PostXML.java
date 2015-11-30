@@ -112,37 +112,7 @@ public class PostXML {
             this.Log.info("Error Post : " + e);
         }
 
-        /*
-         try {
-         //URI uri = new URI("http", null, StrUrl, null, null);
-         URI uri = new URI(null, null, StrUrl, null, null);
-         System.out.println("Port TRUE : " + uri.toString());
-         URL url = uri.toURL();
-         HttpURLConnection con = (HttpURLConnection) url.openConnection();
-         con.setDoOutput(true);
-         con.setDoInput(true);
-         con.setRequestMethod("POST /HTTP/1.1");
-         con.setRequestProperty("Authorization:", "Basic " + id_pass);
-         con.setRequestProperty("Content-type", "text/xml");
-         con.setRequestProperty("Connection", "close");
-         con.setRequestProperty("Host:", ip_source);
-         con.setRequestProperty("ContentLenght", String.valueOf(StrXml.length()));
-         con.setUseCaches(false);
-         PrintWriter pw = new PrintWriter(con.getOutputStream());
-         pw.write(StrXml);
-         pw.close();
-         BufferedInputStream InStream = new BufferedInputStream(con.getInputStream());
-         xmlRes = parseISToString(InStream, false);
-         System.out.println("TT : " + xmlRes);
-         InStream.close();
-         pw.flush();
-         con.connect();
-         con.disconnect();
-         //getResponsed(xmlRes);
-         } catch (Exception e) {
-         this.Log.info("Error Post : " + e);
-         }
-         */
+        
         return xmlRes;
     }
 

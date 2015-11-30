@@ -24,7 +24,7 @@ public class insert_xml_data {
     String user = msg.getString("user");
     String pass = msg.getString("pass");
 
-    public String insert_r(String xml) {
+    public String insert_r(String xml,String id) {
         /*
          <?xml version="1.0" encoding="ISO-8859-1"?>
          <message id="1242878588600">
@@ -79,7 +79,7 @@ public class insert_xml_data {
             while (rs.next()) {
                 id_register = rs.getString("reg_id");
             }
-            sql = "UPDATE register SET status = '" + code + "' WHERE reg_id='" + id_register + "'";
+            sql = "UPDATE register SET status_code = '" + code + "' WHERE reg_id='" + id_register + "'";
             stmt.executeUpdate(sql);
 
             conn.close();
