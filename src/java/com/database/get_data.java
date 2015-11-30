@@ -49,6 +49,7 @@ public class get_data implements Runnable {
 //        post_xml_true = "http://10.4.13.39:8004/tmcss2/fh.do";
 //        post_xml_true = "203.144.187.120:55000";
         this.Log.info("Test found data[ " + id_user_port.size() + "] Records");
+        
         for (data_user r : id_user_port) {
             String encode = "";
             String RegXML = "";
@@ -59,7 +60,7 @@ public class get_data implements Runnable {
                 RegXML = xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode);
                 GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode);
                 System.out.println("Back XML : " + GetXML);
-                //insert_r.insert_r(GetXML, id_user);
+                insert_r.insert_r(GetXML, id_user);
 
 //                System.out.println("Get XML Test : " + GetXML);
                 this.Log.info("Get Xml : " + GetXML);
@@ -79,7 +80,7 @@ public class get_data implements Runnable {
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
-            rs = stmt.executeQuery("select TOP(1)*,services.service_id service_user from register "
+            rs = stmt.executeQuery("select TOP(500)*,services.service_id service_user from register "
                     + "INNER JOIN services  ON services.id  = register.service_id  "
                     + "INNER JOIN mobile    ON mobile.mobile_id = register.mobile_id   "
                     + "INNER JOIN mgr       ON mgr.operator_id = mobile.operator_id "
@@ -99,16 +100,9 @@ public class get_data implements Runnable {
                 iduser.setService_id(service);
                 iduser.setNumber_type(number);
                 iduser.setDescriptions(Text_Service);
-                //iduser.setDetail(detail);
                 iduser.setAccess(access);
-
                 iduser.setEncoding(user + pass);
-//                iduser.setSms_type(sms_type);
-//                iduser.setSender(sender);
-//                iduser.setSms(text);
-//                iduser.setOper(oper);
 
-                //iduser.set
 //                String sql = "UPDATE register SET status = '0' WHERE reg_id='" + id_user + "' ";
 //                stmt.executeUpdate(sql);
                 user_room.add(iduser);
@@ -119,6 +113,8 @@ public class get_data implements Runnable {
         }
         return user_room;
     }
+    
+    
 
     /*
     

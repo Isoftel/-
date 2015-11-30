@@ -32,7 +32,9 @@ public class DeliveryRequest_true extends HttpServlet {
             //print PrintWriter 
             insert.request_printwriter(out, encoding, result);
             System.out.println("Delivery : " + result);
+            
             //////////////////ส่งค่า HTTP กลับ
+            
             response.setContentLength(result.length());
             response.setHeader("Connection", "close");
             response.setContentType("text/xml");

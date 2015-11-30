@@ -79,8 +79,8 @@ public class insert_xml_data {
             while (rs.next()) {
                 id_register = rs.getString("reg_id");
             }
-            sql = "UPDATE register SET status_code = '" + code + "' WHERE reg_id='" + id_register + "'";
-            stmt.executeUpdate(sql);
+//            sql = "UPDATE register SET status_code = '" + code + "' WHERE reg_id='" + id_register + "'";
+//            stmt.executeUpdate(sql);
 
             conn.close();
         } catch (Exception e) {

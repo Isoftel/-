@@ -31,6 +31,27 @@ public class ProcessDatabase  {
         
         out.println("<?xml version=\"1.0\" encoding=\"" + encoding + "\"?>");
         
+//        <?xml version="1.0" encoding="UTF-8"?>
+//<message id="routerTestbed@Testbed:3104400">
+//<rsr type="reply">
+//<service-id>0101102156</service-id>
+//<destination messageid="6156634A">
+//<address>
+//<number type="abbreviated">1042</number>
+//</address>
+//</destination>
+//<source>
+//<address>
+//<number type="international">668xxxxxxxx</number>
+//</address>
+//</source>
+//<rsr_detail status="success">
+//<code>0</code>
+//<description>Success receive request</description>
+//</rsr_detail>
+//</rsr>
+//</message>
+        
 
         return out;
     }
