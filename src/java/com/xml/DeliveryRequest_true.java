@@ -19,36 +19,36 @@ public class DeliveryRequest_true extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        System.out.println("mm");
-//        response.setContentType("text/xml;charset=TIS-620");
-//        PrintWriter out = response.getWriter();
-//        out.println("<?xml version=\"1.0\" encoding=\"" + "TIS-620" + "\"?>");
-//        try {
-//            String encoding = "TIS-620";
-//            System.out.println("TTTTTT");
-//            //////////////////แปลง InputStream to String
-////            InputStream inStream = request.getInputStream();
-////            String result = getStringFromInputStream(inStream);
-////
-////            //print PrintWriter 
-////            //insert.request_printwriter(out, encoding, result);
-////            System.out.println("Delivery : " + result);
-//            //////////////////ส่งค่า HTTP กลับ
-////            response.setContentLength(result.length());
-////            response.setHeader("Connection", "close");
-////            response.setContentType("text/xml");
-////
-////            //////////////////นับ XML ไปตัดและส่ง Database
-////            String tt = insert.ProcessDatabase(result, out);
-//
-//            //System.out.println("Test xml : " + result);
-//            //this.Log.info("Get Xml true : " + result);
-//            //
-//        } catch (Exception e) {
-//            System.out.println("Er : " + e);
-//        } finally {
-//            out.close();
-//        }
+
+        response.setContentType("text/xml;charset=TIS-620");
+        PrintWriter out = response.getWriter();
+        
+        try {
+            String encoding = "TIS-620";
+            System.out.println("TTTTTT");
+            //////////////////แปลง InputStream to String
+            InputStream inStream = request.getInputStream();
+            String result = getStringFromInputStream(inStream);
+
+            //print PrintWriter 
+            insert.request_printwriter(out, encoding, result);
+            System.out.println("Delivery : " + result);
+            //////////////////ส่งค่า HTTP กลับ
+            response.setContentLength(result.length());
+            response.setHeader("Connection", "close");
+            response.setContentType("text/xml");
+
+//            //////////////////นับ XML ไปตัดและส่ง Database
+            String tt = insert.ProcessDatabase(result, out);
+
+            //System.out.println("Test xml : " + result);
+            //this.Log.info("Get Xml true : " + result);
+            //
+        } catch (Exception e) {
+            System.out.println("Error De : " + e);
+        } finally {
+            out.close();
+        }
     }
 
     @Override

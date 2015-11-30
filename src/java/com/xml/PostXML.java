@@ -78,9 +78,9 @@ public class PostXML {
 
     public String PostXml(String StrXml, String StrUrl, String id_pass) {
         String xmlRes = null;
-        //StrUrl = "http://192.168.0.126:8080/Artemis/DeliveryRequest_true";
+        StrUrl = "http://192.168.0.126:8080/Artemis/DeliveryRequest_true";
         //StrUrl = "http://10.4.13.39:8004/tmcss2/fh.do";
-        StrUrl = "http://203.144.187.120:55000";
+        //StrUrl = "http://203.144.187.120:55000";
 
         try {
             Log.info("URL Post : " + StrUrl);

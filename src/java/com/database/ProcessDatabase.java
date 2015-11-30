@@ -29,7 +29,7 @@ public class ProcessDatabase  {
 
         
         
-        //out.println("<?xml version=\"1.0\" encoding=\"" + encoding + "\"?>");
+        out.println("<?xml version=\"1.0\" encoding=\"" + encoding + "\"?>");
         
 
         return out;
