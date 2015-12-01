@@ -8,7 +8,7 @@ package com.run;
 import com.database.ProcessDatabase;
 import com.database.SMS_Worning;
 import com.database.get_data;
-import com.xml.PostXML;
+import com.xml.Post_XML;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;

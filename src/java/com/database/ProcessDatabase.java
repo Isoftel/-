@@ -1,6 +1,6 @@
 package com.database;
 
-import com.xml.PostXML;
+import com.xml.Post_XML;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,7 +14,7 @@ public class ProcessDatabase  {
     Logger Log = Logger.getLogger(this.getClass());
     
     ResourceBundle msg = ResourceBundle.getBundle("configs");
-    PostXML xml = new PostXML();
+    Post_XML xml = new Post_XML();
     String local = msg.getString("localhost");
     String data_base = msg.getString("data");
     String user = msg.getString("user");

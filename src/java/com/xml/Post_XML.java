@@ -6,8 +6,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+//import java.text.DateFormat;
+//import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
 import org.apache.commons.httpclient.HttpClient;
@@ -17,17 +17,9 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.RequestEntity;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
 
-//import java.io.BufferedInputStream;
-//import java.io.IOException;
-//import java.io.PrintWriter;
-//import java.net.HttpURLConnection;
-//import java.net.MalformedURLException;
-//import java.net.URI;
-//import java.net.URISyntaxException;
-//import java.net.URL;
 import org.apache.log4j.Logger;
 
-public class PostXML {
+public class Post_XML {
 
     Date date = new Date();
     ResourceBundle msg = ResourceBundle.getBundle("configs");
@@ -36,36 +28,6 @@ public class PostXML {
     String ip_destination = msg.getString("ip_and_part");
 
     Logger Log = Logger.getLogger(this.getClass());
-
-    ///ส่งค่าเดียวแล้ว reture String ที่ได้รับจากฟั่ง True หลังจากส่ง XML แล้ว
-    //r.getService_id(),r.getNumber_type(),r.getDescriptions(), r.getDetail(), r.getAccess(), encode);
-    public String getXmlReg(String Service_id, String Number_type, String Text_Service, String Access, String id_pass) {
-        DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
-        //System.out.println("Day : " + dateFormat2.format(date));
-        String xmlRes = null;
-        StringBuilder sb = new StringBuilder();
-        sb.append("<?xml version=\"1.0\" encoding=\"TIS-620\"?>");
-        sb.append("<message>");
-        sb.append("<sms type=\"mt\">");
-        sb.append("<service-id>").append(Service_id).append("</service-id>");
-        sb.append("<destination>");
-        sb.append("<address>");
-        sb.append("<number type=\"international\">").append(Number_type).append("</number>");
-        sb.append("</address>");
-        sb.append("</destination>");
-        sb.append("<source>");
-        sb.append("<address>");
-        sb.append("<number type=\"abbreviated\">").append(Access).append("</number>");
-        sb.append("<originate type=\"international\">").append(Number_type).append("</originate>");
-        sb.append("</address>");
-        sb.append("</source>");
-        sb.append("<ud type=\"text\" encoding=\"default\">").append("Test").append("</ud>");
-        sb.append("<scts>").append(dateFormat2.format(date)).append("</scts>");
-        sb.append("<dro>").append("true").append("</dro>");
-        sb.append("</sms>");
-        sb.append("</message>");
-        return sb.toString();
-    }
 
     public String PostXml(String StrXml, String StrUrl, String id_pass) {
         String xmlRes = null;
@@ -136,35 +98,6 @@ public class PostXML {
         return rsp;
     }
 
-    ///ตัดแยก String
-    public String getdata(String in, String Tag, int ifroob, String back) {
-        StringBuilder sb = new StringBuilder();
-        String result = null;
-        try {
-            String document = in;
-            String startTag = "";
-            String endTag = "";
-            if (ifroob == 1) {
-                startTag = "<" + Tag + ">";
-                endTag = "</" + Tag + ">";
-            } else if (ifroob == 2) {
-                startTag = "<" + Tag;
-                endTag = "\">";
-            } else if (ifroob == 3) {
-                startTag = "<" + Tag + "";
-                endTag = "\"?>";
-            } else if (ifroob == 4) {
-                startTag = "<" + Tag + ">";
-                endTag = "<" + back + ">";
-            }
-            int start = document.indexOf(startTag) + startTag.length();
-            int end = document.indexOf(endTag);
-            result = document.substring(start, end);
-        } catch (Exception ex) {
-            //System.out.println("error : "+ex.getMessage());
-            return result;
-        }
-        return result;
-    }
+    
 
 }

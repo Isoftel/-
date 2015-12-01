@@ -10,7 +10,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import com.table_data.data_user;
-import com.xml.PostXML;
+import com.xml.Post_XML;
+import com.xml.Set_XML;
 import java.nio.charset.Charset;
 //import java.nio.charset.StandardCharsets;
 import org.apache.log4j.Logger;
@@ -19,7 +20,8 @@ public class get_data implements Runnable {
 
     Logger Log = Logger.getLogger(this.getClass());
     ResourceBundle msg = ResourceBundle.getBundle("configs");
-    PostXML xml = new PostXML();
+    Post_XML xml = new Post_XML();
+    Set_XML str_xml = new Set_XML();
     insert_xml_data insert_r = new insert_xml_data();
     String local = msg.getString("localhost");
     String data_base = msg.getString("data");
@@ -60,7 +62,7 @@ public class get_data implements Runnable {
             encode = new sun.misc.BASE64Encoder().encode(b);
             try {
                 /////////// mt
-                RegXML = xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode);
+                RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode);
                 GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode);
                 System.out.println("Back XML : " + GetXML);
                 insert_r.insert_r(GetXML, id_user);
