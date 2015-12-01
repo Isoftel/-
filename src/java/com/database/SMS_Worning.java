@@ -2,6 +2,7 @@ package com.database;
 
 import com.table_data.data_sms;
 import com.xml.Post_XML;
+import com.xml.Set_XML;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -15,7 +16,8 @@ public class SMS_Worning implements Runnable {
 
     Logger Log = Logger.getLogger(this.getClass());
     ResourceBundle msg = ResourceBundle.getBundle("configs");
-    Post_XML xml = new Post_XML();
+    Post_XML post_xml = new Post_XML();
+    Set_XML str_xml = new Set_XML();
     insert_xml_data insert_r = new insert_xml_data();
     String local = msg.getString("localhost");
     String data_base = msg.getString("data");
@@ -39,30 +41,20 @@ public class SMS_Worning implements Runnable {
     public void run() {
         //////// SMS
 
-//        <?xml version="1.0" encoding="ISO-8859-1"?>
-//<message id="1243505867213">
-//<rsr type="sent">
-//<service-id>0101102156</service-id>
-//<destination>
-//<address>
-//<number type="international">668xxxxxxxx</number>
-//</address>
-//</destination>
-//<source>
-//<address>
-//<number type="abbreviated">1010</number>
-//</address>
-//</source>
-//<rsr_detail status="success">
-//<description>Message acknowledged by SMSC</description>
-//<code>000</code>
-//</rsr_detail>
-//</rsr>
-//</message>
         for (data_sms r : sms_data) {
+            String SmsXML = null;
+            String GetXML = null;
+//            iduser.setService_id(rs.getString("service_id"));
+//                iduser.setNumber(rs.getString("msisdn"));
+//                iduser.setAccess(rs.getString("access_number"));
+//                iduser.setText_sms(rs.getString("detail_unreg"));
+//                iduser.setCode(rs.getString("status"));
 
             try {
-
+                SmsXML = str_xml.getXmlSms(r.getService_id(), r.getNumber(), r.getAccess(), r.getText_sms(), r.getCode());
+                GetXML = post_xml.PostXml(SmsXML, msg.getString("ip_mo"), "","sent");
+                
+                //str_xml
             } catch (Exception e) {
 
             }
@@ -78,7 +70,7 @@ public class SMS_Worning implements Runnable {
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT *  FROM [PLAYBOY].[dbo].[register] "
+            rs = stmt.executeQuery("SELECT *  FROM [PLAYBOY].[dbo].[register] r "
                     + "join [dbo].[subscribe] s on r.mobile_id = s.mobile_id "
                     + "join [dbo].[mobile] m on s.mobile_id = m.mobile_id "
                     + "join [dbo].[services] sv on s.service_id = sv.id "

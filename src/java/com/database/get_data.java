@@ -63,7 +63,7 @@ public class get_data implements Runnable {
             try {
                 /////////// mt
                 RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode);
-                GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode);
+                GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
                 System.out.println("Back XML : " + GetXML);
                 insert_r.insert_r(GetXML, id_user);
 
@@ -93,6 +93,13 @@ public class get_data implements Runnable {
                     + "INNER JOIN mobile    ON mobile.mobile_id = register.mobile_id   "
                     + "INNER JOIN mgr       ON mgr.operator_id = mobile.operator_id "
                     + "where register.status = '0' and register.api_req = 'REG' and mgr.api_req = 'REG'");
+            /*
+             select TOP(50)*,services.service_id service_user from register "
+             + "INNER JOIN services  ON services.id  = register.service_id  "
+             + "INNER JOIN mobile    ON mobile.mobile_id = register.mobile_id   "
+             + "INNER JOIN mgr       ON mgr.operator_id = mobile.operator_id "
+             + "where register.status = '0' and register.api_req = 'REG' and mgr.api_req = 'REG'
+             */
             while (rs.next()) {
                 data_user iduser = new data_user();
                 id_user = rs.getString("reg_id");

@@ -39,11 +39,29 @@ public class Set_XML {
         sb.append("</message>");
         return sb.toString();
     }
-      public String getXmlSms(String Service_id, String Number_type, String Text_Service, String Access, String id_pass) {
+      public String getXmlSms(String Service_id, String msisdn, String access_number, String detail_unreg, String status) {
           StringBuilder sb = new StringBuilder();
-          
-          
-          
+          //ISO-8859-1
+          sb.append("<?xml version=\"1.0\" encoding=\"TIS-620\"?>");
+          sb.append("message id=\"1243505867213\"");
+          sb.append("<rsr type=\"sent\">");
+          sb.append("<service-id>").append(Service_id).append("</service-id>");
+          sb.append("<destination>");
+          sb.append("<address>");
+          sb.append("<number type=\"international\">").append(msisdn).append("</number>");
+          sb.append("</address>");
+          sb.append("</destination>");
+          sb.append("<source>");
+          sb.append("<address>");
+          sb.append("<number type=\"abbreviated\">").append(access_number).append("</number>");
+          sb.append("</address>");
+          sb.append("</source>");
+          sb.append("<rsr_detail status=\"success\">");
+          sb.append("<description>").append(detail_unreg).append("</description>");
+          sb.append("<code>").append(status).append("</code>");
+          sb.append("</rsr_detail>");
+          sb.append("</rsr>");
+          sb.append("</message>");
           return sb.toString();
       }
 }

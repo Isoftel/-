@@ -29,20 +29,21 @@ public class DeliveryRequest_true extends HttpServlet {
             InputStream inStream = request.getInputStream();
             String result = getStringFromInputStream(inStream);
 
-            //print PrintWriter 
-            insert.request_printwriter(out, encoding, result);
-            System.out.println("Delivery : " + result);
+            //////////////////นับ XML ไปตัดและส่ง Database
+            String tt = insert.ProcessDatabase(result, out);
             
             //////////////////ส่งค่า HTTP กลับ
-            
             response.setContentLength(result.length());
             response.setHeader("Connection", "close");
             response.setContentType("text/xml");
+            
+            
+            //ส่งค่ากลับ PrintWriter 
+            insert.request_printwriter(out, encoding, result);
+            System.out.println("Delivery : " + result);
 
-//            //////////////////นับ XML ไปตัดและส่ง Database
-            String tt = insert.ProcessDatabase(result, out);
 
-            //System.out.println("Test xml : " + result);
+            
             //this.Log.info("Get Xml true : " + result);
             //
         } catch (Exception e) {

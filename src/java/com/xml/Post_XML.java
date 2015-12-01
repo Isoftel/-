@@ -29,7 +29,7 @@ public class Post_XML {
 
     Logger Log = Logger.getLogger(this.getClass());
 
-    public String PostXml(String StrXml, String StrUrl, String id_pass) {
+    public String PostXml(String StrXml, String StrUrl, String id_pass, String type_header_xml) {
         String xmlRes = null;
         StrUrl = "http://192.168.0.126:8080/Artemis/DeliveryRequest_true";
         //StrUrl = "http://10.4.13.39:8004/tmcss2/fh.do";
@@ -39,12 +39,20 @@ public class Post_XML {
             Log.info("URL Post : " + StrUrl);
             PostMethod post = new PostMethod(StrUrl);
 
-            //post.setRequestBody("POST /HTTP/1.1");
-            post.setRequestHeader("Authorization:", "Basic " + id_pass);
-            post.setRequestHeader("Content-Type:", "text/xml");
-            post.setRequestHeader("Connection:", "Close");
-            //post.setRequestHeader("Host:", ip_source);
-            post.setRequestHeader("Content-Length", String.valueOf(StrXml.length()));
+            if (type_header_xml.equals("mt")) {
+                //post.setRequestBody("POST /HTTP/1.1");
+                post.setRequestHeader("Authorization:", "Basic " + id_pass);
+                post.setRequestHeader("Content-Type:", "text/xml");
+                post.setRequestHeader("Connection:", "Close");
+                //post.setRequestHeader("Host:", ip_source);
+                post.setRequestHeader("Content-Length", String.valueOf(StrXml.length()));
+            } else if (type_header_xml.equals("sent")) {
+                post.setRequestHeader("Content-Length", String.valueOf(StrXml.length()));
+                post.setRequestHeader("Connection:", "Keep-Alive");
+                //post.setRequestHeader("Host:", ip_source);
+                post.setRequestHeader("Content-Type:", "text/xml");
+            }
+
             RequestEntity entity = new StringRequestEntity(StrXml, "text/xml", "TIS-620");
             //RequestEntity entity = new StringRequestEntity(StrXml, "text/xml", "UTF-8");
             post.setRequestEntity(entity);
@@ -97,7 +105,5 @@ public class Post_XML {
 //        rsp.setRdate(getdata(str, "dates"));
         return rsp;
     }
-
-    
 
 }
