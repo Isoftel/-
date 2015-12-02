@@ -18,7 +18,7 @@ public class SMS_Worning implements Runnable {
     ResourceBundle msg = ResourceBundle.getBundle("configs");
     Post_XML post_xml = new Post_XML();
     Set_XML str_xml = new Set_XML();
-    XML_return_to_data insert_r = new XML_return_to_data();
+    XML_return_to_data insert_data = new XML_return_to_data();
     String local = msg.getString("localhost");
     String data_base = msg.getString("data");
     String user = msg.getString("user");
@@ -44,15 +44,10 @@ public class SMS_Worning implements Runnable {
         for (data_sms r : sms_data) {
             String SmsXML = null;
             String GetXML = null;
-//            iduser.setService_id(rs.getString("service_id"));
-//                iduser.setNumber(rs.getString("msisdn"));
-//                iduser.setAccess(rs.getString("access_number"));
-//                iduser.setText_sms(rs.getString("detail_unreg"));
-//                iduser.setCode(rs.getString("status"));
-
             try {
                 SmsXML = str_xml.getXmlSms(r.getService_id(), r.getNumber(), r.getAccess(), r.getText_sms(), r.getCode());
                 GetXML = post_xml.PostXml(SmsXML, msg.getString("ip_mo"), "","sent");
+                insert_data.insert_r(GetXML,"SMS");
                 
                 //str_xml
             } catch (Exception e) {

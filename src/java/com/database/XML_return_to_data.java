@@ -25,32 +25,7 @@ public class XML_return_to_data {
     String pass = msg.getString("pass");
 
     public String insert_r(String xml,String id) {
-        /*
-         <?xml version="1.0" encoding="ISO-8859-1"?>
-         <message id="1242878588600">
-         <rsr type="ack">
-         <service-id>0101102156</service-id>
-         <destination messageid="1242878588600">
-         <address>
-         <number type="international">668xxxxxxxx</number>
-         </address>
-         </destination>
-         <source>
-         <address>
-         ///////////////
-         <number type="">True Move</number>
-         or
-         <number type="abbreviated">1042</number>
-         ////////////////
-         </address>
-         </source>
-         <rsr_detail status="success">
-         <code>000</code>
-         <description>success</description>
-         </rsr_detail>
-         </rsr>
-         </message>
-         */
+  
         String service = getdata(xml, "service-id", 1, "");
         String messageid = getdata(xml, "<destination messageid=\"", 3, "");
         String number = getdata(xml, "number type=\"international\"", 4, "number");

@@ -65,7 +65,7 @@ public class MT_data implements Runnable {
                 RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode);
                 GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
                 System.out.println("Back XML : " + GetXML);
-                insert_r.insert_r(GetXML, id_user);
+                insert_r.insert_r(GetXML,"MT");
 
 //                System.out.println("Get XML Test : " + GetXML);
                 this.Log.info("Get Xml : " + GetXML);
@@ -93,23 +93,16 @@ public class MT_data implements Runnable {
                     + "INNER JOIN mobile    ON mobile.mobile_id = register.mobile_id   "
                     + "INNER JOIN mgr       ON mgr.operator_id = mobile.operator_id "
                     + "where register.status = '0' and register.api_req = 'REG' and mgr.api_req = 'REG'");
-            /*
-             select TOP(50)*,services.service_id service_user from register "
-             + "INNER JOIN services  ON services.id  = register.service_id  "
-             + "INNER JOIN mobile    ON mobile.mobile_id = register.mobile_id   "
-             + "INNER JOIN mgr       ON mgr.operator_id = mobile.operator_id "
-             + "where register.status = '0' and register.api_req = 'REG' and mgr.api_req = 'REG'
-             */
+ 
             while (rs.next()) {
                 data_user iduser = new data_user();
                 id_user = rs.getString("reg_id");
                 String service = rs.getString("service_user");
-                //service = "7112402000";
+                service = "7112402000";
                 String number = rs.getString("msisdn");
                 String Text_Service = rs.getString("detail_reg");
                 String access = rs.getString("access_number");
-                /// Free 7112402000
-                access = "4557000";
+                //access = "4557000";
                 String date = rs.getString("cdate");
                 String user = rs.getString("api_user");
                 String pass = rs.getString("api_password");
@@ -121,7 +114,7 @@ public class MT_data implements Runnable {
                 iduser.setAccess(access);
                 iduser.setEncoding(user + pass);
 
-//                String sql = "UPDATE register SET status = '0' WHERE reg_id='" + id_user + "' ";
+//                String sql = "UPDATE register SET status = '3' WHERE reg_id='" + id_user + "' ";
 //                stmt.executeUpdate(sql);
                 user_room.add(iduser);
             }
