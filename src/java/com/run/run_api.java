@@ -7,7 +7,7 @@ package com.run;
 
 import com.database.ProcessDatabase;
 import com.database.SMS_Worning;
-import com.database.get_data;
+import com.database.MT_data;
 import com.xml.Post_XML;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -48,7 +48,7 @@ public class run_api extends HttpServlet implements Runnable {
             try {
                 System.out.println("Runing 1");
                 this.Log.info("Runing Test");
-                Thread tt = new Thread(new get_data());
+                Thread tt = new Thread(new MT_data());
                 tt.setPriority(1);
                 tt.start();
                 

@@ -18,7 +18,7 @@ public class SMS_Worning implements Runnable {
     ResourceBundle msg = ResourceBundle.getBundle("configs");
     Post_XML post_xml = new Post_XML();
     Set_XML str_xml = new Set_XML();
-    insert_xml_data insert_r = new insert_xml_data();
+    XML_return_to_data insert_r = new XML_return_to_data();
     String local = msg.getString("localhost");
     String data_base = msg.getString("data");
     String user = msg.getString("user");

@@ -16,13 +16,13 @@ import java.nio.charset.Charset;
 //import java.nio.charset.StandardCharsets;
 import org.apache.log4j.Logger;
 
-public class get_data implements Runnable {
+public class MT_data implements Runnable {
 
     Logger Log = Logger.getLogger(this.getClass());
     ResourceBundle msg = ResourceBundle.getBundle("configs");
     Post_XML xml = new Post_XML();
     Set_XML str_xml = new Set_XML();
-    insert_xml_data insert_r = new insert_xml_data();
+    XML_return_to_data insert_r = new XML_return_to_data();
     String local = msg.getString("localhost");
     String data_base = msg.getString("data");
     String user = msg.getString("user");

@@ -30,7 +30,7 @@ public class DeliveryRequest_true extends HttpServlet {
             String result = getStringFromInputStream(inStream);
 
             //////////////////นับ XML ไปตัดและส่ง Database
-            String tt = insert.ProcessDatabase(result, out);
+            String str_xml = insert.ProcessDatabase(result, out);
             
             //////////////////ส่งค่า HTTP กลับ
             response.setContentLength(result.length());
@@ -40,7 +40,7 @@ public class DeliveryRequest_true extends HttpServlet {
             
             //ส่งค่ากลับ PrintWriter 
             insert.request_printwriter(out, encoding, result);
-            System.out.println("Delivery : " + result);
+            
 
 
             

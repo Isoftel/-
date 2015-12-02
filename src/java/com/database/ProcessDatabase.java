@@ -61,13 +61,24 @@ public class ProcessDatabase {
         String sql = null;
         this.Log.info("Get Xml true : " + result);
 
+        String sms = (getdata(result, "sms type=\"", 3, ""));
+        String ud = (getdata(result, "ud type=\"text\"", 4, "ud"));
+        if (sms.equals("mo")) {
+            if (ud.equals("R")) {
+
+            }
+            if (ud.equals("C")) {
+
+            }
+        }
+
         String encoding = (getdata(result, "?xml version=\"1.0\" encoding=\"", 2, ""));
         String message = (getdata(result, "message id=\"", 3, ""));
-        String sms = (getdata(result, "sms type=\"", 3, ""));
+        //String sms = (getdata(result, "sms type=\"", 3, ""));
         String messageid = (getdata(result, "destination messageid=\"", 3, ""));
         String destination = (getdata(result, "number type=\"abbreviated\"", 4, "number"));
         String number = (getdata(result, "number type=\"international\"", 4, "number"));
-        String ud = (getdata(result, "ud type=\"text\"", 4, "ud"));
+        //String ud = (getdata(result, "ud type=\"text\"", 4, "ud"));
         String time = (getdata(result, "scts", 1, "scts"));
         String service = (getdata(result, "service-id", 1, ""));
         String from = (getdata(result, "from", 1, ""));
@@ -130,22 +141,31 @@ public class ProcessDatabase {
             while (rs.next()) {
                 id_subscribe = rs.getString("description");
             }
-            
-            
+
             //////////////////register  non=ยังมีการทำรายการในบริการนั้น | UNREG เคยสมัคร ต้อง UPDATE | REG ส่งข้อความกลับไปแล้วสมัครแล้ว
-            if(id_subscribe.equals("non")){
-                
+            Date cdate = dateFormat.parse(time);
+            if (id_subscribe.equals("non")) {
+                sql = "INSERT INTO subscribe(mobile_id, service_id, description, cdate) "
+                        + "VALUES('" + id_number + "','" + id_service + "','REG','" + cdate + "')";
+                stmt.execute(sql);
+            } else if (id_subscribe.equals("UNREG")) {
+                sql = "UPDATE subscribe SET description = 'REG',udate = '" + cdate + "' WHERE id='" + id_subscribe + "' ";
+                stmt.executeUpdate(sql);
+            } else if (id_subscribe.equals("REG")) {
+                /// ส่งกลับทันที
             }
-            Date start = dateFormat.parse(time);
+
             sql = "INSERT INTO register(api_req, reg_channel, mobile_id, service_id, reg_date, status) "
-                    + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + start + "','0')";
+                    + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + cdate + "','0')";
             stmt.execute(sql);
 
 //            String sql = "UPDATE register SET status = '3' WHERE reg_id='" + id + "' ";
 //            stmt.executeUpdate(sql);
             conn.close();
         } catch (Exception e) {
+            this.Log.info("Errir SQl : " + e);
             //System.out.println("Error SQL : " + e);
+
         }
         return result;
     }
