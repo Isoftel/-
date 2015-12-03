@@ -52,7 +52,7 @@ public class run_api extends HttpServlet implements Runnable {
                 tt.setPriority(1);
                 tt.start();
                 
-                worning();
+                //worning();
                 
                 Thread.sleep(ThreadSleep);
             } catch (Exception ex) {
