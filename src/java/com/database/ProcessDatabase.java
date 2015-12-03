@@ -32,6 +32,7 @@ public class ProcessDatabase {
 
     DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
     Date cdate = null;
+    Date NewDate = new Date();
 
     public String ProcessDatabase(String result, PrintWriter out) {
         String sql = null;
@@ -58,9 +59,8 @@ public class ProcessDatabase {
         try {
             cdate = dateFormat.parse(time);
         } catch (Exception e) {
-
         }
-
+        
         if (ud.equals("R")) {
             try {
                 Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -68,8 +68,8 @@ public class ProcessDatabase {
                 conn = DriverManager.getConnection(connectionUrl);
                 stmt = conn.createStatement();
 
-                sql = "INSERT INTO delivery_request(TransactionID,product_id,MSISDN,Content,service_id) "
-                        + "VALUES ('" + message + "','" + messageid + "','" + number + "','" + ud + "','" + time + "')";
+                sql = "INSERT INTO delivery_request(TransactionID,product_id,MSISDN,Content,cdate,service_id) "
+                        + "VALUES ('" + message + "','" + messageid + "','" + number + "','" + ud + "','" + time + "','" + service + "')";
                 stmt.execute(sql);
 
                 int check_number = 0;
@@ -136,7 +136,7 @@ public class ProcessDatabase {
 
                 conn.close();
             } catch (Exception e) {
-                this.Log.info("Errir REG : " + e);
+                this.Log.info("Error REG : " + e);
                 //System.out.println("Error SQL : " + e);
 
             }
@@ -146,8 +146,8 @@ public class ProcessDatabase {
                 String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
                 conn = DriverManager.getConnection(connectionUrl);
                 stmt = conn.createStatement();
-                sql = "INSERT INTO delivery_request(TransactionID,product_id,MSISDN,Content,service_id) "
-                        + "VALUES ('" + message + "','" + messageid + "','" + number + "','" + ud + "','" + time + "')";
+                sql = "INSERT INTO delivery_request(TransactionID,product_id,MSISDN,Content,cdate,service_id) "
+                        + "VALUES ('" + message + "','" + messageid + "','" + number + "','" + ud + "','" + time + "','" + service + "')";
                 stmt.execute(sql);
 
                 int check_number = 0;
@@ -199,11 +199,58 @@ public class ProcessDatabase {
                         + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + cdate + "','0')";
                 stmt.execute(sql);
 
+            } catch (Exception e) {
+                this.Log.info("Error UNREG : " + e);
+            } finally {
+                try {
+                    conn.close();
+                } catch (Exception e) {
+                }
+            }
+        }
+        return result;
+    }
+
+    public String ProcessSMS(String result, PrintWriter out) {
+        String sql = "";
+
+        String encoding = (getdata(result, "?xml version=\"1.0\" encoding=\"", 2, ""));
+        String message_id = (getdata(result, "message id=\"", 3, ""));
+        String service = (getdata(result, "service-id", 1, "/service-id"));
+        String number = (getdata(result, "number type=\"international\"", 4, "number"));
+        String destination = (getdata(result, "number type=\"abbreviated\"", 4, "number"));
+        String message = (getdata(result, "description", 1, "description"));
+        String code = (getdata(result, "code", 1, "code"));
+
+        if (message.equals("Message acknowledged by SMSC")) {
+
+        } else if (message.equals("Successfully sent to phone")) {
+
+        }
+
+        try {
+            String date_format = dateFormat.format(NewDate);
+            Date cdate_sms = dateFormat.parse(date_format);
+
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
+            conn = DriverManager.getConnection(connectionUrl);
+            stmt = conn.createStatement();
+
+            sql = "INSERT INTO delivery_request(TransactionID,product_id,MSISDN,Content,StatusCode,cdate,service_id) "
+                    + "VALUES ('" + message + "','" + message_id + "','" + number + "','" + destination + "','" + code + "','" + cdate_sms + "','" + service + "')";
+            stmt.execute(sql);
+
+//            sql = "UPDATE subscribe SET description = 'UNREG',udate = '" + cdate + "' WHERE id='" + id_subscribe + "' ";
+//            stmt.executeUpdate(sql);
+            
+            return result;
+        } catch (Exception e) {
+            this.Log.info("Error SMS : " + e);
+        } finally {
+            try {
                 conn.close();
             } catch (Exception e) {
-                this.Log.info("Errir UNREG : " + e);
-            } finally {
-
             }
         }
         return result;

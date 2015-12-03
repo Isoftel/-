@@ -30,10 +30,15 @@ public class DeliveryRequest_true extends HttpServlet {
             String result = getStringFromInputStream(inStream);
 
             //////////////////รับ XML แยกการทำงาน MO,MT,Worning ไปตัดและส่ง Database
-            String sms = (insert.getdata(result, "sms type=\"", 3, ""));
+            String sms = (insert.getdata(result, "sms type=\"", 3, ""));     
             String ud = (insert.getdata(result, "ud type=\"text\"", 4, "ud"));
+            
+            String rsr = (insert.getdata(result, "rsr type=\"", 3, ""));
+            
             if (sms.equals("mo")) {
                 insert.ProcessDatabase(result, out);
+            }else if(rsr.equals("sent")||rsr.equals("sent_delivered")){
+                insert.ProcessSMS(result, out);
             }
 
             //////////////////ส่งค่า HTTP กลับ

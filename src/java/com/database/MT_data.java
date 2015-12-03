@@ -38,11 +38,9 @@ public class MT_data implements Runnable {
     ResultSet rs = null;
     List<data_user> user_room = new ArrayList<data_user>();
 
-    private List<data_user> id_user_reg = ProcessRegister();
+    //private List<data_user> id_user_reg = ProcessRegister();
     private List<data_user> id_user_unreg = ProcessUnRegister();
 
-    //private List<data_user> warning  = real_time();
-    //private List<data_user> Reg = ProcessRegister();
     String id_user = "";
     String encode = "";
     String RegXML = "";
@@ -55,22 +53,23 @@ public class MT_data implements Runnable {
 //        post_xml_true = "http://192.168.0.126:8080/Artemis/DeliveryRequest_true";
 //        post_xml_true = "http://10.4.13.39:8004/tmcss2/fh.do";
 //        post_xml_true = "203.144.187.120:55000";
+        List<data_user> id_user_reg = ProcessRegister();
         this.Log.info("Test found data[ " + id_user_reg.size() + "] Records");
 
         for (data_user r : id_user_reg) {
-
+            System.out.println("test reg : " + r.getNumber_type());
             byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
             encode = new sun.misc.BASE64Encoder().encode(b);
+
             try {
                 /////////// mt
-                System.out.println("test : " + r.getNumber_type());
-//                RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode);
-//                GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
-//                System.out.println("Back XML : " + GetXML);
-//                insert_r.insert_r(GetXML, "MT");
-//
-////                System.out.println("Get XML Test : " + GetXML);
-//                this.Log.info("Get Xml : " + GetXML);
+                RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode);
+                GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
+                System.out.println("Back XML : " + GetXML);
+                insert_r.insert_r(GetXML, "MT");
+
+//                System.out.println("Get XML Test : " + GetXML);
+                this.Log.info("Get Xml : " + GetXML);
             } catch (Exception e) {
                 this.Log.info("Error : " + e);
             }
@@ -78,7 +77,15 @@ public class MT_data implements Runnable {
             //System.out.println("usert : " + r.getNumber_type());
         }
 
+        List<data_user> id_user_unreg = ProcessUnRegister();
+        for (data_user r : id_user_unreg) {
+            RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode);
+            GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
+            //System.out.println("test Unreg : " + r.getNumber_type());
+        }
+
         if (id_user_reg.size() > 0) {
+            
         }
     }
 

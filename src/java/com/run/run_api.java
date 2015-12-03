@@ -1,18 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.run;
 
 import com.database.ProcessDatabase;
 import com.database.SMS_Worning;
 import com.database.MT_data;
 import com.xml.Post_XML;
+import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
 import javax.servlet.ServletConfig;
 import javax.servlet.http.HttpServlet;
 import org.apache.log4j.Logger;
@@ -46,17 +43,29 @@ public class run_api extends HttpServlet implements Runnable {
     public void run() {
         while (true) {
             try {
+
+                String Test = "สวัสดี";
+                byte[] b = Test.getBytes(Charset.forName("UTF-8"));
+                String encode = new sun.misc.BASE64Encoder().encode(b);
+                System.out.println("Encode : " + encode);
+
                 System.out.println("Runing 1");
                 this.Log.info("Runing Test");
                 Thread tt = new Thread(new MT_data());
                 tt.setPriority(1);
                 tt.start();
-                
-                //worning();
-                
-                Thread.sleep(ThreadSleep);
+
+                worning();
+
             } catch (Exception ex) {
+                System.out.println("Error Runing : " + ex);
                 Log.info("application exception " + ex.getMessage());
+            } finally {
+                try {
+                    Thread.sleep(ThreadSleep);
+                } catch (InterruptedException ex) {
+
+                }
             }
 
         }
@@ -72,8 +81,7 @@ public class run_api extends HttpServlet implements Runnable {
             Date start = Format.parse(date_start);
             Date end = Format.parse(date_end);
 
-           // System.out.println("D1 ttd: " + convertedDate + " Start : " + start + " End : " + end);
-
+            // System.out.println("D1 ttd: " + convertedDate + " Start : " + start + " End : " + end);
             /////// Date < Date = -1 | Date = Date = 0 | Date > Date = 1
 //            System.out.println("Show int : " + convertedDate.compareTo(start));
 //            System.out.println("Show int : " + convertedDate.compareTo(end));
