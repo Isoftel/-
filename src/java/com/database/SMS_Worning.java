@@ -45,7 +45,7 @@ public class SMS_Worning implements Runnable {
             String SmsXML = null;
             String GetXML = null;
             try {
-                SmsXML = str_xml.getXmlReg(r.getService_id(), r.getNumber(), r.getAccess(), r.getText_sms(), r.getCode());
+                SmsXML = str_xml.getXmlReg(r.getService_id(), r.getNumber(), r.getAccess(), r.getText_sms(), r.getCode(),"");
                 GetXML = post_xml.PostXml(SmsXML, msg.getString("ip_mo"), "", "sent");
                 //insert_data.insert_worning(GetXML,"SMS");
 

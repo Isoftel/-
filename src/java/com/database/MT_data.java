@@ -63,7 +63,7 @@ public class MT_data implements Runnable {
 
             try {
                 /////////// mt
-                RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode);
+                RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode, "default");
                 GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
                 System.out.println("Back XML : " + GetXML);
                 insert_r.insert_r(GetXML, "MT");
@@ -72,6 +72,7 @@ public class MT_data implements Runnable {
                 this.Log.info("Get Xml : " + GetXML);
             } catch (Exception e) {
                 this.Log.info("Error : " + e);
+                System.out.println("Error Reg : " + e);
             }
 
             //System.out.println("usert : " + r.getNumber_type());
@@ -81,7 +82,7 @@ public class MT_data implements Runnable {
         for (data_user r : id_user_unreg) {
             byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
             encode = new sun.misc.BASE64Encoder().encode(b);
-            RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode);
+            RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode, "default");
             GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
             //System.out.println("test Unreg : " + r.getNumber_type());
         }
@@ -90,7 +91,8 @@ public class MT_data implements Runnable {
         for (data_user r : id_user_thank_sms) {
             byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
             encode = new sun.misc.BASE64Encoder().encode(b);
-            RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode);
+            RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode, "unicode");
+            GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
 
         }
 
@@ -275,4 +277,14 @@ public class MT_data implements Runnable {
         }
         return str_unicode;
     }
+
+    private static String asciiToHex(String asciiValue) {
+        char[] chars = asciiValue.toCharArray();
+        StringBuffer hex = new StringBuffer();
+        for (int i = 0; i < chars.length; i++) {
+            hex.append(Integer.toHexString((int) chars[i]));
+        }
+        return hex.toString();
+    }
+
 }

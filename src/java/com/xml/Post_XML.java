@@ -42,9 +42,9 @@ public class Post_XML {
             if (type_header_xml.equals("mt")) {
                 //post.setRequestBody("POST /HTTP/1.1");
                 post.setRequestHeader("Authorization:", "Basic " + id_pass);
+                //post.setRequestHeader("Host:", ip_source);
                 post.setRequestHeader("Content-Type:", "text/xml");
                 post.setRequestHeader("Connection:", "Close");
-                //post.setRequestHeader("Host:", ip_source);
                 post.setRequestHeader("Content-Length", String.valueOf(StrXml.length()));
             } else if (type_header_xml.equals("sent")) {
                 post.setRequestHeader("Content-Length", String.valueOf(StrXml.length()));

@@ -44,6 +44,7 @@ public class run_api extends HttpServlet implements Runnable {
     public void run() {
         while (true) {
             try {
+                
                 System.out.println("Runing 1");
                 this.Log.info("Runing Test");
                 Thread tt = new Thread(new MT_data());
@@ -92,4 +93,5 @@ public class run_api extends HttpServlet implements Runnable {
             System.out.println("Error Time : " + e);
         }
     }
+
 }
