@@ -12,7 +12,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ResourceBundle;
 
-public class XML_return_to_data {
+public class XML_insert {
 
     Connection conn = null;
     Statement stmt = null;

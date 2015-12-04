@@ -3,6 +3,7 @@ package com.run;
 import com.database.ProcessDatabase;
 import com.database.SMS_Worning;
 import com.database.MT_data;
+import com.database.Wap_Push;
 import static com.sun.corba.se.spi.presentation.rmi.StubAdapter.request;
 import com.xml.Post_XML;
 import java.nio.charset.Charset;
@@ -50,6 +51,10 @@ public class run_api extends HttpServlet implements Runnable {
                 Thread tt = new Thread(new MT_data());
                 tt.setPriority(1);
                 tt.start();
+                
+                Thread tt2 = new Thread(new Wap_Push());
+                tt2.setPriority(1);
+                tt2.start();
 
                 worning();
 

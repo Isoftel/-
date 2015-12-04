@@ -18,7 +18,7 @@ public class SMS_Worning implements Runnable {
     ResourceBundle msg = ResourceBundle.getBundle("configs");
     Post_XML post_xml = new Post_XML();
     Set_XML str_xml = new Set_XML();
-    XML_return_to_data insert_data = new XML_return_to_data();
+    XML_insert insert_data = new XML_insert();
     String local = msg.getString("localhost");
     String data_base = msg.getString("data");
     String user = msg.getString("user");
@@ -45,7 +45,7 @@ public class SMS_Worning implements Runnable {
             String SmsXML = null;
             String GetXML = null;
             try {
-                SmsXML = str_xml.getXmlReg(r.getService_id(), r.getNumber(), r.getAccess(), r.getText_sms(), r.getCode(),"");
+                SmsXML = str_xml.getXmlReg(r.getService_id(), r.getNumber(), r.getAccess(), r.getText_sms(), r.getCode(),"TIS-620");
                 GetXML = post_xml.PostXml(SmsXML, msg.getString("ip_mo"), "", "sent");
                 //insert_data.insert_worning(GetXML,"SMS");
 
