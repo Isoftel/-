@@ -9,10 +9,10 @@ public class Set_XML {
 
     Date date = new Date();
     ResourceBundle msg = ResourceBundle.getBundle("configs");
+    DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
 
     ///ส่งค่าเดียวแล้ว reture String ที่ได้รับจากฟั่ง True หลังจากส่ง XML แล้ว
     public String getXmlReg(String Service_id, String Number_type, String Text_Service, String Access, String id_pass) {
-        DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
         //System.out.println("Day : " + dateFormat2.format(date));
         StringBuilder sb = new StringBuilder();
         sb.append("<?xml version=\"1.0\" encoding=\"TIS-620\"?>");
@@ -30,8 +30,8 @@ public class Set_XML {
         sb.append("<originate type=\"international\">").append(Number_type).append("</originate>");
         sb.append("</address>");
         sb.append("</source>");
-        String Test = "Test"; //Text_Service
-        sb.append("<ud type=\"text\" encoding=\"default\">").append(Test).append("</ud>");
+        //String Test = "Test"; //Text_Service
+        sb.append("<ud type=\"text\" encoding=\"default\">").append(Text_Service).append("</ud>");
         sb.append("<scts>").append(dateFormat2.format(date)).append("</scts>");
         sb.append("<dro>").append("true").append("</dro>");
         sb.append("</sms>");
@@ -39,7 +39,7 @@ public class Set_XML {
         return sb.toString();
     }
 
-    public String getXmlSms(String Service_id, String msisdn, String access_number, String detail_unreg, String status) {
+    public String getXmlWorning(String Service_id, String msisdn, String access_number, String detail_unreg, String status) {
         StringBuilder sb = new StringBuilder();
         //ISO-8859-1
         sb.append("<?xml version=\"1.0\" encoding=\"TIS-620\"?>");
@@ -64,4 +64,5 @@ public class Set_XML {
         sb.append("</message>");
         return sb.toString();
     }
+
 }

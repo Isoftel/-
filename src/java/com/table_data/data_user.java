@@ -11,9 +11,18 @@ public class data_user implements java.io.Serializable {
     private String access;
     private String sender;
     private String sms;
+    private String content_sms;
     private String oper;
     private String descriptions;
     private String detail;
+
+    public String getContent_sms() {
+        return content_sms;
+    }
+
+    public void setContent_sms(String content_sms) {
+        this.content_sms = content_sms;
+    }
 
     public String getDetail() {
         return detail;

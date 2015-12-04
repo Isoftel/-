@@ -50,58 +50,86 @@ public class ProcessDatabase {
         String from = (getdata(result, "from", 1, ""));
         String to = (getdata(result, "to", 1, ""));
         //System.out.println(" 1 " + encoding + " 2 " + sms + " 3 " + service + " 4 " + destination + " 5 " + number + " 6 " + ud + " 7 " +time);
+        //
+        if (service.equals("7112402001")) {
 
-        if (ud.equals("R")) {
-            ud = "REG";
-        } else if (ud.equals("C")) {
-            ud = "UNREG";
+        } else {
+            if (ud.equals("R")) {
+                ud = "REG";
+            } else if (ud.equals("C")) {
+                ud = "UNREG";
+            }
         }
+
         try {
             cdate = dateFormat.parse(time);
         } catch (Exception e) {
+
         }
-        
-        if (ud.equals("R")) {
+
+        int check_number = 0;
+        int id_number = 0;
+        int id_service = 0;
+        //int id_product = 0;
+        String str_msisdn = "";
+        String str_service = "";
+        String str_product = "";
+
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
+            conn = DriverManager.getConnection(connectionUrl);
+            stmt = conn.createStatement();
+
+            sql = "INSERT INTO delivery_request(TransactionID,product_id,MSISDN,Content,cdate,service_id) "
+                    + "VALUES ('" + message + "','" + messageid + "','" + number + "','" + ud + "','" + time + "','" + service + "')";
+            stmt.execute(sql);
+
+            //////////// mobile ดูว่ามีเบอร์แล้วหรือยังมี ดึง ID ไม่มีให้ INSERT
+            sql = "select * from mobile";
+            rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                if (number.equals(rs.getString("msisdn"))) {
+                    check_number = 1;
+                    id_number = rs.getInt("mobile_id");
+                    str_msisdn = rs.getString("msisdn");
+                }
+            }
+            if (check_number == 0) {
+                sql = "INSERT INTO mobile(msisdn, cdate, operator_id, udate) "
+                        + "VALUES('" + number + "',time,'3',time)";
+                stmt.execute(sql);
+
+                sql = "select * from mobile where msisdn = '" + number + "'";
+                rs = stmt.executeQuery(sql);
+                while (rs.next()) {
+                    id_number = rs.getInt("mobile_id");
+                    str_msisdn = rs.getString("msisdn");
+                }
+            }
+            //////////////////services หา ID บริการ
+            sql = "select * from services where service_id = '" + service + "' ";
+            rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                id_service = rs.getInt("id");
+                str_service = rs.getString("service_id");
+                str_product = rs.getString("Product_ID");
+            }
+        } catch (Exception e) {
+
+        } finally {
+            try {
+                conn.close();
+            } catch (Exception e) {
+            }
+        }
+
+        if (ud.equals("REG")) {
             try {
                 Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
                 String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
                 conn = DriverManager.getConnection(connectionUrl);
                 stmt = conn.createStatement();
-
-                sql = "INSERT INTO delivery_request(TransactionID,product_id,MSISDN,Content,cdate,service_id) "
-                        + "VALUES ('" + message + "','" + messageid + "','" + number + "','" + ud + "','" + time + "','" + service + "')";
-                stmt.execute(sql);
-
-                int check_number = 0;
-                int id_number = 0;
-                int id_service = 0;
-
-                //////////// mobile ดูว่ามีเบอร์แล้วหรือยังมี ดึง ID ไม่มีให้ INSERT
-                sql = "select * from mobile";
-                rs = stmt.executeQuery(sql);
-                while (rs.next()) {
-                    if (number.equals(rs.getString("msisdn"))) {
-                        check_number = 1;
-                        id_number = rs.getInt("mobile_id");
-                    }
-                }
-                if (check_number == 0) {
-                    sql = "INSERT INTO mobile(msisdn, cdate, operator_id, udate) "
-                            + "VALUES('" + number + "',time,'3',time)";
-                    stmt.execute(sql);
-
-                    sql = "select * from mobile where msisdn = '" + number + "'";
-                    rs = stmt.executeQuery(sql);
-                    while (rs.next()) {
-                        id_number = rs.getInt("mobile_id");
-                    }
-                }
-                //////////////////services หา ID บริการ
-                sql = "select * from services where service_id = '" + service + "' ";
-                rs = stmt.executeQuery(sql);
-                while (rs.next()) {
-                    id_service = rs.getInt("id");
-                }
 
                 //////////////////subscribe เช็คสมัครแล้วหรือยัง
                 String description = "non";
@@ -140,45 +168,12 @@ public class ProcessDatabase {
                 //System.out.println("Error SQL : " + e);
 
             }
-        } else if (ud.equals("C")) {
+        } else if (ud.equals("UNREG")) {
             try {
                 Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
                 String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
                 conn = DriverManager.getConnection(connectionUrl);
                 stmt = conn.createStatement();
-                sql = "INSERT INTO delivery_request(TransactionID,product_id,MSISDN,Content,cdate,service_id) "
-                        + "VALUES ('" + message + "','" + messageid + "','" + number + "','" + ud + "','" + time + "','" + service + "')";
-                stmt.execute(sql);
-
-                int check_number = 0;
-                int id_number = 0;
-                int id_service = 0;
-                //////////// mobile ดูว่ามีเบอร์แล้วหรือยังมี ดึง ID ไม่มีให้ INSERT
-                sql = "select * from mobile";
-                rs = stmt.executeQuery(sql);
-                while (rs.next()) {
-                    if (number.equals(rs.getString("msisdn"))) {
-                        check_number = 1;
-                        id_number = rs.getInt("mobile_id");
-                    }
-                }
-                if (check_number == 0) {
-                    sql = "INSERT INTO mobile(msisdn, cdate, operator_id, udate) "
-                            + "VALUES('" + number + "',time,'3',time)";
-                    stmt.execute(sql);
-
-                    sql = "select * from mobile where msisdn = '" + number + "'";
-                    rs = stmt.executeQuery(sql);
-                    while (rs.next()) {
-                        id_number = rs.getInt("mobile_id");
-                    }
-                }
-                //////////////////services หา ID บริการ
-                sql = "select * from services where service_id = '" + service + "' ";
-                rs = stmt.executeQuery(sql);
-                while (rs.next()) {
-                    id_service = rs.getInt("id");
-                }
 
                 //////////////////subscribe เช็คสมัครแล้วหรือยัง
                 String description = "non";
@@ -207,7 +202,29 @@ public class ProcessDatabase {
                 } catch (Exception e) {
                 }
             }
+        } else {
+            try {
+                String date_format = dateFormat.format(NewDate);
+                Date cdate_sms = dateFormat.parse(date_format);
+                Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+                String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
+                conn = DriverManager.getConnection(connectionUrl);
+                stmt = conn.createStatement();
+
+                sql = "INSERT INTO sms (msisdn,service_id,Product_ID,Timestamp,cdate,content,content_type,status) "
+                        + "VALUES ('" + str_msisdn + "','" + str_service + "','" + str_product + "','" + cdate + "','" + cdate_sms + "','" + ud + "','T','1')";
+                stmt.execute(sql);
+                
+            } catch (Exception e) {
+                this.Log.info("Error DRACO : " + e);
+            } finally {
+                try {
+                    conn.close();
+                } catch (Exception e) {
+                }
+            }
         }
+
         return result;
     }
 
@@ -237,13 +254,11 @@ public class ProcessDatabase {
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
 
-            sql = "INSERT INTO delivery_request(TransactionID,product_id,MSISDN,Content,StatusCode,cdate,service_id) "
-                    + "VALUES ('" + message + "','" + message_id + "','" + number + "','" + destination + "','" + code + "','" + cdate_sms + "','" + service + "')";
-            stmt.execute(sql);
-
+//            sql = "INSERT INTO delivery_request(TransactionID,product_id,MSISDN,Content,StatusCode,cdate,service_id) "
+//                    + "VALUES ('" + message + "','" + message_id + "','" + number + "','" + destination + "','" + code + "','" + cdate_sms + "','" + service + "')";
+//            stmt.execute(sql);
 //            sql = "UPDATE subscribe SET description = 'UNREG',udate = '" + cdate + "' WHERE id='" + id_subscribe + "' ";
 //            stmt.executeUpdate(sql);
-            
             return result;
         } catch (Exception e) {
             this.Log.info("Error SMS : " + e);

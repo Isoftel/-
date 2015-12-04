@@ -44,48 +44,14 @@ public class run_api extends HttpServlet implements Runnable {
     public void run() {
         while (true) {
             try {
-                
-                String Test = "สวัสดี";
-                byte[] b = Test.getBytes(Charset.forName("UTF-8"));
-                String encode = new sun.misc.BASE64Encoder().encode(b);
-                
-                //System.out.println("Encode : " + encode);
+                System.out.println("Runing 1");
+                this.Log.info("Runing Test");
+                Thread tt = new Thread(new MT_data());
+                tt.setPriority(1);
+                tt.start();
 
-//                String s = "สวัสดี";
-//                String converted = "";
-//                for (int i = 0; i < s.length(); i++) {
-//                    char ch = s.charAt(i);
-//
-//                    int c = (int) ch;
-//                    String sms = Integer.toHexString(c);
-//            String x = null;
-//                    String sub = null;
-//                    if (sms.length() == 3) {
-//
-//                        x = "&#" + "36"  + sms.substring(1, 3)+";";
-//                    } else if (sms.length() == 2) {
-//                        x = "%00%" + sms;
-//                    }
-//                    System.out.println("4 digit: " + x);
-//                    System.out.println("Total number: " + Integer.toHexString(c));
-//            converted = converted + x;
-//                }
-//                System.out.println("Original : " + s);
-//                System.out.println("Converted: " + converted);
-                
-                String hexString = "0x20000";
-int hexInt = Integer.parseInt(hexString.substring(2), 16);
-String stringRepresentation = new String(Character.toChars(hexInt));
-System.out.println(stringRepresentation); 
+                worning();
 
-                
-                //System.out.println("Test en : " + str);
-//                System.ouฝ.println("Runing 1");
-//                this.Log.info("Runing Test");
-//                Thread tt = new Thread(new MT_data());
-//                tt.setPriority(1);
-//                tt.start();
-//                worning();
             } catch (Exception ex) {
                 System.out.println("Error Runing : " + ex);
                 Log.info("application exception " + ex.getMessage());

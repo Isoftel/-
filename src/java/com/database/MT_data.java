@@ -38,8 +38,9 @@ public class MT_data implements Runnable {
     ResultSet rs = null;
     List<data_user> user_room = new ArrayList<data_user>();
 
-    //private List<data_user> id_user_reg = ProcessRegister();
-    private List<data_user> id_user_unreg = ProcessUnRegister();
+    private List<data_user> id_user_reg;
+    private List<data_user> id_user_unreg;
+    private List<data_user> id_user_thank_sms;
 
     String id_user = "";
     String encode = "";
@@ -55,7 +56,6 @@ public class MT_data implements Runnable {
 //        post_xml_true = "203.144.187.120:55000";
         List<data_user> id_user_reg = ProcessRegister();
         this.Log.info("Test found data[ " + id_user_reg.size() + "] Records");
-
         for (data_user r : id_user_reg) {
             System.out.println("test reg : " + r.getNumber_type());
             byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
@@ -76,16 +76,26 @@ public class MT_data implements Runnable {
 
             //System.out.println("usert : " + r.getNumber_type());
         }
-
+        ///////////////////////////////////////////////////////////////
         List<data_user> id_user_unreg = ProcessUnRegister();
         for (data_user r : id_user_unreg) {
+            byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
+            encode = new sun.misc.BASE64Encoder().encode(b);
             RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode);
             GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
             //System.out.println("test Unreg : " + r.getNumber_type());
         }
+        //////////////////////////////////////////////////////////////////
+        List<data_user> id_user_thank_sms = ProcessSMS();
+        for (data_user r : id_user_thank_sms) {
+            byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
+            encode = new sun.misc.BASE64Encoder().encode(b);
+            RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode);
+
+        }
 
         if (id_user_reg.size() > 0) {
-            
+
         }
     }
 
@@ -104,6 +114,7 @@ public class MT_data implements Runnable {
                     + "where register.status = '0' and register.api_req = 'REG' and mgr.api_req = 'REG'");
 
             while (rs.next()) {
+                String content_sms = "";
                 data_user iduser = new data_user();
                 id_user = rs.getString("reg_id");
                 String service = rs.getString("service_user");
@@ -111,6 +122,15 @@ public class MT_data implements Runnable {
                 String number = rs.getString("msisdn");
                 String Text_Service = rs.getString("detail_reg");
                 String access = rs.getString("access_number");
+
+                if (access.equals("4557878")) {
+                    rs = stmt.executeQuery("select * from sms where msisdn = '" + number + "' and service_id = '7112402000' ");
+                    while (rs.next()) {
+                        content_sms = rs.getString("content");
+                    }
+                    //dumpString();
+                }
+
                 //access = "4557000";
                 String date = rs.getString("cdate");
                 String user = rs.getString("api_user");
@@ -122,9 +142,10 @@ public class MT_data implements Runnable {
                 iduser.setDescriptions(Text_Service);
                 iduser.setAccess(access);
                 iduser.setEncoding(user + pass);
+                iduser.setContent_sms(content_sms);
 
-//                String sql = "UPDATE register SET status = '3' WHERE reg_id='" + id_user + "' ";
-//                stmt.executeUpdate(sql);
+                String sql = "UPDATE register SET status = '3' WHERE reg_id='" + id_user + "' ";
+                stmt.executeUpdate(sql);
                 user_room.add(iduser);
             }
             conn.close();
@@ -135,11 +156,19 @@ public class MT_data implements Runnable {
         return user_room;
     }
 
+    public String dumpString(String text) {
+        String unicode_string = "";
+        for (int i = 0; i < text.length(); i++) {
+            //System.out.println(i + ": " + (int) text.charAt(i));
+            unicode_string = unicode_string + "&#" + (int) text.charAt(i) + ";";
+        }
+        return unicode_string;
+    }
+
     public List<data_user> ProcessUnRegister() {
         user_room.clear();
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
@@ -169,14 +198,62 @@ public class MT_data implements Runnable {
                 iduser.setAccess(access);
                 iduser.setEncoding(user + pass);
 
-//                String sql = "UPDATE register SET status = '3' WHERE reg_id='" + id_user + "' ";
-//                stmt.executeUpdate(sql);
+                String sql = "UPDATE register SET status = '3' WHERE reg_id='" + id_user + "' ";
+                stmt.executeUpdate(sql);
                 user_room.add(iduser);
             }
             conn.close();
         } catch (Exception e) {
             //System.out.println("Error : " + e);
             this.Log.info("Error select sql unreg" + e);
+        }
+        return user_room;
+    }
+
+    public List<data_user> ProcessSMS() {
+        user_room.clear();
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
+            conn = DriverManager.getConnection(connectionUrl);
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery("SELECT * FROM sms "
+                    + "INNER JOIN services  ON services.service_id  = sms.service_id  "
+                    + "INNER JOIN mobile    ON mobile.msisdn = sms.msisdn "
+                    + "INNER JOIN mgr       ON mgr.operator_id = mobile.operator_id "
+                    + "WHERE mgr.api_req = 'REG' AND status = '0'");
+            String id_user = "";
+            while (rs.next()) {
+                data_user iduser = new data_user();
+                id_user = rs.getString("sms_id");
+                String number = rs.getString("msisdn");
+                String service_id = rs.getString("service_id");
+                service_id = "7112402000";
+                String product_id = rs.getString("Product_ID");
+                String content = rs.getString("content");
+                String access = rs.getString("access_number");
+                //access = "4557000";
+                String date = rs.getString("cdate");
+                String user = rs.getString("api_user");
+                String pass = rs.getString("api_password");
+
+                iduser.setService_id(service_id);
+                iduser.setNumber_type(number);
+                String unicode_test = dumpStrings("ขอบคุณที่ใช้บริการ");
+                iduser.setDescriptions(unicode_test);
+                iduser.setAccess(access);
+                iduser.setEncoding(user + pass);
+
+                user_room.add(iduser);
+            }
+
+            String sql = "UPDATE sms SET status = '3' WHERE sms_id ='" + id_user + "' ";
+            stmt.executeUpdate(sql);
+
+            conn.close();
+        } catch (Exception e) {
+            //System.out.println("Error : " + e);
+            this.Log.info("Error select sql thank" + e);
         }
         return user_room;
     }
@@ -191,4 +268,11 @@ public class MT_data implements Runnable {
      and s.description = 'REG'
     
      */
+    public String dumpStrings(String text) {
+        String str_unicode = "";
+        for (int i = 0; i < text.length(); i++) {
+            str_unicode = str_unicode + "&#" + (int) text.charAt(i) + ";";
+        }
+        return str_unicode;
+    }
 }

@@ -45,10 +45,10 @@ public class SMS_Worning implements Runnable {
             String SmsXML = null;
             String GetXML = null;
             try {
-                SmsXML = str_xml.getXmlSms(r.getService_id(), r.getNumber(), r.getAccess(), r.getText_sms(), r.getCode());
-                GetXML = post_xml.PostXml(SmsXML, msg.getString("ip_mo"), "","sent");
+                SmsXML = str_xml.getXmlReg(r.getService_id(), r.getNumber(), r.getAccess(), r.getText_sms(), r.getCode());
+                GetXML = post_xml.PostXml(SmsXML, msg.getString("ip_mo"), "", "sent");
                 //insert_data.insert_worning(GetXML,"SMS");
-                
+
                 //str_xml
             } catch (Exception e) {
 
@@ -60,8 +60,8 @@ public class SMS_Worning implements Runnable {
     public List<data_sms> SMS() {
         user_data.clear();
         try {
+            String id_user = "";
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
@@ -72,6 +72,7 @@ public class SMS_Worning implements Runnable {
                     + "where convert(varchar(10),reg_date,110) = convert(varchar(10),dateadd(day,-5,getdate()),110) "
                     + "and s.description = 'REG' and r.status = '000'");
             while (rs.next()) {
+                id_user = rs.getString("reg_id");
                 data_sms iduser = new data_sms();
                 iduser.setService_id(rs.getString("service_id"));
                 iduser.setNumber(rs.getString("msisdn"));
@@ -80,6 +81,8 @@ public class SMS_Worning implements Runnable {
                 iduser.setCode(rs.getString("status"));
                 user_data.add(iduser);
             }
+            String sql = "UPDATE register SET status_code = '40' WHERE sms_id ='" + id_user + "' ";
+            stmt.executeUpdate(sql);
             conn.close();
         } catch (Exception e) {
 
