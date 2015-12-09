@@ -18,7 +18,7 @@ public class DeliveryRequest_true extends HttpServlet {
     Logger Log = Logger.getLogger(this.getClass());
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) {
-
+        this.Log.info("DeliveryRequest Runing");
         response.setContentType("text/xml;charset=TIS-620");
         PrintWriter out = null;
         ////////////////////  mo
@@ -28,7 +28,7 @@ public class DeliveryRequest_true extends HttpServlet {
             //////////////////แปลง InputStream to String
             InputStream inStream = request.getInputStream();
             String result = getStringFromInputStream(inStream);
-
+            this.Log.info("Request Get XML : " + request);
             //////////////////รับ XML แยกการทำงาน MO,MT,Worning ไปตัดและส่ง Database
             String sms = (insert.getdata(result, "sms type=\"", 3, ""));
             String ud = (insert.getdata(result, "ud type=\"text\"", 4, "ud"));

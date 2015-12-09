@@ -57,37 +57,42 @@ public class MT_data implements Runnable {
         ////////////////////////////////////////// mt ส่งสมัคร
         List<data_user> id_user_reg = ProcessRegister();
         for (data_user r : id_user_reg) {
-            byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
-            encode = new sun.misc.BASE64Encoder().encode(b);
             try {
+                byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
+                encode = new sun.misc.BASE64Encoder().encode(b);
                 RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode, "default");
                 GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "TIS-620");
                 System.out.println("Back XML : " + GetXML);
                 insert_r.insert_r(GetXML, "MT");
                 this.Log.info("Get Xml : " + GetXML);
             } catch (Exception e) {
-                this.Log.info("Error : " + e);
-                System.out.println("Error Reg : " + e);
+                this.Log.info("Error Reg : " + e);
             }
         }
         ////////////////////////////////////////////////////// mt ส่งยกเลิก
         List<data_user> id_user_unreg = ProcessUnRegister();
         for (data_user r : id_user_unreg) {
-            byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
-            encode = new sun.misc.BASE64Encoder().encode(b);
-            RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode, "default");
-            GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "TIS-620");
-
+            try {
+                byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
+                encode = new sun.misc.BASE64Encoder().encode(b);
+                RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode, "default");
+                GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "TIS-620");
+            } catch (Exception e) {
+                this.Log.info("Error Unreg : " + e);
+            }
             //System.out.println("test Unreg : " + r.getNumber_type());
         }
         //////////////////////////////////////////////////////////////////
         List<data_user> id_user_thank_sms = ProcessSMS();
         for (data_user r : id_user_thank_sms) {
-            byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
-            encode = new sun.misc.BASE64Encoder().encode(b);
-            RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode, "unicode");
-            GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "TIS-620");
-
+            try {
+                byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
+                encode = new sun.misc.BASE64Encoder().encode(b);
+                RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode, "unicode");
+                GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "TIS-620");
+            } catch (Exception e) {
+                this.Log.info("Error SMS : " + e);
+            }
         }
 
         if (id_user_reg.size() > 0) {
