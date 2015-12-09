@@ -39,6 +39,7 @@ public class Set_XML {
         return sb.toString();
     }
 
+    ///// ส่ง Worning เตือนเมื่อสมัครครบ 5 วัน
     public String getXmlWorning(String Service_id, String msisdn, String access_number, String detail_unreg, String status) {
         StringBuilder sb = new StringBuilder();
         //ISO-8859-1
@@ -65,4 +66,56 @@ public class Set_XML {
         return sb.toString();
     }
 
+    
+    public String getXmlWapPush(String Service_id, String Number_type, String Text_Service, String Access, String id_pass,String type) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("<?xml version=\"1.0\" encoding=\"TIS-620\"?>");
+        sb.append("<message>");
+        sb.append("<sms type=\"mt\">");
+        sb.append("<service-id>").append(Service_id).append("</service-id>");
+        sb.append("<destination>");
+        sb.append("<address>");
+        sb.append("<number type=\"international\">").append(Number_type).append("</number>");
+        sb.append("</address>");
+        sb.append("</destination>");
+        sb.append("<source>");
+        sb.append("<address>");
+        sb.append("<number type=\"abbreviated\">").append(Access).append("</number>");
+        sb.append("<originate type=\"international\">").append(Number_type).append("</originate>");
+        sb.append("</address>");
+        sb.append("</source>");
+        sb.append("<ud type=\"text\" encoding=\"").append(type).append("\">").append(Text_Service).append("</ud>");
+        sb.append("<scts>").append(dateFormat2.format(date)).append("</scts>");
+        sb.append("<dro>").append("true").append("</dro>");
+        sb.append("</sms>");
+        sb.append("</message>");
+        return sb.toString();
+    }
+    
+    public String getXmlWapPush2(String Service_id, String Number_type, String Text_Service, String Access, String id_pass,String type) {
+        
+        
+        StringBuilder sb = new StringBuilder();
+        sb.append("<?xml version=\"1.0\" encoding=\"TIS-620\"?>");
+        sb.append("<message>");
+        sb.append("<sms type=\"mt\">");
+        sb.append("<service-id>").append(Service_id).append("</service-id>");
+        sb.append("<destination>");
+        sb.append("<address>");
+        sb.append("<number type=\"international\">").append(Number_type).append("</number>");
+        sb.append("</address>");
+        sb.append("</destination>");
+        sb.append("<source>");
+        sb.append("<address>");
+        sb.append("<number type=\"abbreviated\">").append(Access).append("</number>");
+        sb.append("<originate type=\"international\">").append(Number_type).append("</originate>");
+        sb.append("</address>");
+        sb.append("</source>");
+        sb.append("<ud type=\"binary\">").append(Text_Service).append("</ud>");
+        sb.append("<scts>").append(dateFormat2.format(date)).append("</scts>");
+        sb.append("<dro>").append("true").append("</dro>");
+        sb.append("</sms>");
+        sb.append("</message>");
+        return sb.toString();
+    }
 }

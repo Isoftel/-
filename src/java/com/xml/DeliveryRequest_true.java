@@ -17,27 +17,29 @@ public class DeliveryRequest_true extends HttpServlet {
     ProcessDatabase insert = new ProcessDatabase();
     Logger Log = Logger.getLogger(this.getClass());
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) {
 
         response.setContentType("text/xml;charset=TIS-620");
-        PrintWriter out = response.getWriter();
+        PrintWriter out = null;
         ////////////////////  mo
         try {
+            out = response.getWriter();
             String encoding = "TIS-620";
             //////////////////แปลง InputStream to String
             InputStream inStream = request.getInputStream();
             String result = getStringFromInputStream(inStream);
 
             //////////////////รับ XML แยกการทำงาน MO,MT,Worning ไปตัดและส่ง Database
-            String sms = (insert.getdata(result, "sms type=\"", 3, ""));     
+            String sms = (insert.getdata(result, "sms type=\"", 3, ""));
             String ud = (insert.getdata(result, "ud type=\"text\"", 4, "ud"));
-            
+
             String rsr = (insert.getdata(result, "rsr type=\"", 3, ""));
-            
+
             if (sms.equals("mo")) {
+                //รับ สมัคร ยกเลิก
                 insert.ProcessDatabase(result, out);
-            }else if(rsr.equals("sent")||rsr.equals("sent_delivered")){
+            } else if (rsr.equals("sent") || rsr.equals("sent_delivered")) {
+                //รับ 
                 insert.ProcessSMS(result, out);
             }
 

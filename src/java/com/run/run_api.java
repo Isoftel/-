@@ -48,10 +48,12 @@ public class run_api extends HttpServlet implements Runnable {
                 
                 System.out.println("Runing 1");
                 this.Log.info("Runing Test");
+                /////  ส่ง MT
                 Thread tt = new Thread(new MT_data());
                 tt.setPriority(1);
                 tt.start();
                 
+                ///// ส่ง Wap Push โดยเช็ควันหลังสมัคร 5 วัน ส่ง URL มี2แบบ
                 Thread tt2 = new Thread(new Wap_Push());
                 tt2.setPriority(1);
                 tt2.start();

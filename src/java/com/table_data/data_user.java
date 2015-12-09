@@ -15,7 +15,16 @@ public class data_user implements java.io.Serializable {
     private String oper;
     private String descriptions;
     private String detail;
+    private String url;
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+    
     public String getContent_sms() {
         return content_sms;
     }

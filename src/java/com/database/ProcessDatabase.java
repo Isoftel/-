@@ -203,6 +203,7 @@ public class ProcessDatabase {
                 }
             }
         } else {
+            ///// ส่งข้อความ SMS
             try {
                 String date_format = dateFormat.format(NewDate);
                 Date cdate_sms = dateFormat.parse(date_format);
