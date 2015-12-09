@@ -57,43 +57,44 @@ public class MT_data implements Runnable {
         ////////////////////////////////////////// mt ส่งสมัคร
         List<data_user> id_user_reg = ProcessRegister();
         for (data_user r : id_user_reg) {
+            System.out.println("Run Reg");
             try {
                 byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
                 encode = new sun.misc.BASE64Encoder().encode(b);
                 RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode, "default");
                 GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "TIS-620");
-                System.out.println("Back XML : " + GetXML);
-                insert_r.insert_r(GetXML, "MT");
+                //insert_r.insert_r(GetXML, "MT");
                 this.Log.info("Get Xml : " + GetXML);
             } catch (Exception e) {
                 this.Log.info("Error Reg : " + e);
             }
         }
-        ////////////////////////////////////////////////////// mt ส่งยกเลิก
-        List<data_user> id_user_unreg = ProcessUnRegister();
-        for (data_user r : id_user_unreg) {
-            try {
-                byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
-                encode = new sun.misc.BASE64Encoder().encode(b);
-                RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode, "default");
-                GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "TIS-620");
-            } catch (Exception e) {
-                this.Log.info("Error Unreg : " + e);
-            }
-            //System.out.println("test Unreg : " + r.getNumber_type());
-        }
-        //////////////////////////////////////////////////////////////////
-        List<data_user> id_user_thank_sms = ProcessSMS();
-        for (data_user r : id_user_thank_sms) {
-            try {
-                byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
-                encode = new sun.misc.BASE64Encoder().encode(b);
-                RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode, "unicode");
-                GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "TIS-620");
-            } catch (Exception e) {
-                this.Log.info("Error SMS : " + e);
-            }
-        }
+        
+//        ////////////////////////////////////////////////////// mt ส่งยกเลิก
+//        List<data_user> id_user_unreg = ProcessUnRegister();
+//        for (data_user r : id_user_unreg) {
+//            try {
+//                byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
+//                encode = new sun.misc.BASE64Encoder().encode(b);
+//                RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode, "default");
+//                GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "TIS-620");
+//            } catch (Exception e) {
+//                this.Log.info("Error Unreg : " + e);
+//            }
+//            //System.out.println("test Unreg : " + r.getNumber_type());
+//        }
+//        //////////////////////////////////////////////////////////////////
+//        List<data_user> id_user_thank_sms = ProcessSMS();
+//        for (data_user r : id_user_thank_sms) {
+//            try {
+//                byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
+//                encode = new sun.misc.BASE64Encoder().encode(b);
+//                RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode, "unicode");
+//                GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "TIS-620");
+//            } catch (Exception e) {
+//                this.Log.info("Error SMS : " + e);
+//            }
+//        }
 
         if (id_user_reg.size() > 0) {
 
@@ -108,7 +109,7 @@ public class MT_data implements Runnable {
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
-            rs = stmt.executeQuery("select TOP(50)*,services.service_id service_user from register "
+            rs = stmt.executeQuery("select TOP(500)*,services.service_id service_user from register "
                     + "INNER JOIN services  ON services.id  = register.service_id  "
                     + "INNER JOIN mobile    ON mobile.mobile_id = register.mobile_id   "
                     + "INNER JOIN mgr       ON mgr.operator_id = mobile.operator_id "
@@ -137,16 +138,15 @@ public class MT_data implements Runnable {
                 String user = rs.getString("api_user");
                 String pass = rs.getString("api_password");
 
-                //System.out.println("Sql : " + " 1 " + service + " 2 " + number + " 3 " + Text_Service + " 4 " + access);
+                System.out.println("Sql : " + " 1 " + service + " 2 " + number + " 3 " + Text_Service + " 4 " + access);
                 iduser.setService_id(service);
                 iduser.setNumber_type(number);
                 iduser.setDescriptions(Text_Service);
                 iduser.setAccess(access);
                 iduser.setEncoding(user + pass);
                 iduser.setContent_sms(content_sms);
-
-                String sql = "UPDATE register SET status = '3' WHERE reg_id='" + id_user + "' ";
-                stmt.executeUpdate(sql);
+//                String sql = "UPDATE register SET status = '10' WHERE reg_id='" + id_user + "' ";
+//                stmt.executeUpdate(sql);
                 user_room.add(iduser);
             }
             conn.close();
@@ -164,7 +164,7 @@ public class MT_data implements Runnable {
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
-            rs = stmt.executeQuery("select TOP(50)*,services.service_id service_user from register "
+            rs = stmt.executeQuery("select TOP(500)*,services.service_id service_user from register "
                     + "INNER JOIN services  ON services.id  = register.service_id  "
                     + "INNER JOIN mobile    ON mobile.mobile_id = register.mobile_id   "
                     + "INNER JOIN mgr       ON mgr.operator_id = mobile.operator_id "
@@ -190,8 +190,8 @@ public class MT_data implements Runnable {
                 iduser.setAccess(access);
                 iduser.setEncoding(user + pass);
 
-                String sql = "UPDATE register SET status = '3' WHERE reg_id='" + id_user + "' ";
-                stmt.executeUpdate(sql);
+//                String sql = "UPDATE register SET status = '60' WHERE reg_id='" + id_user + "' ";
+//                stmt.executeUpdate(sql);
                 user_room.add(iduser);
             }
             conn.close();
@@ -209,7 +209,7 @@ public class MT_data implements Runnable {
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT * FROM sms "
+            rs = stmt.executeQuery("SELECT TOP(500)* FROM sms "
                     + "INNER JOIN services  ON services.service_id  = sms.service_id  "
                     + "INNER JOIN mobile    ON mobile.msisdn = sms.msisdn "
                     + "INNER JOIN mgr       ON mgr.operator_id = mobile.operator_id "
@@ -239,8 +239,8 @@ public class MT_data implements Runnable {
                 user_room.add(iduser);
             }
 
-            String sql = "UPDATE sms SET status = '3' WHERE sms_id ='" + id_user + "' ";
-            stmt.executeUpdate(sql);
+//            String sql = "UPDATE sms SET status = '90' WHERE sms_id ='" + id_user + "' ";
+//            stmt.executeUpdate(sql);
 
             conn.close();
         } catch (Exception e) {

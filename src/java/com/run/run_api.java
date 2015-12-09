@@ -45,7 +45,6 @@ public class run_api extends HttpServlet implements Runnable {
     public void run() {
         while (true) {
             try {
-                
                 System.out.println("Runing 1");
                 this.Log.info("Runing Test");
                 /////  ส่ง MT
@@ -54,20 +53,19 @@ public class run_api extends HttpServlet implements Runnable {
                 tt.start();
                 
                 ///// ส่ง Wap Push โดยเช็ควันหลังสมัคร 5 วัน ส่ง URL มี2แบบ
-                Thread tt2 = new Thread(new Wap_Push());
-                tt2.setPriority(1);
-                tt2.start();
-
-                worning();
-
+//                Thread tt2 = new Thread(new Wap_Push());
+//                tt2.setPriority(1);
+//                tt2.start();
+                
+//                worning();
             } catch (Exception ex) {
-                System.out.println("Error Runing : " + ex);
+                //System.out.println("Error Runing : " + ex);
                 Log.info("application exception " + ex.getMessage());
             } finally {
                 try {
                     Thread.sleep(ThreadSleep);
                 } catch (InterruptedException ex) {
-
+                    
                 }
             }
 
@@ -87,13 +85,10 @@ public class run_api extends HttpServlet implements Runnable {
 
             // System.out.println("D1 ttd: " + convertedDate + " Start : " + start + " End : " + end);
             /////// Date < Date = -1 | Date = Date = 0 | Date > Date = 1
-//            System.out.println("Show int : " + convertedDate.compareTo(start));
-//            System.out.println("Show int : " + convertedDate.compareTo(end));
             if (convertedDate.compareTo(start) == -1 && convertedDate.compareTo(end) == 1) {
-                //System.out.println("SMS Worning");
-                Thread tt = new Thread(new SMS_Worning());
-                tt.setPriority(1);
-                tt.start();
+//                Thread tt = new Thread(new SMS_Worning());
+//                tt.setPriority(1);
+//                tt.start();
             }
 
         } catch (Exception e) {
