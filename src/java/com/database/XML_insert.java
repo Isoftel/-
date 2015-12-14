@@ -14,6 +14,8 @@ import java.util.ResourceBundle;
 
 public class XML_insert {
 
+    ProcessDatabase insert = new ProcessDatabase();
+
     Connection conn = null;
     Statement stmt = null;
     ResultSet rs = null;
@@ -24,18 +26,18 @@ public class XML_insert {
     String user = msg.getString("user");
     String pass = msg.getString("pass");
 
-    public String insert_r(String xml,String id) {
-  
-        String service = getdata(xml, "service-id", 1, "");
-        String messageid = getdata(xml, "<destination messageid=\"", 3, "");
-        String number = getdata(xml, "number type=\"international\"", 4, "number");
+    public String insert_r(String xml, String id) {
 
-        String number_text = getdata(xml, "number type=\"\"", 1, "number");
+        String service = insert.getdata(xml, "service-id", 1, "");
+        String messageid = insert.getdata(xml, "<destination messageid=\"", 3, "");
+        String number = insert.getdata(xml, "number type=\"international\"", 4, "number");
+
+        String number_text = insert.getdata(xml, "number type=\"\"", 1, "number");
         if (number_text.equals(null)) {
-            number_text = getdata(xml, "number type=\"abbreviated\"", 1, "number");
+            number_text = insert.getdata(xml, "number type=\"abbreviated\"", 1, "number");
         }
-        String code = getdata(xml, "code", 1, "");
-        String description = getdata(xml, "description", 1, "description");
+        String code = insert.getdata(xml, "code", 1, "");
+        String description = insert.getdata(xml, "description", 1, "description");
 
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -74,36 +76,6 @@ public class XML_insert {
 //        rsp.setDescription(getdata(str, "description"));
 //        rsp.setRdate(getdata(str, "dates"));
         return rsp;
-    }
-
-    public String getdata(String in, String Tag, int ifroob, String back) {
-        StringBuilder sb = new StringBuilder();
-        String result = null;
-        try {
-            String document = in;
-            String startTag = "";
-            String endTag = "";
-            if (ifroob == 1) {
-                startTag = "<" + Tag + ">";
-                endTag = "</" + Tag + ">";
-            } else if (ifroob == 2) {
-                startTag = "<" + Tag;
-                endTag = "\">";
-            } else if (ifroob == 3) {
-                startTag = "<" + Tag + "";
-                endTag = "\"?>";
-            } else if (ifroob == 4) {
-                startTag = "<" + Tag + ">";
-                endTag = "<" + back + ">";
-            }
-            int start = document.indexOf(startTag) + startTag.length();
-            int end = document.indexOf(endTag);
-            result = document.substring(start, end);
-        } catch (Exception ex) {
-            //System.out.println("error : "+ex.getMessage());
-            return result;
-        }
-        return result;
     }
 
 }

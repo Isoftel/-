@@ -60,17 +60,18 @@ public class MT_data implements Runnable {
             System.out.println("Run Reg");
             try {
                 byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
-                //"TIS-620"
                 encode = new sun.misc.BASE64Encoder().encode(b);
+                //default //TIS-620 //UTF-8 //
                 RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode, "default");
-                GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode,"mt");
+                GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
                 //insert_r.insert_r(GetXML, "MT");
+                System.out.println("XML GET : " + GetXML);
                 this.Log.info("Get Xml : " + GetXML);
             } catch (Exception e) {
                 this.Log.info("Error Reg : " + e);
             }
         }
-        
+
 //        ////////////////////////////////////////////////////// mt ส่งยกเลิก
 //        List<data_user> id_user_unreg = ProcessUnRegister();
 //        for (data_user r : id_user_unreg) {
@@ -96,7 +97,6 @@ public class MT_data implements Runnable {
 //                this.Log.info("Error SMS : " + e);
 //            }
 //        }
-
         if (id_user_reg.size() > 0) {
 
         }
@@ -133,13 +133,12 @@ public class MT_data implements Runnable {
 //                    }
 //                    //dumpString();
 //                }
-
                 //access = "4557000";
                 String date = rs.getString("cdate");
                 String user = rs.getString("api_user");
                 String pass = rs.getString("api_password");
 
-                System.out.println("Sql : " + " 1 " + service + " 2 " + number + " 3 " + Text_Service + " 4 " + access);
+                //System.out.println("Sql : " + " 1 " + service + " 2 " + number + " 3 " + Text_Service + " 4 " + access);
                 iduser.setService_id(service);
                 iduser.setNumber_type(number);
                 iduser.setDescriptions(Text_Service);
@@ -242,7 +241,6 @@ public class MT_data implements Runnable {
 
 //            String sql = "UPDATE sms SET status = '90' WHERE sms_id ='" + id_user + "' ";
 //            stmt.executeUpdate(sql);
-
             conn.close();
         } catch (Exception e) {
             //System.out.println("Error : " + e);

@@ -19,34 +19,55 @@ public class DeliveryRequest_true extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) {
         this.Log.info("DeliveryRequest Runing");
-        
         PrintWriter out = null;
         ////////////////////  mo
         try {
             //response.setContentType("text/xml;charset=UTF-8");
             //response.setContentType("text/xml;charset=TIS-620");
             out = response.getWriter();
-            String encoding = "TIS-620";
-            
+            //String encoding = "TIS-620";
+
             //////////////////แปลง InputStream to String
             InputStream inStream = request.getInputStream();
             String result = getStringFromInputStream(inStream);
-            this.Log.info("Request Get XML : " + request);
-            
+            this.Log.info("Request Get XML : " + result);
+            System.out.println("XML Http : " + result);
+//            result = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>"
+//                    + "<message id=\"routerTestbed@Tesbed:3104400\">"
+//                    + "<sms type=\"mo\">"
+//                    + "<retry count=\"0\" max=\"0\"/>"
+//                    + "<destination messageid=\"264962211\">"
+//                    + "<address>"
+//                    + "<number type=\"abbreviated\">4557777</number>"
+//                    + "</address>"
+//                    + "</destination>"
+//                    + "<source>"
+//                    + "<address>"
+//                    + "<number type=\"international\">668xxxxxxxx</number>"
+//                    + "</address>"
+//                    + "</source>"
+//                    + "<ud type=\"text\">R</ud>"
+//                    + "<scts>2009-05-15T11:03:20Z</scts>"
+//                    + "<service-id>7112409002</service-id>"
+//                    + "</sms>"
+//                    + "<from>SMPP_CMG1</from>"
+//                    + "<to>HttpAdapter:: 0101102156</to>"
+//                    + "</message>";
+            System.out.println("TTT : " + result);
             //////////////////รับ XML แยกการทำงาน MO,MT,Worning ไปตัดและส่ง Database
             String sms = (insert.getdata(result, "sms type=\"", 3, ""));
             String ud = (insert.getdata(result, "ud type=\"text\"", 4, "ud"));
-
             String rsr = (insert.getdata(result, "rsr type=\"", 3, ""));
+            
+            System.out.println("SMS : " + sms + " UD : " + ud + " rsr " + rsr);
 
             if (sms.equals("mo")) {
                 //รับ สมัคร ยกเลิก
                 insert.ProcessDatabase(result, out);
             } else if (rsr.equals("sent") || rsr.equals("sent_delivered")) {
                 //รับ SMS ส่งมาสองตรั้ง ยังไม่เก็บก่นอ กับ เก็บตัง
-                insert.ProcessSMS(result, out);
+                //insert.ProcessSMS(result, out);
             }
-
             //////////////////ส่งค่า HTTP กลับ
             response.setContentLength(result.length());
             response.setHeader("Connection", "close");
@@ -59,7 +80,7 @@ public class DeliveryRequest_true extends HttpServlet {
         } catch (Exception e) {
             System.out.println("Error De : " + e);
         } finally {
-            //out.close();
+            out.close();
         }
     }
 
@@ -104,4 +125,3 @@ public class DeliveryRequest_true extends HttpServlet {
     }
 
 }
-

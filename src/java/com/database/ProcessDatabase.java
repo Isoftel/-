@@ -37,7 +37,6 @@ public class ProcessDatabase {
     public String ProcessDatabase(String result, PrintWriter out) {
         String sql = null;
         this.Log.info("Get Xml true : " + result);
-
         String encoding = (getdata(result, "?xml version=\"1.0\" encoding=\"", 2, ""));
         String message = (getdata(result, "message id=\"", 3, ""));
         String sms = (getdata(result, "sms type=\"", 3, ""));
@@ -49,9 +48,7 @@ public class ProcessDatabase {
         String service = (getdata(result, "service-id", 1, ""));
         String from = (getdata(result, "from", 1, ""));
         String to = (getdata(result, "to", 1, ""));
-        //System.out.println(" 1 " + encoding + " 2 " + sms + " 3 " + service + " 4 " + destination + " 5 " + number + " 6 " + ud + " 7 " +time);
-        //
-        if (service.equals("7112402001")) {
+        if (destination.equals("4557878")) {
 
         } else {
             if (ud.equals("R")) {
@@ -60,11 +57,9 @@ public class ProcessDatabase {
                 ud = "UNREG";
             }
         }
-
         try {
             cdate = dateFormat.parse(time);
         } catch (Exception e) {
-
         }
 
         int check_number = 0;
@@ -80,9 +75,8 @@ public class ProcessDatabase {
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
-
             sql = "INSERT INTO delivery_request(TransactionID,product_id,MSISDN,Content,cdate,service_id) "
-                    + "VALUES ('" + message + "','" + messageid + "','" + number + "','" + ud + "','" + time + "','" + service + "')";
+                    + "VALUES ('" + message + "','" + destination + "','" + number + "','" + ud + "','" + time + "','" + service + "')";
             stmt.execute(sql);
 
             //////////// mobile ดูว่ามีเบอร์แล้วหรือยังมี ดึง ID ไม่มีให้ INSERT
@@ -97,7 +91,7 @@ public class ProcessDatabase {
             }
             if (check_number == 0) {
                 sql = "INSERT INTO mobile(msisdn, cdate, operator_id, udate) "
-                        + "VALUES('" + number + "',time,'3',time)";
+                        + "VALUES('" + number + "','" + time + " ','3','" + time + " ')";
                 stmt.execute(sql);
 
                 sql = "select * from mobile where msisdn = '" + number + "'";
@@ -113,10 +107,10 @@ public class ProcessDatabase {
             while (rs.next()) {
                 id_service = rs.getInt("id");
                 str_service = rs.getString("service_id");
-                str_product = rs.getString("Product_ID");
+                str_product = rs.getString("access_number");
             }
         } catch (Exception e) {
-
+            System.out.println("Error delivery_request : " + e);
         } finally {
             try {
                 conn.close();
@@ -126,6 +120,7 @@ public class ProcessDatabase {
 
         if (ud.equals("REG")) {
             try {
+                System.out.println("Reg insert");
                 Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
                 String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
                 conn = DriverManager.getConnection(connectionUrl);
@@ -134,39 +129,46 @@ public class ProcessDatabase {
                 //////////////////subscribe เช็คสมัครแล้วหรือยัง
                 String description = "non";
                 String id_subscribe = "";
-                sql = "select * from subscribe where service_id = '" + service + "' and mobile_id = '" + id_number + "' ";
+                sql = "select * from subscribe where service_id = '" + id_service + "' and mobile_id = '" + id_number + "' ";
                 rs = stmt.executeQuery(sql);
                 while (rs.next()) {
                     description = rs.getString("description");
                     id_subscribe = rs.getString("id");
                 }
-
                 //////////////////register  non=ยังมีการทำรายการในบริการนั้น | UNREG เคยสมัคร ต้อง UPDATE | REG ส่งข้อความกลับไปแล้วสมัครแล้ว
                 String text = "Success receive request";
                 if (description.equals("non")) {
+                    ///////// ยังไม่เคยสมัคร
                     sql = "INSERT INTO subscribe(mobile_id, service_id, description, cdate) "
-                            + "VALUES('" + id_number + "','" + id_service + "','REG','" + cdate + "')";
+                            + "VALUES('" + id_number + "','" + id_service + "','REG','" + time + "')";
                     stmt.execute(sql);
-                    ///ส่งค่ากลับไปทันที
+                    sql = "INSERT INTO register(api_req, reg_channel, mobile_id, service_id, reg_date, status) "
+                            + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + time + "','0')";
+                    stmt.execute(sql);
                     out_xml.OutXmlr(encoding, message, service, destination, number, text, out);
                 } else if (description.equals("UNREG")) {
-                    sql = "UPDATE subscribe SET description = 'REG',udate = '" + cdate + "' WHERE id='" + id_subscribe + "' ";
+                    ///// เคยสมัครแต่ยกเลิกแล้ว
+                    sql = "UPDATE subscribe SET description = 'REG',udate = '" + time + "' WHERE id='" + id_subscribe + "' ";
                     stmt.executeUpdate(sql);
+                    sql = "INSERT INTO register(api_req, reg_channel, mobile_id, service_id, reg_date, status) "
+                            + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + time + "','0')";
+                    stmt.execute(sql);
                     out_xml.OutXmlr(encoding, message, service, destination, number, text, out);
                 } else if (description.equals("REG")) {
-                    /// ส่งกลับทันที
+                    /// สมัครแล้วยังไม่ยกเลิก ส่งกลับทันที
                     text = "You can subscribe to this service";
                     out_xml.OutXmlr(encoding, message, service, destination, number, text, out);
                 }
-                sql = "INSERT INTO register(api_req, reg_channel, mobile_id, service_id, reg_date, status) "
-                        + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + cdate + "','0')";
-                stmt.execute(sql);
 
-                conn.close();
             } catch (Exception e) {
                 this.Log.info("Error REG : " + e);
-                //System.out.println("Error SQL : " + e);
+                System.out.println("Error SQL Reg : " + e);
 
+            } finally {
+                try {
+                    conn.close();
+                } catch (Exception e) {
+                }
             }
         } else if (ud.equals("UNREG")) {
             try {
@@ -215,7 +217,7 @@ public class ProcessDatabase {
                 sql = "INSERT INTO sms (msisdn,service_id,Product_ID,Timestamp,cdate,content,content_type,status) "
                         + "VALUES ('" + str_msisdn + "','" + str_service + "','" + str_product + "','" + cdate + "','" + cdate_sms + "','" + ud + "','T','1')";
                 stmt.execute(sql);
-                
+
             } catch (Exception e) {
                 this.Log.info("Error DRACO : " + e);
             } finally {
@@ -279,24 +281,35 @@ public class ProcessDatabase {
             String document = in;
             String startTag = "";
             String endTag = "";
+
+            int start = 0;
+            int end = 0;
+
             if (ifroob == 1) {
                 startTag = "<" + Tag + ">";
                 endTag = "</" + Tag + ">";
+                start = document.indexOf(startTag) + startTag.length();
+                end = document.indexOf(endTag);
             } else if (ifroob == 2) {
                 startTag = "<" + Tag;
                 endTag = "\"?>";
+                start = document.indexOf(startTag) + startTag.length();
+                end = document.indexOf(endTag);
             } else if (ifroob == 3) {
-                startTag = "<" + Tag + "\"";
+                startTag = "<" + Tag;
                 endTag = "\">";
+                start = document.indexOf(startTag) + startTag.length();
+                end = document.indexOf(endTag, start);
+                //end = document.indexOf(startTag) + startTag.length() + endTag.length();
             } else if (ifroob == 4) {
                 startTag = "<" + Tag + ">";
                 endTag = "</" + back + ">";
+                start = document.indexOf(startTag) + startTag.length();
+                end = document.indexOf(endTag, start);
             }
-            int start = document.indexOf(startTag) + startTag.length();
-            int end = document.indexOf(endTag);
+            //System.out.println("St : " + start + " End : " + end);
             result = document.substring(start, end);
         } catch (Exception ex) {
-            //System.out.println("error : "+ex.getMessage());
             return result;
         }
         return result;
