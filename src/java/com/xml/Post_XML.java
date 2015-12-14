@@ -38,7 +38,6 @@ public class Post_XML {
         try {
             Log.info("URL Post : " + StrUrl);
             PostMethod post = new PostMethod(StrUrl);
-
             if (type_header_xml.equals("mt")) {
                 //post.setRequestBody("POST /HTTP/1.1");
                 post.setRequestHeader("Authorization:", "Basic " + id_pass);
@@ -57,7 +56,7 @@ public class Post_XML {
             //RequestEntity entity = new StringRequestEntity(StrXml, "text/xml", "UTF-8");
             post.setRequestEntity(entity);
             HttpClient httpclient = new HttpClient();
-
+            
             //////รับค่ากลับมาเป็น XML จากตัวที่เราส่งไป
             int returnCode = httpclient.executeMethod(post);
 
@@ -72,7 +71,7 @@ public class Post_XML {
         } catch (Exception e) {
             this.Log.info("Error Post : " + e);
         }
-
+        System.out.println("Xml Re : " + xmlRes);
         return xmlRes;
     }
 

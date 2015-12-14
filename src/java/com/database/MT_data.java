@@ -60,9 +60,10 @@ public class MT_data implements Runnable {
             System.out.println("Run Reg");
             try {
                 byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
+                //"TIS-620"
                 encode = new sun.misc.BASE64Encoder().encode(b);
                 RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode, "default");
-                GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "TIS-620");
+                GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode,"mt");
                 //insert_r.insert_r(GetXML, "MT");
                 this.Log.info("Get Xml : " + GetXML);
             } catch (Exception e) {
@@ -77,7 +78,7 @@ public class MT_data implements Runnable {
 //                byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
 //                encode = new sun.misc.BASE64Encoder().encode(b);
 //                RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode, "default");
-//                GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "TIS-620");
+//                GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
 //            } catch (Exception e) {
 //                this.Log.info("Error Unreg : " + e);
 //            }
@@ -90,7 +91,7 @@ public class MT_data implements Runnable {
 //                byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
 //                encode = new sun.misc.BASE64Encoder().encode(b);
 //                RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode, "unicode");
-//                GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "TIS-620");
+//                GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "sent");
 //            } catch (Exception e) {
 //                this.Log.info("Error SMS : " + e);
 //            }
@@ -114,7 +115,7 @@ public class MT_data implements Runnable {
                     + "INNER JOIN mobile    ON mobile.mobile_id = register.mobile_id   "
                     + "INNER JOIN mgr       ON mgr.operator_id = mobile.operator_id "
                     + "where register.status = '0' and register.api_req = 'REG' and mgr.api_req = 'REG'");
-
+            //INNER JOIN sms		 ON sms.msisdn =  mobile.msisdn
             while (rs.next()) {
                 String content_sms = "";
                 data_user iduser = new data_user();
@@ -125,13 +126,13 @@ public class MT_data implements Runnable {
                 String Text_Service = rs.getString("detail_reg");
                 String access = rs.getString("access_number");
 
-                if (access.equals("4557878")) {
-                    rs = stmt.executeQuery("select * from sms where msisdn = '" + number + "' and service_id = '7112402000' ");
-                    while (rs.next()) {
-                        content_sms = rs.getString("content");
-                    }
-                    //dumpString();
-                }
+//                if (access.equals("4557878")) {
+//                    rs = stmt.executeQuery("select * from sms where msisdn = '" + number + "' and service_id = '7112402001' ");
+//                    while (rs.next()) {
+//                        content_sms = rs.getString("content");
+//                    }
+//                    //dumpString();
+//                }
 
                 //access = "4557000";
                 String date = rs.getString("cdate");
@@ -151,7 +152,7 @@ public class MT_data implements Runnable {
             }
             conn.close();
         } catch (Exception e) {
-            //System.out.println("Error : " + e);
+            System.out.println("Error : " + e);
             this.Log.info("Error select sql reg" + e);
         }
         return user_room;
@@ -213,7 +214,7 @@ public class MT_data implements Runnable {
                     + "INNER JOIN services  ON services.service_id  = sms.service_id  "
                     + "INNER JOIN mobile    ON mobile.msisdn = sms.msisdn "
                     + "INNER JOIN mgr       ON mgr.operator_id = mobile.operator_id "
-                    + "WHERE mgr.api_req = 'REG' AND status = '0'");
+                    + "WHERE mgr.api_req = 'REG' AND sms.statuscode = '0'");
             String id_user = "";
             while (rs.next()) {
                 data_user iduser = new data_user();
@@ -250,16 +251,6 @@ public class MT_data implements Runnable {
         return user_room;
     }
 
-    /*
-    
-     SELECT *  FROM [PLAYBOY].[dbo].[register] r
-     join [dbo].[subscribe] s on r.mobile_id = s.mobile_id
-     join [dbo].[mobile] m on s.mobile_id = m.mobile_id
-     join [dbo].[services] sv on s.service_id = sv.id
-     where convert(varchar(10),reg_date,110) = convert(varchar(10),dateadd(day,-5,getdate()),110) 
-     and s.description = 'REG'
-    
-     */
     public String dumpStrings(String text) {
         String str_unicode = "";
         for (int i = 0; i < text.length(); i++) {
