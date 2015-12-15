@@ -32,24 +32,17 @@ public class XML_insert {
         String service = insert.getdata(xml, "service-id", 1, "");
         String messageid = insert.getdata(xml, "<destination messageid=\"", 3, "");
         String number = insert.getdata(xml, "number type=\"international\"", 4, "number");
-        //String number_text = "non";
-        String number_text = insert.getdata(xml, "number type=\"\"", 1, "number");
-        
-        try {
-            
+        String code = insert.getdata(xml, "code", 1, "");
+        String description = insert.getdata(xml, "description", 1, "description");
+        String number_text = "non";
+        //String number_text = insert.getdata(xml, "number type=\"\"", 1, "number");
+        number_text = insert.getdata(xml, "number type=\"abbreviated\"", 1, "number");
+        //number_text = insert.getdata(xml, "number type=\"\"", 1, "number");
 //            if (number_text.equals("non")) {
-//                //number_text = insert.getdata(xml, "number type=\"abbreviated\"", 1, "number");
+//                
 //            }
-            if(messageid.equals("gg")){
-                
-            }
-        } catch (Exception e) {
-            System.out.println("Er ?? " + e);
-        }
 
-//        String code = insert.getdata(xml, "code", 1, "");
-//        String description = insert.getdata(xml, "description", 1, "description");
-//        System.out.println("service " + service + " messageid " + messageid + " number " + number + " number_text " + number_text + " code " + code + " description " + description);
+        System.out.println("service " + service + " messageid " + messageid + " number " + number + " number_text " + number_text + " code " + code + " description " + description);
 //        try {
 //            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 //            String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";

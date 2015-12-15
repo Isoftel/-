@@ -144,7 +144,7 @@ public class MT_data implements Runnable {
                 data_user iduser = new data_user();
                 id_user = rs.getString("reg_id");
                 String service = rs.getString("service_user");
-                service = "7112402000";
+                service = "7112409003";
                 String number = rs.getString("msisdn");
                 String Text_Service = rs.getString("detail_reg");
                 String access = rs.getString("access_number");
@@ -175,7 +175,7 @@ public class MT_data implements Runnable {
             conn.close();
         } catch (Exception e) {
             System.out.println("Error : " + e);
-            this.Log.info("Error select sql reg" + e);
+            this.Log.info("Error select sql reg " + e);
         }
         return user_room;
     }
@@ -220,7 +220,7 @@ public class MT_data implements Runnable {
             conn.close();
         } catch (Exception e) {
             //System.out.println("Error : " + e);
-            this.Log.info("Error select sql unreg" + e);
+            this.Log.info("Error select sql unreg " + e);
         }
         return user_room;
     }
@@ -267,7 +267,7 @@ public class MT_data implements Runnable {
             conn.close();
         } catch (Exception e) {
             //System.out.println("Error : " + e);
-            this.Log.info("Error select sql thank" + e);
+            this.Log.info("Error select sql thank " + e);
         }
         return user_room;
     }

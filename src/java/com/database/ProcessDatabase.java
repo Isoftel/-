@@ -328,7 +328,7 @@ public class ProcessDatabase {
                 start = document.indexOf(startTag) + startTag.length();
                 end = document.indexOf(endTag, start);
             }
-            //System.out.println("St : " + start + " End : " + end);
+            System.out.println("St : " + start + " End : " + end);
             result = document.substring(start, end);
         } catch (Exception ex) {
             return result;
