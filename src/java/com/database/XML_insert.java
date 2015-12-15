@@ -30,7 +30,8 @@ public class XML_insert {
         System.out.println(xml);
 
         String service = insert.getdata(xml, "service-id", 1, "");
-        String messageid = insert.getdata(xml, "<destination messageid=\"", 3, "");
+        //<destination messageid=\"
+        String messageid = insert.getdata(xml, "destination messageid=\"", 3, "");
         String number = insert.getdata(xml, "number type=\"international\"", 4, "number");
         String code = insert.getdata(xml, "code", 1, "");
         String description = insert.getdata(xml, "description", 1, "description");

@@ -310,12 +310,14 @@ public class ProcessDatabase {
                 startTag = "<" + Tag + ">";
                 endTag = "</" + Tag + ">";
                 start = document.indexOf(startTag) + startTag.length();
-                end = document.indexOf(endTag);
+                end = document.indexOf(endTag, start);
+                System.out.println("start " + startTag);
+                System.out.println("end   " + endTag);
             } else if (ifroob == 2) {
                 startTag = "<" + Tag;
                 endTag = "\"?>";
                 start = document.indexOf(startTag) + startTag.length();
-                end = document.indexOf(endTag);
+                end = document.indexOf(endTag, start);
             } else if (ifroob == 3) {
                 startTag = "<" + Tag;
                 endTag = "\">";
