@@ -170,10 +170,14 @@ public class MT_data implements Runnable {
 //                stmt.executeUpdate(sql);
                 user_room.add(iduser);
             }
-            conn.close();
         } catch (Exception e) {
             System.out.println("Error : " + e);
             this.Log.info("Error select sql reg " + e);
+        } finally {
+            try {
+                conn.close();
+            } catch (Exception e) {
+            }
         }
         return user_room;
     }
@@ -215,10 +219,14 @@ public class MT_data implements Runnable {
 //                stmt.executeUpdate(sql);
                 user_room.add(iduser);
             }
-            conn.close();
         } catch (Exception e) {
             //System.out.println("Error : " + e);
             this.Log.info("Error select sql unreg " + e);
+        } finally {
+            try {
+                conn.close();
+            } catch (Exception e) {
+            }
         }
         return user_room;
     }
@@ -262,10 +270,14 @@ public class MT_data implements Runnable {
 
 //            String sql = "UPDATE sms SET status = '90' WHERE sms_id ='" + id_user + "' ";
 //            stmt.executeUpdate(sql);
-            conn.close();
         } catch (Exception e) {
             //System.out.println("Error : " + e);
             this.Log.info("Error select sql thank " + e);
+        } finally {
+            try {
+                conn.close();
+            } catch (Exception e) {
+            }
         }
         return user_room;
     }

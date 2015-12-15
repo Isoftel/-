@@ -307,24 +307,24 @@ public class ProcessDatabase {
             int end = 0;
 
             if (ifroob == 1) {
+                //ตัดแบบ หน้างหลังเหมือนกัน
                 startTag = "<" + Tag + ">";
                 endTag = "</" + Tag + ">";
-                start = document.indexOf(startTag) + startTag.length();
-                end = document.indexOf(endTag, start);
-                System.out.println("start " + startTag);
-                System.out.println("end   " + endTag);
             } else if (ifroob == 2) {
+                //ตัดแบบ เอาระหว่างกลาง ใส่หน้า <" ใส่หลัง ?> 
                 startTag = "<" + Tag;
                 endTag = "\"?>";
                 start = document.indexOf(startTag) + startTag.length();
                 end = document.indexOf(endTag, start);
             } else if (ifroob == 3) {
+                //ตัดแบบ เอาระหว่างกลาง ใส่หน้า <" ใส่หลัง "> 
                 startTag = "<" + Tag;
                 endTag = "\">";
                 start = document.indexOf(startTag) + startTag.length();
                 end = document.indexOf(endTag, start);
                 //end = document.indexOf(startTag) + startTag.length() + endTag.length();
             } else if (ifroob == 4) {
+                //ตัดแบบ หน้าอีกแบบ ใส่อีกแบบ 
                 startTag = "<" + Tag + ">";
                 endTag = "</" + back + ">";
                 start = document.indexOf(startTag) + startTag.length();

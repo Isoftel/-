@@ -37,7 +37,7 @@ public class XML_insert {
         String description = insert.getdata(xml, "description", 1, "description");
         String number_text = "non";
         //String number_text = insert.getdata(xml, "number type=\"\"", 1, "number");
-        number_text = insert.getdata(xml, "number type=\"abbreviated\"", 1, "number");
+        number_text = insert.getdata(xml, "number type=\"abbreviated\"", 4, "number");
         //number_text = insert.getdata(xml, "number type=\"\"", 1, "number");
 //            if (number_text.equals("non")) {
 //                
