@@ -36,7 +36,7 @@ public class ProcessDatabase {
 
     public String ProcessDatabase(String result, PrintWriter out) {
         String sql = null;
-        this.Log.info("Get Xml true : " + result);
+        //this.Log.info("Get Xml true : " + result);
         String encoding = (getdata(result, "?xml version=\"1.0\" encoding=\"", 2, ""));
         String message = (getdata(result, "message id=\"", 3, ""));
         String sms = (getdata(result, "sms type=\"", 3, ""));
@@ -45,7 +45,7 @@ public class ProcessDatabase {
         String number = (getdata(result, "number type=\"international\"", 4, "number"));
         String ud = (getdata(result, "ud type=\"text\"", 4, "ud"));
         String time = (getdata(result, "scts", 1, "scts"));
-        String service = (getdata(result, "service-id", 1, ""));
+        String service = (getdata(result, "service-id", 1, "service-id"));
         String from = (getdata(result, "from", 1, ""));
         String to = (getdata(result, "to", 1, ""));
         if (destination.equals("4557878")) {

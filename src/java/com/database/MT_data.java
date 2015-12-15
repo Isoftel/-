@@ -62,7 +62,7 @@ public class MT_data implements Runnable {
                 encode = new sun.misc.BASE64Encoder().encode(b);
                 //default //TIS-620 //UTF-8 //
                 RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode, "default");
-                GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
+                //GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
 //                GetXML = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>"
 //                        + "<message id=\"1242878588600\">"
 //                        + "<rsr type=\"ack\">"
@@ -83,8 +83,8 @@ public class MT_data implements Runnable {
 //                        + "</rsr_detail>"
 //                        + "</rsr>"
 //                        + "</message>";
-                System.out.println("XML GET : " + GetXML);
-                insert_r.insert_r(GetXML, "MT");
+                //System.out.println("XML GET : " + GetXML);
+                //insert_r.insert_r(GetXML, "MT");
                 this.Log.info("Get Xml : " + GetXML);
             } catch (Exception e) {
                 this.Log.info("Error Reg : " + e);
