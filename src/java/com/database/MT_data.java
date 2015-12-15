@@ -63,26 +63,26 @@ public class MT_data implements Runnable {
                 //default //TIS-620 //UTF-8 //
                 RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode, "default");
                 GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
-                GetXML = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>"
-                        + "<message id=\"1242878588600\">"
-                        + "<rsr type=\"ack\">"
-                        + "<service-id>0101102156</service-id>"
-                        + "<destination messageid=\"1242878588600\">"
-                        + "<address>"
-                        + "<number type=\"international\">668xxxxxxxx</number>"
-                        + "</address>"
-                        + "</destination>"
-                        + "<source>"
-                        + "<address>"
-                        + "<number type=\"abbreviated\">True Move</number>"
-                        + "</address>"
-                        + "</source>"
-                        + "<rsr_detail status=\"success\">"
-                        + "<code>000</code>"
-                        + "<description>success</description>"
-                        + "</rsr_detail>"
-                        + "</rsr>"
-                        + "</message>";
+//                GetXML = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>"
+//                        + "<message id=\"1242878588600\">"
+//                        + "<rsr type=\"ack\">"
+//                        + "<service-id>0101102156</service-id>"
+//                        + "<destination messageid=\"1242878588600\">"
+//                        + "<address>"
+//                        + "<number type=\"international\">668xxxxxxxx</number>"
+//                        + "</address>"
+//                        + "</destination>"
+//                        + "<source>"
+//                        + "<address>"
+//                        + "<number type=\"abbreviated\">True Move</number>"
+//                        + "</address>"
+//                        + "</source>"
+//                        + "<rsr_detail status=\"success\">"
+//                        + "<code>000</code>"
+//                        + "<description>success</description>"
+//                        + "</rsr_detail>"
+//                        + "</rsr>"
+//                        + "</message>";
                 System.out.println("XML GET : " + GetXML);
                 insert_r.insert_r(GetXML, "MT");
                 this.Log.info("Get Xml : " + GetXML);
