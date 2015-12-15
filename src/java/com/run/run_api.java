@@ -49,9 +49,9 @@ public class run_api extends HttpServlet implements Runnable {
                 System.out.println("Runing API");
                 this.Log.info("Runing API");
                 /////  ส่ง MT
-                Thread tt = new Thread(new MT_data());
-                tt.setPriority(1);
-                tt.start();
+//                Thread tt = new Thread(new MT_data());
+//                tt.setPriority(1);
+//                tt.start();
                 
                 ///// ส่ง Wap Push โดยเช็ควันหลังสมัคร 5 วัน ส่ง URL มี2แบบ
 //                Thread tt2 = new Thread(new Wap_Push());
@@ -61,7 +61,7 @@ public class run_api extends HttpServlet implements Runnable {
 //                worning();
             } catch (Exception ex) {
                 //System.out.println("Error Runing : " + ex);
-                Log.info("application exception " + ex.getMessage());
+                this.Log.info("application exception " + ex);
             } finally {
                 try {
                     Thread.sleep(ThreadSleep);

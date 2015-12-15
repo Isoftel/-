@@ -48,6 +48,8 @@ public class ProcessDatabase {
         String service = (getdata(result, "service-id", 1, "service-id"));
         String from = (getdata(result, "from", 1, ""));
         String to = (getdata(result, "to", 1, ""));
+        //System.out.println("service " + service + " time " + time);
+        
         if (destination.equals("4557878")) {
 
         } else {
@@ -310,6 +312,8 @@ public class ProcessDatabase {
                 //ตัดแบบ หน้างหลังเหมือนกัน
                 startTag = "<" + Tag + ">";
                 endTag = "</" + Tag + ">";
+                start = document.indexOf(startTag) + startTag.length();
+                end = document.indexOf(endTag, start);
             } else if (ifroob == 2) {
                 //ตัดแบบ เอาระหว่างกลาง ใส่หน้า <" ใส่หลัง ?> 
                 startTag = "<" + Tag;
@@ -330,7 +334,7 @@ public class ProcessDatabase {
                 start = document.indexOf(startTag) + startTag.length();
                 end = document.indexOf(endTag, start);
             }
-            System.out.println("St : " + start + " End : " + end);
+            //System.out.println("St : " + start + " End : " + end);
             result = document.substring(start, end);
         } catch (Exception ex) {
             return result;
