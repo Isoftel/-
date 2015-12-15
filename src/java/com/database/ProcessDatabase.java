@@ -51,9 +51,9 @@ public class ProcessDatabase {
         if (destination.equals("4557878")) {
 
         } else {
-            if (ud.equals("R")) {
+            if (ud.equals("R") || ud.equals("r")) {
                 ud = "REG";
-            } else if (ud.equals("C")) {
+            } else if (ud.equals("C") || ud.equals("c")) {
                 ud = "UNREG";
             }
         }
@@ -69,6 +69,7 @@ public class ProcessDatabase {
         String str_msisdn = "";
         String str_service = "";
         String str_product = "";
+        String product_id = "";
 
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -108,6 +109,7 @@ public class ProcessDatabase {
                 id_service = rs.getInt("id");
                 str_service = rs.getString("service_id");
                 str_product = rs.getString("access_number");
+                product_id = rs.getString("Product_ID");
             }
         } catch (Exception e) {
             System.out.println("Error delivery_request : " + e);
@@ -137,6 +139,7 @@ public class ProcessDatabase {
                 }
                 //////////////////register  non=ยังมีการทำรายการในบริการนั้น | UNREG เคยสมัคร ต้อง UPDATE | REG ส่งข้อความกลับไปแล้วสมัครแล้ว
                 String text = "Success receive request";
+                //String text = "สมัครสมาชิก";
                 if (description.equals("non")) {
                     ///////// ยังไม่เคยสมัคร
                     sql = "INSERT INTO subscribe(mobile_id, service_id, description, cdate) "
@@ -157,13 +160,13 @@ public class ProcessDatabase {
                 } else if (description.equals("REG")) {
                     /// สมัครแล้วยังไม่ยกเลิก ส่งกลับทันที
                     text = "You can subscribe to this service";
+                    //String text = "ท่านเคยสมัครสมาชิกแล้ว";
                     out_xml.OutXmlr(encoding, message, service, destination, number, text, out);
                 }
 
             } catch (Exception e) {
                 this.Log.info("Error REG : " + e);
-                System.out.println("Error SQL Reg : " + e);
-
+                //System.out.println("Error SQL Reg : " + e);
             } finally {
                 try {
                     conn.close();
@@ -180,46 +183,64 @@ public class ProcessDatabase {
                 //////////////////subscribe เช็คสมัครแล้วหรือยัง
                 String description = "non";
                 String id_subscribe = "";
-                sql = "select * from subscribe where service_id = '" + service + "' and mobile_id = '" + id_number + "' ";
+                sql = "select * from subscribe where service_id = '" + id_service + "' and mobile_id = '" + id_number + "' ";
                 rs = stmt.executeQuery(sql);
                 while (rs.next()) {
-                    //description = rs.getString("description");
+                    description = rs.getString("description");
                     id_subscribe = rs.getString("id");
                 }
-
-                //////////////////subscribe UPDATE เป็น UNREG เพื่อยกเลิกบริการ 
-                sql = "UPDATE subscribe SET description = 'UNREG',udate = '" + cdate + "' WHERE id='" + id_subscribe + "' ";
-                stmt.executeUpdate(sql);
-
-                //////////////////
-                sql = "INSERT INTO register(api_req, reg_channel, mobile_id, service_id, reg_date, status) "
-                        + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + cdate + "','0')";
-                stmt.execute(sql);
+                System.out.println("description " + description + " id_subscribe " + id_subscribe);
+                String text = "Cancel service success";
+                //String text = "ยกเลิกบริการสำเร็จ";
+                if (description.equals("non")) {
+                    //ไม่เคยเป็นสมาชิก
+                    text = "He was never a member";
+                    //text = "ท่านยังไม่ได้เป็นสมาชิก";
+                    out_xml.OutXmlr(encoding, message, service, destination, number, text, out);
+                } else if (description.equals("UNREG")) {
+                    //เคยยกเลิกสมาชิกแล้ว
+                    text = "Have you ever canceled";
+                    //text = "ท่านเคยยกเลิกสมาชิกแล้ว";
+                    out_xml.OutXmlr(encoding, message, service, destination, number, text, out);
+                } else if (description.equals("REG")) {
+                    //ทำการยกเลิกสมาชิก
+                    //////////////////subscribe UPDATE เป็น UNREG เพื่อยกเลิกบริการ 
+                    sql = "UPDATE subscribe SET description = 'UNREG',udate = '" + time + "' WHERE id='" + id_subscribe + "' ";
+                    stmt.executeUpdate(sql);
+                    ////////////////// บันทึกเพื่อจะส่งยกเลิก
+                    sql = "INSERT INTO register(api_req, reg_channel, mobile_id, service_id, reg_date, status) "
+                            + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + time + "','0')";
+                    stmt.execute(sql);
+                    out_xml.OutXmlr(encoding, message, service, destination, number, text, out);
+                }
 
             } catch (Exception e) {
                 this.Log.info("Error UNREG : " + e);
+                System.out.println("Error SQL Unreg : " + e);
             } finally {
                 try {
                     conn.close();
                 } catch (Exception e) {
                 }
             }
-        } else {
-            ///// ส่งข้อความ SMS
+        } else if (destination.equals("4557878")) {
+            ///// ส่งข้อความ เก็บ content
             try {
+
+                System.out.println("Content : " + ud);
                 String date_format = dateFormat.format(NewDate);
                 Date cdate_sms = dateFormat.parse(date_format);
                 Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
                 String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
                 conn = DriverManager.getConnection(connectionUrl);
                 stmt = conn.createStatement();
-
-                sql = "INSERT INTO sms (msisdn,service_id,Product_ID,Timestamp,cdate,content,content_type,status) "
-                        + "VALUES ('" + str_msisdn + "','" + str_service + "','" + str_product + "','" + cdate + "','" + cdate_sms + "','" + ud + "','T','1')";
+                //statuscode เริ่ม 0 คือไม่ โช้หน้าเวป 1 โชหน้าเวป
+                sql = "INSERT INTO sms (msisdn,service_id,Product_ID,Timestamp,cdate,content,content_type,status,statuscode) "
+                        + "VALUES ('" + str_msisdn + "','" + str_service + "','" + product_id + "','" + time + "','" + date_format + "','" + ud + "','T','0','0')";
                 stmt.execute(sql);
-
             } catch (Exception e) {
                 this.Log.info("Error DRACO : " + e);
+                System.out.println("Error Content : " + e);
             } finally {
                 try {
                     conn.close();

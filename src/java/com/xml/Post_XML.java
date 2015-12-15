@@ -31,7 +31,7 @@ public class Post_XML {
 
     public String PostXml(String StrXml, String StrUrl, String id_pass, String type_header_xml) {
         String xmlRes = null;
-        StrUrl = "http://192.168.0.126:8080/Artemis/DeliveryRequest_true";
+        //StrUrl = "http://192.168.0.126:8080/Artemis/DeliveryRequest_true";
         //StrUrl = "http://10.4.13.39:8004/tmcss2/fh.do";
         //StrUrl = "http://203.144.187.120:55000";
 

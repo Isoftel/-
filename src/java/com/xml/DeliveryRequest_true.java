@@ -31,14 +31,15 @@ public class DeliveryRequest_true extends HttpServlet {
             InputStream inStream = request.getInputStream();
             String result = getStringFromInputStream(inStream);
             this.Log.info("Request Get XML : " + result);
-            System.out.println("XML Http : " + result);
+            //System.out.println("XML Http : " + result);
+            //4557777//4557555//4557878
 //            result = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>"
 //                    + "<message id=\"routerTestbed@Tesbed:3104400\">"
 //                    + "<sms type=\"mo\">"
 //                    + "<retry count=\"0\" max=\"0\"/>"
 //                    + "<destination messageid=\"264962211\">"
 //                    + "<address>"
-//                    + "<number type=\"abbreviated\">4557777</number>"
+//                    + "<number type=\"abbreviated\">4557878</number>"
 //                    + "</address>"
 //                    + "</destination>"
 //                    + "<source>"
@@ -53,14 +54,14 @@ public class DeliveryRequest_true extends HttpServlet {
 //                    + "<from>SMPP_CMG1</from>"
 //                    + "<to>HttpAdapter:: 0101102156</to>"
 //                    + "</message>";
-            System.out.println("TTT : " + result);
+            
             //////////////////รับ XML แยกการทำงาน MO,MT,Worning ไปตัดและส่ง Database
             String sms = (insert.getdata(result, "sms type=\"", 3, ""));
             String ud = (insert.getdata(result, "ud type=\"text\"", 4, "ud"));
             String rsr = (insert.getdata(result, "rsr type=\"", 3, ""));
             
-            System.out.println("SMS : " + sms + " UD : " + ud + " rsr " + rsr);
-
+            //System.out.println("SMS : " + sms + " UD : " + ud + " rsr " + rsr);
+            this.Log.info("MO//" + "SMS : " + sms + " UD : " + ud );
             if (sms.equals("mo")) {
                 //รับ สมัคร ยกเลิก
                 insert.ProcessDatabase(result, out);
