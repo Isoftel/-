@@ -4,8 +4,9 @@ import java.io.PrintWriter;
 import org.apache.log4j.Logger;
 
 public class Out_XML {
+
     Logger Log = Logger.getLogger(this.getClass());
-    
+
     public PrintWriter OutXmlr(String encoding, String message, String service, String destination, String number, String text, PrintWriter out) {
         //encoding, message, service, destination, number
         //if(encoding.equals("ISO-8859-1"))
@@ -27,7 +28,25 @@ public class Out_XML {
         out.println("</rsr_detail>");
         out.println("</rsr>");
         out.println("</message>");
-        this.Log.info("PrintWriter : " + out);
+        this.Log.info("PrintWriter : " + "<?xml version=\"1.0\" encoding=\"" + encoding + "\"?>"
+                + "<message id=\"" + message + "\">"
+                + "<rsr type=\"reply\">"
+                + "<service-id>" + service + "</service-id>"
+                + "<address>"
+                + "<number type=\"abbreviated\">" + destination + "</number>"
+                + "</address>"
+                + "</destination>"
+                + "<source>"
+                + "<address>"
+                + "<number type=\"international\">" + number + "</number>"
+                + "</address>"
+                + "</source>"
+                + "<code>0</code>"
+                + "<description>" + text + "</description>"
+                + "</rsr_detail>"
+                + "</rsr>"
+                + "</message>");
+        //this.Log.info("PrintWriter : " + out.toString());
         return out;
     }
 

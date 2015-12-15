@@ -84,7 +84,7 @@ public class MT_data implements Runnable {
 //                        + "</rsr>"
 //                        + "</message>";
                 System.out.println("XML GET : " + GetXML);
-                //insert_r.insert_r(GetXML, "MT");
+                insert_r.insert_r(GetXML, "MT");
                 this.Log.info("Get Xml : " + GetXML);
             } catch (Exception e) {
                 this.Log.info("Error Reg : " + e);
@@ -166,8 +166,8 @@ public class MT_data implements Runnable {
                 iduser.setAccess(access);
                 iduser.setEncoding(user + pass);
                 iduser.setContent_sms(content_sms);
-//                String sql = "UPDATE register SET status = '10' WHERE reg_id='" + id_user + "' ";
-//                stmt.executeUpdate(sql);
+                String sql = "UPDATE register SET status = '10' WHERE reg_id='" + id_user + "' ";
+                stmt.executeUpdate(sql);
                 user_room.add(iduser);
             }
         } catch (Exception e) {
@@ -215,8 +215,8 @@ public class MT_data implements Runnable {
                 iduser.setAccess(access);
                 iduser.setEncoding(user + pass);
 
-//                String sql = "UPDATE register SET status = '60' WHERE reg_id='" + id_user + "' ";
-//                stmt.executeUpdate(sql);
+                String sql = "UPDATE register SET status = '60' WHERE reg_id='" + id_user + "' ";
+                stmt.executeUpdate(sql);
                 user_room.add(iduser);
             }
         } catch (Exception e) {
@@ -268,8 +268,8 @@ public class MT_data implements Runnable {
                 user_room.add(iduser);
             }
 
-//            String sql = "UPDATE sms SET status = '90' WHERE sms_id ='" + id_user + "' ";
-//            stmt.executeUpdate(sql);
+            String sql = "UPDATE sms SET status = '90' WHERE sms_id ='" + id_user + "' ";
+            stmt.executeUpdate(sql);
         } catch (Exception e) {
             //System.out.println("Error : " + e);
             this.Log.info("Error select sql thank " + e);

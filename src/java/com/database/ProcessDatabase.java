@@ -50,6 +50,8 @@ public class ProcessDatabase {
         String to = (getdata(result, "to", 1, ""));
         //System.out.println("service " + service + " time " + time);
         
+        this.Log.info("service : " + service);
+        
         if (destination.equals("4557878")) {
 
         } else {
