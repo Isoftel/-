@@ -75,15 +75,14 @@ public class Post_XML {
 
             //con.setRequestMethod("GET");
             //con.setRequestProperty("POST", "/HTTP/1.1");
+            con.setRequestMethod("POST");
             con.setRequestProperty("Authorization:", "Basic " + id_pass);
             con.setRequestProperty("Content-type: ", "text/xml");
             con.setRequestProperty("charset: ", "TIS-620");
             con.setRequestProperty("Content-Length: ", String.valueOf(StrXml.length()));
             con.setRequestProperty("Connection", "Keep-Alive");
-
             con.setRequestProperty("Host", ip_Host);
-            con.setRequestMethod("POST /HTTP/1.1");
-            //con.setUseCaches(false);
+            con.setUseCaches(false);
             PrintWriter pw = new PrintWriter(con.getOutputStream());
             pw.write(StrXml);
             pw.close();
@@ -92,10 +91,10 @@ public class Post_XML {
             System.out.println("\\O/");
             InStream.close();
             pw.flush();
-            con.connect();
-            con.disconnect();
-//            
-            //xmlRes = parseISToString(InStream, false);
+            //con.connect();
+            //con.disconnect();
+            
+            xmlRes = parseISToString(InStream, false);
 
             //////////////////////////////////////////////
 //            PostMethod post = new PostMethod(StrUrl);

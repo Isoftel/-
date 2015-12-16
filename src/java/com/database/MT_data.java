@@ -89,7 +89,7 @@ public class MT_data implements Runnable {
 //                        + "</rsr>"
 //                        + "</message>";
                 System.out.println("XML GET : " + GetXML);
-                insert_r.insert_r(GetXML, "MT");
+                //insert_r.insert_r(GetXML, "MT");
                 this.Log.info("Get Xml : " + GetXML);
             } catch (Exception e) {
                 this.Log.info("Error Reg : " + e);
