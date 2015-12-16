@@ -29,7 +29,7 @@ public class XML_insert {
     String pass = msg.getString("pass");
 
     public String insert_r(String xml, String id) {
-        System.out.println(xml);
+        //System.out.println(xml);
 
         String service = insert.getdata(xml, "service-id", 1, "");
         //<destination messageid=\"

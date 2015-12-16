@@ -40,13 +40,15 @@ public class Post_XML {
         //StrUrl = "http://192.168.0.126:8080/Artemis/DeliveryRequest_true";
         //StrUrl = "http://10.4.13.39:8004/tmcss2/fh.do";
         //StrUrl = "http://203.144.187.120:55000";
-
+        
         try {
             Log.info("URL Post : " + StrUrl);
 
             String hh = "POST /HTTP/1.1 " + "Authorization: Basic " + id_pass + "Content-Type: text/xml" + "Connection: Close " + " Host: " + ip_source + "Content-Length: " + String.valueOf(StrXml.length());
             Log.info("Header : " + hh);
             Log.info("XML Post : " + StrXml);
+            System.out.println("Header : " + hh);
+            System.out.println("XML Post : " + StrXml);
             ///////////////////////////////////////////////
 //            URL p = new URL(StrUrl);
 //            URLConnection uc = p.openConnection();
@@ -60,16 +62,19 @@ public class Post_XML {
 //            wout.write(hh+StrXml);
 //            wout.flush();
 //            InputStream is = connection.getInputStream();
-
+//            xmlRes = parseISToString(is, false);
             //////////////////////////////////////////////
             PostMethod post = new PostMethod(StrUrl);
             if (type_header_xml.equals("mt")) {
                 Log.info("MT Running");
+                System.out.println("MT Run");
                 post.setRequestHeader("Authorization: ", "Basic " + id_pass);
                 post.setRequestHeader("Content-Type: ", "text/xml");
                 post.setRequestHeader("Connection: ", "Close");
                 post.setRequestHeader("Host: ", ip_Host);
                 post.setRequestHeader("Content-Length ", String.valueOf(StrXml.length()));
+                System.out.println("Authorization: Basic " + id_pass);
+                
             } else if (type_header_xml.equals("sent")) {
                 post.setRequestHeader("Content-Length ", String.valueOf(StrXml.length()));
                 post.setRequestHeader("Connection: ", "Keep-Alive");
@@ -77,7 +82,7 @@ public class Post_XML {
                 post.setRequestHeader("Content-Type: ", "text/xml");
             }
             //post.setRequestBody("POST /HTTP/1.1");
-
+            
             RequestEntity entity = new StringRequestEntity(StrXml, "text/xml", "TIS-620");
             //RequestEntity entity = new StringRequestEntity(StrXml, "text/xml", "UTF-8");
             post.setRequestEntity(entity);
@@ -96,7 +101,7 @@ public class Post_XML {
 
         } catch (Exception e) {
             this.Log.info("Error Post : " + e);
-            //System.out.println("Error Post : " + e);
+            System.out.println("Error Post : " + e);
         }
         return xmlRes;
     }
