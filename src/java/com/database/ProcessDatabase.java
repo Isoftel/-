@@ -194,7 +194,7 @@ public class ProcessDatabase {
                     id_subscribe = rs.getString("id");
                 }
                 System.out.println("description " + description + " id_subscribe " + id_subscribe);
-                String text = "Cancel service success";
+                String text = "";
                 //String text = "ยกเลิกบริการสำเร็จ";
                 if (description.equals("non")) {
                     //ไม่เคยเป็นสมาชิก
@@ -208,13 +208,15 @@ public class ProcessDatabase {
                     out_xml.OutXmlr(encoding, message, service, destination, number, text, out);
                 } else if (description.equals("REG")) {
                     //ทำการยกเลิกสมาชิก
+                    text = "Cancel service success";
+                    //text = "ได้ทำการยกเลิกสมาชิกแล้ว";
                     //////////////////subscribe UPDATE เป็น UNREG เพื่อยกเลิกบริการ 
                     sql = "UPDATE subscribe SET description = 'UNREG',udate = '" + time + "' WHERE id='" + id_subscribe + "' ";
                     stmt.executeUpdate(sql);
                     ////////////////// บันทึกเพื่อจะส่งยกเลิก
-                    sql = "INSERT INTO register(api_req, reg_channel, mobile_id, service_id, reg_date, status) "
-                            + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + time + "','0')";
-                    stmt.execute(sql);
+//                    sql = "INSERT INTO register(api_req, reg_channel, mobile_id, service_id, reg_date, status) "
+//                            + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + time + "','0')";
+//                    stmt.execute(sql);
                     out_xml.OutXmlr(encoding, message, service, destination, number, text, out);
                 }
 

@@ -6,6 +6,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 //import java.text.DateFormat;
 //import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -37,11 +42,30 @@ public class Post_XML {
 
         try {
             Log.info("URL Post : " + StrUrl);
+
+            Log.info("Basic : " + id_pass + " Host : " + ip_source + " Length : " + String.valueOf(StrXml.length()));
+             String hh = "POST /HTTP/1.1 " + "Authorization: Basic " + id_pass + "Content-Type: text/xml" + "Connection: Close "  + " Host: " + ip_source + "Content-Length: " + String.valueOf(StrXml.length());
+              Log.info("XML Post : " + StrXml);
+            ///////////////////////////////////////////////
+//            URL p = new URL(StrUrl);
+//            URLConnection uc = p.openConnection();
+//            HttpURLConnection connection = (HttpURLConnection) uc;
+//            connection.setDoOutput(true);
+//            connection.setDoInput(true);
+//            connection.setRequestMethod("POST");
+//            OutputStream out = connection.getOutputStream();
+//            OutputStreamWriter wout = new OutputStreamWriter(out);
+//           
+//            wout.write(hh+StrXml);
+//            wout.flush();
+//            InputStream is = connection.getInputStream();
+           
+            //////////////////////////////////////////////
             PostMethod post = new PostMethod(StrUrl);
             if (type_header_xml.equals("mt")) {
                 //post.setRequestBody("POST /HTTP/1.1");
                 post.setRequestHeader("Authorization:", "Basic " + id_pass);
-                //post.setRequestHeader("Host:", ip_source);
+                post.setRequestHeader("Host:", ip_source);
                 post.setRequestHeader("Content-Type:", "text/xml");
                 post.setRequestHeader("Connection:", "Close");
                 post.setRequestHeader("Content-Length", String.valueOf(StrXml.length()));
@@ -56,7 +80,7 @@ public class Post_XML {
             //RequestEntity entity = new StringRequestEntity(StrXml, "text/xml", "UTF-8");
             post.setRequestEntity(entity);
             HttpClient httpclient = new HttpClient();
-            
+
             //////รับค่ากลับมาเป็น XML จากตัวที่เราส่งไป
             int returnCode = httpclient.executeMethod(post);
 
@@ -70,6 +94,7 @@ public class Post_XML {
 
         } catch (Exception e) {
             this.Log.info("Error Post : " + e);
+            System.out.println("Error Post : " + e);
         }
         System.out.println("Xml Re : " + xmlRes);
         return xmlRes;

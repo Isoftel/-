@@ -62,6 +62,7 @@ public class MT_data implements Runnable {
                 encode = new sun.misc.BASE64Encoder().encode(b);
                 //default //TIS-620 //UTF-8 //
                 RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode, "default");
+                 this.Log.info("Get Set Xml : " + RegXML);
                 GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
 //                GetXML = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>"
 //                        + "<message id=\"1242878588600\">"
@@ -93,19 +94,19 @@ public class MT_data implements Runnable {
         }
 
         ////////////////////////////////////////////////////// mt ส่งยกเลิก
-        List<data_user> id_user_unreg = ProcessUnRegister();
-        for (data_user r : id_user_unreg) {
-            try {
-                byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
-                encode = new sun.misc.BASE64Encoder().encode(b);
-                RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode, "default");
-                GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
-
-            } catch (Exception e) {
-                this.Log.info("Error Unreg : " + e);
-            }
-            //System.out.println("test Unreg : " + r.getNumber_type());
-        }
+//        List<data_user> id_user_unreg = ProcessUnRegister();
+//        for (data_user r : id_user_unreg) {
+//            try {
+//                byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
+//                encode = new sun.misc.BASE64Encoder().encode(b);
+//                RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode, "default");
+//                GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
+//
+//            } catch (Exception e) {
+//                this.Log.info("Error Unreg : " + e);
+//            }
+//            //System.out.println("test Unreg : " + r.getNumber_type());
+//        }
 //        //////////////////////////////////////////////////////////////////
 //        List<data_user> id_user_thank_sms = ProcessSMS();
 //        for (data_user r : id_user_thank_sms) {
@@ -142,7 +143,7 @@ public class MT_data implements Runnable {
                 data_user iduser = new data_user();
                 id_user = rs.getString("reg_id");
                 String service = rs.getString("service_user");
-                service = "7112409003";
+                service = "7112409002";
                 String number = rs.getString("msisdn");
                 String Text_Service = rs.getString("detail_reg");
                 String access = rs.getString("access_number");
@@ -158,14 +159,14 @@ public class MT_data implements Runnable {
                 String date = rs.getString("cdate");
                 String user = rs.getString("api_user");
                 String pass = rs.getString("api_password");
-
-                //System.out.println("Sql : " + " 1 " + service + " 2 " + number + " 3 " + Text_Service + " 4 " + access);
+                
                 iduser.setService_id(service);
                 iduser.setNumber_type(number);
                 iduser.setDescriptions(Text_Service);
                 iduser.setAccess(access);
                 iduser.setEncoding(user + pass);
                 iduser.setContent_sms(content_sms);
+                this.Log.info("Test Reg : " + Text_Service);
                 String sql = "UPDATE register SET status = '10' WHERE reg_id='" + id_user + "' ";
                 stmt.executeUpdate(sql);
                 user_room.add(iduser);
@@ -214,7 +215,6 @@ public class MT_data implements Runnable {
                 iduser.setDescriptions(Text_Service);
                 iduser.setAccess(access);
                 iduser.setEncoding(user + pass);
-
                 String sql = "UPDATE register SET status = '60' WHERE reg_id='" + id_user + "' ";
                 stmt.executeUpdate(sql);
                 user_room.add(iduser);
@@ -289,5 +289,4 @@ public class MT_data implements Runnable {
         }
         return str_unicode;
     }
-
 }
