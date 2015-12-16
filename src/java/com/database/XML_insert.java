@@ -57,7 +57,7 @@ public class XML_insert {
             String sql = "select * from register "
                     + "INNER JOIN services  ON services.id  = register.service_id "
                     + "INNER JOIN mobile    ON mobile.mobile_id = register.mobile_id "
-                    + "where services.service_id = '" + service + "' and mobile.msisdn = '" + number + "' and  register.status = '0'";
+                    + "where services.service_id = '" + service + "' and mobile.msisdn = '" + number + "' and  register.status = '10'";
             rs = stmt.executeQuery(sql);
             String id_register = "";
             while (rs.next()) {
