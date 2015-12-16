@@ -77,8 +77,8 @@ public class Post_XML {
                 post.setRequestHeader("Content-Type:", "text/xml");
             }
 
-            RequestEntity entity = new StringRequestEntity(StrXml, "text/xml", "TIS-620");
-            //RequestEntity entity = new StringRequestEntity(StrXml, "text/xml", "UTF-8");
+            //RequestEntity entity = new StringRequestEntity(StrXml, "text/xml", "TIS-620");
+            RequestEntity entity = new StringRequestEntity(StrXml, "text/xml", "UTF-8");
             post.setRequestEntity(entity);
             HttpClient httpclient = new HttpClient();
 
@@ -86,7 +86,7 @@ public class Post_XML {
             int returnCode = httpclient.executeMethod(post);
 
             if (returnCode == HttpStatus.SC_NOT_IMPLEMENTED) {
-                System.err.println("The Post method is not implemented by this URI");
+                //System.err.println("The Post method is not implemented by this URI");
                 post.getResponseBodyAsString();
             } else {
                 InputStream inStream = post.getResponseBodyAsStream();
@@ -95,9 +95,8 @@ public class Post_XML {
 
         } catch (Exception e) {
             this.Log.info("Error Post : " + e);
-            System.out.println("Error Post : " + e);
+            //System.out.println("Error Post : " + e);
         }
-        System.out.println("Xml Re : " + xmlRes);
         return xmlRes;
     }
 
