@@ -159,15 +159,15 @@ public class MT_data implements Runnable {
                 String date = rs.getString("cdate");
                 String user = rs.getString("api_user");
                 String pass = rs.getString("api_password");
-
+                this.Log.info("Test Reg : " + Text_Service);
+                Text_Service ="Test text";
                 iduser.setService_id(service);
                 iduser.setNumber_type(number);
                 iduser.setDescriptions(Text_Service);
                 iduser.setAccess(access);
                 iduser.setEncoding(user + pass);
                 iduser.setContent_sms(content_sms);
-                Text_Service ="Test text";
-                this.Log.info("Test Reg : " + Text_Service);
+                
                 //System.out.println("Test Reg : " + Text_Service);
 //                String sql = "UPDATE register SET status = '10' WHERE reg_id='" + id_user + "' ";
 //                stmt.executeUpdate(sql);
