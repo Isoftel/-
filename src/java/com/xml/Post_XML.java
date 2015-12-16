@@ -61,17 +61,16 @@ public class Post_XML {
             //TIS-620 //UTF-8
             // /HTTP/1.1
             con.setRequestMethod("POST");
-            con.setRequestProperty("Authorization", "Basic " + id_pass);
-            con.setRequestProperty("Content-type", "text/xml");
-            con.setRequestProperty("charset", "UTF-8");
-            con.setRequestProperty("Content-Length", String.valueOf(StrXml.length()));
-            con.setRequestProperty("Connection", "Keep-Alive");
-            con.setRequestProperty("Host", ip_Host);
+            con.setRequestProperty("Authorization: ", "Basic " + id_pass);
+            con.setRequestProperty("Content-type: ", "text/xml");
+            con.setRequestProperty("Connection: ", "Keep-Alive");
+            con.setRequestProperty("Host: ", ip_Host);
+            con.setRequestProperty("Content-Length: ", String.valueOf(StrXml.length()));
             con.setUseCaches(false);
             PrintWriter pw = new PrintWriter(con.getOutputStream());
             pw.write(StrXml);
-//            pw.close();
-//            BufferedInputStream InStream = new BufferedInputStream(con.getInputStream());
+            //pw.close();
+            BufferedInputStream InStream = new BufferedInputStream(con.getInputStream());
 //            InStream.close();
 //            pw.flush();
 //            con.connect();
@@ -82,7 +81,7 @@ public class Post_XML {
 //            while ((bytesRead = InStream.read(contents)) != -1) {
 //                xmlRes = new String(contents, 0, bytesRead);
 //            }
-            
+
             //xmlRes = parseISToString(InStream, false);
             //this.Log.info("InStream : " + InStream.toString());
             //////////////////////////////////////////////
