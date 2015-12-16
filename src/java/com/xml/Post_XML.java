@@ -53,9 +53,9 @@ public class Post_XML {
             //System.out.println("Header : " + hh);
             System.out.println("XML Post : " + StrXml);
             ///////////////////////////////////////////////
-            //http://203.144.187.120:55000
-            String p_test = "//203.144.187.120:55000";
-            URI uri = new URI("http", null, p_test, null, null);
+            //http://203.144.187.120:55000  //"http"
+            String p_test = "http://203.144.187.119:55000";
+            URI uri = new URI(null, null, p_test, null, null);
             URL url = uri.toURL();
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setDoOutput(true);
@@ -73,7 +73,8 @@ public class Post_XML {
             con.setRequestProperty("Content-type: ", "text/xml");
             con.setRequestProperty("Charset: ", "TIS-620");
             con.setRequestProperty("Content-Length ", String.valueOf(StrXml.length()));
-            con.setRequestProperty("Connection: ", "Close");
+            //Close
+            con.setRequestProperty("Connection: ", "Keep-Alive");
             con.setRequestProperty("Host: ", ip_Host);
             con.setUseCaches(false);
             PrintWriter pw = new PrintWriter(con.getOutputStream());
