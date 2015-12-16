@@ -70,18 +70,18 @@ public class Post_XML {
             con.setUseCaches(false);
             PrintWriter pw = new PrintWriter(con.getOutputStream());
             pw.write(StrXml);
-            //pw.close();
+            pw.close();
             BufferedInputStream InStream = new BufferedInputStream(con.getInputStream());
-//            InStream.close();
-//            pw.flush();
-//            con.connect();
-//            con.disconnect();
-//
-//            byte[] contents = new byte[1024];
-//            int bytesRead = 0;
-//            while ((bytesRead = InStream.read(contents)) != -1) {
-//                xmlRes = new String(contents, 0, bytesRead);
-//            }
+            InStream.close();
+            pw.flush();
+            con.connect();
+            con.disconnect();
+
+            byte[] contents = new byte[1024];
+            int bytesRead = 0;
+            while ((bytesRead = InStream.read(contents)) != -1) {
+                xmlRes = new String(contents, 0, bytesRead);
+            }
             
             //xmlRes = parseISToString(InStream, false);
             //this.Log.info("InStream : " + InStream.toString());
