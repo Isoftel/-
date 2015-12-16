@@ -43,7 +43,6 @@ public class Post_XML {
         //StrUrl = "http://192.168.0.126:8080/Artemis/DeliveryRequest_true";
         //StrUrl = "http://10.4.13.39:8004/tmcss2/fh.do";
         //StrUrl = "http://203.144.187.120:55000";
-        StrUrl = "http://119.46.174.147:55000";
         try {
             Log.info("URL Post : " + StrUrl);
 
@@ -61,7 +60,6 @@ public class Post_XML {
             con.setDoOutput(true);
             con.setDoInput(true);
             //ip_Host = "203.144.187.120:55000";
-            ip_Host = "119.46.174.147:55000";
             //TIS-620 //UTF-8
             // /HTTP/1.1
             con.setRequestMethod("POST");
@@ -72,9 +70,7 @@ public class Post_XML {
             con.setRequestProperty("Connection", "Keep-Alive");
             con.setRequestProperty("Host", ip_Host);
             con.setUseCaches(false);
-            System.out.println("Test 1");
             PrintWriter pw = new PrintWriter(con.getOutputStream());
-            
             pw.write(StrXml);
             pw.close();
             InputStream InStream = new BufferedInputStream(con.getInputStream());
@@ -82,9 +78,8 @@ public class Post_XML {
             pw.flush();
             con.connect();
             con.disconnect();
- 
             xmlRes = parseISToString(InStream, false);
-            System.out.println("\\O/");
+            this.Log.info("InStream : " + InStream.toString());
             //////////////////////////////////////////////
 //            PostMethod post = new PostMethod(StrUrl);
 //            if (type_header_xml.equals("mt")) {

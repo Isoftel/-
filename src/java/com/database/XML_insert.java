@@ -63,7 +63,7 @@ public class XML_insert {
             while (rs.next()) {
                 id_register = rs.getString("reg_id");
             }
-            sql = "UPDATE register SET status_code = '" + code + "' WHERE reg_id='" + id_register + "'";
+            sql = "UPDATE register SET status = '" + code + "' WHERE reg_id='" + id_register + "'";
             stmt.executeUpdate(sql);
 
             conn.close();
