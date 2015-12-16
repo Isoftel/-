@@ -61,28 +61,28 @@ public class Post_XML {
             //TIS-620 //UTF-8
             // /HTTP/1.1
             con.setRequestMethod("POST");
-            con.setRequestProperty("Authorization: ", "Basic " + id_pass);
-            con.setRequestProperty("Content-type: ", "text/xml");
-            con.setRequestProperty("charset: ", "UTF-8");
-            con.setRequestProperty("Content-Length: ", String.valueOf(StrXml.length()));
-            con.setRequestProperty("Connection: ", "Keep-Alive");
-            con.setRequestProperty("Host: ", ip_Host);
+            con.setRequestProperty("Authorization", "Basic " + id_pass);
+            con.setRequestProperty("Content-type", "text/xml");
+            con.setRequestProperty("charset", "UTF-8");
+            con.setRequestProperty("Content-Length", String.valueOf(StrXml.length()));
+            con.setRequestProperty("Connection", "Keep-Alive");
+            con.setRequestProperty("Host", ip_Host);
             con.setUseCaches(false);
             PrintWriter pw = new PrintWriter(con.getOutputStream());
             pw.write(StrXml);
             pw.close();
-            BufferedInputStream InStream = new BufferedInputStream(con.getInputStream());
+            InputStream InStream = con.getInputStream();
+            xmlRes = parseISToString(InStream, false);
             InStream.close();
             pw.flush();
             con.connect();
             con.disconnect();
 
-            byte[] contents = new byte[1024];
-            int bytesRead = 0;
-            while ((bytesRead = InStream.read(contents)) != -1) {
-                xmlRes = new String(contents, 0, bytesRead);
-            }
-            
+//            byte[] contents = new byte[1024];
+//            int bytesRead = 0;
+//            while ((bytesRead = InStream.read(contents)) != -1) {
+//                xmlRes = new String(contents, 0, bytesRead);
+//            }
             //xmlRes = parseISToString(InStream, false);
             //this.Log.info("InStream : " + InStream.toString());
             //////////////////////////////////////////////
