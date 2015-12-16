@@ -144,7 +144,7 @@ public class MT_data implements Runnable {
                 String date = rs.getString("cdate");
                 String user = rs.getString("api_user");
                 String pass = rs.getString("api_password");
-                //this.Log.info("Test Reg : " + Text_Service);
+                this.Log.info("Test Reg : " + Text_Service);
                 //Text_Service = "Test text";
                 iduser.setService_id(service);
                 iduser.setNumber_type(number);
@@ -154,8 +154,8 @@ public class MT_data implements Runnable {
                 iduser.setContent_sms(content_sms);
 
                 //System.out.println("Test Reg : " + Text_Service);
-//                String sql = "UPDATE register SET status = '10' WHERE reg_id='" + id_user + "' ";
-//                stmt.executeUpdate(sql);
+                String sql = "UPDATE register SET status = '10' WHERE reg_id='" + id_user + "' ";
+                stmt.executeUpdate(sql);
                 user_room.add(iduser);
             }
         } catch (Exception e) {

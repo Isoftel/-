@@ -73,7 +73,7 @@ public class Post_XML {
             PrintWriter pw = new PrintWriter(con.getOutputStream());
             pw.write(StrXml);
             pw.close();
-            InputStream InStream = new BufferedInputStream(con.getInputStream());
+            InputStream InStream = con.getInputStream();
             InStream.close();
             pw.flush();
             con.connect();
