@@ -76,31 +76,31 @@ public class MT_data implements Runnable {
         }
 
         ////////////////////////////////////////////////////// mt ส่งยกเลิก
-//        List<data_user> id_user_unreg = ProcessUnRegister();
-//        for (data_user r : id_user_unreg) {
-//            try {
-//                byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
-//                encode = new sun.misc.BASE64Encoder().encode(b);
-//                RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode, "default");
-//                GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
-//
-//            } catch (Exception e) {
-//                this.Log.info("Error Unreg : " + e);
-//            }
-//            //System.out.println("test Unreg : " + r.getNumber_type());
-//        }
-//        //////////////////////////////////////////////////////////////////
-//        List<data_user> id_user_thank_sms = ProcessSMS();
-//        for (data_user r : id_user_thank_sms) {
-//            try {
-//                byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
-//                encode = new sun.misc.BASE64Encoder().encode(b);
-//                RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode, "unicode");
-//                GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "sent");
-//            } catch (Exception e) {
-//                this.Log.info("Error SMS : " + e);
-//            }
-//        }
+        List<data_user> id_user_unreg = ProcessUnRegister();
+        for (data_user r : id_user_unreg) {
+            try {
+                byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
+                encode = new sun.misc.BASE64Encoder().encode(b);
+                RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode, "default");
+                GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
+
+            } catch (Exception e) {
+                this.Log.info("Error Unreg : " + e);
+            }
+            //System.out.println("test Unreg : " + r.getNumber_type());
+        }
+        //////////////////////////////////////////////////////////////////
+        List<data_user> id_user_thank_sms = ProcessSMS();
+        for (data_user r : id_user_thank_sms) {
+            try {
+                byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
+                encode = new sun.misc.BASE64Encoder().encode(b);
+                RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode, "unicode");
+                GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "sent");
+            } catch (Exception e) {
+                this.Log.info("Error SMS : " + e);
+            }
+        }
         if (id_user_reg.size() > 0) {
 
         }
@@ -143,7 +143,7 @@ public class MT_data implements Runnable {
                 String user = rs.getString("api_user");
                 String pass = rs.getString("api_password");
                 //TIS-620//UTF-8
-                String encode_test = URLEncoder.encode(Text_Service, "TIS-620");
+                String encode_test = URLEncoder.encode(Text_Service, "UTF-8");
                 this.Log.info("Test Reg : " + encode_test);
 
                 //Text_Service = "Test text";
@@ -195,7 +195,6 @@ public class MT_data implements Runnable {
                 String date = rs.getString("cdate");
                 String user = rs.getString("api_user");
                 String pass = rs.getString("api_password");
-
                 //System.out.println("Sql : " + " 1 " + service + " 2 " + number + " 3 " + Text_Service + " 4 " + access);
                 iduser.setService_id(service);
                 iduser.setNumber_type(number);

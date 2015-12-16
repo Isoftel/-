@@ -71,13 +71,20 @@ public class Post_XML {
             PrintWriter pw = new PrintWriter(con.getOutputStream());
             pw.write(StrXml);
             pw.close();
-            InputStream InStream = con.getInputStream();
+            BufferedInputStream InStream = new BufferedInputStream(con.getInputStream());
             InStream.close();
             pw.flush();
             con.connect();
             con.disconnect();
-            xmlRes = parseISToString(InStream, false);
-            this.Log.info("InStream : " + InStream.toString());
+
+            byte[] contents = new byte[1024];
+            int bytesRead = 0;
+            while ((bytesRead = InStream.read(contents)) != -1) {
+                xmlRes = new String(contents, 0, bytesRead);
+            }
+            
+            //xmlRes = parseISToString(InStream, false);
+            //this.Log.info("InStream : " + InStream.toString());
             //////////////////////////////////////////////
 //            PostMethod post = new PostMethod(StrUrl);
 //            if (type_header_xml.equals("mt")) {

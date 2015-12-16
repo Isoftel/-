@@ -33,29 +33,7 @@ public class DeliveryRequest_true extends HttpServlet {
             String result = getStringFromInputStream(inStream);
             this.Log.info("Request Get XML : " + result);
             //System.out.println("XML Http : " + result);
-            //4557777//4557555//4557878
-//            result = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>"
-//                    + "<message id=\"routerTestbed@Tesbed:3104400\">"
-//                    + "<sms type=\"mo\">"
-//                    + "<retry count=\"0\" max=\"0\"/>"
-//                    + "<destination messageid=\"264962211\">"
-//                    + "<address>"
-//                    + "<number type=\"abbreviated\">4557878</number>"
-//                    + "</address>"
-//                    + "</destination>"
-//                    + "<source>"
-//                    + "<address>"
-//                    + "<number type=\"international\">668xxxxxxxx</number>"
-//                    + "</address>"
-//                    + "</source>"
-//                    + "<ud type=\"text\">R</ud>"
-//                    + "<scts>2009-05-15T11:03:20Z</scts>"
-//                    + "<service-id>7112409002</service-id>"
-//                    + "</sms>"
-//                    + "<from>SMPP_CMG1</from>"
-//                    + "<to>HttpAdapter:: 0101102156</to>"
-//                    + "</message>";
-
+            //4557777//4557555//4557878//457000//457001//457002
             //////////////////รับ XML แยกการทำงาน MO,MT,Worning ไปตัดและส่ง Database
             String sms = (insert.getdata(result, "sms type=\"", 3, ""));
             String ud = (insert.getdata(result, "ud type=\"text\"", 4, "ud"));
