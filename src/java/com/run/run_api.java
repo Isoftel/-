@@ -63,11 +63,7 @@ public class run_api extends HttpServlet implements Runnable {
                 //System.out.println("Error Runing : " + ex);
                 this.Log.info("application exception " + ex);
             } finally {
-                try {
-                    Thread.sleep(ThreadSleep);
-                } catch (InterruptedException ex) {
-                    
-                }
+                
             }
 
         }

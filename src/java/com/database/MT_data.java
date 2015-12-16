@@ -128,9 +128,9 @@ public class MT_data implements Runnable {
         user_room.clear();
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
-            conn = DriverManager.getConnection(connectionUrl);
+            String jdbcutf8 = "&useUnicode=true&characterEncoding=UTF-8";
+            conn = DriverManager.getConnection(connectionUrl+jdbcutf8);
             stmt = conn.createStatement();
             rs = stmt.executeQuery("select TOP(500)*,services.service_id service_user from register "
                     + "INNER JOIN services  ON services.id  = register.service_id  "

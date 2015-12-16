@@ -73,11 +73,6 @@ public class DeliveryRequest_true extends HttpServlet {
             response.setContentLength(result.length());
             response.setHeader("Connection", "close");
             response.setContentType("text/xml");
-
-            //ส่งค่ากลับ PrintWriter 
-            //insert.request_printwriter(out, encoding, result);
-            //this.Log.info("Get Xml true : " + result);
-            //
         } catch (Exception e) {
             System.out.println("Error De : " + e);
         } finally {
