@@ -68,7 +68,7 @@ public class Post_XML {
 //            System.out.println("Connection: Close");
 //            System.out.println("Host: " + ip_Host);
             //TIS-620 //UTF-8
-            con.setRequestMethod("POST /HTTP/1.1");
+            //con.setRequestMethod("POST /HTTP/1.1");
             con.setRequestProperty("Authorization", "Basic " + id_pass);
             con.setRequestProperty("Content-type", "text/xml");
             con.setRequestProperty("Charset", "TIS-620");
