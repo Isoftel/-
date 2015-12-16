@@ -31,7 +31,8 @@ public class Post_XML {
     String local = msg.getString("localhost");
     String ip_source = msg.getString("ip_mo");
     String ip_destination = msg.getString("ip_and_part");
-
+    String ip_Host  = msg.getString("ip_Host");
+    
     Logger Log = Logger.getLogger(this.getClass());
 
     public String PostXml(String StrXml, String StrUrl, String id_pass, String type_header_xml) {
@@ -63,16 +64,16 @@ public class Post_XML {
             //////////////////////////////////////////////
             PostMethod post = new PostMethod(StrUrl);
             if (type_header_xml.equals("mt")) {
-                //post.setRequestBody("POST /HTTP/1.1");
+                post.setRequestBody("POST /HTTP/1.1");
                 post.setRequestHeader("Authorization:", "Basic " + id_pass);
-                post.setRequestHeader("Host:", ip_source);
+                post.setRequestHeader("Host:", ip_Host);
                 post.setRequestHeader("Content-Type:", "text/xml");
                 post.setRequestHeader("Connection:", "Close");
                 post.setRequestHeader("Content-Length", String.valueOf(StrXml.length()));
             } else if (type_header_xml.equals("sent")) {
                 post.setRequestHeader("Content-Length", String.valueOf(StrXml.length()));
                 post.setRequestHeader("Connection:", "Keep-Alive");
-                //post.setRequestHeader("Host:", ip_source);
+                //post.setRequestHeader("Host:", ip_Host);
                 post.setRequestHeader("Content-Type:", "text/xml");
             }
 

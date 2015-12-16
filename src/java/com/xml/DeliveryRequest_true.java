@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.ResourceBundle;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +17,7 @@ public class DeliveryRequest_true extends HttpServlet {
 
     ProcessDatabase insert = new ProcessDatabase();
     Logger Log = Logger.getLogger(this.getClass());
-
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) {
         this.Log.info("DeliveryRequest Runing");
         PrintWriter out = null;
@@ -54,14 +55,14 @@ public class DeliveryRequest_true extends HttpServlet {
 //                    + "<from>SMPP_CMG1</from>"
 //                    + "<to>HttpAdapter:: 0101102156</to>"
 //                    + "</message>";
-            
+
             //////////////////รับ XML แยกการทำงาน MO,MT,Worning ไปตัดและส่ง Database
             String sms = (insert.getdata(result, "sms type=\"", 3, ""));
             String ud = (insert.getdata(result, "ud type=\"text\"", 4, "ud"));
             String rsr = (insert.getdata(result, "rsr type=\"", 3, ""));
-            
+
             //System.out.println("SMS : " + sms + " UD : " + ud + " rsr " + rsr);
-            this.Log.info("MO//" + "SMS : " + sms + " UD : " + ud );
+            this.Log.info("MO//" + "SMS : " + sms + " UD : " + ud);
             if (sms.equals("mo")) {
                 //รับ สมัคร ยกเลิก
                 insert.ProcessDatabase(result, out);

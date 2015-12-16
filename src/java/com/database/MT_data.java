@@ -62,7 +62,7 @@ public class MT_data implements Runnable {
                 encode = new sun.misc.BASE64Encoder().encode(b);
                 //default //TIS-620 //UTF-8 //
                 RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode, "default");
-                 this.Log.info("Get Set Xml : " + RegXML);
+                this.Log.info("Get Set Xml : " + RegXML);
                 GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
 //                GetXML = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>"
 //                        + "<message id=\"1242878588600\">"
@@ -130,7 +130,7 @@ public class MT_data implements Runnable {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
             String jdbcutf8 = "&useUnicode=true&characterEncoding=UTF-8";
-            conn = DriverManager.getConnection(connectionUrl+jdbcutf8);
+            conn = DriverManager.getConnection(connectionUrl + jdbcutf8);
             stmt = conn.createStatement();
             rs = stmt.executeQuery("select TOP(500)*,services.service_id service_user from register "
                     + "INNER JOIN services  ON services.id  = register.service_id  "
@@ -159,7 +159,7 @@ public class MT_data implements Runnable {
                 String date = rs.getString("cdate");
                 String user = rs.getString("api_user");
                 String pass = rs.getString("api_password");
-                
+
                 iduser.setService_id(service);
                 iduser.setNumber_type(number);
                 iduser.setDescriptions(Text_Service);
@@ -167,6 +167,7 @@ public class MT_data implements Runnable {
                 iduser.setEncoding(user + pass);
                 iduser.setContent_sms(content_sms);
                 this.Log.info("Test Reg : " + Text_Service);
+                //System.out.println("Test Reg : " + Text_Service);
                 String sql = "UPDATE register SET status = '10' WHERE reg_id='" + id_user + "' ";
                 stmt.executeUpdate(sql);
                 user_room.add(iduser);
