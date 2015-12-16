@@ -31,8 +31,8 @@ public class Post_XML {
     String local = msg.getString("localhost");
     String ip_source = msg.getString("ip_mo");
     String ip_destination = msg.getString("ip_and_part");
-    String ip_Host  = msg.getString("ip_Host");
-    
+    String ip_Host = msg.getString("ip_Host");
+
     Logger Log = Logger.getLogger(this.getClass());
 
     public String PostXml(String StrXml, String StrUrl, String id_pass, String type_header_xml) {
@@ -45,8 +45,9 @@ public class Post_XML {
             Log.info("URL Post : " + StrUrl);
 
             Log.info("Basic : " + id_pass + " Host : " + ip_source + " Length : " + String.valueOf(StrXml.length()));
-             String hh = "POST /HTTP/1.1 " + "Authorization: Basic " + id_pass + "Content-Type: text/xml" + "Connection: Close "  + " Host: " + ip_source + "Content-Length: " + String.valueOf(StrXml.length());
-              Log.info("XML Post : " + StrXml);
+            String hh = "POST /HTTP/1.1 " + "Authorization: Basic " + id_pass + "Content-Type: text/xml" + "Connection: Close " + " Host: " + ip_source + "Content-Length: " + String.valueOf(StrXml.length());
+            Log.info("Header : " + hh);
+            Log.info("XML Post : " + StrXml);
             ///////////////////////////////////////////////
 //            URL p = new URL(StrUrl);
 //            URLConnection uc = p.openConnection();
@@ -60,15 +61,16 @@ public class Post_XML {
 //            wout.write(hh+StrXml);
 //            wout.flush();
 //            InputStream is = connection.getInputStream();
-           
+
             //////////////////////////////////////////////
             PostMethod post = new PostMethod(StrUrl);
             if (type_header_xml.equals("mt")) {
+                Log.info("MT Running");
                 post.setRequestBody("POST /HTTP/1.1");
                 post.setRequestHeader("Authorization:", "Basic " + id_pass);
-                post.setRequestHeader("Host:", ip_Host);
                 post.setRequestHeader("Content-Type:", "text/xml");
                 post.setRequestHeader("Connection:", "Close");
+                post.setRequestHeader("Host:", ip_Host);
                 post.setRequestHeader("Content-Length", String.valueOf(StrXml.length()));
             } else if (type_header_xml.equals("sent")) {
                 post.setRequestHeader("Content-Length", String.valueOf(StrXml.length()));
