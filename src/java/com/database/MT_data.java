@@ -143,13 +143,13 @@ public class MT_data implements Runnable {
                 String user = rs.getString("api_user");
                 String pass = rs.getString("api_password");
                 //TIS-620//UTF-8
-                String encode_test = URLEncoder.encode(Text_Service, "UTF-8");
-                this.Log.info("Test Reg : " + encode_test);
+//                String encode_test = URLEncoder.encode(Text_Service, "UTF-8");
+//                this.Log.info("Test Reg : " + encode_test);
 
                 //Text_Service = "Test text";
                 iduser.setService_id(service);
                 iduser.setNumber_type(number);
-                iduser.setDescriptions(encode_test);
+                iduser.setDescriptions(Text_Service);
                 iduser.setAccess(access);
                 iduser.setEncoding(user + pass);
                 iduser.setContent_sms(content_sms);
