@@ -166,10 +166,11 @@ public class MT_data implements Runnable {
                 iduser.setAccess(access);
                 iduser.setEncoding(user + pass);
                 iduser.setContent_sms(content_sms);
+                Text_Service ="Test text";
                 this.Log.info("Test Reg : " + Text_Service);
                 //System.out.println("Test Reg : " + Text_Service);
-                String sql = "UPDATE register SET status = '10' WHERE reg_id='" + id_user + "' ";
-                stmt.executeUpdate(sql);
+//                String sql = "UPDATE register SET status = '10' WHERE reg_id='" + id_user + "' ";
+//                stmt.executeUpdate(sql);
                 user_room.add(iduser);
             }
         } catch (Exception e) {

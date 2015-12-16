@@ -65,21 +65,21 @@ public class Post_XML {
             PostMethod post = new PostMethod(StrUrl);
             if (type_header_xml.equals("mt")) {
                 Log.info("MT Running");
-                post.setRequestBody("POST /HTTP/1.1");
-                post.setRequestHeader("Authorization:", "Basic " + id_pass);
-                post.setRequestHeader("Content-Type:", "text/xml");
-                post.setRequestHeader("Connection:", "Close");
-                post.setRequestHeader("Host:", ip_Host);
-                post.setRequestHeader("Content-Length", String.valueOf(StrXml.length()));
+                post.setRequestHeader("Authorization: ", "Basic " + id_pass);
+                post.setRequestHeader("Content-Type: ", "text/xml");
+                post.setRequestHeader("Connection: ", "Close");
+                post.setRequestHeader("Host: ", ip_Host);
+                post.setRequestHeader("Content-Length ", String.valueOf(StrXml.length()));
             } else if (type_header_xml.equals("sent")) {
-                post.setRequestHeader("Content-Length", String.valueOf(StrXml.length()));
-                post.setRequestHeader("Connection:", "Keep-Alive");
-                //post.setRequestHeader("Host:", ip_Host);
-                post.setRequestHeader("Content-Type:", "text/xml");
+                post.setRequestHeader("Content-Length ", String.valueOf(StrXml.length()));
+                post.setRequestHeader("Connection: ", "Keep-Alive");
+                post.setRequestHeader("Host: ", ip_Host);
+                post.setRequestHeader("Content-Type: ", "text/xml");
             }
+            //post.setRequestBody("POST /HTTP/1.1");
 
-            //RequestEntity entity = new StringRequestEntity(StrXml, "text/xml", "TIS-620");
-            RequestEntity entity = new StringRequestEntity(StrXml, "text/xml", "UTF-8");
+            RequestEntity entity = new StringRequestEntity(StrXml, "text/xml", "TIS-620");
+            //RequestEntity entity = new StringRequestEntity(StrXml, "text/xml", "UTF-8");
             post.setRequestEntity(entity);
             HttpClient httpclient = new HttpClient();
 

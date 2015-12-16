@@ -15,8 +15,8 @@ public class Set_XML {
     public String getXmlReg(String Service_id, String Number_type, String Text_Service, String Access, String id_pass,String type) {
         //System.out.println("Day : " + dateFormat2.format(date));
         StringBuilder sb = new StringBuilder();
-        //TIS-620
-        sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+        //TIS-620 //UTF-8
+        sb.append("<?xml version=\"1.0\" encoding=\"TIS-620\"?>");
         sb.append("<message>");
         sb.append("<sms type=\"mt\">");
         sb.append("<service-id>").append(Service_id).append("</service-id>");
