@@ -74,7 +74,10 @@ public class Post_XML {
                 post.setRequestHeader("Host: ", ip_Host);
                 post.setRequestHeader("Content-Length ", String.valueOf(StrXml.length()));
                 System.out.println("Authorization: Basic " + id_pass);
-                
+                System.out.println("Content-Type: text/xml");
+                System.out.println("Connection: Close");
+                System.out.println("Host: " + ip_Host);
+                System.out.println("Content-Length " + String.valueOf(StrXml.length()));
             } else if (type_header_xml.equals("sent")) {
                 post.setRequestHeader("Content-Length ", String.valueOf(StrXml.length()));
                 post.setRequestHeader("Connection: ", "Keep-Alive");
