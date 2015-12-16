@@ -118,7 +118,7 @@ public class MT_data implements Runnable {
                     + "INNER JOIN services  ON services.id  = register.service_id  "
                     + "INNER JOIN mobile    ON mobile.mobile_id = register.mobile_id   "
                     + "INNER JOIN mgr       ON mgr.operator_id = mobile.operator_id "
-                    + "where register.status = '0' and register.api_req = 'REG' and mgr.api_req = 'REG' "
+                    + "where register.status = '0' and register.status_detail = '0' and register.api_req = 'REG' and mgr.api_req = 'REG' "
                     + "COLLATE  thai_ci_as");
             //INNER JOIN sms		 ON sms.msisdn =  mobile.msisdn
             while (rs.next()) {
@@ -181,7 +181,7 @@ public class MT_data implements Runnable {
                     + "INNER JOIN services  ON services.id  = register.service_id  "
                     + "INNER JOIN mobile    ON mobile.mobile_id = register.mobile_id   "
                     + "INNER JOIN mgr       ON mgr.operator_id = mobile.operator_id "
-                    + "where register.status = '0' and register.api_req = 'UNREG' and mgr.api_req = 'UNREG'");
+                    + "where register.status = '0' and register.status_detail = '0'  and register.api_req = 'UNREG' and mgr.api_req = 'UNREG'");
 
             while (rs.next()) {
                 data_user iduser = new data_user();

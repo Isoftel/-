@@ -49,9 +49,9 @@ public class ProcessDatabase {
         String from = (getdata(result, "from", 1, ""));
         String to = (getdata(result, "to", 1, ""));
         //System.out.println("service " + service + " time " + time);
-        
+
         this.Log.info("service : " + service);
-        
+
         if (destination.equals("4557878")) {
 
         } else {
@@ -135,12 +135,14 @@ public class ProcessDatabase {
                 //////////////////subscribe เช็คสมัครแล้วหรือยัง
                 String description = "non";
                 String id_subscribe = "";
+
                 sql = "select * from subscribe where service_id = '" + id_service + "' and mobile_id = '" + id_number + "' ";
                 rs = stmt.executeQuery(sql);
                 while (rs.next()) {
                     description = rs.getString("description");
                     id_subscribe = rs.getString("id");
                 }
+                this.Log.info("id_service " + id_service + " id_number " + id_number + " description " + description);
                 //////////////////register  non=ยังมีการทำรายการในบริการนั้น | UNREG เคยสมัคร ต้อง UPDATE | REG ส่งข้อความกลับไปแล้วสมัครแล้ว
                 String text = "Success receive request";
                 //String text = "สมัครสมาชิก";
@@ -149,16 +151,16 @@ public class ProcessDatabase {
                     sql = "INSERT INTO subscribe(mobile_id, service_id, description, cdate) "
                             + "VALUES('" + id_number + "','" + id_service + "','REG','" + time + "')";
                     stmt.execute(sql);
-                    sql = "INSERT INTO register(api_req, reg_channel, mobile_id, service_id, reg_date, status) "
-                            + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + time + "','0')";
+                    sql = "INSERT INTO register(api_req, reg_channel, mobile_id, service_id, reg_date, status,status_detail) "
+                            + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + time + "','0','0')";
                     stmt.execute(sql);
                     out_xml.OutXmlr(encoding, message, service, destination, number, text, out);
                 } else if (description.equals("UNREG")) {
                     ///// เคยสมัครแต่ยกเลิกแล้ว
                     sql = "UPDATE subscribe SET description = 'REG',udate = '" + time + "' WHERE id='" + id_subscribe + "' ";
                     stmt.executeUpdate(sql);
-                    sql = "INSERT INTO register(api_req, reg_channel, mobile_id, service_id, reg_date, status) "
-                            + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + time + "','0')";
+                    sql = "INSERT INTO register(api_req, reg_channel, mobile_id, service_id, reg_date, status,status_detail) "
+                            + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + time + "','0','0')";
                     stmt.execute(sql);
                     out_xml.OutXmlr(encoding, message, service, destination, number, text, out);
                 } else if (description.equals("REG")) {
@@ -214,8 +216,8 @@ public class ProcessDatabase {
                     sql = "UPDATE subscribe SET description = 'UNREG',udate = '" + time + "' WHERE id='" + id_subscribe + "' ";
                     stmt.executeUpdate(sql);
                     ////////////////// บันทึกเพื่อจะส่งยกเลิก
-//                    sql = "INSERT INTO register(api_req, reg_channel, mobile_id, service_id, reg_date, status) "
-//                            + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + time + "','0')";
+//                    sql = "INSERT INTO register(api_req, reg_channel, mobile_id, service_id, reg_date, status,status_detail) "
+//                            + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + time + "','0','0')";
 //                    stmt.execute(sql);
                     out_xml.OutXmlr(encoding, message, service, destination, number, text, out);
                 }
