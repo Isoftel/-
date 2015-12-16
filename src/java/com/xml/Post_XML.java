@@ -60,7 +60,7 @@ public class Post_XML {
             //ip_Host = "203.144.187.120:55000";
             //TIS-620 //UTF-8
             // /HTTP/1.1
-            con.setRequestMethod("POST");
+            con.setRequestMethod("POST /HTTP/1.1");
             con.setRequestProperty("Authorization", "Basic " + id_pass);
             con.setRequestProperty("Content-type", "text/xml");
             con.setRequestProperty("charset", "UTF-8");
