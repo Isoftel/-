@@ -146,7 +146,7 @@ public class MT_data implements Runnable {
 //                String encode_test = URLEncoder.encode(Text_Service, "UTF-8");
 //                this.Log.info("Test Reg : " + encode_test);
 
-                //Text_Service = "Test text";
+                Text_Service = "ยินดีต้อนรับสู้ PLAYBOY จาก " + number;
                 iduser.setService_id(service);
                 iduser.setNumber_type(number);
                 iduser.setDescriptions(Text_Service);
