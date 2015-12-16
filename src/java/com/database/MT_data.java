@@ -12,6 +12,7 @@ import java.util.ResourceBundle;
 import com.table_data.data_user;
 import com.xml.Post_XML;
 import com.xml.Set_XML;
+import java.net.URLEncoder;
 import java.nio.charset.Charset;
 //import java.nio.charset.StandardCharsets;
 import org.apache.log4j.Logger;
@@ -61,19 +62,16 @@ public class MT_data implements Runnable {
                 //byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
                 //String encod = "0101102156:qWACgXb4";
                 String encod = "7112402000:H84pL9aG";
-                System.out.println("encod : " + encod);
-
                 byte[] b = encod.getBytes(Charset.forName("UTF-8"));
                 encode = new sun.misc.BASE64Encoder().encode(b);
                 //default //TIS-620 //UTF-8 //
                 RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode, "default");
                 GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
-                System.out.println("XML GET : " + GetXML);
+                //System.out.println("XML GET : " + GetXML);
                 insert_r.insert_r(GetXML, "MT");
                 this.Log.info("Get Xml : " + GetXML);
             } catch (Exception e) {
                 this.Log.info("Error Reg : " + e);
-                System.out.println("Error Reg : " + e);
             }
         }
 
@@ -144,11 +142,13 @@ public class MT_data implements Runnable {
                 String date = rs.getString("cdate");
                 String user = rs.getString("api_user");
                 String pass = rs.getString("api_password");
-                this.Log.info("Test Reg : " + Text_Service);
+                String encode_test = URLEncoder.encode(Text_Service, "UTF-8");
+                this.Log.info("Test Reg : " + encode_test);
+
                 //Text_Service = "Test text";
                 iduser.setService_id(service);
                 iduser.setNumber_type(number);
-                iduser.setDescriptions(Text_Service);
+                iduser.setDescriptions(encode_test);
                 iduser.setAccess(access);
                 iduser.setEncoding(user + pass);
                 iduser.setContent_sms(content_sms);
@@ -159,7 +159,6 @@ public class MT_data implements Runnable {
                 user_room.add(iduser);
             }
         } catch (Exception e) {
-            System.out.println("Error : " + e);
             this.Log.info("Error select sql reg " + e);
         } finally {
             try {
@@ -207,7 +206,6 @@ public class MT_data implements Runnable {
                 user_room.add(iduser);
             }
         } catch (Exception e) {
-            //System.out.println("Error : " + e);
             this.Log.info("Error select sql unreg " + e);
         } finally {
             try {

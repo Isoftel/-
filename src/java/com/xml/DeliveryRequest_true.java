@@ -75,7 +75,7 @@ public class DeliveryRequest_true extends HttpServlet {
             response.setHeader("Connection", "close");
             response.setContentType("text/xml");
         } catch (Exception e) {
-            System.out.println("Error De : " + e);
+            this.Log.info("Error HttpServletRequest : " + e);
         } finally {
             out.close();
         }
