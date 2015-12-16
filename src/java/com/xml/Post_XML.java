@@ -60,7 +60,7 @@ public class Post_XML {
             //ip_Host = "203.144.187.120:55000";
             //TIS-620 //UTF-8
             // /HTTP/1.1
-            con.setRequestMethod("POST /HTTP/1.1");
+            con.setRequestMethod("POST");
             con.setRequestProperty("Authorization", "Basic " + id_pass);
             con.setRequestProperty("Content-type", "text/xml");
             con.setRequestProperty("charset", "UTF-8");
@@ -70,18 +70,18 @@ public class Post_XML {
             con.setUseCaches(false);
             PrintWriter pw = new PrintWriter(con.getOutputStream());
             pw.write(StrXml);
-            pw.close();
-            BufferedInputStream InStream = new BufferedInputStream(con.getInputStream());
-            InStream.close();
-            pw.flush();
-            con.connect();
-            con.disconnect();
-
-            byte[] contents = new byte[1024];
-            int bytesRead = 0;
-            while ((bytesRead = InStream.read(contents)) != -1) {
-                xmlRes = new String(contents, 0, bytesRead);
-            }
+//            pw.close();
+//            BufferedInputStream InStream = new BufferedInputStream(con.getInputStream());
+//            InStream.close();
+//            pw.flush();
+//            con.connect();
+//            con.disconnect();
+//
+//            byte[] contents = new byte[1024];
+//            int bytesRead = 0;
+//            while ((bytesRead = InStream.read(contents)) != -1) {
+//                xmlRes = new String(contents, 0, bytesRead);
+//            }
             
             //xmlRes = parseISToString(InStream, false);
             //this.Log.info("InStream : " + InStream.toString());
