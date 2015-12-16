@@ -62,7 +62,6 @@ public class MT_data implements Runnable {
                 encode = new sun.misc.BASE64Encoder().encode(b);
                 //default //TIS-620 //UTF-8 //
                 RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode, "default");
-                this.Log.info("Get Set Xml : " + RegXML);
                 GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
 //                GetXML = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>"
 //                        + "<message id=\"1242878588600\">"
