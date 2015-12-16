@@ -40,14 +40,14 @@ public class Post_XML {
         //StrUrl = "http://192.168.0.126:8080/Artemis/DeliveryRequest_true";
         //StrUrl = "http://10.4.13.39:8004/tmcss2/fh.do";
         //StrUrl = "http://203.144.187.120:55000";
-        
+
         try {
             Log.info("URL Post : " + StrUrl);
 
-            String hh = "POST /HTTP/1.1 " + "Authorization: Basic " + id_pass + "Content-Type: text/xml" + "Connection: Close " + " Host: " + ip_source + "Content-Length: " + String.valueOf(StrXml.length());
+            String hh = "Authorization: Basic " + id_pass + "Content-Type: text/xml" + "Connection: Close" + "Connection: Close" + "Host: " + ip_Host + "Content-Length " + String.valueOf(StrXml.length());
             Log.info("Header : " + hh);
             Log.info("XML Post : " + StrXml);
-            System.out.println("Header : " + hh);
+            //System.out.println("Header : " + hh);
             System.out.println("XML Post : " + StrXml);
             ///////////////////////////////////////////////
 //            URL p = new URL(StrUrl);
@@ -70,9 +70,11 @@ public class Post_XML {
                 System.out.println("MT Run");
                 post.setRequestHeader("Authorization: ", "Basic " + id_pass);
                 post.setRequestHeader("Content-Type: ", "text/xml");
+                post.setRequestHeader("Charset: ", "TIS-620");
+                post.setRequestHeader("Content-Length ", String.valueOf(StrXml.length()));
                 post.setRequestHeader("Connection: ", "Close");
                 post.setRequestHeader("Host: ", ip_Host);
-                post.setRequestHeader("Content-Length ", String.valueOf(StrXml.length()));
+                
                 System.out.println("Authorization: Basic " + id_pass);
                 System.out.println("Content-Type: text/xml");
                 System.out.println("Connection: Close");
@@ -85,7 +87,7 @@ public class Post_XML {
                 post.setRequestHeader("Content-Type: ", "text/xml");
             }
             //post.setRequestBody("POST /HTTP/1.1");
-            
+            //hh
             RequestEntity entity = new StringRequestEntity(StrXml, "text/xml", "TIS-620");
             //RequestEntity entity = new StringRequestEntity(StrXml, "text/xml", "UTF-8");
             post.setRequestEntity(entity);

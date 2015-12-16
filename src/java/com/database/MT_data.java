@@ -58,7 +58,12 @@ public class MT_data implements Runnable {
         List<data_user> id_user_reg = ProcessRegister();
         for (data_user r : id_user_reg) {
             try {
-                byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
+                //byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
+                //String encod = "0101102156:qWACgXb4";
+                String encod = "7112402000:H84pL9aG";
+                System.out.println("encod : " + encod);
+
+                byte[] b = encod.getBytes(Charset.forName("UTF-8"));
                 encode = new sun.misc.BASE64Encoder().encode(b);
                 //default //TIS-620 //UTF-8 //
                 RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode, "default");
@@ -160,14 +165,14 @@ public class MT_data implements Runnable {
                 String user = rs.getString("api_user");
                 String pass = rs.getString("api_password");
                 this.Log.info("Test Reg : " + Text_Service);
-                Text_Service ="Test text";
+                Text_Service = "Test text";
                 iduser.setService_id(service);
                 iduser.setNumber_type(number);
                 iduser.setDescriptions(Text_Service);
                 iduser.setAccess(access);
                 iduser.setEncoding(user + pass);
                 iduser.setContent_sms(content_sms);
-                
+
                 //System.out.println("Test Reg : " + Text_Service);
 //                String sql = "UPDATE register SET status = '10' WHERE reg_id='" + id_user + "' ";
 //                stmt.executeUpdate(sql);
