@@ -62,40 +62,29 @@ public class Post_XML {
             con.setDoInput(true);
             //ip_Host = "203.144.187.120:55000";
             ip_Host = "119.46.174.147:55000";
-            ///HTTP/1.1
-            System.out.println("POST");
-            System.out.println("Authorization: Basic " + id_pass);
-            System.out.println("Content-Type: text/xml");
-            System.out.println("Charset: TIS-620");
-            System.out.println("Content-Length: " + String.valueOf(StrXml.length()));
-            System.out.println("Connection: Keep-Alive");
-            System.out.println("Host: " + ip_Host);
             //TIS-620 //UTF-8
             // /HTTP/1.1
-
-            //con.setRequestMethod("GET");
-            //con.setRequestProperty("POST", "/HTTP/1.1");
             con.setRequestMethod("POST");
-            con.setRequestProperty("Authorization:", "Basic " + id_pass);
-            con.setRequestProperty("Content-type: ", "text/xml");
-            con.setRequestProperty("charset: ", "TIS-620");
-            con.setRequestProperty("Content-Length: ", String.valueOf(StrXml.length()));
+            con.setRequestProperty("Authorization", "Basic " + id_pass);
+            con.setRequestProperty("Content-type", "text/xml");
+            con.setRequestProperty("charset", "TIS-620");
+            con.setRequestProperty("Content-Length", String.valueOf(StrXml.length()));
             con.setRequestProperty("Connection", "Keep-Alive");
             con.setRequestProperty("Host", ip_Host);
             con.setUseCaches(false);
+            System.out.println("Test 1");
             PrintWriter pw = new PrintWriter(con.getOutputStream());
+            
             pw.write(StrXml);
             pw.close();
-            System.out.println("test");
             InputStream InStream = new BufferedInputStream(con.getInputStream());
-            System.out.println("\\O/");
             InStream.close();
             pw.flush();
-            //con.connect();
-            //con.disconnect();
-            
+            con.connect();
+            con.disconnect();
+ 
             xmlRes = parseISToString(InStream, false);
-
+            System.out.println("\\O/");
             //////////////////////////////////////////////
 //            PostMethod post = new PostMethod(StrUrl);
 //            if (type_header_xml.equals("mt")) {
