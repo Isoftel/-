@@ -54,8 +54,8 @@ public class Post_XML {
             System.out.println("XML Post : " + StrXml);
             ///////////////////////////////////////////////
             //http://203.144.187.120:55000  //"http"
-            String p_test = "http://203.144.187.119:55000";
-            URI uri = new URI(null, null, p_test, null, null);
+            //String p_test = "http://203.144.187.119:55000";
+            URI uri = new URI(null, null, StrUrl, null, null);
             URL url = uri.toURL();
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setDoOutput(true);
