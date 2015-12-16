@@ -43,7 +43,7 @@ public class Post_XML {
         //StrUrl = "http://192.168.0.126:8080/Artemis/DeliveryRequest_true";
         //StrUrl = "http://10.4.13.39:8004/tmcss2/fh.do";
         //StrUrl = "http://203.144.187.120:55000";
-
+        StrUrl = "http://119.46.174.147:55000";
         try {
             Log.info("URL Post : " + StrUrl);
 
@@ -60,38 +60,40 @@ public class Post_XML {
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setDoOutput(true);
             con.setDoInput(true);
-            System.out.println("POST /HTTP/1.1");
+            //ip_Host = "203.144.187.120:55000";
+            ip_Host = "119.46.174.147:55000";
+            ///HTTP/1.1
+            System.out.println("POST");
             System.out.println("Authorization: Basic " + id_pass);
             System.out.println("Content-Type: text/xml");
             System.out.println("Charset: TIS-620");
-            System.out.println("Content-Length " + String.valueOf(StrXml.length()));
+            System.out.println("Content-Length: " + String.valueOf(StrXml.length()));
             System.out.println("Connection: Keep-Alive");
             System.out.println("Host: " + ip_Host);
             //TIS-620 //UTF-8
-            System.out.println("HttpURLConnection " + con.toString());
             // /HTTP/1.1
-            con.setRequestMethod("POST");
+
             //con.setRequestMethod("GET");
             //con.setRequestProperty("POST", "/HTTP/1.1");
-            con.setRequestProperty("Authorization: ", "Basic " + id_pass);
+            con.setRequestProperty("Authorization:", "Basic " + id_pass);
             con.setRequestProperty("Content-type: ", "text/xml");
-            con.setRequestProperty("Charset: ", "TIS-620");
+            con.setRequestProperty("charset: ", "TIS-620");
             con.setRequestProperty("Content-Length: ", String.valueOf(StrXml.length()));
-            //Close
             con.setRequestProperty("Connection", "Keep-Alive");
-            ip_Host = "http://203.144.187.120:55000";
+
             con.setRequestProperty("Host", ip_Host);
-            con.setUseCaches(false);
+            con.setRequestMethod("POST /HTTP/1.1");
+            //con.setUseCaches(false);
             PrintWriter pw = new PrintWriter(con.getOutputStream());
             pw.write(StrXml);
-            //pw.close();
+            pw.close();
             System.out.println("test");
             InputStream InStream = new BufferedInputStream(con.getInputStream());
             System.out.println("\\O/");
-//            InStream.close();
-//            pw.flush();
-//            con.connect();
-//            con.disconnect();
+            InStream.close();
+            pw.flush();
+            con.connect();
+            con.disconnect();
 //            
             //xmlRes = parseISToString(InStream, false);
 
