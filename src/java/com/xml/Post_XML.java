@@ -1,6 +1,7 @@
 package com.xml;
 
 import com.table_data.Responsed;
+import java.io.BufferedInputStream;
 //import com.table_data.data_user;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,7 +9,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 //import java.text.DateFormat;
@@ -50,60 +53,73 @@ public class Post_XML {
             //System.out.println("Header : " + hh);
             System.out.println("XML Post : " + StrXml);
             ///////////////////////////////////////////////
-//            URL p = new URL(StrUrl);
-//            URLConnection uc = p.openConnection();
-//            HttpURLConnection connection = (HttpURLConnection) uc;
-//            connection.setDoOutput(true);
-//            connection.setDoInput(true);
-//            connection.setRequestMethod("POST");
-//            OutputStream out = connection.getOutputStream();
-//            OutputStreamWriter wout = new OutputStreamWriter(out);
-//           
-//            wout.write(hh+StrXml);
-//            wout.flush();
-//            InputStream is = connection.getInputStream();
-//            xmlRes = parseISToString(is, false);
+            //http://203.144.187.120:55000
+            String p_test = "//203.144.187.120:55000";
+            URI uri = new URI("http", null, p_test, null, null);
+            URL url = uri.toURL();
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setDoOutput(true);
+            con.setDoInput(true);
+//            System.out.println("POST /HTTP/1.1");
+//            System.out.println("Authorization: Basic " + id_pass);
+//            System.out.println("Content-Type: text/xml");
+//            System.out.println("Charset: TIS-620");
+//            System.out.println("Content-Length " + String.valueOf(StrXml.length()));
+//            System.out.println("Connection: Close");
+//            System.out.println("Host: " + ip_Host);
+            //TIS-620 //UTF-8
+            con.setRequestMethod("POST /HTTP/1.1");
+            con.setRequestProperty("Authorization: ", "Basic " + id_pass);
+            con.setRequestProperty("Content-type: ", "text/xml");
+            con.setRequestProperty("Charset: ", "TIS-620");
+            con.setRequestProperty("Content-Length ", String.valueOf(StrXml.length()));
+            con.setRequestProperty("Connection: ", "Close");
+            con.setRequestProperty("Host: ", ip_Host);
+            con.setUseCaches(false);
+            PrintWriter pw = new PrintWriter(con.getOutputStream());
+            pw.write(StrXml);
+            pw.close();
+            BufferedInputStream InStream = new BufferedInputStream(con.getInputStream());
+            InStream.close();
+            pw.flush();
+            con.connect();
+            con.disconnect();
+            xmlRes = parseISToString(InStream, false);
+
             //////////////////////////////////////////////
-            PostMethod post = new PostMethod(StrUrl);
-            if (type_header_xml.equals("mt")) {
-                Log.info("MT Running");
-                System.out.println("MT Run");
-                post.setRequestHeader("Authorization: ", "Basic " + id_pass);
-                post.setRequestHeader("Content-Type: ", "text/xml");
-                post.setRequestHeader("Charset: ", "TIS-620");
-                post.setRequestHeader("Content-Length ", String.valueOf(StrXml.length()));
-                post.setRequestHeader("Connection: ", "Close");
-                post.setRequestHeader("Host: ", ip_Host);
-                
-                System.out.println("Authorization: Basic " + id_pass);
-                System.out.println("Content-Type: text/xml");
-                System.out.println("Connection: Close");
-                System.out.println("Host: " + ip_Host);
-                System.out.println("Content-Length " + String.valueOf(StrXml.length()));
-            } else if (type_header_xml.equals("sent")) {
-                post.setRequestHeader("Content-Length ", String.valueOf(StrXml.length()));
-                post.setRequestHeader("Connection: ", "Keep-Alive");
-                post.setRequestHeader("Host: ", ip_Host);
-                post.setRequestHeader("Content-Type: ", "text/xml");
-            }
-            //post.setRequestBody("POST /HTTP/1.1");
-            //hh
-            RequestEntity entity = new StringRequestEntity(StrXml, "text/xml", "TIS-620");
-            //RequestEntity entity = new StringRequestEntity(StrXml, "text/xml", "UTF-8");
-            post.setRequestEntity(entity);
-            HttpClient httpclient = new HttpClient();
-
-            //////รับค่ากลับมาเป็น XML จากตัวที่เราส่งไป
-            int returnCode = httpclient.executeMethod(post);
-
-            if (returnCode == HttpStatus.SC_NOT_IMPLEMENTED) {
-                //System.err.println("The Post method is not implemented by this URI");
-                post.getResponseBodyAsString();
-            } else {
-                InputStream inStream = post.getResponseBodyAsStream();
-                xmlRes = parseISToString(inStream, false);
-            }
-
+//            PostMethod post = new PostMethod(StrUrl);
+//            if (type_header_xml.equals("mt")) {
+//                Log.info("MT Running");
+//                System.out.println("MT Run");
+//                post.setRequestHeader("Authorization: ", "Basic " + id_pass);
+//                post.setRequestHeader("Content-Type: ", "text/xml");
+//                post.setRequestHeader("Charset: ", "TIS-620");
+//                post.setRequestHeader("Content-Length ", String.valueOf(StrXml.length()));
+//                post.setRequestHeader("Connection: ", "Close");
+//                post.setRequestHeader("Host: ", ip_Host);
+//            } else if (type_header_xml.equals("sent")) {
+//                post.setRequestHeader("Content-Length ", String.valueOf(StrXml.length()));
+//                post.setRequestHeader("Connection: ", "Keep-Alive");
+//                post.setRequestHeader("Host: ", ip_Host);
+//                post.setRequestHeader("Content-Type: ", "text/xml");
+//            }
+//            //post.setRequestBody("POST /HTTP/1.1");
+//            //hh
+//            RequestEntity entity = new StringRequestEntity(StrXml, "text/xml", "TIS-620");
+//            //RequestEntity entity = new StringRequestEntity(StrXml, "text/xml", "UTF-8");
+//            post.setRequestEntity(entity);
+//            HttpClient httpclient = new HttpClient();
+//
+//            //////รับค่ากลับมาเป็น XML จากตัวที่เราส่งไป
+//            int returnCode = httpclient.executeMethod(post);
+//
+//            if (returnCode == HttpStatus.SC_NOT_IMPLEMENTED) {
+//                //System.err.println("The Post method is not implemented by this URI");
+//                post.getResponseBodyAsString();
+//            } else {
+//                InputStream inStream = post.getResponseBodyAsStream();
+//                xmlRes = parseISToString(inStream, false);
+//            }
         } catch (Exception e) {
             this.Log.info("Error Post : " + e);
             System.out.println("Error Post : " + e);
