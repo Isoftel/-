@@ -53,7 +53,6 @@ public class ProcessDatabase {
         String to = (getdata(result, "to", 1, ""));
         //System.out.println("service " + service + " time " + time);
 
-        this.Log.info("service : " + service + " destination " + destination);
         if (destination.equals("4557878")) {
 
         } else {
@@ -112,14 +111,17 @@ public class ProcessDatabase {
                 }
             }
             //////////////////services หา ID บริการ
-            sql = "select * from services where service_id = '" + service + "' ";
+
+            sql = "select * from services where service_id = '" + service + "' AND access_number = '" + destination + "' ";
             rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 id_service = rs.getInt("id");
                 str_service = rs.getString("service_id");
                 str_product = rs.getString("access_number");
-                product_id = rs.getString("Product_ID");
+                //product_id = rs.getString("Product_ID");
             }
+
+            this.Log.info("XML service : " + service + " destination " + destination + " SQL str_service " + str_service + " str_product " + str_product);
         } catch (Exception e) {
             //System.out.println("Error delivery_request : " + e);
             this.Log.info("Error report : " + e);
@@ -267,7 +269,7 @@ public class ProcessDatabase {
 
                 //statuscode เริ่ม 0 คือไม่ โช้หน้าเวป 1 โชหน้าเวป
                 sql = "INSERT INTO sms (msisdn,service_id,Product_ID,Timestamp,cdate,content,content_type,status,statuscode) "
-                        + "VALUES ('" + str_msisdn + "','" + str_service + "','" + product_id + "','" + time + "','" + date_format + "','" + ud + "','T','0','0')";
+                        + "VALUES ('" + str_msisdn + "','" + str_service + "','" + str_service + "','" + time + "','" + date_format + "','" + ud + "','T','0','0')";
                 stmt.execute(sql);
             } catch (Exception e) {
                 this.Log.info("Error DRACO : " + e);
