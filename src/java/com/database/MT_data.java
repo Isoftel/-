@@ -94,6 +94,7 @@ public class MT_data implements Runnable {
         List<data_user> id_user_thank_sms = ProcessSMS();
         for (data_user r : id_user_thank_sms) {
             try {
+                insert_r.insert_sms("Test : " + r.getDescriptions());
                 byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
                 encode = new sun.misc.BASE64Encoder().encode(b);
                 RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode, "unicode");
