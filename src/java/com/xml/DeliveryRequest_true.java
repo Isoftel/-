@@ -43,16 +43,16 @@ public class DeliveryRequest_true extends HttpServlet {
             //this.Log.info("MO//" + "SMS : " + sms + " UD : " + ud);
             if (sms.equals("mo")) {
                 //รับ สมัคร ยกเลิก
-                insert.ProcessDatabase(result, out);
                 response.setContentLength(result.length());
                 response.setHeader("Connection", "close");
                 response.setContentType("text/xml");
+                insert.ProcessDatabase(result, out);
             } else if (rsr.equals("sent") || rsr.equals("sent_delivered")) {
                 //รับ SMS ส่งมาสองตรั้ง ยังไม่เก็บก่นอ กับ เก็บตัง
-                insert.ProcessSMS(result, out);
                 response.setContentLength(0);
                 response.setHeader("Connection", "close");
                 response.setContentType("text/xml");
+                insert.ProcessSMS(result, out);
             }
             //////////////////ส่งค่า HTTP กลับ
 
