@@ -62,6 +62,7 @@ public class run_api extends HttpServlet implements Runnable {
                     text += (char) hexVal;
                 }
                 System.out.println("String at : " + text);
+                
 //                String strd = new String(en, Charset.forName("UTF-8"));
 //                System.out.println("String : " + StringEscapeUtils.unescapeJava(en));
 
