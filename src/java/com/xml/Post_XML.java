@@ -45,7 +45,7 @@ public class Post_XML {
             Log.info("URL Post : " + StrUrl);
 
             String hh = "Authorization: Basic " + id_pass + "Content-Type: text/xml" + "Connection: Close" + "Connection: Close" + "Host: " + ip_Host + "Content-Length " + String.valueOf(StrXml.length());
-            Log.info("Header : " + hh);
+            //Log.info("Header : " + hh);
             Log.info("XML Post : " + StrXml);
             //System.out.println("Header : " + hh);
             ///////////////////////////////////////////////
