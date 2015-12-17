@@ -53,7 +53,7 @@ public class ProcessDatabase {
         String to = (getdata(result, "to", 1, ""));
         //System.out.println("service " + service + " time " + time);
 
-        //this.Log.info("service : " + service);
+        this.Log.info("service : " + service + " destination " + destination);
         if (destination.equals("4557878")) {
 
         } else {
@@ -89,7 +89,6 @@ public class ProcessDatabase {
 //            sql = "INSERT INTO delivery_report(TransactionID,MSISDN,ServiceID) "
 //                    + "VALUES ('" + message + "','" + number + "','" + service + "')";
 //            stmt.execute(sql);
-
             //////////// mobile ดูว่ามีเบอร์แล้วหรือยังมี ดึง ID ไม่มีให้ INSERT
             sql = "select * from mobile";
             rs = stmt.executeQuery(sql);
