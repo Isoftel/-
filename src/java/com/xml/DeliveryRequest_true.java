@@ -40,7 +40,7 @@ public class DeliveryRequest_true extends HttpServlet {
             String rsr = (insert.getdata(result, "rsr type=\"", 3, ""));
 
             //System.out.println("SMS : " + sms + " UD : " + ud + " rsr " + rsr);
-            this.Log.info("MO//" + "SMS : " + sms + " UD : " + ud);
+            //this.Log.info("MO//" + "SMS : " + sms + " UD : " + ud);
             if (sms.equals("mo")) {
                 //รับ สมัคร ยกเลิก
                 insert.ProcessDatabase(result, out);
