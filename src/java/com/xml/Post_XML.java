@@ -63,7 +63,7 @@ public class Post_XML {
             con.setRequestProperty("Content-type", "text/xml");
             con.setRequestProperty("charset", "TIS-620");
             con.setRequestProperty("Content-Length", String.valueOf(StrXml.length()));
-            con.setRequestProperty("Connection", "Keep-Alive");
+            con.setRequestProperty("Connection", "Close");
             con.setRequestProperty("Host", ip_Host);
             con.setUseCaches(false);
             PrintWriter pw = new PrintWriter(con.getOutputStream());

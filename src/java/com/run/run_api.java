@@ -47,27 +47,27 @@ public class run_api extends HttpServlet implements Runnable {
             try {
                 Thread.sleep(ThreadSleep);
 
-                String en = "&#xe2a;&#xe27;&#xe31;&#xe14;&#xe14;&#xe35;";
-                //String en = "\u0048\u0065\u006C\u006C\u006F World";
-
-                String working = en;
-                int index;
-                index = working.indexOf("\\u");
-                while (index > -1) {
-                    int length = working.length();
-                    if (index > (length - 6)) {
-                        break;
-                    }
-                    int numStart = index + 2;
-                    int numFinish = numStart + 4;
-                    String substring = working.substring(numStart, numFinish);
-                    int number = Integer.parseInt(substring, 16);
-                    String stringStart = working.substring(0, index);
-                    String stringEnd = working.substring(numFinish);
-                    working = stringStart + ((char) number) + stringEnd;
-                    index = working.indexOf("\\u");
-                }
-                System.out.println("working : "+working);
+//                String en = "&#xe2a;&#xe27;&#xe31;&#xe14;&#xe14;&#xe35;";
+//                //String en = "\u0048\u0065\u006C\u006C\u006F World";
+//
+//                String working = en;
+//                int index;
+//                index = working.indexOf("\\u");
+//                while (index > -1) {
+//                    int length = working.length();
+//                    if (index > (length - 6)) {
+//                        break;
+//                    }
+//                    int numStart = index + 2;
+//                    int numFinish = numStart + 4;
+//                    String substring = working.substring(numStart, numFinish);
+//                    int number = Integer.parseInt(substring, 16);
+//                    String stringStart = working.substring(0, index);
+//                    String stringEnd = working.substring(numFinish);
+//                    working = stringStart + ((char) number) + stringEnd;
+//                    index = working.indexOf("\\u");
+//                }
+//                System.out.println("working : "+working);
                 
 //                System.out.println("Runing API");
                 this.Log.info("Runing API");

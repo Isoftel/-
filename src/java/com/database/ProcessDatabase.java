@@ -54,7 +54,6 @@ public class ProcessDatabase {
         //System.out.println("service " + service + " time " + time);
 
         //this.Log.info("service : " + service);
-
         if (destination.equals("4557878")) {
 
         } else {
@@ -157,7 +156,7 @@ public class ProcessDatabase {
                     sql = "INSERT INTO register(api_req, reg_channel, mobile_id, service_id, reg_date, status,status_code) "
                             + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + time + "','0','0')";
                     stmt.execute(sql);
-                    out_xml.OutXmlr(encoding, message, service, destination, number, text, out);
+                    out_xml.OutXmlr(encoding, message, service, destination, number, text, messageid, out);
                 } else if (description.equals("UNREG")) {
                     ///// เคยสมัครแต่ยกเลิกแล้ว
                     sql = "UPDATE subscribe SET description = 'REG',udate = '" + time + "' WHERE id='" + id_subscribe + "' ";
@@ -165,7 +164,7 @@ public class ProcessDatabase {
                     sql = "INSERT INTO register(api_req, reg_channel, mobile_id, service_id, reg_date, status,status_code) "
                             + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + time + "','0','0')";
                     stmt.execute(sql);
-                    out_xml.OutXmlr(encoding, message, service, destination, number, text, out);
+                    out_xml.OutXmlr(encoding, message, service, destination, number, text, messageid, out);
                 } else if (description.equals("REG")) {
                     /// สมัครแล้วยังไม่ยกเลิก ส่งกลับทันที
                     //text = "You can subscribe to this service";
@@ -175,7 +174,7 @@ public class ProcessDatabase {
                     String encode = new sun.misc.BASE64Encoder().encode(b);
                     String RegXML = str_xml.getXmlReg(service, number, text, str_product, encode, "default");
                     xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
-                    out_xml.OutXmlr(encoding, message, service, destination, number, text, out);
+                    out_xml.OutXmlr(encoding, message, service, destination, number, text, messageid, out);
                 }
 
             } catch (Exception e) {
@@ -215,7 +214,7 @@ public class ProcessDatabase {
                     String RegXML = str_xml.getXmlReg(service, number, text, str_product, encode, "default");
                     xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
                     //text = "ท่านยังไม่ได้เป็นสมาชิก";
-                    out_xml.OutXmlr(encoding, message, service, destination, number, text, out);
+                    out_xml.OutXmlr(encoding, message, service, destination, number, text, messageid, out);
                 } else if (description.equals("UNREG")) {
                     //เคยยกเลิกสมาชิกแล้ว
                     text = "Have you ever canceled";
@@ -225,7 +224,7 @@ public class ProcessDatabase {
                     String RegXML = str_xml.getXmlReg(service, number, text, str_product, encode, "default");
                     xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
                     //text = "ท่านเคยยกเลิกสมาชิกแล้ว";
-                    out_xml.OutXmlr(encoding, message, service, destination, number, text, out);
+                    out_xml.OutXmlr(encoding, message, service, destination, number, text, messageid, out);
                 } else if (description.equals("REG")) {
                     //ทำการยกเลิกสมาชิก
                     text = "Cancel service success";
@@ -237,7 +236,7 @@ public class ProcessDatabase {
 //                    sql = "INSERT INTO register(api_req, reg_channel, mobile_id, service_id, reg_date, status,status_code) "
 //                            + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + time + "','0','0')";
 //                    stmt.execute(sql);
-                    out_xml.OutXmlr(encoding, message, service, destination, number, text, out);
+                    out_xml.OutXmlr(encoding, message, service, destination, number, text, messageid, out);
                 }
 
             } catch (Exception e) {
@@ -261,7 +260,7 @@ public class ProcessDatabase {
                 conn = DriverManager.getConnection(connectionUrl);
                 stmt = conn.createStatement();
                 ud = (getdata(result, "ud encoding=\"unicode\" type=\"text\"", 4, "ud"));
-                
+
                 //statuscode เริ่ม 0 คือไม่ โช้หน้าเวป 1 โชหน้าเวป
                 sql = "INSERT INTO sms (msisdn,service_id,Product_ID,Timestamp,cdate,content,content_type,status,statuscode) "
                         + "VALUES ('" + str_msisdn + "','" + str_service + "','" + product_id + "','" + time + "','" + date_format + "','" + ud + "','T','0','0')";
@@ -305,7 +304,7 @@ public class ProcessDatabase {
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
-            
+
 //            sql = "INSERT INTO delivery_request(TransactionID,product_id,MSISDN,Content,StatusCode,cdate,service_id) "
 //                    + "VALUES ('" + message + "','" + message_id + "','" + number + "','" + destination + "','" + code + "','" + cdate_sms + "','" + service + "')";
 //            stmt.execute(sql);
