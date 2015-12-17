@@ -86,6 +86,10 @@ public class ProcessDatabase {
                     + "VALUES ('" + message + "','" + destination + "','" + number + "','" + ud + "','" + time + "','" + service + "')";
             stmt.execute(sql);
 
+            sql = "INSERT INTO delivery_request(TransactionID,MSISDN,ServiceID) "
+                    + "VALUES ('" + message + "','" + number + "','" + service + "')";
+            stmt.execute(sql);
+
             //////////// mobile ดูว่ามีเบอร์แล้วหรือยังมี ดึง ID ไม่มีให้ INSERT
             sql = "select * from mobile";
             rs = stmt.executeQuery(sql);
