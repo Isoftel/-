@@ -48,17 +48,17 @@ public class run_api extends HttpServlet implements Runnable {
                 Thread.sleep(ThreadSleep);
                 
                 String en = "&#xe2a;&#xe27;&#xe31;&#xe14;&#xe14;&#xe35;";
-                en = "\u0048\u0065\u006C\u006C\u006F World";
-                System.out.println("en : "+en);
-                String str = en.split(" ")[0];
-                str = str.replace("\\", "");
-                String[] arr = str.split("u");
+                //en = "\u0048\u0065\u006C\u006C\u006F";
+                //System.out.println("en : "+en);
+                //String str = en.split(" ")[0];
+                en = en.replace("&#", ";");
+                String[] arr = en.split("");
                 String text = "";
                 for (int i = 1; i < arr.length; i++) {
                     int hexVal = Integer.parseInt(arr[i], 16);
                     text += (char) hexVal;
                 }
-                System.out.println("String : " + text);
+                System.out.println("String at : " + text);
 //                String strd = new String(en, Charset.forName("UTF-8"));
 //                System.out.println("String : " + StringEscapeUtils.unescapeJava(en));
 
