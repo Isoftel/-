@@ -46,10 +46,12 @@ public class run_api extends HttpServlet implements Runnable {
         while (true) {
             try {
                 Thread.sleep(ThreadSleep);
-                
+
 //                String en = "&#xe2a;&#xe27;&#xe31;&#xe14;&#xe14;&#xe35;";
 //                //en = "\u0048\u0065\u006C\u006C\u006F";
-//                System.out.println("en : "+en);
+//                System.out.println("en : " + en);
+//                System.out.println("UTF : " + Charset.forName("UTF-8").encode(en));
+//                String str = org.apache.commons.lang.StringEscapeUtils.unescapeJava(en);
 //                //String str = en.split(" ")[0];
 //                en = en.replace("&", "");
 //                System.out.println("& : "+en);
@@ -62,7 +64,7 @@ public class run_api extends HttpServlet implements Runnable {
 //                    text += (char) hexVal;
 //                }
 //                System.out.println("String at : " + text);
-                
+
 //                System.out.println("Runing API");
                 this.Log.info("Runing API");
 //                /////  ส่ง MT
