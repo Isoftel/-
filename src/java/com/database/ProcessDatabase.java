@@ -122,7 +122,8 @@ public class ProcessDatabase {
                 product_id = rs.getString("Product_ID");
             }
         } catch (Exception e) {
-            System.out.println("Error delivery_request : " + e);
+            //System.out.println("Error delivery_request : " + e);
+            this.Log.info("Error report : " + e);
         } finally {
             try {
                 conn.close();
