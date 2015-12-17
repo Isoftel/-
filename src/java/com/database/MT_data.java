@@ -229,7 +229,7 @@ public class MT_data implements Runnable {
                     + "INNER JOIN services  ON services.service_id  = sms.service_id  "
                     + "INNER JOIN mobile    ON mobile.msisdn = sms.msisdn "
                     + "INNER JOIN mgr       ON mgr.operator_id = mobile.operator_id "
-                    + "WHERE mgr.api_req = 'REG' AND sms.status = '0'");
+                    + "WHERE mgr.api_req = 'REG' AND sms.status = '0' AND mgr.service_id = '6'");
             String id_user = "";
             while (rs.next()) {
                 data_message iduser = new data_message();
