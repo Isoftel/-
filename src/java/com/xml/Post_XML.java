@@ -68,16 +68,23 @@ public class Post_XML {
 //            con.setRequestProperty("Host", ip_Host);
             if (type_header_xml.equals("mt")) {
                 con.setRequestProperty("Authorization", "Basic " + id_pass);
-//                con.setRequestProperty("Content-type", "text/xml");
-//                con.setRequestProperty("Connection", "Close");
-//                con.setRequestProperty("Host", ip_Host);
-//                con.setRequestProperty("Content-Length", String.valueOf(StrXml.length()));
-            }else if (type_header_xml.equals("sms")) {
-                con.setRequestProperty("Authorization", "Basic " + id_pass);
-                con.setRequestProperty("Host", ip_Host);
-                con.setRequestProperty("Connection", "Close");
-                con.setRequestProperty("Content-Length", String.valueOf(StrXml.length()));
                 con.setRequestProperty("Content-type", "text/xml");
+                con.setRequestProperty("Connection", "Close");
+                con.setRequestProperty("Host", ip_Host);
+                con.setRequestProperty("Content-Length", String.valueOf(StrXml.length()));
+            }else if (type_header_xml.equals("sms")) {
+//                con.setRequestProperty("Authorization", "Basic " + id_pass);
+//                con.setRequestProperty("Host", ip_Host);
+//                con.setRequestProperty("Connection", "Close");
+//                con.setRequestProperty("Content-Length", String.valueOf(StrXml.length()));
+//                con.setRequestProperty("Content-type", "text/xml");
+                
+                con.setRequestProperty("Authorization", "Basic " + id_pass);
+                con.setRequestProperty("Content-type", "text/xml");
+                con.setRequestProperty("Charset", "TIS-620");
+                con.setRequestProperty("Content-Length", String.valueOf(StrXml.length()));
+                con.setRequestProperty("Connection", "Close");
+                con.setRequestProperty("Host", ip_Host);
             }
             con.setUseCaches(false);
             PrintWriter pw = new PrintWriter(con.getOutputStream());
