@@ -154,7 +154,7 @@ public class ProcessDatabase {
                     sql = "INSERT INTO subscribe(mobile_id, service_id, description, cdate) "
                             + "VALUES('" + id_number + "','" + id_service + "','REG','" + time + "')";
                     stmt.execute(sql);
-                    sql = "INSERT INTO register(api_req, reg_channel, mobile_id, service_id, reg_date, status,status_detail) "
+                    sql = "INSERT INTO register(api_req, reg_channel, mobile_id, service_id, reg_date, status,status_code) "
                             + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + time + "','0','0')";
                     stmt.execute(sql);
                     out_xml.OutXmlr(encoding, message, service, destination, number, text, out);
@@ -162,7 +162,7 @@ public class ProcessDatabase {
                     ///// เคยสมัครแต่ยกเลิกแล้ว
                     sql = "UPDATE subscribe SET description = 'REG',udate = '" + time + "' WHERE id='" + id_subscribe + "' ";
                     stmt.executeUpdate(sql);
-                    sql = "INSERT INTO register(api_req, reg_channel, mobile_id, service_id, reg_date, status,status_detail) "
+                    sql = "INSERT INTO register(api_req, reg_channel, mobile_id, service_id, reg_date, status,status_code) "
                             + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + time + "','0','0')";
                     stmt.execute(sql);
                     out_xml.OutXmlr(encoding, message, service, destination, number, text, out);
@@ -235,7 +235,7 @@ public class ProcessDatabase {
                     sql = "UPDATE subscribe SET description = 'UNREG',udate = '" + time + "' WHERE id='" + id_subscribe + "' ";
                     stmt.executeUpdate(sql);
                     ////////////////// บันทึกเพื่อจะส่งยกเลิก
-//                    sql = "INSERT INTO register(api_req, reg_channel, mobile_id, service_id, reg_date, status,status_detail) "
+//                    sql = "INSERT INTO register(api_req, reg_channel, mobile_id, service_id, reg_date, status,status_code) "
 //                            + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + time + "','0','0')";
 //                    stmt.execute(sql);
                     out_xml.OutXmlr(encoding, message, service, destination, number, text, out);
