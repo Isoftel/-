@@ -146,7 +146,7 @@ public class MT_data implements Runnable {
 //                String encode_test = URLEncoder.encode(Text_Service, "UTF-8");
 //                this.Log.info("Test Reg : " + encode_test);
 
-                Text_Service = "ยินดีต้อนรับสู้ PLAYBOY จาก " + number;
+                //Text_Service = "ยินดีต้อนรับสู้ PLAYBOY จาก " + number;
                 iduser.setService_id(service);
                 iduser.setNumber_type(number);
                 iduser.setDescriptions(Text_Service);
@@ -155,6 +155,7 @@ public class MT_data implements Runnable {
                 iduser.setContent_sms(content_sms);
 
                 //System.out.println("Test Reg : " + Text_Service);
+                this.Log.info("ID reg : " + id_user);
                 String sql = "UPDATE register SET status = '10' WHERE reg_id='" + id_user + "' ";
                 stmt.executeUpdate(sql);
                 user_room.add(iduser);
@@ -187,7 +188,7 @@ public class MT_data implements Runnable {
                 data_user iduser = new data_user();
                 id_user = rs.getString("reg_id");
                 String service = rs.getString("service_user");
-                service = "7112402000";
+                //service = "7112402000";
                 String number = rs.getString("msisdn");
                 String Text_Service = rs.getString("detail_reg");
                 String access = rs.getString("access_number");
