@@ -68,7 +68,7 @@ public class MT_data implements Runnable {
                 encode = new sun.misc.BASE64Encoder().encode(b);
                 //default //TIS-620 //UTF-8 //
                 String Text_Service = dumpStrings(r.getDescriptions());
-                RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), Text_Service, r.getAccess(), encode, "default");
+                RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), Text_Service, r.getAccess(), encode, "TIS-620");
                 GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
                 //System.out.println("XML GET : " + GetXML);
                 insert_r.insert_r(GetXML, "MT");
@@ -100,7 +100,7 @@ public class MT_data implements Runnable {
                 byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
                 encode = new sun.misc.BASE64Encoder().encode(b);
                 String Text_Service = dumpStrings("ขอบคุณที่ใช้บริการคะ");
-                RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), Text_Service, r.getAccess(), encode, "unicode");
+                RegXML = str_xml.getXmlSMS(r.getService_id(), r.getNumber_type(), Text_Service, r.getAccess(), encode, "unicode");
                 GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "sms");
                 this.Log.info("Get Xml SMS : " + GetXML);
                 insert_r.insert_sms(GetXML);

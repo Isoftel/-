@@ -72,19 +72,20 @@ public class Post_XML {
                 con.setRequestProperty("Connection", "Close");
                 con.setRequestProperty("Host", ip_Host);
                 con.setRequestProperty("Content-Length", String.valueOf(StrXml.length()));
-            }else if (type_header_xml.equals("sms")) {
+            } else if (type_header_xml.equals("sms")) {
 //                con.setRequestProperty("Authorization", "Basic " + id_pass);
 //                con.setRequestProperty("Host", ip_Host);
 //                con.setRequestProperty("Connection", "Close");
 //                con.setRequestProperty("Content-Length", String.valueOf(StrXml.length()));
 //                con.setRequestProperty("Content-type", "text/xml");
-                
+
                 con.setRequestProperty("Authorization", "Basic " + id_pass);
                 con.setRequestProperty("Content-type", "text/xml");
-                con.setRequestProperty("Charset", "TIS-620");
+                con.setRequestProperty("Charset", "UTF-8");
                 con.setRequestProperty("Content-Length", String.valueOf(StrXml.length()));
                 con.setRequestProperty("Connection", "Close");
                 con.setRequestProperty("Host", ip_Host);
+                this.Log.info("EEEEEEEEEEEEEEEEEEEEE");
             }
             con.setUseCaches(false);
             PrintWriter pw = new PrintWriter(con.getOutputStream());
@@ -98,7 +99,7 @@ public class Post_XML {
             con.disconnect();
         } catch (Exception e) {
             this.Log.info("Error Post : " + e);
-            System.out.println("Error Post : " + e);
+            //System.out.println("Error Post : " + e);
         }
         return xmlRes;
     }
