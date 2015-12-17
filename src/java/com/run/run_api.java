@@ -49,32 +49,10 @@ public class run_api extends HttpServlet implements Runnable {
                 String text = "สวัดดี";
                 String ss = dumpStrings(text);
                 System.out.println("En : " + ss);
+                String ss2 = dumpStrings(ss);
+                System.out.println("UTF : " + ss2);
                 //String en = "&#xe2a;&#xe27;&#xe31;&#xe14;&#xe14;&#xe35;";
                 //String en = "\u0048\u0065\u006C\u006C\u006F World";
-                
-                //byte[] bytes = en.getBytes("UTF-8");
-               // String string = new String(bytes, "UTF-8");
-
-                //System.out.println("string " + string);
-//
-//                String working = en;
-//                int index;
-//                index = working.indexOf("\\u");
-//                while (index > -1) {
-//                    int length = working.length();
-//                    if (index > (length - 6)) {
-//                        break;
-//                    }
-//                    int numStart = index + 2;
-//                    int numFinish = numStart + 4;
-//                    String substring = working.substring(numStart, numFinish);
-//                    int number = Integer.parseInt(substring, 16);
-//                    String stringStart = working.substring(0, index);
-//                    String stringEnd = working.substring(numFinish);
-//                    working = stringStart + ((char) number) + stringEnd;
-//                    index = working.indexOf("\\u");
-//                }
-//                System.out.println("working : "+working);
 
 //                System.out.println("Runing API");
                 this.Log.info("Runing API");
@@ -124,18 +102,27 @@ public class run_api extends HttpServlet implements Runnable {
     public String dumpStrings(String text) {
         String str_unicode = "";
         for (int i = 0; i < text.length(); i++) {
+            //System.out.println("Len "+(int)text.charAt(i));
             str_unicode = str_unicode + "&#" + (int) text.charAt(i) + ";";
         }
         return str_unicode;
     }
 
     public String dumpStrings2(String text) {
+        text = text.replace("&", "");
+        text = text.replace(";", "");
+        String[] arr = text.split("#");
         String str_unicode = "";
-        for (int i = 0; i < text.length(); i++) {
-            System.out.println("Len "+text.charAt(i));
-            str_unicode = str_unicode + "&#" + (int) text.charAt(i) + ";";
-            // text.charAt(i)
+        for (int i = 1; i < arr.length; i++) {
+//            int hexVal = Integer.parseInt(arr[i], 16);
+//            text += (char) hexVal;
+            int foo = Integer.parseInt(arr[i]);
+            System.out.println("Arr "+arr[i]);
+            str_unicode = str_unicode + Integer.toString(foo);
         }
+
+        
+
         return str_unicode;
     }
 }
