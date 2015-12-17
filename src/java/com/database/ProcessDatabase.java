@@ -209,7 +209,7 @@ public class ProcessDatabase {
                     description = rs.getString("description");
                     id_subscribe = rs.getString("id");
                 }
-                System.out.println("description " + description + " id_subscribe " + id_subscribe);
+                //System.out.println("description " + description + " id_subscribe " + id_subscribe);
                 String text = "";
                 //String text = "ยกเลิกบริการสำเร็จ";
                 if (description.equals("non")) {
@@ -248,7 +248,7 @@ public class ProcessDatabase {
 
             } catch (Exception e) {
                 this.Log.info("Error UNREG : " + e);
-                System.out.println("Error SQL Unreg : " + e);
+                //System.out.println("Error SQL Unreg : " + e);
             } finally {
                 try {
                     conn.close();
@@ -258,8 +258,6 @@ public class ProcessDatabase {
         } else if (destination.equals("4557878")) {
             ///// ส่งข้อความ เก็บ content
             try {
-
-                System.out.println("Content : " + ud);
                 String date_format = dateFormat.format(NewDate);
                 Date cdate_sms = dateFormat.parse(date_format);
                 Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -274,7 +272,7 @@ public class ProcessDatabase {
                 stmt.execute(sql);
             } catch (Exception e) {
                 this.Log.info("Error DRACO : " + e);
-                System.out.println("Error Content : " + e);
+                //System.out.println("Error Content : " + e);
             } finally {
                 try {
                     conn.close();
