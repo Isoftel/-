@@ -17,7 +17,7 @@ public class DeliveryRequest_true extends HttpServlet {
 
     ProcessDatabase insert = new ProcessDatabase();
     Logger Log = Logger.getLogger(this.getClass());
-    
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) {
         this.Log.info("DeliveryRequest Runing");
         PrintWriter out = null;
@@ -44,15 +44,18 @@ public class DeliveryRequest_true extends HttpServlet {
             if (sms.equals("mo")) {
                 //รับ สมัคร ยกเลิก
                 insert.ProcessDatabase(result, out);
-            } 
-            else if (rsr.equals("sent") || rsr.equals("sent_delivered")) {
+                response.setContentLength(result.length());
+                response.setHeader("Connection", "close");
+                response.setContentType("text/xml");
+            } else if (rsr.equals("sent") || rsr.equals("sent_delivered")) {
                 //รับ SMS ส่งมาสองตรั้ง ยังไม่เก็บก่นอ กับ เก็บตัง
                 insert.ProcessSMS(result, out);
+                response.setContentLength(0);
+                response.setHeader("Connection", "close");
+                response.setContentType("text/xml");
             }
             //////////////////ส่งค่า HTTP กลับ
-            response.setContentLength(result.length());
-            response.setHeader("Connection", "close");
-            response.setContentType("text/xml");
+
             //Dispatcher.writeServletResponse(resp, response);
         } catch (Exception e) {
             this.Log.info("Error HttpServletRequest : " + e);
