@@ -86,7 +86,7 @@ public class ProcessDatabase {
                     + "VALUES ('" + message + "','" + destination + "','" + number + "','" + ud + "','" + time + "','" + service + "')";
             stmt.execute(sql);
 
-            sql = "INSERT INTO delivery_request(TransactionID,MSISDN,ServiceID) "
+            sql = "INSERT INTO delivery_report(TransactionID,MSISDN,ServiceID) "
                     + "VALUES ('" + message + "','" + number + "','" + service + "')";
             stmt.execute(sql);
 
