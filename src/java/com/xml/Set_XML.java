@@ -12,11 +12,11 @@ public class Set_XML {
     DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
 
     ///ส่งค่าเดียวแล้ว reture String ที่ได้รับจากฟั่ง True หลังจากส่ง XML แล้ว
-    public String getXmlReg(String Service_id, String Number_type, String Text_Service, String Access, String id_pass,String type) {
+    public String getXmlReg(String Service_id, String Number_type, String Text_Service, String Access, String id_pass, String type) {
         //System.out.println("Day : " + dateFormat2.format(date));
         StringBuilder sb = new StringBuilder();
         //TIS-620 //UTF-8
-        sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+        sb.append("<?xml version=\"1.0\" encoding=\"TIS-620\"?>");
         sb.append("<message>");
         sb.append("<sms type=\"mt\">");
         sb.append("<service-id>").append(Service_id).append("</service-id>");
@@ -32,6 +32,7 @@ public class Set_XML {
         sb.append("</address>");
         sb.append("</source>");
         //String Test = "Test"; //Text_Service
+        type = "TIS-620";
         sb.append("<ud type=\"text\" encoding=\"").append(type).append("\">").append(Text_Service).append("</ud>");
         sb.append("<scts>").append(dateFormat2.format(date)).append("</scts>");
         sb.append("<dro>").append("true").append("</dro>");
@@ -67,8 +68,7 @@ public class Set_XML {
         return sb.toString();
     }
 
-    
-    public String getXmlWapPush(String Service_id, String Number_type, String Text_Service, String Access, String id_pass,String type) {
+    public String getXmlWapPush(String Service_id, String Number_type, String Text_Service, String Access, String id_pass, String type) {
         StringBuilder sb = new StringBuilder();
         sb.append("<?xml version=\"1.0\" encoding=\"TIS-620\"?>");
         sb.append("<message>");
@@ -92,8 +92,8 @@ public class Set_XML {
         sb.append("</message>");
         return sb.toString();
     }
-    
-    public String getXmlWapPush2(String Service_id, String Number_type, String Text_Service, String Access, String id_pass,String type) {
+
+    public String getXmlWapPush2(String Service_id, String Number_type, String Text_Service, String Access, String id_pass, String type) {
         StringBuilder sb = new StringBuilder();
         sb.append("<?xml version=\"1.0\" encoding=\"TIS-620\"?>");
         sb.append("<message>");
