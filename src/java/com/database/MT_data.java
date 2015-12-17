@@ -98,7 +98,7 @@ public class MT_data implements Runnable {
                 byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
                 encode = new sun.misc.BASE64Encoder().encode(b);
                 RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode, "unicode");
-                GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "sent");
+                //GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "sent");
                 this.Log.info("Get Xml SMS : " + GetXML);
                 insert_r.insert_sms(GetXML);
             } catch (Exception e) {
