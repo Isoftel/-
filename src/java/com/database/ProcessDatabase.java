@@ -172,10 +172,9 @@ public class ProcessDatabase {
                     String encod = "7112402000:H84pL9aG";
                     byte[] b = encod.getBytes(Charset.forName("UTF-8"));
                     String encode = new sun.misc.BASE64Encoder().encode(b);
-                    String RegXML = str_xml.getXmlReg(service, number, text, "4557000", encode, "default");
+                    String RegXML = str_xml.getXmlReg(service, number, text, str_product, encode, "default");
                     xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
 
-                    
                     //String text = "ท่านเคยสมัครสมาชิกแล้ว";
                     out_xml.OutXmlr(encoding, message, service, destination, number, text, out);
                 }
@@ -211,11 +210,21 @@ public class ProcessDatabase {
                 if (description.equals("non")) {
                     //ไม่เคยเป็นสมาชิก
                     text = "He was never a member";
+                    String encod = "7112402000:H84pL9aG";
+                    byte[] b = encod.getBytes(Charset.forName("UTF-8"));
+                    String encode = new sun.misc.BASE64Encoder().encode(b);
+                    String RegXML = str_xml.getXmlReg(service, number, text, str_product, encode, "default");
+                    xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
                     //text = "ท่านยังไม่ได้เป็นสมาชิก";
                     out_xml.OutXmlr(encoding, message, service, destination, number, text, out);
                 } else if (description.equals("UNREG")) {
                     //เคยยกเลิกสมาชิกแล้ว
                     text = "Have you ever canceled";
+                    String encod = "7112402000:H84pL9aG";
+                    byte[] b = encod.getBytes(Charset.forName("UTF-8"));
+                    String encode = new sun.misc.BASE64Encoder().encode(b);
+                    String RegXML = str_xml.getXmlReg(service, number, text, str_product, encode, "default");
+                    xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
                     //text = "ท่านเคยยกเลิกสมาชิกแล้ว";
                     out_xml.OutXmlr(encoding, message, service, destination, number, text, out);
                 } else if (description.equals("REG")) {
