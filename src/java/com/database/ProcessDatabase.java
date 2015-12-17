@@ -175,6 +175,7 @@ public class ProcessDatabase {
                     /// สมัครแล้วยังไม่ยกเลิก ส่งกลับทันที
                     //text = "You can subscribe to this service";
                     text = "ท่านเคยสมัครสมาชิกแล้ว";
+                    text = dumpStrings(text);
                     String encod = "7112402000:H84pL9aG";
                     byte[] b = encod.getBytes(Charset.forName("UTF-8"));
                     String encode = new sun.misc.BASE64Encoder().encode(b);
@@ -372,5 +373,11 @@ public class ProcessDatabase {
         }
         return result;
     }
-
+    public String dumpStrings(String text) {
+        String str_unicode = "";
+        for (int i = 0; i < text.length(); i++) {
+            str_unicode = str_unicode + "&#" + (int) text.charAt(i) + ";";
+        }
+        return str_unicode;
+    }
 }

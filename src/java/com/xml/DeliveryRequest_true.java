@@ -48,6 +48,7 @@ public class DeliveryRequest_true extends HttpServlet {
                 response.setContentType("text/xml");
                 insert.ProcessDatabase(result, out);
             } else if (rsr.equals("sent") || rsr.equals("sent_delivered")) {
+                this.Log.info("Sent Runing");
                 //รับ SMS ส่งมาสองตรั้ง ยังไม่เก็บก่นอ กับ เก็บตัง
                 response.setContentLength(0);
                 response.setHeader("Connection", "close");
