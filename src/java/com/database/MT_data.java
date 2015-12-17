@@ -1,6 +1,7 @@
 package com.database;
 
 //import java.util.Base64;
+import com.table_data.data_message;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -38,11 +39,11 @@ public class MT_data implements Runnable {
     Statement stmt = null;
     ResultSet rs = null;
     List<data_user> user_room = new ArrayList<data_user>();
-    List<data_user> user_sms = new ArrayList<data_user>();
+    List<data_message> data_message = new ArrayList<data_message>();
 
     private List<data_user> id_user_reg;
     private List<data_user> id_user_unreg;
-    private List<data_user> id_user_thank_sms;
+    private List<data_message> id_user_thank_sms;
 
     String id_user = "";
     String encode = "";
@@ -92,8 +93,8 @@ public class MT_data implements Runnable {
 //            //System.out.println("test Unreg : " + r.getNumber_type());
 //        }
 //        //////////////////////////////////////////////////////////////////
-        List<data_user> id_user_thank_sms = ProcessSMS();
-        for (data_user r : id_user_thank_sms) {
+        List<data_message> id_user_thank_sms = ProcessSMS();
+        for (data_message r : id_user_thank_sms) {
             try {
                 insert_r.insert_sms("Test : " + r.getDescriptions());
                 byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
@@ -217,8 +218,8 @@ public class MT_data implements Runnable {
         return user_room;
     }
 
-    public List<data_user> ProcessSMS() {
-        user_room.clear();
+    public List<data_message> ProcessSMS() {
+        data_message.clear();
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
@@ -231,7 +232,7 @@ public class MT_data implements Runnable {
                     + "WHERE mgr.api_req = 'REG' AND sms.status = '0'");
             String id_user = "";
             while (rs.next()) {
-                data_user iduser = new data_user();
+                data_message iduser = new data_message();
                 id_user = rs.getString("sms_id");
                 String number = rs.getString("msisdn");
                 String service_id = rs.getString("service_id");
@@ -251,7 +252,7 @@ public class MT_data implements Runnable {
                 iduser.setAccess(access);
                 iduser.setEncoding(user + pass);
 
-                user_room.add(iduser);
+                data_message.add(iduser);
             }
 
             String sql = "UPDATE sms SET status = '90' WHERE sms_id ='" + id_user + "' ";
@@ -265,7 +266,7 @@ public class MT_data implements Runnable {
             } catch (Exception e) {
             }
         }
-        return user_room;
+        return data_message;
     }
 
     public String dumpStrings(String text) {
