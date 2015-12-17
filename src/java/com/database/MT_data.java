@@ -101,7 +101,7 @@ public class MT_data implements Runnable {
                 encode = new sun.misc.BASE64Encoder().encode(b);
                 String Text_Service = dumpStrings("ขอบคุณที่ใช้บริการคะ");
                 RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), Text_Service, r.getAccess(), encode, "unicode");
-                //GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "sent");
+                GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "sent");
                 this.Log.info("Get Xml SMS : " + GetXML);
                 insert_r.insert_sms(GetXML);
             } catch (Exception e) {
