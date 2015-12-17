@@ -99,7 +99,8 @@ public class MT_data implements Runnable {
                 insert_r.insert_sms("Test : " + r.getDescriptions());
                 byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
                 encode = new sun.misc.BASE64Encoder().encode(b);
-                RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode, "unicode");
+                String Text_Service = dumpStrings("ขอบคุณที่ใช้บริการคะ");
+                RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), Text_Service, r.getAccess(), encode, "unicode");
                 //GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "sent");
                 this.Log.info("Get Xml SMS : " + GetXML);
                 insert_r.insert_sms(GetXML);
@@ -147,7 +148,7 @@ public class MT_data implements Runnable {
                 //TIS-620//UTF-8
 //                String encode_test = URLEncoder.encode(Text_Service, "UTF-8");
 //                this.Log.info("Test Reg : " + encode_test);
-                this.Log.info("service : " + service + " access " + access + " User " + user + " : " + pass);
+                //this.Log.info("service : " + service + " access " + access + " User " + user + " : " + pass);
                 //Text_Service = "ยินดีต้อนรับสู้ PLAYBOY จาก " + number;
                 iduser.setService_id(service);
                 iduser.setNumber_type(number);

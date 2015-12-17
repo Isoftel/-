@@ -17,7 +17,7 @@ public class XML_insert {
 
     ProcessDatabase insert = new ProcessDatabase();
     Logger Log = Logger.getLogger(this.getClass());
-    
+
     Connection conn = null;
     Statement stmt = null;
     ResultSet rs = null;
@@ -72,9 +72,30 @@ public class XML_insert {
         }
         return xml;
     }
+
     public String insert_sms(String xml) {
-        
+        String service = insert.getdata(xml, "service-id", 1, "");
+        String messageid = insert.getdata(xml, "destination messageid=\"", 3, "");
+        String number = insert.getdata(xml, "number type=\"international\"", 4, "number");
+        String code = insert.getdata(xml, "code", 1, "");
+        String description = insert.getdata(xml, "description", 1, "description");
+        String number_text = "non";
+        number_text = insert.getdata(xml, "number type=\"abbreviated\"", 4, "number");
+
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
+            conn = DriverManager.getConnection(connectionUrl);
+            stmt = conn.createStatement();
+
+            String sql = "UPDATE sms SET status = '100' WHERE msisdn ='" + number + "' AND service_id ='" + service + "' AND status='90' ";
+            stmt.executeUpdate(sql);
+
+            conn.close();
+        } catch (Exception e) {
+        }
+
         return xml;
     }
-    
+
 }
