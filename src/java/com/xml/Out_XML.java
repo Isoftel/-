@@ -46,7 +46,7 @@ public class Out_XML {
                 + "</rsr_detail>"
                 + "</rsr>"
                 + "</message>");
-        //this.Log.info("PrintWriter : " + out.toString());
+        this.Log.info("PrintWriter : " + out.toString());
         return out;
     }
 
