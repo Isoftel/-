@@ -49,10 +49,13 @@ public class run_api extends HttpServlet implements Runnable {
                 
                 String en = "&#xe2a;&#xe27;&#xe31;&#xe14;&#xe14;&#xe35;";
                 //en = "\u0048\u0065\u006C\u006C\u006F";
-                //System.out.println("en : "+en);
+                System.out.println("en : "+en);
                 //String str = en.split(" ")[0];
-                en = en.replace("&#", ";");
-                String[] arr = en.split("");
+                en = en.replace("&", "");
+                System.out.println("& : "+en);
+                en = en.replace(";", "");
+                System.out.println("; : "+en);
+                String[] arr = en.split("#");
                 String text = "";
                 for (int i = 1; i < arr.length; i++) {
                     int hexVal = Integer.parseInt(arr[i], 16);
@@ -74,7 +77,7 @@ public class run_api extends HttpServlet implements Runnable {
 //                tt2.start();
 //                worning();
             } catch (Exception ex) {
-                //System.out.println("Error Runing : " + ex);
+                System.out.println("Error Runing : " + ex);
                 this.Log.info("application exception " + ex);
             } finally {
 
