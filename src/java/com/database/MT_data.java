@@ -69,7 +69,7 @@ public class MT_data implements Runnable {
                 GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
                 //System.out.println("XML GET : " + GetXML);
                 insert_r.insert_r(GetXML, "MT");
-                this.Log.info("Get Xml : " + GetXML);
+                this.Log.info("Get Xml Reg : " + GetXML);
             } catch (Exception e) {
                 this.Log.info("Error Reg : " + e);
             }
@@ -97,6 +97,8 @@ public class MT_data implements Runnable {
                 encode = new sun.misc.BASE64Encoder().encode(b);
                 RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode, "unicode");
                 GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "sent");
+                this.Log.info("Get Xml SMS : " + GetXML);
+                insert_r.insert_sms(GetXML);
             } catch (Exception e) {
                 this.Log.info("Error SMS : " + e);
             }
@@ -235,7 +237,7 @@ public class MT_data implements Runnable {
                 id_user = rs.getString("sms_id");
                 String number = rs.getString("msisdn");
                 String service_id = rs.getString("service_id");
-                service_id = "7112402000";
+                //service_id = "7112402000";
                 String product_id = rs.getString("Product_ID");
                 String content = rs.getString("content");
                 String access = rs.getString("access_number");

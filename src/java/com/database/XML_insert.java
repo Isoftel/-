@@ -72,4 +72,8 @@ public class XML_insert {
         }
         return xml;
     }
+    public String insert_sms(String xml) {
+        
+        return xml;
+    }
 }

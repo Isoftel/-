@@ -47,31 +47,28 @@ public class run_api extends HttpServlet implements Runnable {
             try {
                 Thread.sleep(ThreadSleep);
                 
-                String en = "&#xe2a;&#xe27;&#xe31;&#xe14;&#xe14;&#xe35;";
-                //en = "\u0048\u0065\u006C\u006C\u006F";
-                System.out.println("en : "+en);
-                //String str = en.split(" ")[0];
-                en = en.replace("&", "");
-                System.out.println("& : "+en);
-                en = en.replace(";", "");
-                System.out.println("; : "+en);
-                String[] arr = en.split("#");
-                String text = "";
-                for (int i = 1; i < arr.length; i++) {
-                    int hexVal = Integer.parseInt(arr[i], 16);
-                    text += (char) hexVal;
-                }
-                System.out.println("String at : " + text);
+//                String en = "&#xe2a;&#xe27;&#xe31;&#xe14;&#xe14;&#xe35;";
+//                //en = "\u0048\u0065\u006C\u006C\u006F";
+//                System.out.println("en : "+en);
+//                //String str = en.split(" ")[0];
+//                en = en.replace("&", "");
+//                System.out.println("& : "+en);
+//                en = en.replace(";", "");
+//                System.out.println("; : "+en);
+//                String[] arr = en.split("#");
+//                String text = "";
+//                for (int i = 1; i < arr.length; i++) {
+//                    int hexVal = Integer.parseInt(arr[i], 64);
+//                    text += (char) hexVal;
+//                }
+//                System.out.println("String at : " + text);
                 
-//                String strd = new String(en, Charset.forName("UTF-8"));
-//                System.out.println("String : " + StringEscapeUtils.unescapeJava(en));
-
 //                System.out.println("Runing API");
-//                this.Log.info("Runing API");
+                this.Log.info("Runing API");
 //                /////  ส่ง MT
-//                Thread tt = new Thread(new MT_data());
-//                tt.setPriority(1);
-//                tt.start();
+                Thread tt = new Thread(new MT_data());
+                tt.setPriority(1);
+                tt.start();
                 ///// ส่ง Wap Push โดยเช็ควันหลังสมัคร 5 วัน ส่ง URL มี2แบบ
 //                Thread tt2 = new Thread(new Wap_Push());
 //                tt2.setPriority(1);
