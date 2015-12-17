@@ -33,9 +33,6 @@ public class Set_XML {
         sb.append("</source>");
         //String Test = "Test"; //Text_Service
         type = "TIS-620";
-        if (!type.equals("encode")) {
-            Text_Service = dumpStrings(Text_Service);
-        }
         sb.append("<ud type=\"text\" encoding=\"").append(type).append("\">").append(Text_Service).append("</ud>");
         sb.append("<scts>").append(dateFormat2.format(date)).append("</scts>");
         sb.append("<dro>").append("true").append("</dro>");
@@ -121,11 +118,5 @@ public class Set_XML {
         return sb.toString();
     }
 
-    public String dumpStrings(String text) {
-        String str_unicode = "";
-        for (int i = 0; i < text.length(); i++) {
-            str_unicode = str_unicode + "&#" + (int) text.charAt(i) + ";";
-        }
-        return str_unicode;
-    }
+    
 }
