@@ -2,7 +2,9 @@ package com.database;
 
 import com.xml.Out_XML;
 import com.xml.Post_XML;
+import com.xml.Set_XML;
 import java.io.PrintWriter;
+import java.nio.charset.Charset;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -36,6 +38,7 @@ public class ProcessDatabase {
 
     public String ProcessDatabase(String result, PrintWriter out) {
         String sql = null;
+        Set_XML str_xml = new Set_XML();
         //this.Log.info("Get Xml true : " + result);
         String encoding = (getdata(result, "?xml version=\"1.0\" encoding=\"", 2, ""));
         String message = (getdata(result, "message id=\"", 3, ""));
@@ -166,6 +169,13 @@ public class ProcessDatabase {
                 } else if (description.equals("REG")) {
                     /// สมัครแล้วยังไม่ยกเลิก ส่งกลับทันที
                     text = "You can subscribe to this service";
+                    String encod = "7112402000:H84pL9aG";
+                    byte[] b = encod.getBytes(Charset.forName("UTF-8"));
+                    String encode = new sun.misc.BASE64Encoder().encode(b);
+                    String RegXML = str_xml.getXmlReg(service, number, text, "4557000", encode, "default");
+                    xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
+
+                    
                     //String text = "ท่านเคยสมัครสมาชิกแล้ว";
                     out_xml.OutXmlr(encoding, message, service, destination, number, text, out);
                 }

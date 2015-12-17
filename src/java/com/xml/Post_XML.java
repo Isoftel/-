@@ -63,7 +63,7 @@ public class Post_XML {
             con.setRequestMethod("POST");
             con.setRequestProperty("Authorization", "Basic " + id_pass);
             con.setRequestProperty("Content-type", "text/xml");
-            con.setRequestProperty("charset", "TIS-620");
+            con.setRequestProperty("charset", "UTF-8");
             con.setRequestProperty("Content-Length", String.valueOf(StrXml.length()));
             con.setRequestProperty("Connection", "Keep-Alive");
             con.setRequestProperty("Host", ip_Host);
