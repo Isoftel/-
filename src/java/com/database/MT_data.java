@@ -38,6 +38,7 @@ public class MT_data implements Runnable {
     Statement stmt = null;
     ResultSet rs = null;
     List<data_user> user_room = new ArrayList<data_user>();
+    List<data_user> user_sms = new ArrayList<data_user>();
 
     private List<data_user> id_user_reg;
     private List<data_user> id_user_unreg;
@@ -130,11 +131,11 @@ public class MT_data implements Runnable {
                 data_user iduser = new data_user();
                 id_user = rs.getString("reg_id");
                 String service = rs.getString("service_user");
-                //service = "7112409002";
+                service = "7112409000";
                 String number = rs.getString("msisdn");
                 String Text_Service = rs.getString("detail_reg");
                 String access = rs.getString("access_number");
-
+                access = "4557000";
 //                if (access.equals("4557878")) {
 //                    rs = stmt.executeQuery("select * from sms where msisdn = '" + number + "' and service_id = '7112402001' ");
 //                    while (rs.next()) {

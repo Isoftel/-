@@ -7,6 +7,7 @@ public class data_sms implements java.io.Serializable {
     private String access;
     private String text_sms;
     private String code;
+    //private String access;
 
     public String getService_id() {
         return service_id;
@@ -47,6 +48,5 @@ public class data_sms implements java.io.Serializable {
     public void setCode(String code) {
         this.code = code;
     }
-    
 
 }
