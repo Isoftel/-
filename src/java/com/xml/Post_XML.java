@@ -144,16 +144,4 @@ public class Post_XML {
         return sb.toString();
     }
 
-    /////////  แปลงค่าxml
-    public Responsed getResponsed(String str) {
-        Responsed rsp = new Responsed();
-//        getdata(str, "encoding", 1, "");
-        //rsp.setEncoding(getdata(str, "encoding"));
-//        rsp.setSize(getdata(str, "size"));
-//        rsp.setStatus(getdata(str, "status"));
-//        rsp.setDescription(getdata(str, "description"));
-//        rsp.setRdate(getdata(str, "dates"));
-        return rsp;
-    }
-
 }

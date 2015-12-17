@@ -53,7 +53,7 @@ public class ProcessDatabase {
         String to = (getdata(result, "to", 1, ""));
         //System.out.println("service " + service + " time " + time);
 
-        this.Log.info("service : " + service);
+        //this.Log.info("service : " + service);
 
         if (destination.equals("4557878")) {
 
@@ -145,7 +145,7 @@ public class ProcessDatabase {
                     description = rs.getString("description");
                     id_subscribe = rs.getString("id");
                 }
-                this.Log.info("id_service " + id_service + " id_number " + id_number + " description " + description);
+                //this.Log.info("id_service " + id_service + " id_number " + id_number + " description " + description);
                 //////////////////register  non=ยังมีการทำรายการในบริการนั้น | UNREG เคยสมัคร ต้อง UPDATE | REG ส่งข้อความกลับไปแล้วสมัครแล้ว
                 String text = "Success receive request";
                 //String text = "สมัครสมาชิก";
@@ -168,14 +168,13 @@ public class ProcessDatabase {
                     out_xml.OutXmlr(encoding, message, service, destination, number, text, out);
                 } else if (description.equals("REG")) {
                     /// สมัครแล้วยังไม่ยกเลิก ส่งกลับทันที
-                    text = "You can subscribe to this service";
+                    //text = "You can subscribe to this service";
+                    text = "ท่านเคยสมัครสมาชิกแล้ว";
                     String encod = "7112402000:H84pL9aG";
                     byte[] b = encod.getBytes(Charset.forName("UTF-8"));
                     String encode = new sun.misc.BASE64Encoder().encode(b);
                     String RegXML = str_xml.getXmlReg(service, number, text, str_product, encode, "default");
                     xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
-
-                    //String text = "ท่านเคยสมัครสมาชิกแล้ว";
                     out_xml.OutXmlr(encoding, message, service, destination, number, text, out);
                 }
 
@@ -261,6 +260,8 @@ public class ProcessDatabase {
                 String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
                 conn = DriverManager.getConnection(connectionUrl);
                 stmt = conn.createStatement();
+                ud = (getdata(result, "ud encoding=\"unicode\" type=\"text\"", 4, "ud"));
+                
                 //statuscode เริ่ม 0 คือไม่ โช้หน้าเวป 1 โชหน้าเวป
                 sql = "INSERT INTO sms (msisdn,service_id,Product_ID,Timestamp,cdate,content,content_type,status,statuscode) "
                         + "VALUES ('" + str_msisdn + "','" + str_service + "','" + product_id + "','" + time + "','" + date_format + "','" + ud + "','T','0','0')";
@@ -304,7 +305,7 @@ public class ProcessDatabase {
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
-
+            
 //            sql = "INSERT INTO delivery_request(TransactionID,product_id,MSISDN,Content,StatusCode,cdate,service_id) "
 //                    + "VALUES ('" + message + "','" + message_id + "','" + number + "','" + destination + "','" + code + "','" + cdate_sms + "','" + service + "')";
 //            stmt.execute(sql);

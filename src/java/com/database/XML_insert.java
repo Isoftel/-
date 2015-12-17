@@ -45,7 +45,7 @@ public class XML_insert {
 //                
 //            }
 
-        this.Log.info("service " + service + " messageid " + messageid + " number " + number + " number_text " + number_text + " code " + code + " description " + description);
+        //this.Log.info("service " + service + " messageid " + messageid + " number " + number + " number_text " + number_text + " code " + code + " description " + description);
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";

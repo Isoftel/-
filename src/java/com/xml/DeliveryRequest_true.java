@@ -44,9 +44,10 @@ public class DeliveryRequest_true extends HttpServlet {
             if (sms.equals("mo")) {
                 //รับ สมัคร ยกเลิก
                 insert.ProcessDatabase(result, out);
-            } else if (rsr.equals("sent") || rsr.equals("sent_delivered")) {
+            } 
+            else if (rsr.equals("sent") || rsr.equals("sent_delivered")) {
                 //รับ SMS ส่งมาสองตรั้ง ยังไม่เก็บก่นอ กับ เก็บตัง
-                //insert.ProcessSMS(result, out);
+                insert.ProcessSMS(result, out);
             }
             //////////////////ส่งค่า HTTP กลับ
             response.setContentLength(result.length());
