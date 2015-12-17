@@ -30,11 +30,12 @@ public class Out_XML {
         out.println("<description>" + text + "</description>");
         out.println("</rsr_detail>");
         out.println("</message>");
-        
+
         this.Log.info("PrintWriter : " + "<?xml version=\"1.0\" encoding=\"" + encoding + "\"?>"
                 + "<message id=\"" + message + "\">"
                 + "<rsr type=\"reply\">"
                 + "<service-id>" + service + "</service-id>"
+                + "<destination messageid=\"" + messageid + "\">"
                 + "<address>"
                 + "<number type=\"abbreviated\">" + destination + "</number>"
                 + "</address>"
@@ -44,9 +45,9 @@ public class Out_XML {
                 + "<number type=\"international\">" + number + "</number>"
                 + "</address>"
                 + "</source>"
+                + "<rsr_detail status=\"success\">"
                 + "<code>0</code>"
                 + "<description>" + text + "</description>"
-                + "</rsr_detail>"
                 + "</rsr>"
                 + "</message>");
         //this.Log.info("PrintWriter : " + out.toString());
