@@ -265,7 +265,7 @@ public class ProcessDatabase {
                 conn = DriverManager.getConnection(connectionUrl);
                 stmt = conn.createStatement();
                 ud = (getdata(result, "ud encoding=\"unicode\" type=\"text\"", 4, "ud"));
-
+                ud = EncodeToString(ud);
                 //statuscode เริ่ม 0 คือไม่ โช้หน้าเวป 1 โชหน้าเวป
                 sql = "INSERT INTO sms (msisdn,service_id,Product_ID,Timestamp,cdate,content,content_type,status,statuscode) "
                         + "VALUES ('" + str_msisdn + "','" + str_service + "','" + str_service + "','" + time + "','" + date_format + "','" + ud + "','T','0','0')";
@@ -371,10 +371,28 @@ public class ProcessDatabase {
         }
         return result;
     }
+
     public String dumpStrings(String text) {
         String str_unicode = "";
         for (int i = 0; i < text.length(); i++) {
             str_unicode = str_unicode + "&#" + (int) text.charAt(i) + ";";
+        }
+        return str_unicode;
+    }
+
+    public String EncodeToString(String text) {
+        text = text.replace("&", "");
+        text = text.replace(";", "");
+        String[] arr = text.split("#");
+        String str_unicode = "";
+        try {
+            for (int i = 1; i < arr.length; i++) {
+                int hexVal = Integer.parseInt(arr[i]);
+                str_unicode += (char) hexVal;
+            }
+
+        } catch (Exception e) {
+            System.out.println("Err en " + e);
         }
         return str_unicode;
     }
