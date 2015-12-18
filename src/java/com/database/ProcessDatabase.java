@@ -160,7 +160,7 @@ public class ProcessDatabase {
                             + "VALUES('" + id_number + "','" + id_service + "','REG','" + time + "')";
                     stmt.execute(sql);
                     sql = "INSERT INTO register(api_req, reg_channel, mobile_id, service_id, reg_date, status,status_code,txid) "
-                            + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + time + "','0','0','"+message+"')";
+                            + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + time + "','0','0','" + message + "')";
                     stmt.execute(sql);
                     out_xml.OutXmlr(encoding, message, service, destination, number, text, messageid, out);
                 } else if (description.equals("UNREG")) {
@@ -168,7 +168,7 @@ public class ProcessDatabase {
                     sql = "UPDATE subscribe SET description = 'REG',udate = '" + time + "' WHERE id='" + id_subscribe + "' ";
                     stmt.executeUpdate(sql);
                     sql = "INSERT INTO register(api_req, reg_channel, mobile_id, service_id, reg_date, status,status_code,txid) "
-                            + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + time + "','0','0','"+message+"')";
+                            + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + time + "','0','0','" + message + "')";
                     stmt.execute(sql);
                     out_xml.OutXmlr(encoding, message, service, destination, number, text, messageid, out);
                 } else if (description.equals("REG")) {
@@ -264,7 +264,7 @@ public class ProcessDatabase {
                 String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
                 conn = DriverManager.getConnection(connectionUrl);
                 stmt = conn.createStatement();
-                
+
                 ud = (getdata(result, "ud encoding=\"unicode\" type=\"text\"", 4, "ud"));
                 this.Log.info("en : " + ud);
                 ud = EncodeToString(ud);
@@ -289,30 +289,25 @@ public class ProcessDatabase {
 
     public String ProcessSMS(String result, PrintWriter out) {
         String sql = "";
-
-        String encoding = (getdata(result, "?xml version=\"1.0\" encoding=\"", 2, ""));
+        //String encoding = (getdata(result, "?xml version=\"1.0\" encoding=\"", 2, ""));
         String message_id = (getdata(result, "message id=\"", 3, ""));
-        String service = (getdata(result, "service-id", 1, "/service-id"));
+        String service = (getdata(result, "service-id", 1, "service-id"));
         String number = (getdata(result, "number type=\"international\"", 4, "number"));
         String destination = (getdata(result, "number type=\"abbreviated\"", 4, "number"));
         String message = (getdata(result, "description", 1, "description"));
         String code = (getdata(result, "code", 1, "code"));
-
-        if (message.equals("Message acknowledged by SMSC")) {
-
-        } else if (message.equals("Successfully sent to phone")) {
-
-        }
-
+        String date_format = dateFormat.format(NewDate);
+//        if (message.equals("Message acknowledged by SMSC")) {
+//        } else if (message.equals("Successfully sent to phone")) {
+//        }
         try {
-            String date_format = dateFormat.format(NewDate);
-            Date cdate_sms = dateFormat.parse(date_format);
-
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
-
+            sql = "INSERT INTO delivery_report(TransactionID,ServiceID,MSISDN,Content,MMS_status,Date,OperId) "
+                    + "VALUES ('" + message_id + "','" + service + "','" + number + "','" + message + "','" + code + "','" + date_format + "','3')";
+            stmt.execute(sql);
 //            sql = "INSERT INTO delivery_request(TransactionID,product_id,MSISDN,Content,StatusCode,cdate,service_id) "
 //                    + "VALUES ('" + message + "','" + message_id + "','" + number + "','" + destination + "','" + code + "','" + cdate_sms + "','" + service + "')";
 //            stmt.execute(sql);

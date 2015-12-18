@@ -31,6 +31,26 @@ public class DeliveryRequest_true extends HttpServlet {
             //////////////////แปลง InputStream to String
             InputStream inStream = request.getInputStream();
             String result = getStringFromInputStream(inStream);
+            result = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?> "
+                    + "<message id=\"1242368371623\"> "
+                    + "<rsr type=\"sent\"> "
+                    + "<service-id>0101102156</service-id> "
+                    + "<destination> "
+                    + "<address> "
+                    + "<number type=\"international\">668xxxxxxxx</number> "
+                    + "</address> "
+                    + "</destination> "
+                    + "<source> "
+                    + "<address> "
+                    + "<number type=\"abbreviated\">True Move</number> "
+                    + "</address> "
+                    + "</source> "
+                    + "<rsr_detail status=\"success\"> "
+                    + "<description>Message acknowledged by SMSC</description> "
+                    + "<code>000</code> "
+                    + "</rsr_detail> "
+                    + "</rsr> "
+                    + "</message>";
             this.Log.info("Request Get XML : " + result);
             //System.out.println("XML Http : " + result);
             //4557777//4557555//4557878//457000//457001//457002
