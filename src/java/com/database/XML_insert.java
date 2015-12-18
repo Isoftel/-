@@ -74,7 +74,7 @@ public class XML_insert {
                 id_number = rs.getString("mobile_id");
             }
 
-            sql = "UPDATE register SET status_code = '" + code + "',status = '1000' WHERE reg_id='" + id_register + "'";
+            sql = "UPDATE register SET status_code = '" + code + "',status = '30',send_date ='"+time+"' WHERE reg_id='" + id_register + "'";
             stmt.executeUpdate(sql);
             sql = "UPDATE subscribe SET sub_status = '30',udate = '" + time + "' WHERE service_id='" + id_service + "' and mobile_id='" + id_number + "' ";
             stmt.executeUpdate(sql);
