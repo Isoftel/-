@@ -79,7 +79,7 @@ public class SMS_Worning implements Runnable {
                     + "and s.description = 'REG' and s.sub_status = 30 and mg.operator_id = '3' and ap.mt_type = 'WARNING'");
             while (rs.next()) {
                 if (rs.getString("service_id").equals("4557555") || rs.getString("service_id").equals("4557777")) {
-                    id_user = rs.getString("reg_id");
+                    id_user = rs.getString("id_sub");
                     data_sms iduser = new data_sms();
                     //rs.getString("service_id")
                     iduser.setService_id("7112409000");
@@ -93,7 +93,7 @@ public class SMS_Worning implements Runnable {
                     user_data.add(iduser);
                 }
             }
-            String sql = "UPDATE register SET status_code = '40' WHERE sms_id ='" + id_user + "' ";
+            String sql = "UPDATE subscribe SET sub_status = '40' WHERE id ='" + id_user + "' ";
             stmt.executeUpdate(sql);
             conn.close();
         } catch (Exception e) {
