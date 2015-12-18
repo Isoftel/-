@@ -50,22 +50,23 @@ public class run_api extends HttpServlet implements Runnable {
                 Thread.sleep(ThreadSleep);
 //                System.out.println("Runing API");
                 //&#3586;&#3629;&#3610;&#3588;&#3640;&#3603;&#3607;
-                String text = "&#xe2a;&#xe27;&#xe31;&#xe14;&#xe14;&#xe35;";
-                text = text.replace("&#", "");
-                text = text.replace(";", "");
-                String endo = URLEncoder.encode(text, "UTF-8");
+//                String text = "&#xe2a;&#xe27;&#xe31;&#xe14;&#xe14;&#xe35;";
+//                text = text.replace("&#", "");
+//                text = text.replace(";", "");
+//                text = new String(text.getBytes("UTF-8"), "ISO-8859-1");
+//                String endo = URLEncoder.encode(text, "UTF-8");
+//                text = dumpStrings2(text);
+
                 //String endo2 = URLEncoder.encode(text, "TIS-620");
                 //String endo3 = URLDecoder.decode(endo, "TIS-620");
-                
-                //text = dumpStrings2(text);
-                System.out.println("Encode 4 : " + endo);
+//                System.out.println("Encode 1 : " + text);
                 //System.out.println("Encode 2 : " + endo2);
                 this.Log.info("Runing API");
                 /////  ส่ง MT
                 Thread tt = new Thread(new MT_data());
                 tt.setPriority(1);
                 tt.start();
-                ///// ส่ง Wap Push โดยเช็ควันหลังสมัคร 5 วัน ส่ง URL มี2แบบ
+                ///// ส่ง Wap Push  ส่ง URL มี2แบบ
 //                Thread tt2 = new Thread(new Wap_Push());
 //                tt2.setPriority(1);
 //                tt2.start();
@@ -112,12 +113,14 @@ public class run_api extends HttpServlet implements Runnable {
     }
 
     public String dumpStrings2(String text) {
-        text = text.replace("", "");
+        text = text.replace("&", "");
         text = text.replace(";", "");
-        String[] arr = text.split("&#xe");
+        String[] arr = text.split("#");
         String str_unicode = "";
+        System.out.println("Arr : " + text);
         try {
             for (int i = 1; i < arr.length; i++) {
+
                 int hexVal = Integer.parseInt(arr[i]);
                 str_unicode += (char) hexVal;
             }
