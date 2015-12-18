@@ -6,6 +6,8 @@ import com.database.MT_data;
 import com.database.Wap_Push;
 import static com.sun.corba.se.spi.presentation.rmi.StubAdapter.request;
 import com.xml.Post_XML;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -47,6 +49,17 @@ public class run_api extends HttpServlet implements Runnable {
             try {
                 Thread.sleep(ThreadSleep);
 //                System.out.println("Runing API");
+                //&#3586;&#3629;&#3610;&#3588;&#3640;&#3603;&#3607;
+                String text = "&#xe2a;&#xe27;&#xe31;&#xe14;&#xe14;&#xe35;";
+                text = text.replace("&#", "");
+                text = text.replace(";", "");
+                String endo = URLEncoder.encode(text, "UTF-8");
+                //String endo2 = URLEncoder.encode(text, "TIS-620");
+                //String endo3 = URLDecoder.decode(endo, "TIS-620");
+                
+                //text = dumpStrings2(text);
+                System.out.println("Encode 4 : " + endo);
+                //System.out.println("Encode 2 : " + endo2);
                 this.Log.info("Runing API");
                 /////  ส่ง MT
                 Thread tt = new Thread(new MT_data());
@@ -79,9 +92,9 @@ public class run_api extends HttpServlet implements Runnable {
 //            Date end = Format.parse(date_end);
 //            /////// Date < Date = -1 | Date = Date = 0 | Date > Date = 1
 //            if (convertedDate.compareTo(start) == -1 && convertedDate.compareTo(end) == 1) {
-                Thread tt = new Thread(new SMS_Worning());
-                tt.setPriority(1);
-                tt.start();
+            Thread tt = new Thread(new SMS_Worning());
+            tt.setPriority(1);
+            tt.start();
 //            }
 
         } catch (Exception e) {
@@ -99,9 +112,9 @@ public class run_api extends HttpServlet implements Runnable {
     }
 
     public String dumpStrings2(String text) {
-        text = text.replace("&", "");
+        text = text.replace("", "");
         text = text.replace(";", "");
-        String[] arr = text.split("#");
+        String[] arr = text.split("&#xe");
         String str_unicode = "";
         try {
             for (int i = 1; i < arr.length; i++) {
