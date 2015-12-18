@@ -76,7 +76,7 @@ public class SMS_Worning implements Runnable {
                     + "join [dbo].[mgr] mg on mg.service_id = r.service_id "
                     + "join [dbo].[api_sms] ap on ap.service_id = r.service_id "
                     + "where convert(varchar(10),s.cdate,110) = convert(varchar(10),dateadd(day,-5,getdate()),110)  "
-                    + "and s.description = 'REG' and s.sub_status = 30 and mg.operator_id = '3' and ap.mt_type = 'WARNING'");
+                    + "and s.description = 'REG' and s.sub_status = 30 and mg.operator_id = '3' and ap.mt_type = 'WARNING' and r.status_code ='000'");
             while (rs.next()) {
                 if (rs.getString("service_id").equals("4557555") || rs.getString("service_id").equals("4557777")) {
                     id_user = rs.getString("id_sub");
@@ -93,6 +93,7 @@ public class SMS_Worning implements Runnable {
                     user_data.add(iduser);
                 }
             }
+            this.Log.info("id_user : " + id_user);
             String sql = "UPDATE subscribe SET sub_status = '40' WHERE id ='" + id_user + "' ";
             stmt.executeUpdate(sql);
             conn.close();
