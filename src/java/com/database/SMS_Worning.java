@@ -48,10 +48,11 @@ public class SMS_Worning implements Runnable {
             try {
                 byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
                 encode = new sun.misc.BASE64Encoder().encode(b);
-                SmsXML = str_xml.getXmlWorning(r.getService_id(), r.getNumber(), r.getAccess(), r.getText_sms(), r.getCode(), "TIS-620");
+                String Text_Service = dumpStrings(r.getText_sms());
+                SmsXML = str_xml.getXmlWorning(r.getService_id(), r.getNumber(), Text_Service, r.getAccess(), encode, "TIS-620");
                 GetXML = post_xml.PostXml(SmsXML, msg.getString("ip_mo"), encode, "mt");
                 this.Log.info("Get Xml Worning : " + GetXML);
-                insert_data.insert_worning(GetXML,"SMS");
+                insert_data.insert_worning(GetXML, "SMS");
                 //str_xml
             } catch (Exception e) {
 
@@ -77,7 +78,7 @@ public class SMS_Worning implements Runnable {
                     + "where convert(varchar(10),s.cdate,110) = convert(varchar(10),dateadd(day,-5,getdate()),110)  "
                     + "and s.description = 'REG' and s.sub_status = 30 and mg.operator_id = '3' and ap.mt_type = 'WARNING'");
             while (rs.next()) {
-                if (rs.getString("service_id").equals("4557555")||rs.getString("service_id").equals("4557777")) {
+                if (rs.getString("service_id").equals("4557555") || rs.getString("service_id").equals("4557777")) {
                     id_user = rs.getString("reg_id");
                     data_sms iduser = new data_sms();
                     //rs.getString("service_id")
@@ -99,5 +100,13 @@ public class SMS_Worning implements Runnable {
 
         }
         return user_data;
+    }
+
+    public String dumpStrings(String text) {
+        String str_unicode = "";
+        for (int i = 0; i < text.length(); i++) {
+            str_unicode = str_unicode + "&#" + (int) text.charAt(i) + ";";
+        }
+        return str_unicode;
     }
 }
