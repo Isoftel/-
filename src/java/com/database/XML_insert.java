@@ -143,8 +143,8 @@ public class XML_insert {
                 id_number = rs.getString("mobile_id");
             }
 
-            sql = "UPDATE register SET status_code = '50' WHERE sms_id ='" + id_register + "' ";
-            stmt.executeUpdate(sql);
+//            sql = "UPDATE register SET status_code = '50' WHERE sms_id ='" + id_register + "' ";
+//            stmt.executeUpdate(sql);
 
             conn.close();
         } catch (Exception e) {
