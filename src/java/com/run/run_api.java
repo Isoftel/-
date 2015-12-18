@@ -60,6 +60,9 @@ public class run_api extends HttpServlet implements Runnable {
                 //String endo2 = URLEncoder.encode(text, "TIS-620");
                 //String endo3 = URLDecoder.decode(endo, "TIS-620");
 //                System.out.println("Encode 1 : " + text);
+                
+                
+
                 //System.out.println("Encode 2 : " + endo2);
                 this.Log.info("Runing API");
                 /////  ส่ง MT

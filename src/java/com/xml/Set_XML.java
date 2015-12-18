@@ -29,7 +29,7 @@ public class Set_XML {
         sb.append("<address>");
         sb.append("<number type=\"abbreviated\">").append(Access).append("</number>");
         sb.append("<originate type=\"international\">").append(Number_type).append("</originate>");
-        sb.append("<sender>").append("True Move").append("</sender>");
+        //sb.append("<sender>").append("True Move").append("</sender>");
         sb.append("</address>");
         sb.append("</source>");
         //String Test = "Test"; //Text_Service
