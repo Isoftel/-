@@ -63,9 +63,8 @@ public class SMS_Worning implements Runnable {
                 this.Log.info("Error Worning : " + e);
             }
         }
-
     }
-
+    
     public List<data_sms> SMS() {
         user_data.clear();
         try {

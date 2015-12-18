@@ -30,8 +30,6 @@ public class run_api extends HttpServlet implements Runnable {
     Date date = new Date();
     //HH:mm:ss
     DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    DateFormat dateFormat_set_start = new SimpleDateFormat("yyyy-MM-dd 16:00:12");
-    DateFormat dateFormat_set_end = new SimpleDateFormat("yyyy-MM-dd 16:00:14");
 
     DateFormat Format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
@@ -60,9 +58,6 @@ public class run_api extends HttpServlet implements Runnable {
                 //String endo2 = URLEncoder.encode(text, "TIS-620");
                 //String endo3 = URLDecoder.decode(endo, "TIS-620");
 //                System.out.println("Encode 1 : " + text);
-                
-                
-
                 //System.out.println("Encode 2 : " + endo2);
                 this.Log.info("Runing API");
                 /////  ส่ง MT
@@ -86,6 +81,8 @@ public class run_api extends HttpServlet implements Runnable {
     }
 
     public void worning() {
+        DateFormat dateFormat_set_start = new SimpleDateFormat("yyyy-MM-dd 17:24:10");
+        DateFormat dateFormat_set_end = new SimpleDateFormat("yyyy-MM-dd 17:24:15");
         try {
             String date_warning = dateFormat.format(date);
             String date_start = dateFormat_set_start.format(date);
@@ -96,9 +93,9 @@ public class run_api extends HttpServlet implements Runnable {
             Date end = Format.parse(date_end);
             /////// Date < Date = -1 | Date = Date = 0 | Date > Date = 1
             if (convertedDate.compareTo(start) == -1 && convertedDate.compareTo(end) == 1) {
-            Thread tt = new Thread(new SMS_Worning());
-            tt.setPriority(1);
-            tt.start();
+                Thread tt = new Thread(new SMS_Worning());
+                tt.setPriority(1);
+                tt.start();
             }
 
         } catch (Exception e) {
