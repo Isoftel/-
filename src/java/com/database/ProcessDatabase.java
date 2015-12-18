@@ -264,8 +264,11 @@ public class ProcessDatabase {
                 String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
                 conn = DriverManager.getConnection(connectionUrl);
                 stmt = conn.createStatement();
+                
                 ud = (getdata(result, "ud encoding=\"unicode\" type=\"text\"", 4, "ud"));
+                this.Log.info("en : " + ud);
                 ud = EncodeToString(ud);
+                this.Log.info("encode : " + ud);
                 //statuscode เริ่ม 0 คือไม่ โช้หน้าเวป 1 โชหน้าเวป
                 sql = "INSERT INTO sms (msisdn,service_id,Product_ID,Timestamp,cdate,content,content_type,status,statuscode) "
                         + "VALUES ('" + str_msisdn + "','" + str_service + "','" + str_service + "','" + time + "','" + date_format + "','" + ud + "','T','0','0')";
