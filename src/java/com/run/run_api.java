@@ -87,19 +87,19 @@ public class run_api extends HttpServlet implements Runnable {
 
     public void worning() {
         try {
-//            String date_warning = dateFormat.format(date);
-//            String date_start = dateFormat_set_start.format(date);
-//            String date_end = dateFormat_set_end.format(date);
-//
-//            Date convertedDate = Format.parse(date_warning);
-//            Date start = Format.parse(date_start);
-//            Date end = Format.parse(date_end);
-//            /////// Date < Date = -1 | Date = Date = 0 | Date > Date = 1
-//            if (convertedDate.compareTo(start) == -1 && convertedDate.compareTo(end) == 1) {
+            String date_warning = dateFormat.format(date);
+            String date_start = dateFormat_set_start.format(date);
+            String date_end = dateFormat_set_end.format(date);
+
+            Date convertedDate = Format.parse(date_warning);
+            Date start = Format.parse(date_start);
+            Date end = Format.parse(date_end);
+            /////// Date < Date = -1 | Date = Date = 0 | Date > Date = 1
+            if (convertedDate.compareTo(start) == -1 && convertedDate.compareTo(end) == 1) {
             Thread tt = new Thread(new SMS_Worning());
             tt.setPriority(1);
             tt.start();
-//            }
+            }
 
         } catch (Exception e) {
             System.out.println("Error Time : " + e);
