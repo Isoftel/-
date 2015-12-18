@@ -55,7 +55,7 @@ public class SMS_Worning implements Runnable {
                 insert_data.insert_worning(GetXML, "SMS");
                 //str_xml
             } catch (Exception e) {
-
+                this.Log.info("Error Worning : " + e);
             }
         }
 
@@ -97,7 +97,7 @@ public class SMS_Worning implements Runnable {
             stmt.executeUpdate(sql);
             conn.close();
         } catch (Exception e) {
-
+            this.Log.info("Error Worning : " + e);
         }
         return user_data;
     }

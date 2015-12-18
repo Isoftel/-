@@ -121,7 +121,7 @@ public class ProcessDatabase {
                 //product_id = rs.getString("Product_ID");
             }
 
-            this.Log.info("XML service : " + service + " destination " + destination + " SQL str_service " + str_service + " str_product " + str_product);
+            //this.Log.info("XML service : " + service + " destination " + destination + " SQL str_service " + str_service + " str_product " + str_product);
         } catch (Exception e) {
             //System.out.println("Error delivery_request : " + e);
             this.Log.info("Error report : " + e);
@@ -267,8 +267,8 @@ public class ProcessDatabase {
                 ud = (getdata(result, "ud encoding=\"unicode\" type=\"text\"", 4, "ud"));
                 ud = EncodeToString(ud);
                 //statuscode เริ่ม 0 คือไม่ โช้หน้าเวป 1 โชหน้าเวป
-                sql = "INSERT INTO sms (msisdn,service_id,Product_ID,Timestamp,cdate,content,content_type,status,statuscode,txid) "
-                        + "VALUES ('" + str_msisdn + "','" + str_service + "','" + str_service + "','" + time + "','" + date_format + "','" + ud + "','T','0','0','"+message+"')";
+                sql = "INSERT INTO sms (msisdn,service_id,Product_ID,Timestamp,cdate,content,content_type,status,statuscode) "
+                        + "VALUES ('" + str_msisdn + "','" + str_service + "','" + str_service + "','" + time + "','" + date_format + "','" + ud + "','T','0','0')";
                 stmt.execute(sql);
             } catch (Exception e) {
                 this.Log.info("Error DRACO : " + e);

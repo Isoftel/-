@@ -60,18 +60,19 @@ public class Post_XML {
             // /HTTP/1.1 //Keep-Alive //Close
             con.setRequestMethod("POST");
 
-//            con.setRequestProperty("Authorization", "Basic " + id_pass);
-//            con.setRequestProperty("Content-type", "text/xml");
-//            con.setRequestProperty("Charset", "TIS-620");
-//            con.setRequestProperty("Content-Length", String.valueOf(StrXml.length()));
-//            con.setRequestProperty("Connection", "Close");
-//            con.setRequestProperty("Host", ip_Host);
             if (type_header_xml.equals("mt")) {
+//                con.setRequestProperty("Authorization", "Basic " + id_pass);
+//                con.setRequestProperty("Content-type", "text/xml");
+//                con.setRequestProperty("Connection", "Close");
+//                con.setRequestProperty("Host", ip_Host);
+//                con.setRequestProperty("Content-Length", String.valueOf(StrXml.length()));
+
                 con.setRequestProperty("Authorization", "Basic " + id_pass);
                 con.setRequestProperty("Content-type", "text/xml");
+                con.setRequestProperty("Charset", "UTF-8");
+                con.setRequestProperty("Content-Length", String.valueOf(StrXml.length()));
                 con.setRequestProperty("Connection", "Close");
                 con.setRequestProperty("Host", ip_Host);
-                con.setRequestProperty("Content-Length", String.valueOf(StrXml.length()));
             } else if (type_header_xml.equals("sms")) {
                 //ip_Host = "203.144.187.120:55000";
 //                con.setRequestProperty("Authorization", "Basic " + id_pass);
@@ -80,18 +81,18 @@ public class Post_XML {
 //                con.setRequestProperty("Content-Length", String.valueOf(StrXml.length()));
 //                con.setRequestProperty("Content-type", "text/xml");
 
-//                con.setRequestProperty("Authorization", "Basic " + id_pass);
-//                con.setRequestProperty("Content-type", "text/xml");
-//                con.setRequestProperty("Charset", "TIS-620");
-//                con.setRequestProperty("Content-Length", String.valueOf(StrXml.length()));
-//                con.setRequestProperty("Connection", "Close");
-//                con.setRequestProperty("Host", ip_Host);
-                
                 con.setRequestProperty("Authorization", "Basic " + id_pass);
                 con.setRequestProperty("Content-type", "text/xml");
+                con.setRequestProperty("Charset", "UTF-8");
+                con.setRequestProperty("Content-Length", String.valueOf(StrXml.length()));
                 con.setRequestProperty("Connection", "Close");
                 con.setRequestProperty("Host", ip_Host);
-                con.setRequestProperty("Content-Length", String.valueOf(StrXml.length()));
+
+//                con.setRequestProperty("Authorization", "Basic " + id_pass);
+//                con.setRequestProperty("Content-type", "text/xml");
+//                con.setRequestProperty("Connection", "Close");
+//                con.setRequestProperty("Host", ip_Host);
+//                con.setRequestProperty("Content-Length", String.valueOf(StrXml.length()));
             }
             con.setUseCaches(false);
             PrintWriter pw = new PrintWriter(con.getOutputStream());

@@ -65,6 +65,7 @@ public class MT_data implements Runnable {
 //                String encod = "7112402000:H84pL9aG";
                 byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
                 encode = new sun.misc.BASE64Encoder().encode(b);
+                this.Log.info("User : " + r.getEncoding());
                 //default //TIS-620 //UTF-8 //
                 String Text_Service = dumpStrings(r.getDescriptions());
                 RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), Text_Service, r.getAccess(), encode, "TIS-620");
@@ -270,5 +271,5 @@ public class MT_data implements Runnable {
         }
         return str_unicode;
     }
-     
+
 }
