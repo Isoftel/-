@@ -148,7 +148,7 @@ public class MT_data implements Runnable {
                 iduser.setNumber_type(number);
                 iduser.setDescriptions(Text_Service);
                 iduser.setAccess(access);
-                iduser.setEncoding(user + pass);
+                iduser.setEncoding(user +":"+ pass);
                 iduser.setContent_sms(content_sms);
 
                 //System.out.println("Test Reg : " + Text_Service);
@@ -197,7 +197,7 @@ public class MT_data implements Runnable {
                 iduser.setNumber_type(number);
                 iduser.setDescriptions(Text_Service);
                 iduser.setAccess(access);
-                iduser.setEncoding(user + pass);
+                iduser.setEncoding(user +":"+ pass);
                 String sql = "UPDATE register SET status = '60' WHERE reg_id='" + id_user + "' ";
                 stmt.executeUpdate(sql);
                 user_room.add(iduser);
@@ -245,7 +245,7 @@ public class MT_data implements Runnable {
                 String unicode_test = dumpStrings("ขอบคุณที่ใช้บริการ");
                 iduser.setDescriptions(unicode_test);
                 iduser.setAccess(access);
-                iduser.setEncoding(user + pass);
+                iduser.setEncoding(user +":"+ pass);
 
                 data_message.add(iduser);
             }
