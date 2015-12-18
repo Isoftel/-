@@ -53,6 +53,7 @@ public class SMS_Worning implements Runnable {
                 byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
                 encode = new sun.misc.BASE64Encoder().encode(b);
                 String Text_Service = dumpStrings(r.getText_sms());
+                this.Log.info("Text Worning : " + r.getService_id() + " : " + r.getNumber() + " : " + Text_Service + " : " + r.getAccess() + " : " + encode);
                 SmsXML = str_xml.getXmlWorning(r.getService_id(), r.getNumber(), Text_Service, r.getAccess(), encode, "UTF-8");
                 GetXML = post_xml.PostXml(SmsXML, msg.getString("ip_mo"), encode, "mt");
                 this.Log.info("Get Xml Worning : " + GetXML);
@@ -98,7 +99,7 @@ public class SMS_Worning implements Runnable {
                     String user = "7112409000:H84pL9aG";
                     iduser.setEncoding(user);
                     user_data.add(iduser);
-                    
+
                 }
                 conn2.close();
             }
@@ -130,17 +131,15 @@ public class SMS_Worning implements Runnable {
                     String user = "7112409000:H84pL9aG";
                     iduser.setEncoding(user);
                     user_data.add(iduser);
-                    
+
                 }
                 conn2.close();
             }
             conn.close();
-            
-            
+
 //            String sql = "UPDATE subscribe SET sub_status = '40' WHERE id ='" + id_user + "' ";
 //            String sql = "UPDATE register SET status_code = '50' WHERE sms_id ='" + id_user + "' ";
 //            stmt.executeUpdate(sql);
-            
         } catch (Exception e) {
             this.Log.info("Error Worning : " + e);
         }
