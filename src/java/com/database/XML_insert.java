@@ -74,7 +74,7 @@ public class XML_insert {
                 id_number = rs.getString("mobile_id");
             }
 
-            sql = "UPDATE register SET status_code = '" + code + "',status = '30',send_date ='"+time+"' WHERE reg_id='" + id_register + "'";
+            sql = "UPDATE register SET status_code = '" + code + "',status = '30',send_date ='" + time + "' WHERE reg_id='" + id_register + "'";
             stmt.executeUpdate(sql);
             sql = "UPDATE subscribe SET sub_status = '30',udate = '" + time + "' WHERE service_id='" + id_service + "' and mobile_id='" + id_number + "' ";
             stmt.executeUpdate(sql);
@@ -138,12 +138,12 @@ public class XML_insert {
             rs = stmt.executeQuery(sql);
             String id_register = "";
             while (rs.next()) {
-                id_register = rs.getString("reg_id");
+                //id_register = rs.getString("reg_id");
                 id_service = rs.getString("id_ser");
                 id_number = rs.getString("mobile_id");
             }
 
-            sql = "UPDATE register SET status_code = '50' WHERE sms_id ='" + id_register + "' ";
+            sql = "UPDATE subscribe SET status = '30' WHERE service_id ='" + id_service + "' and mobile_id ='" + id_number + "' and description = 'REG' and sub_status = '40' ";
             stmt.executeUpdate(sql);
 
             conn.close();
