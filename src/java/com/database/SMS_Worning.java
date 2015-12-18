@@ -93,7 +93,6 @@ public class SMS_Worning implements Runnable {
                     user_data.add(iduser);
                 }
             }
-            this.Log.info("id_user : " + id_user);
             String sql = "UPDATE subscribe SET sub_status = '40' WHERE id ='" + id_user + "' ";
             stmt.executeUpdate(sql);
             conn.close();
