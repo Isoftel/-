@@ -43,7 +43,7 @@ public class Post_XML {
         //StrUrl = "http://192.168.0.126:8080/Artemis/DeliveryRequest_true";
         try {
             Log.info("URL Post : " + StrUrl);
-            StrUrl="http://203.144.187.120:55000";
+            //StrUrl="http://203.144.187.120:55000";
             String hh = "Authorization: Basic " + id_pass + "Content-Type: text/xml" + "Connection: Close" + "Connection: Close" + "Host: " + ip_Host + "Content-Length " + String.valueOf(StrXml.length());
             //Log.info("Header : " + hh);
             Log.info("XML Post : " + StrXml);
@@ -73,7 +73,7 @@ public class Post_XML {
                 con.setRequestProperty("Host", ip_Host);
                 con.setRequestProperty("Content-Length", String.valueOf(StrXml.length()));
             } else if (type_header_xml.equals("sms")) {
-                ip_Host = "203.144.187.120:55000";
+                //ip_Host = "203.144.187.120:55000";
 //                con.setRequestProperty("Authorization", "Basic " + id_pass);
 //                con.setRequestProperty("Host", ip_Host);
 //                con.setRequestProperty("Connection", "Close");
