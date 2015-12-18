@@ -83,10 +83,10 @@ public class SMS_Worning implements Runnable {
 
                 conn2 = DriverManager.getConnection(connectionUrl);
                 stmt2 = conn2.createStatement();
-                rs2 = stmt2.executeQuery("SELECT sv.access_number acc_id,* FROM [PLAYBOY].[dbo].[register] r\n"
-                        + "join [dbo].[mobile] m on r.mobile_id = m.mobile_id\n"
-                        + "join [dbo].[services] sv on r.service_id = sv.id\n"
-                        + "join [dbo].[api_sms] sms on r.service_id = sms.service_id\n"
+                rs2 = stmt2.executeQuery("SELECT sv.access_number acc_id,* FROM [PLAYBOY].[dbo].[register] r "
+                        + "join [dbo].[mobile] m on r.mobile_id = m.mobile_id "
+                        + "join [dbo].[services] sv on r.service_id = sv.id "
+                        + "join [dbo].[api_sms] sms on r.service_id = sms.service_id "
                         + "where   m.msisdn='" + rs.getString("msisdn") + "' and sv.access_number = '4557777' and sms.mt_type ='WARNING'");
                 while (rs2.next()) {
                     id_user = rs2.getString("reg_id");
@@ -116,10 +116,10 @@ public class SMS_Worning implements Runnable {
 
                 conn2 = DriverManager.getConnection(connectionUrl);
                 stmt2 = conn2.createStatement();
-                rs2 = stmt2.executeQuery("SELECT sv.access_number acc_id,* FROM [PLAYBOY].[dbo].[register] r\n"
-                        + "join [dbo].[mobile] m on r.mobile_id = m.mobile_id\n"
-                        + "join [dbo].[services] sv on r.service_id = sv.id\n"
-                        + "join [dbo].[api_sms] sms on r.service_id = sms.service_id\n"
+                rs2 = stmt2.executeQuery("SELECT sv.access_number acc_id,* FROM [PLAYBOY].[dbo].[register] r "
+                        + "join [dbo].[mobile] m on r.mobile_id = m.mobile_id "
+                        + "join [dbo].[services] sv on r.service_id = sv.id "
+                        + "join [dbo].[api_sms] sms on r.service_id = sms.service_id "
                         + "where   m.msisdn='" + rs.getString("msisdn") + "' and sv.access_number = '4557555' and sms.mt_type ='WARNING'");
                 while (rs2.next()) {
                     id_user = rs2.getString("reg_id");
