@@ -69,7 +69,7 @@ public class SMS_Worning implements Runnable {
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT r.service_id service_user,m.msisdn,* FROM [PLAYBOY].[dbo].[register] r "
+            rs = stmt.executeQuery("SELECT s.id id_sub,sv.access_number service_user,m.msisdn,* FROM [PLAYBOY].[dbo].[register] r "
                     + "join [dbo].[subscribe] s on r.mobile_id = s.mobile_id "
                     + "join [dbo].[mobile] m on s.mobile_id = m.mobile_id "
                     + "join [dbo].[services] sv on s.service_id = sv.id "
@@ -78,7 +78,7 @@ public class SMS_Worning implements Runnable {
                     + "where convert(varchar(10),s.cdate,110) = convert(varchar(10),dateadd(day,-5,getdate()),110)  "
                     + "and s.description = 'REG' and s.sub_status = 30 and mg.operator_id = '3' and ap.mt_type = 'WARNING' and r.status_code ='000'");
             while (rs.next()) {
-                if (rs.getString("service_id").equals("4557555") || rs.getString("service_id").equals("4557777")) {
+                if (rs.getString("service_user").equals("4557555") || rs.getString("service_user").equals("4557777")) {
                     id_user = rs.getString("id_sub");
                     data_sms iduser = new data_sms();
                     //rs.getString("service_id")
