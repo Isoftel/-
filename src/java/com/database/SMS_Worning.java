@@ -95,6 +95,7 @@ public class SMS_Worning implements Runnable {
                     //rs.getString("access_number")
                     iduser.setAccess("4557001");
                     iduser.setText_sms(rs2.getString("mt_msg"));
+                    this.Log.info("test ser : " + rs2.getString("mt_msg"));
                     //iduser.setCode(rs.getString("status"));
                     String user = "7112409000:H84pL9aG";
                     iduser.setEncoding(user);
@@ -127,6 +128,7 @@ public class SMS_Worning implements Runnable {
                     //rs.getString("access_number")
                     iduser.setAccess("4557001");
                     iduser.setText_sms(rs2.getString("mt_msg"));
+                    this.Log.info("test ser : " + rs2.getString("mt_msg"));
                     //iduser.setCode(rs.getString("status"));
                     String user = "7112409000:H84pL9aG";
                     iduser.setEncoding(user);
