@@ -88,12 +88,12 @@ public class SMS_Worning implements Runnable {
                         + "join [dbo].[api_sms] sms on r.service_id = sms.service_id\n"
                         + "where   m.msisdn='" + rs.getString("msisdn") + "' and sv.access_number = '4557777' and sms.mt_type ='WARNING'");
                 while (rs2.next()) {
-                    id_user = rs.getString("reg_id");
+                    id_user = rs2.getString("reg_id");
                     //rs.getString("service_id")
                     iduser.setService_id("7112409000");
                     //rs.getString("access_number")
                     iduser.setAccess("4557001");
-                    iduser.setText_sms(rs.getString("mt_msg"));
+                    iduser.setText_sms(rs2.getString("mt_msg"));
                     //iduser.setCode(rs.getString("status"));
                     String user = "7112409000:H84pL9aG";
                     iduser.setEncoding(user);
@@ -120,12 +120,12 @@ public class SMS_Worning implements Runnable {
                         + "join [dbo].[api_sms] sms on r.service_id = sms.service_id\n"
                         + "where   m.msisdn='" + rs.getString("msisdn") + "' and sv.access_number = '4557555' and sms.mt_type ='WARNING'");
                 while (rs2.next()) {
-                    id_user = rs.getString("reg_id");
+                    id_user = rs2.getString("reg_id");
                     //rs.getString("service_id")
                     iduser.setService_id("7112409000");
                     //rs.getString("access_number")
                     iduser.setAccess("4557001");
-                    iduser.setText_sms(rs.getString("mt_msg"));
+                    iduser.setText_sms(rs2.getString("mt_msg"));
                     //iduser.setCode(rs.getString("status"));
                     String user = "7112409000:H84pL9aG";
                     iduser.setEncoding(user);
