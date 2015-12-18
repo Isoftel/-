@@ -3,6 +3,7 @@ package com.database;
 import com.table_data.data_sms;
 import com.xml.Post_XML;
 import com.xml.Set_XML;
+import java.nio.charset.Charset;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -40,15 +41,17 @@ public class SMS_Worning implements Runnable {
     @Override
     public void run() {
         //////// SMS
-
+        String encode = "";
         for (data_sms r : sms_data) {
             String SmsXML = null;
             String GetXML = null;
             try {
-                SmsXML = str_xml.getXmlReg(r.getService_id(), r.getNumber(), r.getAccess(), r.getText_sms(), r.getCode(),"TIS-620");
-                GetXML = post_xml.PostXml(SmsXML, msg.getString("ip_mo"), "", "sent");
-                //insert_data.insert_worning(GetXML,"SMS");
-
+                byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
+                encode = new sun.misc.BASE64Encoder().encode(b);
+                SmsXML = str_xml.getXmlWorning(r.getService_id(), r.getNumber(), r.getAccess(), r.getText_sms(), r.getCode(), "TIS-620");
+                GetXML = post_xml.PostXml(SmsXML, msg.getString("ip_mo"), encode, "mt");
+                this.Log.info("Get Xml Worning : " + GetXML);
+                insert_data.insert_worning(GetXML,"SMS");
                 //str_xml
             } catch (Exception e) {
 
@@ -65,21 +68,29 @@ public class SMS_Worning implements Runnable {
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT *  FROM [PLAYBOY].[dbo].[register] r "
+            rs = stmt.executeQuery("SELECT r.service_id service_user,m.msisdn,* FROM [PLAYBOY].[dbo].[register] r "
                     + "join [dbo].[subscribe] s on r.mobile_id = s.mobile_id "
                     + "join [dbo].[mobile] m on s.mobile_id = m.mobile_id "
                     + "join [dbo].[services] sv on s.service_id = sv.id "
-                    + "where convert(varchar(10),reg_date,110) = convert(varchar(10),dateadd(day,-5,getdate()),110) "
-                    + "and s.description = 'REG' and r.status = '000'");
+                    + "join [dbo].[mgr] mg on mg.service_id = r.service_id "
+                    + "join [dbo].[api_sms] ap on ap.service_id = r.service_id "
+                    + "where convert(varchar(10),s.cdate,110) = convert(varchar(10),dateadd(day,-5,getdate()),110)  "
+                    + "and s.description = 'REG' and s.sub_status = 30 and mg.operator_id = '3' and ap.mt_type = 'WARNING'");
             while (rs.next()) {
-                id_user = rs.getString("reg_id");
-                data_sms iduser = new data_sms();
-                iduser.setService_id(rs.getString("service_id"));
-                iduser.setNumber(rs.getString("msisdn"));
-                iduser.setAccess(rs.getString("access_number"));
-                iduser.setText_sms(rs.getString("detail_unreg"));
-                iduser.setCode(rs.getString("status"));
-                user_data.add(iduser);
+                if (rs.getString("service_id").equals("4557555")||rs.getString("service_id").equals("4557777")) {
+                    id_user = rs.getString("reg_id");
+                    data_sms iduser = new data_sms();
+                    //rs.getString("service_id")
+                    iduser.setService_id("7112409000");
+                    iduser.setNumber(rs.getString("msisdn"));
+                    //rs.getString("access_number")
+                    iduser.setAccess("4557001");
+                    iduser.setText_sms(rs.getString("mt_msg"));
+                    iduser.setCode(rs.getString("status"));
+                    String user = "7112409000:H84pL9aG";
+                    iduser.setEncoding(user);
+                    user_data.add(iduser);
+                }
             }
             String sql = "UPDATE register SET status_code = '40' WHERE sms_id ='" + id_user + "' ";
             stmt.executeUpdate(sql);

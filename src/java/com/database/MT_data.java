@@ -62,9 +62,8 @@ public class MT_data implements Runnable {
         for (data_user r : id_user_reg) {
             try {
                 //byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
-                //String encod = "0101102156:qWACgXb4";
-                String encod = "7112402000:H84pL9aG";
-                byte[] b = encod.getBytes(Charset.forName("UTF-8"));
+//                String encod = "7112402000:H84pL9aG";
+                byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
                 encode = new sun.misc.BASE64Encoder().encode(b);
                 //default //TIS-620 //UTF-8 //
                 String Text_Service = dumpStrings(r.getDescriptions());
@@ -133,15 +132,9 @@ public class MT_data implements Runnable {
                 data_user iduser = new data_user();
                 id_user = rs.getString("reg_id");
                 String service = rs.getString("service_user");
-                //service = "7112409002";
-                //service = "7112409003";
                 String number = rs.getString("msisdn");
                 String Text_Service = rs.getString("detail_reg");
                 String access = rs.getString("access_number");
-                //access = "4557777";
-                //access = "4557555";
-
-                //access = "4557000";
                 String date = rs.getString("cdate");
                 String user = rs.getString("api_user");
                 String pass = rs.getString("api_password");

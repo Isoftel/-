@@ -7,6 +7,16 @@ public class data_sms implements java.io.Serializable {
     private String access;
     private String text_sms;
     private String code;
+    private String encoding;
+
+    public String getEncoding() {
+        return encoding;
+    }
+
+    public void setEncoding(String encoding) {
+        this.encoding = encoding;
+    }
+    
     //private String access;
 
     public String getService_id() {

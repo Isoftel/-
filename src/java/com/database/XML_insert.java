@@ -10,6 +10,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ResourceBundle;
 import org.apache.log4j.Logger;
 
@@ -28,8 +31,11 @@ public class XML_insert {
     String user = msg.getString("user");
     String pass = msg.getString("pass");
 
+    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+    Date NewDate = new Date();
+
     public String insert_r(String xml, String id) {
-        //System.out.println(xml);
+        String time = dateFormat.format(NewDate);
 
         String service = insert.getdata(xml, "service-id", 1, "");
         //<destination messageid=\"
@@ -54,7 +60,9 @@ public class XML_insert {
 
             //String sql = "INSERT INTO register (api_req)VALUES('" + jumid_schedules + "')";
             //stmt.execute(sql);
-            String sql = "select * from register "
+            String id_service = "";
+            String id_number = "";
+            String sql = "select *,register.service_id id_ser from register "
                     + "INNER JOIN services  ON services.id  = register.service_id "
                     + "INNER JOIN mobile    ON mobile.mobile_id = register.mobile_id "
                     + "where services.service_id = '" + service + "' and mobile.msisdn = '" + number + "' and  register.status = '10'";
@@ -62,8 +70,13 @@ public class XML_insert {
             String id_register = "";
             while (rs.next()) {
                 id_register = rs.getString("reg_id");
+                id_service = rs.getString("id_ser");
+                id_number = rs.getString("mobile_id");
             }
-            sql = "UPDATE register SET status_code = '" + code + "' WHERE reg_id='" + id_register + "'";
+
+            sql = "UPDATE register SET status_code = '" + code + "',status = '1000' WHERE reg_id='" + id_register + "'";
+            stmt.executeUpdate(sql);
+            sql = "UPDATE subscribe SET sub_status = '30',udate = '" + time + "' WHERE service_id='" + id_service + "' and mobile_id='" + id_number + "' ";
             stmt.executeUpdate(sql);
 
             conn.close();
@@ -98,4 +111,45 @@ public class XML_insert {
         return xml;
     }
 
+    public String insert_worning(String xml, String id) {
+        String time = dateFormat.format(NewDate);
+
+        String service = insert.getdata(xml, "service-id", 1, "");
+        //<destination messageid=\"
+        String messageid = insert.getdata(xml, "destination messageid=\"", 3, "");
+        String number = insert.getdata(xml, "number type=\"international\"", 4, "number");
+        String code = insert.getdata(xml, "code", 1, "");
+        String description = insert.getdata(xml, "description", 1, "description");
+        String number_text = "non";
+        //String number_text = insert.getdata(xml, "number type=\"\"", 1, "number");
+        number_text = insert.getdata(xml, "number type=\"abbreviated\"", 4, "number");
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
+            conn = DriverManager.getConnection(connectionUrl);
+            stmt = conn.createStatement();
+
+            String id_service = "";
+            String id_number = "";
+            String sql = "select *,register.service_id id_ser from register "
+                    + "INNER JOIN services  ON services.id  = register.service_id "
+                    + "INNER JOIN mobile    ON mobile.mobile_id = register.mobile_id "
+                    + "where services.service_id = '" + service + "' and mobile.msisdn = '" + number + "' and  register.status = '40'";
+            rs = stmt.executeQuery(sql);
+            String id_register = "";
+            while (rs.next()) {
+                id_register = rs.getString("reg_id");
+                id_service = rs.getString("id_ser");
+                id_number = rs.getString("mobile_id");
+            }
+
+            sql = "UPDATE register SET status_code = '50' WHERE sms_id ='" + id_register + "' ";
+            stmt.executeUpdate(sql);
+
+            conn.close();
+        } catch (Exception e) {
+            System.out.println("Error : " + e);
+        }
+        return xml;
+    }
 }
