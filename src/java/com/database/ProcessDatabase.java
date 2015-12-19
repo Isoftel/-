@@ -172,8 +172,8 @@ public class ProcessDatabase {
                     stmt.execute(sql);
                     out_xml.OutXmlr(encoding, message, service, destination, number, text, messageid, out);
                 } else if (description.equals("REG")) {
-                    /// สมัครแล้วยังไม่ยกเลิก ส่งกลับทันที
-                    sql = "select * from api_sms where service_id='" + id_service + "' and mt_type = 'REG' and status='0' ";
+                    /// สมัครแล้วยังไม่ยกเลิก สมัครซ้ำ ส่งกลับทันที
+                    sql = "select * from api_sms where service_id='" + id_service + "' and mt_type = 'REG' and status='1' ";
                     rs = stmt.executeQuery(sql);
                     while (rs.next()) {
                         text = rs.getString("mt_msg");
