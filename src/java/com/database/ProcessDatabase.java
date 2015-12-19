@@ -173,14 +173,18 @@ public class ProcessDatabase {
                     out_xml.OutXmlr(encoding, message, service, destination, number, text, messageid, out);
                 } else if (description.equals("REG")) {
                     /// สมัครแล้วยังไม่ยกเลิก ส่งกลับทันที
-                    //text = "You can subscribe to this service";
-                    text = "ท่านเคยสมัครสมาชิกแล้ว";
+                    sql = "select * from api_sms where service_id='" + id_service + "' and mt_type = 'REG' and status='0' ";
+                    rs = stmt.executeQuery(sql);
+                    while (rs.next()) {
+                        text = rs.getString("mt_msg");
+                    }
                     text = dumpStrings(text);
                     String encod = "7112402000:H84pL9aG";
                     byte[] b = encod.getBytes(Charset.forName("UTF-8"));
                     String encode = new sun.misc.BASE64Encoder().encode(b);
                     String RegXML = str_xml.getXmlReg(service, number, text, str_product, encode, "default");
                     xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
+                    text = "You can subscribe to this service";
                     out_xml.OutXmlr(encoding, message, service, destination, number, text, messageid, out);
                 }
 

@@ -40,8 +40,7 @@ public class Post_XML {
 
     public String PostXml(String StrXml, String StrUrl, String id_pass, String type_header_xml) {
         String xmlRes = null;
-        StrUrl = "http://192.168.0.126:8080/Artemis/DeliveryRequest_true";
-        System.out.println("Post : " + StrUrl);
+        //StrUrl = "http://192.168.0.126:8080/Artemis/DeliveryRequest_true";
         try {
             Log.info("URL Post : " + StrUrl);
             //StrUrl="http://203.144.187.120:55000";
