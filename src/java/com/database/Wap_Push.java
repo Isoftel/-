@@ -60,12 +60,12 @@ public class Wap_Push implements Runnable {
             try {
                 /////////// Wap Push
                 String wap = "";
-                if (wap.equals("ส่งแบบธรรมดา")) {
-                    RegXML = str_xml.getXmlWapPush(r.getService_id(), r.getNumber_type(), r.getUrl(), r.getAccess(), encode, "TIS-620");
-                } else if (wap.equals("ส่งแบบ binary ทำการแปลง url ก่อน")) {
+//                if (wap.equals("ส่งแบบธรรมดา")) {
+//                    RegXML = str_xml.getXmlWapPush(r.getService_id(), r.getNumber_type(), r.getUrl(), r.getAccess(), encode, "TIS-620");
+//                } else if (wap.equals("ส่งแบบ binary ทำการแปลง url ก่อน")) {
                     asciiToHex("");  ///
                     RegXML = str_xml.getXmlWapPush2(r.getService_id(), r.getNumber_type(),r.getUrl(), r.getAccess(), encode, "binary");
-                }
+//                }
 
 //                GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
 //                System.out.println("Back XML : " + GetXML);
