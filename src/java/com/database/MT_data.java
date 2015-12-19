@@ -224,7 +224,8 @@ public class MT_data implements Runnable {
                     + "INNER JOIN services  ON services.service_id  = sms.service_id  "
                     + "INNER JOIN mobile    ON mobile.msisdn = sms.msisdn "
                     + "INNER JOIN mgr       ON mgr.operator_id = mobile.operator_id "
-                    + "WHERE mgr.api_req = 'REG' AND sms.status = '0' AND mgr.service_id = '6'");
+                    + "INNER JOIN api_sms   ON api_sms.service_id = mgr.service_id "
+                    + "WHERE mgr.api_req = 'REG' AND sms.status = '0' AND mgr.service_id = '6' and api_sms.mt_type = 'FREE'");
             String id_user = "";
             while (rs.next()) {
                 data_message iduser = new data_message();
@@ -242,7 +243,9 @@ public class MT_data implements Runnable {
 
                 iduser.setService_id(service_id);
                 iduser.setNumber_type(number);
-                String unicode_test = dumpStrings("ขอบคุณที่ใช้บริการ");
+                //ขอบคุณที่ใช้บริการ
+                String unicode_test = dumpStrings(rs.getString("mt_msg"));
+                
                 iduser.setDescriptions(unicode_test);
                 iduser.setAccess(access);
                 iduser.setEncoding(user +":"+ pass);
