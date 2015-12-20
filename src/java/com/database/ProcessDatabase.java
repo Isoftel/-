@@ -207,6 +207,9 @@ public class ProcessDatabase {
                 conn = DriverManager.getConnection(connectionUrl);
                 stmt = conn.createStatement();
 
+                String encod = "7112402000:H84pL9aG";
+                byte[] b = encod.getBytes(Charset.forName("UTF-8"));
+                String encode = new sun.misc.BASE64Encoder().encode(b);
                 //////////////////subscribe เช็คสมัครแล้วหรือยัง
                 String description = "non";
                 String id_subscribe = "";
@@ -219,11 +222,8 @@ public class ProcessDatabase {
                 //System.out.println("description " + description + " id_subscribe " + id_subscribe);
                 String text = "";
                 //String text = "ยกเลิกบริการสำเร็จ";
-                if (description.equals("non")) {
-                    //ไม่เคยเป็นสมาชิก
-                    String encod = "7112402000:H84pL9aG";
-                    byte[] b = encod.getBytes(Charset.forName("UTF-8"));
-                    String encode = new sun.misc.BASE64Encoder().encode(b);
+                if (description.equals("non")||description.equals("UNREG")) {
+                    //ไม่เคยเป็นสมาชิก //เคยยกเลิกสมาชิกแล้ว
                     sql = "select * from api_sms where service_id='" + id_service + "' and mt_type = 'UNREG' and status='1' ";
                     rs = stmt.executeQuery(sql);
                     while (rs.next()) {
@@ -234,12 +234,10 @@ public class ProcessDatabase {
                     xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
                     //text = "ท่านยังไม่ได้เป็นสมาชิก";
                     text = "He was never a member";
+                    //text = "Have you ever canceled";
                     out_xml.OutXmlr(encoding, message, service, destination, number, text, messageid, out);
-                } else if (description.equals("UNREG")) {
-                    //เคยยกเลิกสมาชิกแล้ว
-                    String encod = "7112402000:H84pL9aG";
-                    byte[] b = encod.getBytes(Charset.forName("UTF-8"));
-                    String encode = new sun.misc.BASE64Encoder().encode(b);
+                }else if (description.equals("REG")) {
+                    //ทำการยกเลิกสมาชิก
                     sql = "select * from api_sms where service_id='" + id_service + "' and mt_type = 'UNREG' and status='0' ";
                     rs = stmt.executeQuery(sql);
                     while (rs.next()) {
@@ -248,11 +246,6 @@ public class ProcessDatabase {
                     text = dumpStrings(text);
                     String RegXML = str_xml.getXmlReg("7112402000", number, text, str_product, encode, "TIS-620");
                     xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
-                    //text = "ท่านเคยยกเลิกสมาชิกแล้ว";
-                    text = "Have you ever canceled";
-                    out_xml.OutXmlr(encoding, message, service, destination, number, text, messageid, out);
-                } else if (description.equals("REG")) {
-                    //ทำการยกเลิกสมาชิก
                     text = "Cancel service success";
                     //text = "ได้ทำการยกเลิกสมาชิกแล้ว";
                     //////////////////subscribe UPDATE เป็น UNREG เพื่อยกเลิกบริการ 
