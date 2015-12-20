@@ -85,11 +85,9 @@ public class Wap_Push implements Runnable {
                 RegXML = str_xml.getXmlWapPush2(r.getService_id(), r.getNumber_type(), url, r.getAccess(), encode, "binary");
 //                }
                 GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
-                System.out.println("Back XML : " + GetXML);
 //                insert_r.insert_r(GetXML, "MT");
             } catch (Exception e) {
                 this.Log.info("Error : " + e);
-                System.out.println("Error Wap Push : " + e);
             }
         }
 
@@ -140,8 +138,6 @@ public class Wap_Push implements Runnable {
                 Date date = dateFormat.parse(time_con);
                 Date tomorrow = new Date(NewDate.getTime() - (7000 * 60 * 60 * 24));
 
-                System.out.println("Date : " + tomorrow);
-                System.out.println("Date : " + date);
                 // ปัจจุบันน้อยกว่า -1
                 if (tomorrow.compareTo(date) < 0) {
                     conn2 = DriverManager.getConnection(connectionUrl);

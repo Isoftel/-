@@ -46,8 +46,7 @@ public class run_api extends HttpServlet implements Runnable {
         while (true) {
             try {
                 Thread.sleep(ThreadSleep);
-                
-                System.out.println("Runing API");
+
                 this.Log.info("Runing API");
                 /////  ส่ง MT
                 Thread tt = new Thread(new MT_data());
@@ -65,7 +64,7 @@ public class run_api extends HttpServlet implements Runnable {
                 try {
                     Thread.sleep(10000);
                 } catch (Exception ex) {
-                    
+
                 }
             }
 
@@ -92,7 +91,7 @@ public class run_api extends HttpServlet implements Runnable {
             }
 
         } catch (Exception e) {
-            System.out.println("Error Time : " + e);
+            this.Log.info("Error Time : " + e);
         }
     }
 
@@ -110,7 +109,6 @@ public class run_api extends HttpServlet implements Runnable {
         text = text.replace(";", "");
         String[] arr = text.split("#");
         String str_unicode = "";
-        System.out.println("Arr : " + text);
         try {
             for (int i = 1; i < arr.length; i++) {
 
@@ -119,7 +117,7 @@ public class run_api extends HttpServlet implements Runnable {
             }
 
         } catch (Exception e) {
-            System.out.println("Err en " + e);
+            this.Log.info("Err en " + e);
         }
         return str_unicode;
     }

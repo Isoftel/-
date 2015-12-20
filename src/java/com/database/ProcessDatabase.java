@@ -134,7 +134,6 @@ public class ProcessDatabase {
 
         if (ud.equals("REG")) {
             try {
-                System.out.println("Reg insert");
                 Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
                 String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
                 conn = DriverManager.getConnection(connectionUrl);
