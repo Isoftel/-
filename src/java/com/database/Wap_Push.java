@@ -58,13 +58,14 @@ public class Wap_Push implements Runnable {
     public void run() {
 
         List<data_user> id_user_reg = ProcessWapPush();
-        
+        System.out.println("GG");
         for (data_user r : id_user_reg) {
             byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
             encode = new sun.misc.BASE64Encoder().encode(b);
             try {
                 /////////// Wap Push
-                String http = asciiToHex("http://");
+                String http = asciiToHex("0605040b8423f0DC0601AE02056A0045C60C03");
+                System.out.println("http " + http);
                 String www = asciiToHex(r.getUrl());
                 String fig1 = "000103";
                 String name_api = asciiToHex(r.getApi_name());
@@ -75,7 +76,7 @@ public class Wap_Push implements Runnable {
 //                if (wap.equals("ส่งแบบธรรมดา")) {
 //                    RegXML = str_xml.getXmlWapPush(r.getService_id(), r.getNumber_type(), r.getUrl(), r.getAccess(), encode, "TIS-620");
 //                } else if (wap.equals("ส่งแบบ binary ทำการแปลง url ก่อน")) {
-
+                System.out.println("r.getService_id() " + r.getService_id() + " r.getNumber_type() " + r.getNumber_type() + " url " + url + " r.getAccess() " + r.getAccess() + " encode " + encode);
                 RegXML = str_xml.getXmlWapPush2(r.getService_id(), r.getNumber_type(), url, r.getAccess(), encode, "binary");
 //                }
                 GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
@@ -83,8 +84,9 @@ public class Wap_Push implements Runnable {
             } catch (Exception e) {
                 this.Log.info("Error : " + e);
             }
+            System.out.println("WOW");
         }
-                
+
     }
 
     public List<data_user> ProcessWapPush() {
@@ -126,9 +128,6 @@ public class Wap_Push implements Runnable {
 
                 Date date = dateFormat.parse(time_con);
                 Date tomorrow = new Date(NewDate.getTime() - (7000 * 60 * 60 * 24));
-                             sql = "INSERT INTO download(MSISDN) "
-                        + "VALUES ('123456')";
-                stmt.execute(sql);
                 // ปัจจุบันน้อยกว่า -1
                 if (tomorrow.compareTo(date) < 0) {
                     conn2 = DriverManager.getConnection(connectionUrl);
@@ -138,6 +137,7 @@ public class Wap_Push implements Runnable {
                         iduser.setEncoding(rs2.getString("api_user") + ":" + rs2.getString("api_password"));
                     }
                     conn2.close();
+                    //iduser.setEncoding("7112409001:H84pL9aG");
                     iduser.setService_id("7112409001");
                 }
                 if (tomorrow.compareTo(date) >= 0) {
@@ -160,11 +160,10 @@ public class Wap_Push implements Runnable {
 
                 user_room.add(iduser);
 //                System.out.println("'" + rs.getString("msisdn") + "','" + rs.getString("ref") + "','" + date_new + "','" + service_id + "','" + id_content + "'");
-//                sql = "INSERT INTO download(MSISDN,REF_ID,TIMESTAMP,SERVICE_ID,CONTEN_ID) "
-//                        + "VALUES ('" + rs.getString("msisdn") + "','" + rs.getString("ref") + "','" + date_new + "','" + service_id + "','" + id_content + "')";
-//                stmt.execute(sql);
-                
-                
+                sql = "INSERT INTO download(MSISDN,REF_ID,TIMESTAMP,SERVICE_ID,CONTEN_ID) "
+                        + "VALUES ('" + rs.getString("msisdn") + "','" + rs.getString("ref") + "','" + date_new + "','" + service_id + "','" + id_content + "')";
+                stmt.execute(sql);
+
                 String content_sen = "non";
                 conn2 = DriverManager.getConnection(connectionUrl);
                 stmt2 = conn2.createStatement();
@@ -173,7 +172,7 @@ public class Wap_Push implements Runnable {
                     content_sen = "post";
                 }
                 conn2.close();
-                
+
                 if (content_sen.equals("non")) {
                     sql = "INSERT INTO content_sended(send_date,service_id,content_id,oper) "
                             + "VALUES ('" + date_new + "','" + service_id + "','" + id_content + "','3')";
@@ -187,7 +186,7 @@ public class Wap_Push implements Runnable {
             //rs = stmt.executeQuery("SELECT * FROM download ");
         } catch (Exception e) {
 //            System.out.println("Error select sql : " + e);
-            this.Log.info("Error select Wap push " + e);
+//            this.Log.info("Error select Wap push " + e);
         }
         return user_room;
     }
