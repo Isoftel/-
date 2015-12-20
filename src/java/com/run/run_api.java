@@ -46,29 +46,18 @@ public class run_api extends HttpServlet implements Runnable {
         while (true) {
             try {
                 Thread.sleep(ThreadSleep);
-//                System.out.println("Runing API");
-                //&#3586;&#3629;&#3610;&#3588;&#3640;&#3603;&#3607;
-//                String text = "&#xe2a;&#xe27;&#xe31;&#xe14;&#xe14;&#xe35;";
-//                text = text.replace("&#", "");
-//                text = text.replace(";", "");
-//                text = new String(text.getBytes("UTF-8"), "ISO-8859-1");
-//                String endo = URLEncoder.encode(text, "UTF-8");
-//                text = dumpStrings2(text);
-
-                //String endo2 = URLEncoder.encode(text, "TIS-620");
-                //String endo3 = URLDecoder.decode(endo, "TIS-620");
-//                System.out.println("Encode 1 : " + text);
-                //System.out.println("Encode 2 : " + endo2);
-//                this.Log.info("Runing API");
-//                /////  ส่ง MT
-//                Thread tt = new Thread(new MT_data());
-//                tt.setPriority(1);
-//                tt.start();
-                ///// ส่ง Wap Push  ส่ง URL มี2แบบ
+                
+                System.out.println("Runing API");
+                this.Log.info("Runing API");
+                /////  ส่ง MT
+                Thread tt = new Thread(new MT_data());
+                tt.setPriority(1);
+                tt.start();
+                /// ส่ง Wap Push  ส่ง URL มี2แบบ
 //                Thread tt2 = new Thread(new Wap_Push());
 //                tt2.setPriority(1);
 //                tt2.start();
-//                worning();
+                worning();
             } catch (Exception ex) {
                 //System.out.println("Error Runing : " + ex);
                 this.Log.info("application exception " + ex);
