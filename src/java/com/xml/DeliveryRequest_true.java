@@ -1,11 +1,13 @@
 package com.xml;
 
 import com.database.ProcessDatabase;
+import static com.sun.org.apache.regexp.internal.RETest.test;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.math.BigInteger;
 import java.util.ResourceBundle;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -19,6 +21,7 @@ public class DeliveryRequest_true extends HttpServlet {
     Logger Log = Logger.getLogger(this.getClass());
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) {
+        
         this.Log.info("DeliveryRequest Runing");
         PrintWriter out = null;
         ////////////////////  mo
@@ -105,4 +108,14 @@ public class DeliveryRequest_true extends HttpServlet {
         return sb.toString();
     }
 
+    private static String asciiToHex(String asciiValue) {
+        char[] chars = asciiValue.toCharArray();
+        StringBuffer hex = new StringBuffer();
+        for (int i = 0; i < chars.length; i++) {
+            hex.append(Integer.toHexString((int) chars[i]));
+        }
+        return hex.toString();
+    }
+
+    
 }

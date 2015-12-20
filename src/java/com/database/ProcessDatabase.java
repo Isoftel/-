@@ -222,7 +222,7 @@ public class ProcessDatabase {
                 //System.out.println("description " + description + " id_subscribe " + id_subscribe);
                 String text = "";
                 //String text = "ยกเลิกบริการสำเร็จ";
-                if (description.equals("non")||description.equals("UNREG")) {
+                if (description.equals("non") || description.equals("UNREG")) {
                     //ไม่เคยเป็นสมาชิก //เคยยกเลิกสมาชิกแล้ว
                     sql = "select * from api_sms where service_id='" + id_service + "' and mt_type = 'UNREG' and status='1' ";
                     rs = stmt.executeQuery(sql);
@@ -236,7 +236,7 @@ public class ProcessDatabase {
                     text = "He was never a member";
                     //text = "Have you ever canceled";
                     out_xml.OutXmlr(encoding, message, service, destination, number, text, messageid, out);
-                }else if (description.equals("REG")) {
+                } else if (description.equals("REG")) {
                     //ทำการยกเลิกสมาชิก
                     sql = "select * from api_sms where service_id='" + id_service + "' and mt_type = 'UNREG' and status='0' ";
                     rs = stmt.executeQuery(sql);
@@ -278,8 +278,10 @@ public class ProcessDatabase {
                 stmt = conn.createStatement();
 
                 ud = (getdata(result, "ud encoding=\"unicode\" type=\"text\"", 4, "ud"));
-                this.Log.info("en : " + ud);
-                ud = EncodeToString(ud);
+                this.Log.info("ud : " + ud);
+                //ud = EncodeToString(ud);
+                ud = hex_to_int(ud);
+                ud = inthex_to_string(ud);
                 this.Log.info("encode : " + ud);
                 //statuscode เริ่ม 0 คือไม่ โช้หน้าเวป 1 โชหน้าเวป
                 sql = "INSERT INTO sms (msisdn,service_id,Product_ID,Timestamp,cdate,content,content_type,status,statuscode) "
@@ -397,6 +399,43 @@ public class ProcessDatabase {
         String str_unicode = "";
         try {
             for (int i = 1; i < arr.length; i++) {
+                int hexVal = Integer.parseInt(arr[i]);
+                str_unicode += (char) hexVal;
+            }
+
+        } catch (Exception e) {
+            System.out.println("Err en " + e);
+        }
+        return str_unicode;
+    }
+
+    ///// รับ hex มาแปลง เป็น int ในรูปแบบ char
+    public String hex_to_int(String text) {
+        text = text.replace("&#", "");
+        text = text.replace(";", "");
+        String[] arr = text.split("x");
+        String str_unicode = "";
+        int value = 0;
+        try {
+            for (int i = 1; i < arr.length; i++) {
+                value = Integer.parseInt(arr[i], 16);
+                str_unicode = str_unicode + "#" + String.valueOf(value);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Err en hex " + e);
+        }
+
+        return str_unicode;
+    }
+
+    ///// รับ char ในรูปแบบ int มาแปลง เป็น string
+    public String inthex_to_string(String text) {
+        String[] arr = text.split("#");
+        String str_unicode = "";
+        try {
+            for (int i = 1; i < arr.length; i++) {
+
                 int hexVal = Integer.parseInt(arr[i]);
                 str_unicode += (char) hexVal;
             }

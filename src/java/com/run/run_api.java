@@ -59,16 +59,16 @@ public class run_api extends HttpServlet implements Runnable {
                 //String endo3 = URLDecoder.decode(endo, "TIS-620");
 //                System.out.println("Encode 1 : " + text);
                 //System.out.println("Encode 2 : " + endo2);
-                this.Log.info("Runing API");
-                /////  ส่ง MT
-                Thread tt = new Thread(new MT_data());
-                tt.setPriority(1);
-                tt.start();
+//                this.Log.info("Runing API");
+//                /////  ส่ง MT
+//                Thread tt = new Thread(new MT_data());
+//                tt.setPriority(1);
+//                tt.start();
                 ///// ส่ง Wap Push  ส่ง URL มี2แบบ
 //                Thread tt2 = new Thread(new Wap_Push());
 //                tt2.setPriority(1);
 //                tt2.start();
-                worning();
+//                worning();
             } catch (Exception ex) {
                 //System.out.println("Error Runing : " + ex);
                 this.Log.info("application exception " + ex);
