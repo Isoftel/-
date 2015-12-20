@@ -81,12 +81,11 @@ public class Wap_Push implements Runnable {
 //                if (wap.equals("ส่งแบบธรรมดา")) {
 //                    RegXML = str_xml.getXmlWapPush(r.getService_id(), r.getNumber_type(), r.getUrl(), r.getAccess(), encode, "TIS-620");
 //                } else if (wap.equals("ส่งแบบ binary ทำการแปลง url ก่อน")) {
-                asciiToHex("");  ///
+
                 RegXML = str_xml.getXmlWapPush2(r.getService_id(), r.getNumber_type(), url, r.getAccess(), encode, "binary");
 //                }
-
-//                GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
-//                System.out.println("Back XML : " + GetXML);
+                GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
+                System.out.println("Back XML : " + GetXML);
 //                insert_r.insert_r(GetXML, "MT");
             } catch (Exception e) {
                 this.Log.info("Error : " + e);
@@ -97,81 +96,106 @@ public class Wap_Push implements Runnable {
     }
 
     public List<data_user> ProcessWapPush() {
-        DateFormat Format_content = new SimpleDateFormat("yyyy-MM-dd");
+        //DateFormat Format_content = new SimpleDateFormat("yyyy-MM-dd");
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
 //        Format_content.format(date);
         user_room.clear();
         String sql = "";
+        String service_1 = "non", service_2 = "non", service_3 = "non";
+        String service_id = "";
+        String id_content = "";
+        String row_id_con = "";
+        String time_con = "";
         try {
             //เวลาปุจจุบัน
-            String date_format = Format_content.format(NewDate);
             String date_new = dateFormat.format(NewDate);
 
+            /////////////////content ที่ยังสมัครไม่เกิน 7 วัน
 //            Date cdate_sms = Format_content.parse(date_format);
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
-            //send_datetime 
-            //ดึงหลายครั้ง
-            /*
-             SELECT services.service_id ser_id,* FROM contents
-             INNER JOIN services  ON services.id  = contents.service_id 
-             INNER JOIN url  ON url.api_statename  = contents.contents_name 
-             INNER JOIN mobile  ON mobile.operator_id  = url.operator_id 
-             where '2015-12-17' <= contents.send_datetime 
-             */
-            //ดึงครับเดียว
-            rs = stmt.executeQuery("SELECT services.service_id ser_id,contents.service_id ser_con,contents.id id_con,* FROM contents "
+
+//            and convert(varchar(10),getdate(),110)  >= contents.send_datetime  
+//            and convert(varchar(10),dateadd(day,-7,getdate()),110) < contents.send_datetime 
+//            and convert(varchar(10),dateadd(day,-7,getdate()),110) >= contents.send_datetime 
+            rs = stmt.executeQuery("SELECT contents.id id_row_con,services.service_id ser_id,contents.service_id ser_con,contents.id id_con,* FROM contents "
                     + "INNER JOIN services  ON services.id  = contents.service_id "
                     + "INNER JOIN url  ON url.api_statename  = contents.contents_name "
                     + "INNER JOIN mobile  ON mobile.operator_id  = url.operator_id "
                     + "INNER JOIN subscribe  ON subscribe.mobile_id  = mobile.mobile_id "
                     + "where contents.id not in (select content_sended.content_id from content_sended where content_sended.oper='3')"
                     + "and subscribe.description = 'REG'"
-                    + "and convert(varchar(10),getdate(),110)  >= contents.send_datetime "
-                    + "and convert(varchar(10),dateadd(day,-7,getdate()),110) < contents.send_datetime  ");
-            String service_id = "";
-            String id_content = "";
+                    + "and convert(varchar(10),getdate(),110) >= contents.send_datetime ");
             while (rs.next()) {
-
                 data_user iduser = new data_user();
-                //rs.getString("ser_id")
-                iduser.setService_id("7112409001");
+                //rs.getString("ser_id")  
+                row_id_con = rs.getString("ser_id");
+                time_con = rs.getString("send_datetime");
+                service_id = rs.getString("ser_con");
+
+                Date date = dateFormat.parse(time_con);
+                Date tomorrow = new Date(NewDate.getTime() - (7000 * 60 * 60 * 24));
+
+                System.out.println("Date : " + tomorrow);
+                System.out.println("Date : " + date);
+                // ปัจจุบันน้อยกว่า -1
+                if (tomorrow.compareTo(date) < 0) {
+                    conn2 = DriverManager.getConnection(connectionUrl);
+                    stmt2 = conn2.createStatement();
+                    rs2 = stmt2.executeQuery("SELECT * FROM mgr where operator_id = '3' and api_req ='REG' and service_id = '3'");
+                    while (rs2.next()) {
+                        iduser.setEncoding(rs2.getString("api_user") + ":" + rs2.getString("api_password"));
+                    }
+                    conn2.close();
+                    iduser.setService_id("7112409001");
+                }
+                if (tomorrow.compareTo(date) >= 0) {
+                    iduser.setService_id(rs.getString("ser_id"));
+                    conn2 = DriverManager.getConnection(connectionUrl);
+                    stmt2 = conn2.createStatement();
+                    rs2 = stmt2.executeQuery("SELECT * FROM mgr where operator_id = '3' and api_req ='REG' and service_id = '" + service_id + "'");
+                    while (rs2.next()) {
+                        iduser.setEncoding(rs2.getString("api_user") + ":" + rs2.getString("api_password"));
+                    }
+                    conn2.close();
+                }
                 iduser.setUrl(rs.getString("api_url"));
                 iduser.setApi_name(rs.getString("api_statename"));
                 iduser.setRef(rs.getString("ref"));
                 iduser.setNumber_type(rs.getString("msisdn"));
                 iduser.setAccess(rs.getString("access_number"));
-                service_id = rs.getString("ser_con");
+
                 id_content = rs.getString("id_con");
-                
-                conn2 = DriverManager.getConnection(connectionUrl);
-                stmt2 = conn2.createStatement();
-                rs2 = stmt2.executeQuery("SELECT * FROM mgr where operator_id = '3' and api_req ='REG' and service_id = '3'");
-                while (rs2.next()) {
-                    iduser.setEncoding(rs2.getString("api_user") + ":" + rs2.getString("api_password"));
-                }
-                conn2.close();
+
                 user_room.add(iduser);
 
                 sql = "INSERT INTO download(MSISDN,REF_ID,TIMESTAMP,SERVICE_ID,CONTEN_ID) "
                         + "VALUES ('" + rs.getString("msisdn") + "','" + rs.getString("ref") + "','" + date_new + "','" + service_id + "','" + id_content + "')";
                 stmt.execute(sql);
-                if(service_id.equals("3")){
-                    
-                }if(service_id.equals("4")){
-                    
-                }if(service_id.equals("5")){
-                    
+
+                String content_sen = "non";
+                conn2 = DriverManager.getConnection(connectionUrl);
+                stmt2 = conn2.createStatement();
+                rs2 = stmt2.executeQuery("SELECT * FROM content_sended where service_id = '" + service_id + "' and content_id = '"+row_id_con+"' and oper = '3'");
+                while (rs2.next()) {
+                    content_sen = "post";
+                }
+                conn2.close();
+                if (content_sen.equals("non")) {
+                    sql = "INSERT INTO content_sended(send_date,service_id,content_id,oper) "
+                            + "VALUES ('" + date_new + "','" + service_id + "','" + id_content + "','3')";
+                    stmt.execute(sql);
                 }
             }
-            sql = "INSERT INTO content_sended(send_date,service_id,content_id,oper) "
-                    + "VALUES ('" + date_new + "','" + service_id + "','" + id_content + "','3')";
-            stmt.execute(sql);
-            // ดีง url รอเปลี่ยน
-            //rs = stmt.executeQuery("SELECT * FROM download ");
             conn.close();
 
+            ////////////////content ที่ยังสมัครเกิน 7 วัน
+            // ดีง url รอเปลี่ยน
+            //rs = stmt.executeQuery("SELECT * FROM download ");
         } catch (Exception e) {
             //System.out.println("Error : " + e);
             this.Log.info("Error select sql thank" + e);

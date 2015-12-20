@@ -68,7 +68,7 @@ public class MT_data implements Runnable {
                 this.Log.info("User : " + r.getEncoding());
                 //default //TIS-620 //UTF-8 //
                 String Text_Service = dumpStrings(r.getDescriptions());
-                RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), Text_Service, r.getAccess(), encode, "TIS-620");
+                RegXML = str_xml.getXmlWapPush2(r.getService_id(), r.getNumber_type(), Text_Service, r.getAccess(), encode, "TIS-620");
                 GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
                 //System.out.println("XML GET : " + GetXML);
                 insert_r.insert_r(GetXML, "MT");
