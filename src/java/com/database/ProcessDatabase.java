@@ -218,7 +218,6 @@ public class ProcessDatabase {
                 //String text = "ยกเลิกบริการสำเร็จ";
                 if (description.equals("non")) {
                     //ไม่เคยเป็นสมาชิก
-                    
                     String encod = "7112402000:H84pL9aG";
                     byte[] b = encod.getBytes(Charset.forName("UTF-8"));
                     String encode = new sun.misc.BASE64Encoder().encode(b);

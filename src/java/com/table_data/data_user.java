@@ -16,6 +16,24 @@ public class data_user implements java.io.Serializable {
     private String descriptions;
     private String detail;
     private String url;
+    private String api_name;
+    private String ref;
+
+    public String getApi_name() {
+        return api_name;
+    }
+
+    public void setApi_name(String api_name) {
+        this.api_name = api_name;
+    }
+    
+    public String getRef() {
+        return ref;
+    }
+
+    public void setRef(String ref) {
+        this.ref = ref;
+    }
 
     public String getUrl() {
         return url;
