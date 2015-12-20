@@ -38,6 +38,7 @@ public class Wap_Push implements Runnable {
     ResultSet rs = null;
     List<data_user> user_room = new ArrayList<data_user>();
 
+    Date date = new Date();
     private List<data_user> id_user_WapPush;
 
     String id_user = "";
@@ -63,8 +64,8 @@ public class Wap_Push implements Runnable {
 //                if (wap.equals("ส่งแบบธรรมดา")) {
 //                    RegXML = str_xml.getXmlWapPush(r.getService_id(), r.getNumber_type(), r.getUrl(), r.getAccess(), encode, "TIS-620");
 //                } else if (wap.equals("ส่งแบบ binary ทำการแปลง url ก่อน")) {
-                    asciiToHex("");  ///
-                    RegXML = str_xml.getXmlWapPush2(r.getService_id(), r.getNumber_type(),r.getUrl(), r.getAccess(), encode, "binary");
+                asciiToHex("");  ///
+                RegXML = str_xml.getXmlWapPush2(r.getService_id(), r.getNumber_type(), r.getUrl(), r.getAccess(), encode, "binary");
 //                }
 
 //                GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
@@ -79,8 +80,10 @@ public class Wap_Push implements Runnable {
     }
 
     public List<data_user> ProcessWapPush() {
+        DateFormat Format_content = new SimpleDateFormat("yyyy-MM-dd");
+//        Format_content.format(date);
         user_room.clear();
-        String sql="";
+        String sql = "";
         try {
             String date_format = dateFormat.format(NewDate);
             Date cdate_sms = dateFormat.parse(date_format);
@@ -89,34 +92,39 @@ public class Wap_Push implements Runnable {
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
             //send_datetime //send_date
-            rs = stmt.executeQuery("SELECT contents.id,contents.contents_file,contents.content_status,mobile.msisdn,services.access_number,services.service_id,mgr.api_user,mgr.api_password FROM contents " +"INNER JOIN subscribe  ON subscribe.service_id  = contents.service_id " +
-                        "INNER JOIN mobile    ON mobile.mobile_id   = subscribe.mobile_id " +
-                        "INNER JOIN services  ON services.id  = contents.service_id " +
-                        "INNER JOIN mgr       ON mgr.operator_id = mobile.operator_id " +
-                        "where convert(varchar(10),send_date,110) = convert(varchar(10),dateadd(day,-5,getdate()),110) " +
-                        "and content_status = '10' and mgr.api_job = 'REG' and mobile.operator_id = '3' ");
+//            rs = stmt.executeQuery("SELECT contents.id,contents.contents_file,contents.content_status,mobile.msisdn,services.access_number,services.service_id,mgr.api_user,mgr.api_password FROM contents " +"INNER JOIN subscribe  ON subscribe.service_id  = contents.service_id " +
+//                        "INNER JOIN mobile    ON mobile.mobile_id   = subscribe.mobile_id " +
+//                        "INNER JOIN services  ON services.id  = contents.service_id " +
+//                        "INNER JOIN mgr       ON mgr.operator_id = mobile.operator_id " +
+//                        "where convert(varchar(10),send_date,110) = convert(varchar(10),dateadd(day,-5,getdate()),110) " +
+//                        "and content_status = '10' and mgr.api_job = 'REG' and mobile.operator_id = '3' ");
+            rs = stmt.executeQuery("SELECT * FROM contents "
+                    + "INNER JOIN services  ON services.id  = contents.service_id "
+                    + "INNER JOIN url  ON url.api_statename  = contents.contents_name "
+                    + "where contents.id not in (select content_sended.content_id from content_sended where content_sended.oper='3') "
+                    + "and '2015-12-17' <= contents.send_datetime");
             String id_user = "";
             String service_id = "";
             while (rs.next()) {
 
                 data_user iduser = new data_user();
-                id_user = rs.getString("id");
-                service_id = rs.getString("service_id");
-                
-                iduser.setService_id(service_id);
-                iduser.setUrl(rs.getString("contents_file"));
-                iduser.setNumber_type(rs.getString("msisdn"));
-                iduser.setAccess(rs.getString("access_number"));
-                iduser.setEncoding(rs.getString("api_user") + rs.getString("api_password"));
-                    
+//                id_user = rs.getString("id");
+//                service_id = rs.getString("service_id");
+//                
+//                iduser.setService_id(service_id);
+//                iduser.setUrl(rs.getString("contents_file"));
+//                iduser.setNumber_type(rs.getString("msisdn"));
+//                iduser.setAccess(rs.getString("access_number"));
+//                iduser.setEncoding(rs.getString("api_user") + rs.getString("api_password"));
+
                 user_room.add(iduser);
-                
-                sql = "UPDATE sms SET status = '3' WHERE sms_id ='" + id_user + "' ";
-                stmt.executeUpdate(sql);
-            
-                sql = "INSERT INTO content_sended(send_date,service_id,content_id) "
-                    + "VALUES ('" + cdate_sms + "','" + service_id + "','" + id_user + "')";
-                stmt.execute(sql);
+
+//                sql = "UPDATE sms SET status = '3' WHERE sms_id ='" + id_user + "' ";
+//                stmt.executeUpdate(sql);
+//            
+//                sql = "INSERT INTO content_sended(send_date,service_id,content_id) "
+//                    + "VALUES ('" + cdate_sms + "','" + service_id + "','" + id_user + "')";
+//                stmt.execute(sql);
             }
             // ดีง url รอเปลี่ยน
             //rs = stmt.executeQuery("SELECT * FROM download ");
