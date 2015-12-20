@@ -91,8 +91,8 @@ public class SMS_Worning implements Runnable {
                     id_user = rs2.getString("reg_id");
                     //rs.getString("service_id")
                     iduser.setService_id("7112409000");
-                    //rs.getString("access_number")
-                    iduser.setAccess("4557001");
+                    //rs.getString("access_number")  //4557001
+                    iduser.setAccess(rs.getString("access_number"));
                     iduser.setText_sms(rs2.getString("mt_msg"));
                     this.Log.info("test ser : " + rs2.getString("mt_msg"));
                     //iduser.setCode(rs.getString("status"));
@@ -124,8 +124,41 @@ public class SMS_Worning implements Runnable {
                     id_user = rs2.getString("reg_id");
                     //rs.getString("service_id")
                     iduser.setService_id("7112409000");
-                    //rs.getString("access_number")
-                    iduser.setAccess("4557001");
+                    //rs.getString("access_number")  //4557001
+                    iduser.setAccess(rs.getString("access_number"));
+                    iduser.setText_sms(rs2.getString("mt_msg"));
+                    this.Log.info("test ser : " + rs2.getString("mt_msg"));
+                    //iduser.setCode(rs.getString("status"));
+                    String user = "7112409000:H84pL9aG";
+                    iduser.setEncoding(user);
+                    user_data.add(iduser);
+
+                }
+                conn2.close();
+            }
+            conn.close();
+            //////////////// 4557002
+            conn = DriverManager.getConnection(connectionUrl);
+            stmt = conn.createStatement();
+
+            rs = stmt.executeQuery("exec dbo.sp_warning '4557002','3'");
+            while (rs.next()) {
+                data_sms iduser = new data_sms();
+                iduser.setNumber(rs.getString("msisdn"));
+
+                conn2 = DriverManager.getConnection(connectionUrl);
+                stmt2 = conn2.createStatement();
+                rs2 = stmt2.executeQuery("SELECT sv.access_number acc_id,* FROM [PLAYBOY].[dbo].[register] r "
+                        + "join [dbo].[mobile] m on r.mobile_id = m.mobile_id "
+                        + "join [dbo].[services] sv on r.service_id = sv.id "
+                        + "join [dbo].[api_sms] sms on r.service_id = sms.service_id "
+                        + "where   m.msisdn='" + rs.getString("msisdn") + "' and sv.access_number = '4557555' and sms.mt_type ='WARNING'");
+                while (rs2.next()) {
+                    id_user = rs2.getString("reg_id");
+                    //rs.getString("service_id")
+                    iduser.setService_id("7112409000");
+                    //rs.getString("access_number") //"4557001"
+                    iduser.setAccess(rs.getString("access_number"));
                     iduser.setText_sms(rs2.getString("mt_msg"));
                     this.Log.info("test ser : " + rs2.getString("mt_msg"));
                     //iduser.setCode(rs.getString("status"));
