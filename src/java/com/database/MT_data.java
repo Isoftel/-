@@ -136,7 +136,7 @@ public class MT_data implements Runnable {
                 id_user = rs.getString("reg_id");
                 String service = rs.getString("service_user");
                 String number = rs.getString("msisdn");
-                String Text_Service = rs.getString("detail_reg");
+                String Text_Service = rs.getString("mt_msg");
                 String access = rs.getString("access_number");
                 String date = rs.getString("cdate");
                 String user = rs.getString("api_user");
