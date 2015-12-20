@@ -68,6 +68,7 @@ public class SMS_Worning implements Runnable {
     public List<data_sms> SMS() {
         user_data.clear();
         try {
+            System.out.println("Run");
             String id_user = "";
             ///////////////// 457777
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
