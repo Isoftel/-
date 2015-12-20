@@ -153,7 +153,7 @@ public class SMS_Worning implements Runnable {
                         + "join [dbo].[mobile] m on r.mobile_id = m.mobile_id "
                         + "join [dbo].[services] sv on r.service_id = sv.id "
                         + "join [dbo].[api_sms] sms on r.service_id = sms.service_id "
-                        + "where   m.msisdn='" + rs.getString("msisdn") + "' and sv.access_number = '4557555' and sms.mt_type ='WARNING'");
+                        + "where   m.msisdn='" + rs.getString("msisdn") + "' and sv.access_number = '4557002' and sms.mt_type ='WARNING'");
                 while (rs2.next()) {
                     id_user = rs2.getString("reg_id");
                     //rs2.getString("service_id")
