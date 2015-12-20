@@ -77,7 +77,7 @@ public class Wap_Push implements Runnable {
                 //System.out.println("r.getService_id() " + r.getService_id() + " r.getNumber_type() " + r.getNumber_type() + " url " + url + " r.getAccess() " + r.getAccess() + " encode " + encode);
                 RegXML = str_xml.getXmlWapPush2(r.getService_id(), r.getNumber_type(), url, r.getAccess(), encode, "binary");
 //                }
-                GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
+                GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "wap_push");
 //                insert_r.insert_r(GetXML, "MT");
             } catch (Exception e) {
                 this.Log.info("Error : " + e);

@@ -66,7 +66,7 @@ public class Post_XML {
 //                con.setRequestProperty("Connection", "Close");
 //                con.setRequestProperty("Host", ip_Host);
 //                con.setRequestProperty("Content-Length", String.valueOf(StrXml.length()));
-
+                
                 con.setRequestProperty("Authorization", "Basic " + id_pass);
                 con.setRequestProperty("Content-type", "text/xml");
                 con.setRequestProperty("Charset", "UTF-8");
@@ -80,19 +80,25 @@ public class Post_XML {
 //                con.setRequestProperty("Connection", "Close");
 //                con.setRequestProperty("Content-Length", String.valueOf(StrXml.length()));
 //                con.setRequestProperty("Content-type", "text/xml");
-
+                
                 con.setRequestProperty("Authorization", "Basic " + id_pass);
                 con.setRequestProperty("Content-type", "text/xml");
                 con.setRequestProperty("Charset", "UTF-8");
                 con.setRequestProperty("Content-Length", String.valueOf(StrXml.length()));
                 con.setRequestProperty("Connection", "Close");
                 con.setRequestProperty("Host", ip_Host);
-
+                
 //                con.setRequestProperty("Authorization", "Basic " + id_pass);
 //                con.setRequestProperty("Content-type", "text/xml");
 //                con.setRequestProperty("Connection", "Close");
 //                con.setRequestProperty("Host", ip_Host);
 //                con.setRequestProperty("Content-Length", String.valueOf(StrXml.length()));
+            } else if (type_header_xml.equals("wap_push")) {
+                con.setRequestProperty("Authorization", "Basic " + id_pass);
+                con.setRequestProperty("Host", ip_Host);
+                con.setRequestProperty("User-Agent", "Java1.4.2_03");
+                con.setRequestProperty("Content-Length", String.valueOf(StrXml.length()));
+                con.setRequestProperty("Content-type", "text/xml");
             }
             con.setUseCaches(false);
             PrintWriter pw = new PrintWriter(con.getOutputStream());
