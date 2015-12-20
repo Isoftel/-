@@ -36,20 +36,7 @@ public class DeliveryRequest_true extends HttpServlet {
         PrintWriter out = null;
         ////////////////////  mo
         try {
-            String http = "http://";
-            http = "www.truemove.co.th";
-            http = asciiToHex(http);
             
-            System.out.println("http1 " + http);
-//            http = dumpStrings(http);
-//            System.out.println("http2 " + http);
-
-//            String s = "0123456789";
-//            byte ptext[] = http.getBytes("UTF8");
-//            for (int i = 0; i < ptext.length; i++) {
-//                System.out.print(ptext[i] + ",");
-//            }
-
             //response.setContentType("text/xml;charset=UTF-8");
             //response.setContentType("text/xml;charset=TIS-620");
             out = response.getWriter();
@@ -132,22 +119,5 @@ public class DeliveryRequest_true extends HttpServlet {
         return sb.toString();
     }
 
-    private static String asciiToHex(String asciiValue) {
-        char[] chars = asciiValue.toCharArray();
-        StringBuffer hex = new StringBuffer();
-        for (int i = 0; i < chars.length; i++) {
-            hex.append(Integer.toHexString((int) chars[i]));
-        }
-        return hex.toString();
-    }
-
-    public String dumpStrings(String text) {
-        String str_unicode = "";
-        for (int i = 0; i < text.length(); i++) {
-            //System.out.println("Len "+(int)text.charAt(i));
-            str_unicode = str_unicode + (int) text.charAt(i);
-        }
-        return str_unicode;
-    }
-
+   
 }

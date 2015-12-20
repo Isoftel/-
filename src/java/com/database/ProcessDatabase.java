@@ -422,7 +422,7 @@ public class ProcessDatabase {
             }
 
         } catch (Exception e) {
-            System.out.println("Err en hex " + e);
+            //System.out.println("Err en hex " + e);
         }
 
         return str_unicode;

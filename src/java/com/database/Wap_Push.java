@@ -58,14 +58,12 @@ public class Wap_Push implements Runnable {
     public void run() {
 
         List<data_user> id_user_reg = ProcessWapPush();
-        System.out.println("GG");
         for (data_user r : id_user_reg) {
             byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
             encode = new sun.misc.BASE64Encoder().encode(b);
             try {
                 /////////// Wap Push
-                String http = asciiToHex("0605040b8423f0DC0601AE02056A0045C60C03");
-                System.out.println("http " + http);
+                String http = "0605040b8423f0DC0601AE02056A0045C60C03";
                 String www = asciiToHex(r.getUrl());
                 String fig1 = "000103";
                 String name_api = asciiToHex(r.getApi_name());
@@ -76,7 +74,7 @@ public class Wap_Push implements Runnable {
 //                if (wap.equals("ส่งแบบธรรมดา")) {
 //                    RegXML = str_xml.getXmlWapPush(r.getService_id(), r.getNumber_type(), r.getUrl(), r.getAccess(), encode, "TIS-620");
 //                } else if (wap.equals("ส่งแบบ binary ทำการแปลง url ก่อน")) {
-                System.out.println("r.getService_id() " + r.getService_id() + " r.getNumber_type() " + r.getNumber_type() + " url " + url + " r.getAccess() " + r.getAccess() + " encode " + encode);
+                //System.out.println("r.getService_id() " + r.getService_id() + " r.getNumber_type() " + r.getNumber_type() + " url " + url + " r.getAccess() " + r.getAccess() + " encode " + encode);
                 RegXML = str_xml.getXmlWapPush2(r.getService_id(), r.getNumber_type(), url, r.getAccess(), encode, "binary");
 //                }
                 GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
@@ -84,7 +82,6 @@ public class Wap_Push implements Runnable {
             } catch (Exception e) {
                 this.Log.info("Error : " + e);
             }
-            System.out.println("WOW");
         }
 
     }
