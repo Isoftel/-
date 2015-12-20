@@ -90,13 +90,13 @@ public class SMS_Worning implements Runnable {
                         + "where   m.msisdn='" + rs.getString("msisdn") + "' and sv.access_number = '4557777' and sms.mt_type ='WARNING'");
                 while (rs2.next()) {
                     id_user = rs2.getString("reg_id");
-                    //rs.getString("service_id")
+                    //rs2.getString("service_id")
                     iduser.setService_id("7112409000");
-                    //rs.getString("acc_id")  //4557001
-                    iduser.setAccess(rs.getString("acc_id"));
+                    //rs2.getString("acc_id")  //4557001
+                    iduser.setAccess(rs2.getString("acc_id"));
                     iduser.setText_sms(rs2.getString("mt_msg"));
                     this.Log.info("test ser : " + rs2.getString("mt_msg"));
-                    //iduser.setCode(rs.getString("status"));
+                    //iduser.setCode(rs2.getString("status"));
                     String user = "7112409000:H84pL9aG";
                     iduser.setEncoding(user);
                     user_data.add(iduser);
@@ -123,13 +123,13 @@ public class SMS_Worning implements Runnable {
                         + "where   m.msisdn='" + rs.getString("msisdn") + "' and sv.access_number = '4557555' and sms.mt_type ='WARNING'");
                 while (rs2.next()) {
                     id_user = rs2.getString("reg_id");
-                    //rs.getString("service_id")
+                    //rs2.getString("service_id")
                     iduser.setService_id("7112409000");
-                    //rs.getString("acc_id")  //4557001
-                    iduser.setAccess(rs.getString("acc_id"));
+                    //rs2.getString("acc_id")  //4557001
+                    iduser.setAccess(rs2.getString("acc_id"));
                     iduser.setText_sms(rs2.getString("mt_msg"));
                     this.Log.info("test ser : " + rs2.getString("mt_msg"));
-                    //iduser.setCode(rs.getString("status"));
+                    //iduser.setCode(rs2.getString("status"));
                     String user = "7112409000:H84pL9aG";
                     iduser.setEncoding(user);
                     user_data.add(iduser);
@@ -156,13 +156,13 @@ public class SMS_Worning implements Runnable {
                         + "where   m.msisdn='" + rs.getString("msisdn") + "' and sv.access_number = '4557555' and sms.mt_type ='WARNING'");
                 while (rs2.next()) {
                     id_user = rs2.getString("reg_id");
-                    //rs.getString("service_id")
+                    //rs2.getString("service_id")
                     iduser.setService_id("7112409000");
-                    //rs.getString("acc_id") //"4557001"
-                    iduser.setAccess(rs.getString("acc_id"));
+                    //rs2.getString("acc_id") //"4557001"
+                    iduser.setAccess(rs2.getString("acc_id"));
                     iduser.setText_sms(rs2.getString("mt_msg"));
                     this.Log.info("test ser : " + rs2.getString("mt_msg"));
-                    //iduser.setCode(rs.getString("status"));
+                    //iduser.setCode(rs2.getString("status"));
                     String user = "7112409000:H84pL9aG";
                     iduser.setEncoding(user);
                     user_data.add(iduser);

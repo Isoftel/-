@@ -71,7 +71,7 @@ public class run_api extends HttpServlet implements Runnable {
 
     public void worning() {
         DateFormat dateFormat_set_start = new SimpleDateFormat("yyyy-MM-dd 22:00:10");
-        DateFormat dateFormat_set_end = new SimpleDateFormat("yyyy-MM-dd 22:12:40");
+        DateFormat dateFormat_set_end = new SimpleDateFormat("yyyy-MM-dd 22:15:40");
         try {
             String date_warning = dateFormat.format(date);
             String date_start = dateFormat_set_start.format(date);
