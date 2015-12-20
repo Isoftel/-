@@ -1,6 +1,7 @@
 package com.xml;
 
 import com.database.ProcessDatabase;
+import com.database.SMS_Worning;
 import static com.sun.org.apache.regexp.internal.RETest.test;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -8,6 +9,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.math.BigInteger;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ResourceBundle;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,11 +21,37 @@ import org.apache.log4j.Logger;
 
 public class DeliveryRequest_true extends HttpServlet {
 
+    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    DateFormat Format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+    Date date = new Date();
+
     ProcessDatabase insert = new ProcessDatabase();
     Logger Log = Logger.getLogger(this.getClass());
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) {
-        
+//        System.out.println("Run");
+//        DateFormat dateFormat_set_start = new SimpleDateFormat("yyyy-MM-dd 21:53:10");
+//        DateFormat dateFormat_set_end = new SimpleDateFormat("yyyy-MM-dd 21:54:00");
+//        try {
+//            String date_warning = dateFormat.format(date);
+//            String date_start = dateFormat_set_start.format(date);
+//            String date_end = dateFormat_set_end.format(date);
+//
+//            Date convertedDate = Format.parse(date_warning);
+//            Date start = Format.parse(date_start);
+//            Date end = Format.parse(date_end);
+//            /////// Date < Date = -1 | Date = Date = 0 | Date > Date = 1
+//            System.out.println("Date st :" + start.toString() + " Date en : " + end.toString());
+//            System.out.println("St : " + convertedDate.compareTo(start) + " En : " + convertedDate.compareTo(end));
+//            if (convertedDate.compareTo(start) == 1 && convertedDate.compareTo(end) == -1) {
+//                System.out.println("GO");
+//            }
+//
+//        } catch (Exception e) {
+//            System.out.println("Error Time : " + e);
+//        }
+
+        //////////////////////////////////////////////////
         this.Log.info("DeliveryRequest Runing");
         PrintWriter out = null;
         ////////////////////  mo
@@ -117,5 +147,4 @@ public class DeliveryRequest_true extends HttpServlet {
         return hex.toString();
     }
 
-    
 }

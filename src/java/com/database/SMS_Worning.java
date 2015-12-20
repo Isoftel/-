@@ -91,8 +91,8 @@ public class SMS_Worning implements Runnable {
                     id_user = rs2.getString("reg_id");
                     //rs.getString("service_id")
                     iduser.setService_id("7112409000");
-                    //rs.getString("access_number")  //4557001
-                    iduser.setAccess(rs.getString("access_number"));
+                    //rs.getString("acc_id")  //4557001
+                    iduser.setAccess(rs.getString("acc_id"));
                     iduser.setText_sms(rs2.getString("mt_msg"));
                     this.Log.info("test ser : " + rs2.getString("mt_msg"));
                     //iduser.setCode(rs.getString("status"));
@@ -124,8 +124,8 @@ public class SMS_Worning implements Runnable {
                     id_user = rs2.getString("reg_id");
                     //rs.getString("service_id")
                     iduser.setService_id("7112409000");
-                    //rs.getString("access_number")  //4557001
-                    iduser.setAccess(rs.getString("access_number"));
+                    //rs.getString("acc_id")  //4557001
+                    iduser.setAccess(rs.getString("acc_id"));
                     iduser.setText_sms(rs2.getString("mt_msg"));
                     this.Log.info("test ser : " + rs2.getString("mt_msg"));
                     //iduser.setCode(rs.getString("status"));
@@ -157,8 +157,8 @@ public class SMS_Worning implements Runnable {
                     id_user = rs2.getString("reg_id");
                     //rs.getString("service_id")
                     iduser.setService_id("7112409000");
-                    //rs.getString("access_number") //"4557001"
-                    iduser.setAccess(rs.getString("access_number"));
+                    //rs.getString("acc_id") //"4557001"
+                    iduser.setAccess(rs.getString("acc_id"));
                     iduser.setText_sms(rs2.getString("mt_msg"));
                     this.Log.info("test ser : " + rs2.getString("mt_msg"));
                     //iduser.setCode(rs.getString("status"));

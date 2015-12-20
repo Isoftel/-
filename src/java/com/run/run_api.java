@@ -54,9 +54,9 @@ public class run_api extends HttpServlet implements Runnable {
                 tt.setPriority(1);
                 tt.start();
                 /// ส่ง Wap Push  ส่ง URL มี2แบบ
-//                Thread tt2 = new Thread(new Wap_Push());
-//                tt2.setPriority(1);
-//                tt2.start();
+                Thread tt2 = new Thread(new Wap_Push());
+                tt2.setPriority(1);
+                tt2.start();
                 worning();
             } catch (Exception ex) {
                 //System.out.println("Error Runing : " + ex);
@@ -70,8 +70,8 @@ public class run_api extends HttpServlet implements Runnable {
     }
 
     public void worning() {
-        DateFormat dateFormat_set_start = new SimpleDateFormat("yyyy-MM-dd 21:48:10");
-        DateFormat dateFormat_set_end = new SimpleDateFormat("yyyy-MM-dd 17:48:50");
+        DateFormat dateFormat_set_start = new SimpleDateFormat("yyyy-MM-dd 21:58:10");
+        DateFormat dateFormat_set_end = new SimpleDateFormat("yyyy-MM-dd 21:59:40");
         try {
             String date_warning = dateFormat.format(date);
             String date_start = dateFormat_set_start.format(date);
