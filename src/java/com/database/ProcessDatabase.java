@@ -165,11 +165,11 @@ public class ProcessDatabase {
                     out_xml.OutXmlr(encoding, message, service, destination, number, text, messageid, out);
                 } else if (description.equals("UNREG")) {
                     ///// เคยสมัครแต่ยกเลิกแล้ว
-//                    sql = "UPDATE subscribe SET sub_status='0',description = 'REG',udate = '" + time + "' WHERE id='" + id_subscribe + "' ";
-//                    stmt.executeUpdate(sql);
-                    sql = "INSERT INTO subscribe(mobile_id, service_id, description, cdate,sub_status) "
-                            + "VALUES('" + id_number + "','" + id_service + "','REG','" + time + "','0')";
-                    stmt.execute(sql);
+                    sql = "UPDATE subscribe SET sub_status='0',description = 'REG',udate = '" + time + "' WHERE id='" + id_subscribe + "' ";
+                    stmt.executeUpdate(sql);
+//                    sql = "INSERT INTO subscribe(mobile_id, service_id, description, cdate,sub_status) "
+//                            + "VALUES('" + id_number + "','" + id_service + "','REG','" + time + "','0')";
+//                    stmt.execute(sql);
                     sql = "INSERT INTO register(api_req, reg_channel, mobile_id, service_id, reg_date, status,status_code,txid) "
                             + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + time + "','0','0','" + message + "')";
                     stmt.execute(sql);
