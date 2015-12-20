@@ -71,7 +71,7 @@ public class run_api extends HttpServlet implements Runnable {
 
     public void worning() {
         DateFormat dateFormat_set_start = new SimpleDateFormat("yyyy-MM-dd 22:00:10");
-        DateFormat dateFormat_set_end = new SimpleDateFormat("yyyy-MM-dd 22:10:40");
+        DateFormat dateFormat_set_end = new SimpleDateFormat("yyyy-MM-dd 22:12:40");
         try {
             String date_warning = dateFormat.format(date);
             String date_start = dateFormat_set_start.format(date);
@@ -81,7 +81,7 @@ public class run_api extends HttpServlet implements Runnable {
             Date start = Format.parse(date_start);
             Date end = Format.parse(date_end);
             /////// Date < Date = -1 | Date = Date = 0 | Date > Date = 1
-            if (convertedDate.compareTo(start) == -1 && convertedDate.compareTo(end) == 1) {
+            if (convertedDate.compareTo(start) == 1 && convertedDate.compareTo(end) == -1) {
                 Thread tt = new Thread(new SMS_Worning());
                 tt.setPriority(1);
                 tt.start();
