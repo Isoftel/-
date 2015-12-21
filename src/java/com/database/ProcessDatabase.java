@@ -16,9 +16,9 @@ import java.util.ResourceBundle;
 import org.apache.log4j.Logger;
 
 public class ProcessDatabase {
-
+    
     Logger Log = Logger.getLogger(this.getClass());
-
+    
     ResourceBundle msg = ResourceBundle.getBundle("configs");
     Post_XML xml = new Post_XML();
     Out_XML out_xml = new Out_XML();
@@ -27,15 +27,15 @@ public class ProcessDatabase {
     String user = msg.getString("user");
     String pass = msg.getString("pass");
     String url = msg.getString("true_url");
-
+    
     Connection conn = null;
     Statement stmt = null;
     ResultSet rs = null;
-
+    
     DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
     Date cdate = null;
     Date NewDate = new Date();
-
+    
     public String ProcessDatabase(String result, PrintWriter out) {
         String sql = null;
         Set_XML str_xml = new Set_XML();
@@ -61,11 +61,12 @@ public class ProcessDatabase {
             }
         }
         //cdate = dateFormat.parse(time);
-        String New_date="";
+        String New_date = "";
         try {
             DateFormat Format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
             Date convertedDate = Format.parse(time);
             New_date = Format.format(convertedDate);
+            this.Log.info("New_date " + New_date);
         } catch (Exception e) {
         }
         
@@ -77,31 +78,11 @@ public class ProcessDatabase {
         String str_service = "";
         String str_product = "";
         String product_id = "";
-
+        
         try {
+            
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
-//            conn = DriverManager.getConnection(connectionUrl);
-//            stmt = conn.createStatement();
-//            sql = "INSERT INTO delivery_request(TransactionID,product_id,MSISDN,Content,cdate,service_id) "
-//                    + "VALUES ('" + message + "','" + destination + "','" + number + "','" + ud + "','" + New_date + "','" + service + "')";
-//            stmt.execute(sql);
-//            conn.close();
-
-            //////////// mobile ดูว่ามีเบอร์แล้วหรือยังมี ดึง ID ไม่มีให้ INSERT
-//            conn = DriverManager.getConnection(connectionUrl);
-//            stmt = conn.createStatement();
-//            sql = "exec sp_InsertMemberSubscription '" + number + "','3'";
-//            Log.info(sql);
-//            rs = stmt.executeQuery(sql);
-//            while (rs.next()) {
-//                Log.info("found data msisdn " + rs.getInt("mobile_id") + " msisdn " + rs.getString("msisdn"));
-//                id_number = rs.getInt("mobile_id");
-//                str_msisdn = rs.getString("msisdn");
-//
-//            }
-//            conn.close();
-
             //////////////////services หา ID บริการ
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
@@ -109,10 +90,26 @@ public class ProcessDatabase {
             rs = stmt.executeQuery(sql);
             Log.info(sql);
             while (rs.next()) {
-                this.Log.info("found data services " + rs.getInt("service_id") + " msisdn " + rs.getString("access_number"));
                 id_service = rs.getInt("id");
                 str_service = rs.getString("service_id");
                 str_product = rs.getString("access_number");
+            }
+            
+            stmt = conn.createStatement();
+            sql = "INSERT INTO delivery_request(TransactionID,product_id,MSISDN,Content,cdate,service_id) "
+                    + "VALUES ('" + message + "','" + destination + "','" + number + "','" + ud + "','" + New_date + "','" + service + "')";
+            stmt.execute(sql);
+
+            //////////// mobile ดูว่ามีเบอร์แล้วหรือยังมี ดึง ID ไม่มีให้ INSERT
+            stmt = conn.createStatement();
+            sql = "exec sp_InsertMemberSubscription '" + number + "','3'";
+            Log.info(sql);
+            rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                Log.info("found data msisdn " + rs.getInt("mobile_id") + " msisdn " + rs.getString("msisdn"));
+                id_number = rs.getInt("mobile_id");
+                str_msisdn = rs.getString("msisdn");
+                
             }
 
             //this.Log.info("XML service : " + service + " destination " + destination + " SQL str_service " + str_service + " str_product " + str_product);
@@ -192,14 +189,14 @@ public class ProcessDatabase {
                 }
             }
         }
-
+        
         return result;
     }
-
+    
     public void PreparePostData() {
-
+        
     }
-
+    
     public String ProcessSMS(String result, PrintWriter out) {
         String sql = "";
         //String encoding = (getdata(result, "?xml version=\"1.0\" encoding=\"", 2, ""));
@@ -237,7 +234,7 @@ public class ProcessDatabase {
         }
         return result;
     }
-
+    
     public String getdata(String in, String Tag, int ifroob, String back) {
         StringBuilder sb = new StringBuilder();
         String result = null;
@@ -245,10 +242,10 @@ public class ProcessDatabase {
             String document = in;
             String startTag = "";
             String endTag = "";
-
+            
             int start = 0;
             int end = 0;
-
+            
             if (ifroob == 1) {
                 //ตัดแบบ หน้างหลังเหมือนกัน
                 startTag = "<" + Tag + ">";
@@ -282,7 +279,7 @@ public class ProcessDatabase {
         }
         return result;
     }
-
+    
     public String dumpStrings(String text) {
         String str_unicode = "";
         for (int i = 0; i < text.length(); i++) {
@@ -290,7 +287,7 @@ public class ProcessDatabase {
         }
         return str_unicode;
     }
-
+    
     public String EncodeToString(String text) {
         text = text.replace("&", "");
         text = text.replace(";", "");
@@ -301,7 +298,7 @@ public class ProcessDatabase {
                 int hexVal = Integer.parseInt(arr[i]);
                 str_unicode += (char) hexVal;
             }
-
+            
         } catch (Exception e) {
             System.out.println("Err en " + e);
         }
@@ -320,11 +317,11 @@ public class ProcessDatabase {
                 value = Integer.parseInt(arr[i], 16);
                 str_unicode = str_unicode + "#" + String.valueOf(value);
             }
-
+            
         } catch (Exception e) {
             //System.out.println("Err en hex " + e);
         }
-
+        
         return str_unicode;
     }
 
@@ -334,11 +331,11 @@ public class ProcessDatabase {
         String str_unicode = "";
         try {
             for (int i = 1; i < arr.length; i++) {
-
+                
                 int hexVal = Integer.parseInt(arr[i]);
                 str_unicode += (char) hexVal;
             }
-
+            
         } catch (Exception e) {
             System.out.println("Err en " + e);
         }
