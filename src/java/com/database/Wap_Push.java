@@ -170,7 +170,7 @@ public class Wap_Push implements Runnable {
         }
 
         private void InserSendedConten(ResultSet r) {
-
+            this.Log.info("Run InserSendedConten");
             //                System.out.println("'" + rs.getString("msisdn") + "','" + rs.getString("ref") + "','" + date_new + "','" + service_id + "','" + id_content + "'");
             String sql;
             try {
@@ -180,6 +180,7 @@ public class Wap_Push implements Runnable {
                 stmt = conn.createStatement();
                 sql = "INSERT INTO download(MSISDN,REF_ID,TIMESTAMP,SERVICE_ID,CONTEN_ID) "
                         + "VALUES ('" + r.getString("msisdn") + "','" + r.getString("ref") + "','" + this.SendDate + "','" + this.serviceid + "','" + this.Contentid + "')";
+                this.Log.info("SQL InserSendedConten : " + sql);
                 stmt.execute(sql);
 
             } catch (SQLException ex) {
@@ -225,7 +226,7 @@ public class Wap_Push implements Runnable {
                     this.Log.info("Get XML : " + GetXML);
                     InserSendedConten(rs);
                 }
-
+                conn.close();
             } catch (ClassNotFoundException ex) {
                 this.Log.info("Error : " + ex);
             } catch (SQLException ex) {
