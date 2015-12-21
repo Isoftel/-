@@ -68,7 +68,7 @@ public class MT_data implements Runnable {
                 encode = new sun.misc.BASE64Encoder().encode(b);
                 this.Log.info("User : " + r.getEncoding());
                 //default //TIS-620 //UTF-8 //
-                this.Log.info("Message test : " + r.getDescriptions());
+                
                 String Text_Service = dumpStrings(r.getDescriptions());
 
                 RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), Text_Service, r.getAccess(), encode, "TIS-620");
@@ -139,6 +139,7 @@ public class MT_data implements Runnable {
                 String date = rs.getString("cdate");
                 String user = rs.getString("api_user");
                 String pass = rs.getString("api_password");
+                this.Log.info("Message test : " + Text_Service);
                 //TIS-620//UTF-8
 //                String encode_test = URLEncoder.encode(Text_Service, "UTF-8");
 //                this.Log.info("Test Reg : " + encode_test);
