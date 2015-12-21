@@ -28,7 +28,7 @@ public class ProcessDatabase {
     String pass = msg.getString("pass");
     String url = msg.getString("true_url");
 
-    ProcessDatabase insert = new ProcessDatabase();
+//    ProcessDatabase insert = new ProcessDatabase();
 
     Connection conn = null;
     Statement stmt = null;
@@ -206,10 +206,10 @@ public class ProcessDatabase {
                     String RegXML = str_xml.getXmlReg("7112402000", number, text, str_product, encode, "TIS-620");
                     String get_un = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
                     //text = "ท่านยังไม่ได้เป็นสมาชิก";
-                    String code = insert.getdata(get_un, "code", 1, "");
-                    sql = "INSERT INTO register(api_req, reg_channel, mobile_id, service_id, reg_date, status,status_code,txid) "
-                            + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + time + "','30','" + code + "','" + message + "')";
-                    stmt.execute(sql);
+//                    String code = insert.getdata(get_un, "code", 1, "");
+//                    sql = "INSERT INTO register(api_req, reg_channel, mobile_id, service_id, reg_date, status,status_code,txid) "
+//                            + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + time + "','30','" + code + "','" + message + "')";
+//                    stmt.execute(sql);
                     text = "He was never a member";
                     //text = "Have you ever canceled";
                     out_xml.OutXmlr(encoding, message, service, destination, number, text, messageid, out);
@@ -226,10 +226,10 @@ public class ProcessDatabase {
                     text = "Cancel service success";
                     //text = "ได้ทำการยกเลิกสมาชิกแล้ว";
                     //////////////////subscribe UPDATE เป็น UNREG เพื่อยกเลิกบริการ 
-                    String code = insert.getdata(get_un, "code", 1, "");
-                    sql = "INSERT INTO register(api_req, reg_channel, mobile_id, service_id, reg_date, status,status_code,txid) "
-                            + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + time + "','30','" + code + "','" + message + "')";
-                    stmt.execute(sql);
+//                    String code = insert.getdata(get_un, "code", 1, "");
+//                    sql = "INSERT INTO register(api_req, reg_channel, mobile_id, service_id, reg_date, status,status_code,txid) "
+//                            + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + time + "','30','" + code + "','" + message + "')";
+//                    stmt.execute(sql);
                     ////////////////// บันทึกเพื่อจะส่งยกเลิก
 //                    sql = "INSERT INTO register(api_req, reg_channel, mobile_id, service_id, reg_date, status,status_code,txid) "
 //                            + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + time + "','0','0','"+message+"')";
