@@ -142,7 +142,7 @@ public class Wap_Push implements Runnable {
         }
 
         private HashMap ProcessVw_getApiDetail() {
-
+            this.Log.info("select * from Vw_getApiDetail where id = '" + this.serviceid + "' and mt_type ='WARNING'");
             HashMap m = new HashMap();
             try {
                 Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
