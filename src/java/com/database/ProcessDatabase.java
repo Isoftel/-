@@ -100,6 +100,7 @@ public class ProcessDatabase {
             //////////////////services หา ID บริการ
             sql = "select * from services where service_id = '" + service + "' AND access_number = '" + destination + "' ";
             rs = stmt.executeQuery(sql);
+            Log.info(sql);
             while (rs.next()) {
                 this.Log.info("found data services " + rs.getInt("service_id") + " msisdn " + rs.getString("access_number"));
                 id_service = rs.getInt("id");
