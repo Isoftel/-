@@ -25,7 +25,7 @@ public class Wap_Push implements Runnable {
     ResourceBundle msg = ResourceBundle.getBundle("configs");
     Post_XML xml = new Post_XML();
     Set_XML str_xml = new Set_XML();
-    XML_insert insert_r = new XML_insert();
+
     String local = msg.getString("localhost");
     String data_base = msg.getString("data");
     String user = msg.getString("user");
@@ -124,6 +124,7 @@ public class Wap_Push implements Runnable {
         String ref;
         HashMap map = new HashMap();
         Logger Log = Logger.getLogger(this.getClass());
+        ProcessDatabase insert = new ProcessDatabase();
 
         public ProcessContents(int serviceid, Date SendDate, String ContentName, String referid, int Contentid, String ref) {
             this.serviceid = serviceid;
@@ -171,7 +172,7 @@ public class Wap_Push implements Runnable {
 
         }
 
-        private void InserSendedConten(ResultSet r) {
+        private void InserSendedConten(ResultSet r, String messageid) {
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String date_new = dateFormat.format(this.SendDate);
             String sql;
@@ -181,8 +182,8 @@ public class Wap_Push implements Runnable {
                 conn = DriverManager.getConnection(connectionUrl);
                 stmt = conn.createStatement();
                 this.Log.info("SQL InserSendedConten : " + "'" + r.getString("msisdn") + "','" + this.ref + "','" + this.SendDate + "','" + this.serviceid + "','" + this.Contentid + "'");
-                sql = "INSERT INTO download(MSISDN,REF_ID,TIMESTAMP,SERVICE_ID,CONTEN_ID) "
-                        + "VALUES ('" + r.getString("msisdn") + "','" + this.ref + "','" + date_new + "','" + this.serviceid + "','" + this.Contentid + "')";
+                sql = "INSERT INTO download(MSISDN,REF_ID,TIMESTAMP,SERVICE_ID,CONTEN_ID,OPERATOR,TEXTID) "
+                        + "VALUES ('" + r.getString("msisdn") + "','" + this.ref + "','" + date_new + "','" + this.serviceid + "','" + this.Contentid + "','3','" + messageid + "')";
 
                 stmt.execute(sql);
 
@@ -220,7 +221,8 @@ public class Wap_Push implements Runnable {
                     this.Log.info("Post XML WapPush : " + RegXML);
                     GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), user_pass, "wap_push");
                     this.Log.info("Get XML WapPush : " + GetXML);
-                    InserSendedConten(rs);
+                    String messageid = insert.getdata(GetXML, "destination messageid=\"", 3, "");
+                    InserSendedConten(rs, messageid);
                 }
                 conn.close();
             } catch (ClassNotFoundException ex) {
