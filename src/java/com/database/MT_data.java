@@ -55,90 +55,99 @@ public class MT_data implements Runnable {
 
         Thread Reg = new Thread(new ThreaRegister());
         Reg.start();
-        
+
         Thread UnReg = new Thread(new ThreaUnRegister());
         UnReg.start();
-        
+
         Thread DraCo = new Thread(new ThreaDraco());
         DraCo.start();
 //        //////////////////////////////////////////////////////////////////
-        
+
     }
-    private class ThreaDraco implements Runnable{
+
+    private class ThreaRegister implements Runnable {
+
         Logger Log = Logger.getLogger(this.getClass());
+
         @Override
         public void run() {
-                List<data_message> id_user_thank_sms = ProcessSMS();
-                for (data_message r : id_user_thank_sms) {
-                    try {
-                        insert_r.insert_sms("Test : " + r.getDescriptions());
-                        byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
-                        encode = new sun.misc.BASE64Encoder().encode(b);
-                        String Text_Service = dumpStrings("ขอบคุณที่ใช้บริการคะ");
-                        RegXML = str_xml.getXmlSMS(r.getService_id(), r.getNumber_type(), Text_Service, r.getAccess(), encode, "unicode");
-                        GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "sms");
-                        this.Log.info("Get Xml SMS : " + GetXML);
-                        insert_r.insert_sms(GetXML);
-                    } catch (Exception e) {
-                        this.Log.info("Error SMS : " + e);
-                    }
-                }
-        }
-            
-        }
-    private class ThreaRegister implements Runnable{
-        Logger Log = Logger.getLogger(this.getClass());
-        @Override
-        public void run() {
-        List<data_user> id_user_reg = ProcessRegister();
-        this.Log.info("Found data register : " + id_user_reg.size());
-        for (data_user r : id_user_reg) {
-            try {
-                //byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
+            List<data_user> id_user_reg = ProcessRegister();
+            this.Log.info("Found data register : " + id_user_reg.size());
+            for (data_user r : id_user_reg) {
+                try {
+                    //byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
 //                String encod = "7112402000:H84pL9aG";
-                byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
-                encode = new sun.misc.BASE64Encoder().encode(b);
-                this.Log.info("User : " + r.getEncoding());
-                //default //TIS-620 //UTF-8 //
-                
-                String Text_Service = dumpStrings(r.getDescriptions());
+                    byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
+                    encode = new sun.misc.BASE64Encoder().encode(b);
+                    this.Log.info("User : " + r.getEncoding());
+                    //default //TIS-620 //UTF-8 //
 
-                RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), Text_Service, r.getAccess(), encode, "TIS-620");
-                GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
-                //System.out.println("XML GET : " + GetXML);
-                insert_r.insert_r(GetXML, "MT","30");
-                this.Log.info("Get Xml Reg : " + GetXML);
-            } catch (Exception e) {
-                this.Log.info("Error Reg : " + e);
+                    String Text_Service = dumpStrings(r.getDescriptions());
+
+                    RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), Text_Service, r.getAccess(), encode, "TIS-620");
+                    GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
+                    //System.out.println("XML GET : " + GetXML);
+                    insert_r.insert_r(GetXML, "MT", "30");
+                    this.Log.info("Get Xml Reg : " + GetXML);
+                } catch (Exception e) {
+                    this.Log.info("Error Reg : " + e);
+                }
             }
-        }   
-        
+
         }
-        
+
     }
-    private class ThreaUnRegister implements Runnable{
+
+    private class ThreaUnRegister implements Runnable {
+
         Logger Log = Logger.getLogger(this.getClass());
+
         @Override
         public void run() {
-        ////////////////////////////////////////////////////// mt ส่งยกเลิก
-        List<data_user> id_user_unreg = ProcessUnRegister();
-         this.Log.info("Found data Unregister : " + id_user_reg.size());
-        for (data_user r : id_user_unreg) {
-            try {
-                byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
-                encode = new sun.misc.BASE64Encoder().encode(b);
-                RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode, "default");
-                GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
-                insert_r.insert_r(GetXML, "MT","50");
-            } catch (Exception e) {
-                this.Log.info("Error Unreg : " + e);
+            ////////////////////////////////////////////////////// mt ส่งยกเลิก
+            List<data_user> id_user_unreg = ProcessUnRegister();
+            this.Log.info("Found data Unregister : " + id_user_reg.size());
+            for (data_user r : id_user_unreg) {
+                try {
+                    byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
+                    encode = new sun.misc.BASE64Encoder().encode(b);
+                    RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode, "default");
+                    GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
+                    insert_r.insert_r(GetXML, "MT", "50");
+                } catch (Exception e) {
+                    this.Log.info("Error Unreg : " + e);
+                }
+                //System.out.println("test Unreg : " + r.getNumber_type());
             }
-            //System.out.println("test Unreg : " + r.getNumber_type());
         }
-      }
-        
+
     }
 
+    private class ThreaDraco implements Runnable {
+
+        Logger Log = Logger.getLogger(this.getClass());
+
+        @Override
+        public void run() {
+            List<data_message> id_user_thank_sms = ProcessSMS();
+            for (data_message r : id_user_thank_sms) {
+                try {
+                    insert_r.insert_sms("Test : " + r.getDescriptions());
+                    byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
+                    encode = new sun.misc.BASE64Encoder().encode(b);
+                    String Text_Service = dumpStrings("ขอบคุณที่ใช้บริการคะ");
+                    RegXML = str_xml.getXmlSMS(r.getService_id(), r.getNumber_type(), Text_Service, r.getAccess(), encode, "unicode");
+                    GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "sms");
+                    this.Log.info("Get Xml SMS : " + GetXML);
+                    insert_r.insert_sms(GetXML);
+                } catch (Exception e) {
+                    this.Log.info("Error SMS : " + e);
+                }
+            }
+        }
+
+    }
+    
     public List<data_user> ProcessRegister() {
         user_room.clear();
         try {
@@ -150,25 +159,24 @@ public class MT_data implements Runnable {
             String sql = "exec sp_getServiceDetail 'REG'";
             rs = stmt.executeQuery(sql);
             Log.info("ProcessRegister " + sql);
-            Log.info("ResultSet " + rs.getRow());
             //INNER JOIN sms		 ON sms.msisdn =  mobile.msisdn
             while (rs.next()) {
                 String content_sms = "";
                 data_user iduser = new data_user();
                 id_user = rs.getString("reg_id");
-                String service = rs.getString("service_user");
+                //rs.getString("service_user")
+                String service = "7112402000";
                 String number = rs.getString("msisdn");
                 String Text_Service = rs.getString("mt_msg");
                 String access = rs.getString("access_number");
                 String date = rs.getString("cdate");
-                String user = rs.getString("api_user");
-                String pass = rs.getString("api_password");
+                //rs.getString("api_user")
+                String user = "7112402000";
+                //rs.getString("api_password")
+                String pass = "H84pL9aG";
                 this.Log.info("Message test : " + Text_Service);
+                this.Log.info("id_user " + id_user + " service " + service + " number " + number + " access " + access + " date " + date + " User " + user + " : " + pass);
                 //TIS-620//UTF-8
-//                String encode_test = URLEncoder.encode(Text_Service, "UTF-8");
-//                this.Log.info("Test Reg : " + encode_test);
-                //this.Log.info("service : " + service + " access " + access + " User " + user + " : " + pass);
-                //Text_Service = "ยินดีต้อนรับสู้ PLAYBOY จาก " + number;
                 iduser.setService_id(service);
                 iduser.setNumber_type(number);
                 iduser.setDescriptions(Text_Service);
@@ -178,12 +186,12 @@ public class MT_data implements Runnable {
 
                 //System.out.println("Test Reg : " + Text_Service);
                 sql = "exec sp_UpdateRegister '" + id_user + "' ";
-                
+
                 stmt.executeUpdate(sql);
                 user_room.add(iduser);
             }
         } catch (Exception e) {
-            this.Log.info("Error select sql reg " + e);
+            this.Log.info("Error ProcessRegister " + e);
         } finally {
             try {
                 conn.close();
@@ -196,25 +204,29 @@ public class MT_data implements Runnable {
     public List<data_user> ProcessUnRegister() {
         user_room.clear();
         try {
-            String sql = "exec sp_getServiceDetail 'UNREG'";
+            
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
+            String sql = "exec sp_getServiceDetail 'UNREG'";
+            Log.info("ProcessUnRegister " + sql);
             rs = stmt.executeQuery(sql);
-
             while (rs.next()) {
                 data_user iduser = new data_user();
                 id_user = rs.getString("reg_id");
-                String service = rs.getString("service_user");
-                //service = "7112402000";
+                //rs.getString("service_user")
+                String service = "7112402000";
                 String number = rs.getString("msisdn");
                 String Text_Service = rs.getString("detail_reg");
                 String access = rs.getString("access_number");
-                //access = "4557000";
                 String date = rs.getString("cdate");
-                String user = rs.getString("api_user");
-                String pass = rs.getString("api_password");
+                //rs.getString("api_user")
+                String user = "7112402000";
+                //rs.getString("api_password")
+                String pass = "H84pL9aG";
+                this.Log.info("Message test : " + Text_Service);
+                this.Log.info("id_user " + id_user + " service " + service + " number " + number + " access " + access + " date " + date + " User " + user + " : " + pass);
                 //System.out.println("Sql : " + " 1 " + service + " 2 " + number + " 3 " + Text_Service + " 4 " + access);
                 iduser.setService_id(service);
                 iduser.setNumber_type(number);
@@ -222,11 +234,11 @@ public class MT_data implements Runnable {
                 iduser.setAccess(access);
                 iduser.setEncoding(user + ":" + pass);
                 sql = "UPDATE register SET status = '40' WHERE reg_id='" + id_user + "' ";
-                stmt.executeUpdate(sql);                
+                stmt.executeUpdate(sql);
                 user_room.add(iduser);
             }
         } catch (Exception e) {
-            this.Log.info("Error select sql unreg " + e);
+            this.Log.info("Error ProcessUnRegister " + e);
         } finally {
             try {
                 conn.close();
@@ -280,7 +292,7 @@ public class MT_data implements Runnable {
             stmt.executeUpdate(sql);
         } catch (Exception e) {
             //System.out.println("Error : " + e);
-            this.Log.info("Error select sql thank " + e);
+            this.Log.info("Error ProcessSMS " + e);
         } finally {
             try {
                 conn.close();
