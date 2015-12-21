@@ -90,7 +90,7 @@ public class Wap_Push implements Runnable {
             while (rs.next()) {
 
                 this.Log.info("rs : " + rs.getString("contents_name") + " : " + rs.getInt("id"));
-                Thread th = new Thread(new ProcessContents(rs.getInt("id"), NewDate, rs.getString("contents_name"), rs.getString("ref"), rs.getInt("id")));
+                Thread th = new Thread(new ProcessContents(rs.getInt("service_id"), NewDate, rs.getString("contents_name"), rs.getString("ref"), rs.getInt("id")));
                 th.start();
 
                 sql = "INSERT INTO content_sended(send_date,service_id,content_id,oper) "
