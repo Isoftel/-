@@ -108,12 +108,12 @@ public class Wap_Push implements Runnable {
                 Thread th = new Thread(new ProcessContents(rs.getInt("id"), NewDate, rs.getString("contents_name"), rs.getString("ref"), rs.getInt("id")));
                 th.start();
 
+                sql = "INSERT INTO content_sended(send_date,service_id,content_id,oper) "
+                        + "VALUES ('" + date_new + "','" + rs.getString("service_id") + "','" + rs.getString("id") + "','3')";
+                stmt.execute(sql);
             }
             conn.close();
 
-//                sql = "INSERT INTO content_sended(send_date,service_id,content_id,oper) "
-//                        + "VALUES ('" + date_new + "','" + service_id + "','" + id_content + "','3')";
-//                stmt.execute(sql);
         } catch (Exception e) {
 
         }
@@ -150,8 +150,9 @@ public class Wap_Push implements Runnable {
         @Override
         public void run() {
             map = ProcessVw_getApiDetail();
-            getPhoneNummber("exec dbo.sp_getMobileFree '" + serviceid + "','3'");
-            getPhoneNummber("exec dbo.sp_getMobileCharge '" + serviceid + "','3'");
+            getPhoneNummber("exec dbo.sp_getMobileFree '" + serviceid + "','3'", "free");
+            getPhoneNummber("exec dbo.sp_getMobileCharge '" + serviceid + "','3'", "charge");
+
         }
 
         private HashMap ProcessVw_getApiDetail() {
@@ -192,6 +193,7 @@ public class Wap_Push implements Runnable {
                 sql = "INSERT INTO download(MSISDN,REF_ID,TIMESTAMP,SERVICE_ID,CONTEN_ID) "
                         + "VALUES ('" + r.getString("msisdn") + "','" + r.getString("ref") + "','" + this.SendDate + "','" + this.serviceid + "','" + this.Contentid + "')";
                 stmt.execute(sql);
+
             } catch (SQLException ex) {
                 java.util.logging.Logger.getLogger(Wap_Push.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
@@ -199,7 +201,7 @@ public class Wap_Push implements Runnable {
             }
         }
 
-        private void getPhoneNummber(String Command) {
+        private void getPhoneNummber(String Command, String ch) {
             try {
                 Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
                 String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
@@ -217,11 +219,17 @@ public class Wap_Push implements Runnable {
                     String ref = "";
                     String fig2 = dumpStrings("000101");
                     String url = http + www + fig1 + name_api + ref + fig2;
-                    String user = this.map.get("service_id").toString() + ":" + this.map.get("api_password").toString();
-                    byte[] b = user.getBytes(Charset.forName("UTF-8"));
-                    encode = new sun.misc.BASE64Encoder().encode(b);
+                    String user_pass = "";
+                    if (ch.equals("free")) {
+                        user_pass = this.map.get("7112402000").toString() + ":" + this.map.get("H84pL9aG").toString();
+                    } else if (ch.equals("charge")) {
+                        user_pass = this.map.get("service_id").toString() + ":" + this.map.get("api_password").toString();
+                    }
 
-                    RegXML = str_xml.getXmlWapPush2(this.map.get("service_id").toString(), rs.getString("msisdn"), url, this.map.get("access_number").toString(), encode, "unicode");
+                    byte[] b = user_pass.getBytes(Charset.forName("UTF-8"));
+                    user_pass = new sun.misc.BASE64Encoder().encode(b);
+
+                    RegXML = str_xml.getXmlWapPush2(this.map.get("service_id").toString(), rs.getString("msisdn"), url, this.map.get("access_number").toString(), user_pass, "unicode");
                     //RegXML = str_xml.getXmlWapPush2(this.map.get("service_id"),rs.getString("msisdn"),url,this.map.get("access_number"), encode, "unicode");
                     GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "wap_push");
                     InserSendedConten(rs);
