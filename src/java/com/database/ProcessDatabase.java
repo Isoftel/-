@@ -55,7 +55,8 @@ public class ProcessDatabase {
 
         if (destination.equals("4557878")) {
 
-        } else {
+        } else 
+        {
             if (ud.equals("R") || ud.equals("r")) {
                 ud = "REG";
             } else if (ud.equals("C") || ud.equals("c")) {
@@ -89,27 +90,13 @@ public class ProcessDatabase {
 //                    + "VALUES ('" + message + "','" + number + "','" + service + "')";
 //            stmt.execute(sql);
             //////////// mobile ดูว่ามีเบอร์แล้วหรือยังมี ดึง ID ไม่มีให้ INSERT
-            sql = "select * from mobile";
+            sql = "exec sp_InsertMemberSubscription '"+number+"','3'";
+           
             rs = stmt.executeQuery(sql);
-            while (rs.next()) {
-                if (number.equals(rs.getString("msisdn"))) {
-                    check_number = 1;
-                    id_number = rs.getInt("mobile_id");
-                    str_msisdn = rs.getString("msisdn");
-                }
-            }
-            if (check_number == 0) {
-                sql = "INSERT INTO mobile(msisdn, cdate, operator_id, udate) "
-                        + "VALUES('" + number + "','" + time + " ','3','" + time + " ')";
-                stmt.execute(sql);
-
-                sql = "select * from mobile where msisdn = '" + number + "'";
-                rs = stmt.executeQuery(sql);
                 while (rs.next()) {
                     id_number = rs.getInt("mobile_id");
                     str_msisdn = rs.getString("msisdn");
                 }
-            }
             //////////////////services หา ID บริการ
 
             sql = "select * from services where service_id = '" + service + "' AND access_number = '" + destination + "' ";
@@ -153,22 +140,8 @@ public class ProcessDatabase {
                 //////////////////register  non=ยังมีการทำรายการในบริการนั้น | UNREG เคยสมัคร ต้อง UPDATE | REG ส่งข้อความกลับไปแล้วสมัครแล้ว
                 String text = "Success receive request";
                 //String text = "สมัครสมาชิก";
-                if (description.equals("non")) {
-                    ///////// ยังไม่เคยสมัคร
-                    sql = "INSERT INTO subscribe(mobile_id, service_id, description, cdate,sub_status) "
-                            + "VALUES('" + id_number + "','" + id_service + "','REG','" + time + "','0')";
-                    stmt.execute(sql);
-                    sql = "INSERT INTO register(api_req, reg_channel, mobile_id, service_id, reg_date, status,status_code,txid) "
-                            + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + time + "','0','0','" + message + "')";
-                    stmt.execute(sql);
-                    out_xml.OutXmlr(encoding, message, service, destination, number, text, messageid, out);
-                } else if (description.equals("UNREG")) {
-                    ///// เคยสมัครแต่ยกเลิกแล้ว
-                    sql = "UPDATE subscribe SET sub_status='0',description = 'REG',udate = '" + time + "' WHERE id='" + id_subscribe + "' ";
-                    stmt.executeUpdate(sql);
-//                    sql = "INSERT INTO subscribe(mobile_id, service_id, description, cdate,sub_status) "
-//                            + "VALUES('" + id_number + "','" + id_service + "','REG','" + time + "','0')";
-//                    stmt.execute(sql);
+                if (description.equals("non")||description.equals("UNREG")) {
+                    ///////// ยังไม่เคยสมัคร                    
                     sql = "INSERT INTO register(api_req, reg_channel, mobile_id, service_id, reg_date, status,status_code,txid) "
                             + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + time + "','0','0','" + message + "')";
                     stmt.execute(sql);
@@ -248,8 +221,11 @@ public class ProcessDatabase {
                     text = "Cancel service success";
                     //text = "ได้ทำการยกเลิกสมาชิกแล้ว";
                     //////////////////subscribe UPDATE เป็น UNREG เพื่อยกเลิกบริการ 
-                    sql = "UPDATE subscribe SET description = 'UNREG',udate = '" + time + "' WHERE id='" + id_subscribe + "' ";
-                    stmt.executeUpdate(sql);
+                    sql = "INSERT INTO register(api_req, reg_channel, mobile_id, service_id, reg_date, status,status_code,txid) "
+                            + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + time + "','0','0','" + message + "')";
+                    stmt.execute(sql);
+                    
+
                     ////////////////// บันทึกเพื่อจะส่งยกเลิก
 //                    sql = "INSERT INTO register(api_req, reg_channel, mobile_id, service_id, reg_date, status,status_code,txid) "
 //                            + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + time + "','0','0','"+message+"')";
