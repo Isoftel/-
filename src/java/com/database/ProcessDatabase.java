@@ -52,7 +52,7 @@ public class ProcessDatabase {
         String from = (getdata(result, "from", 1, ""));
         String to = (getdata(result, "to", 1, ""));
         //System.out.println("service " + service + " time " + time);
-
+        
         if (!destination.equals("4557878")) {
             if (ud.equals("R") || ud.equals("r")) {
                 ud = "REG";
@@ -82,6 +82,7 @@ public class ProcessDatabase {
             sql = "INSERT INTO delivery_request(TransactionID,product_id,MSISDN,Content,cdate,service_id) "
                     + "VALUES ('" + message + "','" + destination + "','" + number + "','" + ud + "','" + time + "','" + service + "')";
             stmt.execute(sql);
+            conn.close();
 
 //            sql = "INSERT INTO delivery_report(TransactionID,MSISDN,ServiceID) "
 //                    + "VALUES ('" + message + "','" + number + "','" + service + "')";
@@ -89,6 +90,8 @@ public class ProcessDatabase {
             //////////// mobile ดูว่ามีเบอร์แล้วหรือยังมี ดึง ID ไม่มีให้ INSERT
             sql = "exec sp_InsertMemberSubscription '" + number + "','3'";
             Log.info(sql);
+            conn = DriverManager.getConnection(connectionUrl);
+            stmt = conn.createStatement();
             rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 Log.info("found data msisdn " + rs.getInt("mobile_id") + " msisdn " + rs.getString("msisdn"));
@@ -96,6 +99,8 @@ public class ProcessDatabase {
                 str_msisdn = rs.getString("msisdn");
 
             }
+            conn.close();
+            
             //////////////////services หา ID บริการ
 
             sql = "select * from services where service_id = '" + service + "' AND access_number = '" + destination + "' ";
@@ -105,7 +110,6 @@ public class ProcessDatabase {
                 id_service = rs.getInt("id");
                 str_service = rs.getString("service_id");
                 str_product = rs.getString("access_number");
-                //product_id = rs.getString("Product_ID");
             }
 
             //this.Log.info("XML service : " + service + " destination " + destination + " SQL str_service " + str_service + " str_product " + str_product);
