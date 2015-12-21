@@ -140,7 +140,7 @@ public class Wap_Push implements Runnable {
             map = ProcessVw_getApiDetail();
             getPhoneNummber("exec dbo.sp_getMobileFree '" + serviceid + "','3'", "free");
             getPhoneNummber("exec dbo.sp_getMobileCharge '" + serviceid + "','3'", "charge");
-
+            
         }
 
         private HashMap ProcessVw_getApiDetail() {
@@ -214,10 +214,10 @@ public class Wap_Push implements Runnable {
                     byte[] b = user_pass.getBytes(Charset.forName("UTF-8"));
                     user_pass = new sun.misc.BASE64Encoder().encode(b);
 
-                    RegXML = str_xml.getXmlWapPush2(this.map.get("service_id").toString(), rs.getString("msisdn"), url, this.map.get("access_number").toString(), user_pass, "unicode");
-                    //RegXML = str_xml.getXmlWapPush2(this.map.get("service_id"),rs.getString("msisdn"),url,this.map.get("access_number"), encode, "unicode");
+                    RegXML = str_xml.getXmlSMS(this.map.get("service_id").toString(), rs.getString("msisdn"), url, this.map.get("access_number").toString(), user_pass, "unicode");
+                    //RegXML = str_xml.getXmlWapPush2(this.map.get("service_id").toString(), rs.getString("msisdn"), url, this.map.get("access_number").toString(), user_pass, "unicode");
                     this.Log.info("Post XML : " + RegXML);
-                    GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "wap_push");
+                    GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
                     this.Log.info("Get XML : " + GetXML);
                     InserSendedConten(rs);
                 }
