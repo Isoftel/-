@@ -230,7 +230,6 @@ public class ProcessDatabase {
                     sql = "INSERT INTO register(api_req, reg_channel, mobile_id, service_id, reg_date, status,status_code,txid) "
                             + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + time + "','30','" + code + "','" + message + "')";
                     stmt.execute(sql);
-
                     ////////////////// บันทึกเพื่อจะส่งยกเลิก
 //                    sql = "INSERT INTO register(api_req, reg_channel, mobile_id, service_id, reg_date, status,status_code,txid) "
 //                            + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + time + "','0','0','"+message+"')";
