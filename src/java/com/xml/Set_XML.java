@@ -33,8 +33,8 @@ public class Set_XML {
         sb.append("</address>");
         sb.append("</source>");
         //String Test = "Test"; //Text_Service
-        //type = "TIS-620"; //encoding
-        sb.append("<ud type=\"text\" TIS-620=\"").append(type).append("\">").append(Text_Service).append("</ud>");
+        //type = "TIS-620";
+        sb.append("<ud type=\"text\" encoding=\"").append(type).append("\">").append(Text_Service).append("</ud>");
         sb.append("<scts>").append(dateFormat2.format(date)).append("</scts>");
         sb.append("<dro>").append("true").append("</dro>");
         sb.append("</sms>");

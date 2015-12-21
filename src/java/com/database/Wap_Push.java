@@ -89,7 +89,7 @@ public class Wap_Push implements Runnable {
             this.Log.info("Sql sp: " + "exec sp_CheckContent '" + date_new + "','3'");
             while (rs.next()) {
 
-                this.Log.info("rs : " + rs.getString("contents_name") + " : " + rs.getInt("id"));
+                //this.Log.info("rs : " + rs.getString("contents_name") + " : " + rs.getInt("id"));
                 Thread th = new Thread(new ProcessContents(rs.getInt("service_id"), NewDate, rs.getString("contents_name"), rs.getString("url_bitly"), rs.getInt("id"), rs.getString("ref")));
                 th.start();
 
@@ -144,7 +144,7 @@ public class Wap_Push implements Runnable {
         }
 
         private HashMap ProcessVw_getApiDetail() {
-            this.Log.info("select * from Vw_getApiDetail where id = '" + this.serviceid + "' and mt_type ='WARNING'");
+            //this.Log.info("select * from Vw_getApiDetail where id = '" + this.serviceid + "' and mt_type ='WARNING'");
             HashMap m = new HashMap();
             try {
                 Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -203,8 +203,8 @@ public class Wap_Push implements Runnable {
                 this.Log.info("SQL PhoneNummber : " + Command);
                 while (rs.next()) {
 
-                    //String url = dumpStrings(this.ContentName + " " + this.referid);
-                    String url = this.ContentName + " " + this.referid;
+                    String url = dumpStrings(this.ContentName + " " + this.referid);
+//                    String url = this.ContentName + " " + this.referid;
                     String user_pass = "";
                     if (ch.equals("free")) {
                         user_pass = "7112402000:H84pL9aG";
