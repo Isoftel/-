@@ -68,7 +68,7 @@ public class MT_data implements Runnable {
                 encode = new sun.misc.BASE64Encoder().encode(b);
                 this.Log.info("User : " + r.getEncoding());
                 //default //TIS-620 //UTF-8 //
-                this.Log.info("Message " + r.getDescriptions());
+                this.Log.info("Message test : " + r.getDescriptions());
                 String Text_Service = dumpStrings(r.getDescriptions());
 
                 RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), Text_Service, r.getAccess(), encode, "TIS-620");
