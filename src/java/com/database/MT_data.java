@@ -68,6 +68,7 @@ public class MT_data implements Runnable {
                 this.Log.info("User : " + r.getEncoding());
                 //default //TIS-620 //UTF-8 //
                 String Text_Service = dumpStrings(r.getDescriptions());
+                this.Log.info("Message " + Text_Service);
                 RegXML = str_xml.getXmlWapPush2(r.getService_id(), r.getNumber_type(), Text_Service, r.getAccess(), encode, "TIS-620");
                 GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
                 //System.out.println("XML GET : " + GetXML);
@@ -152,7 +153,7 @@ public class MT_data implements Runnable {
                 iduser.setAccess(access);
                 iduser.setEncoding(user + ":" + pass);
                 iduser.setContent_sms(content_sms);
-                this.Log.info("Message " + Text_Service);
+                
                 //System.out.println("Test Reg : " + Text_Service);
                 String sql = "UPDATE register SET status = '10' WHERE reg_id='" + id_user + "' ";
                 stmt.executeUpdate(sql);
