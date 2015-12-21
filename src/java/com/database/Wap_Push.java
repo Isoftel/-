@@ -140,7 +140,7 @@ public class Wap_Push implements Runnable {
             map = ProcessVw_getApiDetail();
             getPhoneNummber("exec dbo.sp_getMobileFree '" + serviceid + "','3'", "free");
             getPhoneNummber("exec dbo.sp_getMobileCharge '" + serviceid + "','3'", "charge");
-            
+
         }
 
         private HashMap ProcessVw_getApiDetail() {
@@ -203,7 +203,8 @@ public class Wap_Push implements Runnable {
                 this.Log.info("SQL PhoneNummber : " + Command);
                 while (rs.next()) {
 
-                    String url = dumpStrings(this.ContentName + " " + this.referid);
+                    //String url = dumpStrings(this.ContentName + " " + this.referid);
+                    String url = this.ContentName + " " + this.referid;
                     String user_pass = "";
                     if (ch.equals("free")) {
                         user_pass = "7112402000:H84pL9aG";

@@ -211,8 +211,8 @@ public class ProcessDatabase {
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
-            sql = "INSERT INTO delivery_report(TransactionID,ServiceID,MSISDN,Content,MMS_status,Date,OperId) "
-                    + "VALUES ('" + message_id + "','" + service + "','" + number + "','" + message + "','" + code + "','" + date_format + "','3')";
+            sql = "INSERT INTO delivery_report(TransactionID,ServiceID,MSISDN,Content,MMS_status,Date,OperId,FRDN) "
+                    + "VALUES ('" + message_id + "','" + service + "','" + number + "','" + message + "','" + code + "','" + date_format + "','3','true')";
             stmt.execute(sql);
 //            sql = "INSERT INTO delivery_request(TransactionID,product_id,MSISDN,Content,StatusCode,cdate,service_id) "
 //                    + "VALUES ('" + message + "','" + message_id + "','" + number + "','" + destination + "','" + code + "','" + cdate_sms + "','" + service + "')";
