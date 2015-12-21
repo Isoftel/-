@@ -52,7 +52,7 @@ public class ProcessDatabase {
         String from = (getdata(result, "from", 1, ""));
         String to = (getdata(result, "to", 1, ""));
         //System.out.println("service " + service + " time " + time);
-        
+
         if (!destination.equals("4557878")) {
             if (ud.equals("R") || ud.equals("r")) {
                 ud = "REG";
@@ -100,13 +100,12 @@ public class ProcessDatabase {
 
             }
             conn.close();
-            
-            //////////////////services หา ID บริการ
 
+            //////////////////services หา ID บริการ
             sql = "select * from services where service_id = '" + service + "' AND access_number = '" + destination + "' ";
             rs = stmt.executeQuery(sql);
             while (rs.next()) {
-                Log.info("found data services " + rs.getInt("service_id") + " msisdn " + rs.getString("access_number"));
+                this.Log.info("found data services " + rs.getInt("service_id") + " msisdn " + rs.getString("access_number"));
                 id_service = rs.getInt("id");
                 str_service = rs.getString("service_id");
                 str_product = rs.getString("access_number");
@@ -122,7 +121,7 @@ public class ProcessDatabase {
             } catch (Exception e) {
             }
         }
-
+        this.Log.info("id_service " + id_service + " str_service " + str_service + " str_product " + str_product);
         if (ud.equals("REG")) {
             try {
                 Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -144,7 +143,7 @@ public class ProcessDatabase {
                 }
             }
         } else if (ud.equals("UNREG")) {
-            try { 
+            try {
                 Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
                 String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
                 conn = DriverManager.getConnection(connectionUrl);
