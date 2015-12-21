@@ -90,7 +90,7 @@ public class Wap_Push implements Runnable {
             while (rs.next()) {
 
                 this.Log.info("rs : " + rs.getString("contents_name") + " : " + rs.getInt("id"));
-                Thread th = new Thread(new ProcessContents(rs.getInt("service_id"), NewDate, rs.getString("contents_name"), rs.getString("url_bitly"), rs.getInt("id"),rs.getString("ref")));
+                Thread th = new Thread(new ProcessContents(rs.getInt("service_id"), NewDate, rs.getString("contents_name"), rs.getString("url_bitly"), rs.getInt("id"), rs.getString("ref")));
                 th.start();
 
                 sql = "INSERT INTO content_sended(send_date,service_id,content_id,oper) "
@@ -125,7 +125,7 @@ public class Wap_Push implements Runnable {
         HashMap map = new HashMap();
         Logger Log = Logger.getLogger(this.getClass());
 
-        public ProcessContents(int serviceid, Date SendDate, String ContentName, String referid, int Contentid,String ref) {
+        public ProcessContents(int serviceid, Date SendDate, String ContentName, String referid, int Contentid, String ref) {
             this.serviceid = serviceid;
             this.SendDate = SendDate;
             this.referid = referid;
@@ -172,18 +172,18 @@ public class Wap_Push implements Runnable {
         }
 
         private void InserSendedConten(ResultSet r) {
-            this.Log.info("Run InserSendedConten");
-            //                System.out.println("'" + rs.getString("msisdn") + "','" + rs.getString("ref") + "','" + date_new + "','" + service_id + "','" + id_content + "'");
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String date_new = dateFormat.format(this.SendDate);
             String sql;
             try {
                 Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
                 String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
                 conn = DriverManager.getConnection(connectionUrl);
                 stmt = conn.createStatement();
-                this.Log.info("SQL InserSendedConten : "+"'" + r.getString("msisdn") + "','" + this.ref + "','" + this.SendDate + "','" + this.serviceid + "','" + this.Contentid + "'" );
+                this.Log.info("SQL InserSendedConten : " + "'" + r.getString("msisdn") + "','" + this.ref + "','" + this.SendDate + "','" + this.serviceid + "','" + this.Contentid + "'");
                 sql = "INSERT INTO download(MSISDN,REF_ID,TIMESTAMP,SERVICE_ID,CONTEN_ID) "
-                        + "VALUES ('" + r.getString("msisdn") + "','" + this.ref + "','" + this.SendDate + "','" + this.serviceid + "','" + this.Contentid + "')";
-                
+                        + "VALUES ('" + r.getString("msisdn") + "','" + this.ref + "','" + date_new + "','" + this.serviceid + "','" + this.Contentid + "')";
+
                 stmt.execute(sql);
 
             } catch (SQLException ex) {
@@ -202,8 +202,8 @@ public class Wap_Push implements Runnable {
                 ResultSet rs = stmt.executeQuery(Command);
                 this.Log.info("SQL PhoneNummber : " + Command);
                 while (rs.next()) {
-            
-                    String url = dumpStrings(this.ContentName +" "+this.referid);
+
+                    String url = dumpStrings(this.ContentName + " " + this.referid);
                     String user_pass = "";
                     if (ch.equals("free")) {
                         user_pass = "7112402000:H84pL9aG";
