@@ -292,7 +292,7 @@ public class MT_data implements Runnable {
             stmt.executeUpdate(sql);
         } catch (Exception e) {
             //System.out.println("Error : " + e);
-            this.Log.info("Error ProcessSMS " + e);
+            //this.Log.info("Error ProcessSMS " + e);
         } finally {
             try {
                 conn.close();
