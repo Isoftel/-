@@ -124,14 +124,7 @@ public class MT_data implements Runnable {
             String jdbcutf8 = "&useUnicode=true&characterEncoding=UTF-8";
             conn = DriverManager.getConnection(connectionUrl + jdbcutf8);
             stmt = conn.createStatement();
-            String sql = "select TOP(500)*,services.service_id service_user from register "
-                    + "INNER JOIN services  ON services.id  = register.service_id  "
-                    + "INNER JOIN mobile    ON mobile.mobile_id = register.mobile_id   "
-                    + "INNER JOIN mgr       ON mgr.operator_id = mobile.operator_id "
-                    + "INNER JOIN api_sms   ON api_sms.service_id = mgr.service_id "
-                    + "where register.status = '0' and register.status_code = '0' and register.api_req = 'REG' and mgr.api_req = 'REG' "
-                    + "and mgr.operator_id = '3' and api_sms.mt_type = 'REG' and api_sms.status = '0' "
-                    + "COLLATE  thai_ci_as";
+            String sql = "exec sp_getServiceDetail";
             rs = stmt.executeQuery(sql);
             Log.info("ProcessRegister " + sql);
             //INNER JOIN sms		 ON sms.msisdn =  mobile.msisdn
@@ -159,7 +152,8 @@ public class MT_data implements Runnable {
                 iduser.setContent_sms(content_sms);
 
                 //System.out.println("Test Reg : " + Text_Service);
-                sql = "UPDATE register SET status = '10' WHERE reg_id='" + id_user + "' ";
+                sql = "exec sp_UpdateRegister '" + id_user + "' ";
+                
                 stmt.executeUpdate(sql);
                 user_room.add(iduser);
             }
