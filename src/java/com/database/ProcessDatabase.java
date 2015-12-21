@@ -60,11 +60,15 @@ public class ProcessDatabase {
                 ud = "UNREG";
             }
         }
+        //cdate = dateFormat.parse(time);
+        String New_date="";
         try {
-            cdate = dateFormat.parse(time);
+            DateFormat Format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+            Date convertedDate = Format.parse(time);
+            New_date = Format.format(convertedDate);
         } catch (Exception e) {
         }
-
+        
         int check_number = 0;
         int id_number = 0;
         int id_service = 0;
@@ -80,13 +84,13 @@ public class ProcessDatabase {
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
             sql = "INSERT INTO delivery_request(TransactionID,product_id,MSISDN,Content,cdate,service_id) "
-                    + "VALUES ('" + message + "','" + destination + "','" + number + "','" + ud + "','" + time + "','" + service + "')";
+                    + "VALUES ('" + message + "','" + destination + "','" + number + "','" + ud + "','" + New_date + "','" + service + "')";
             stmt.execute(sql);
+            conn.close();
 
-//            sql = "INSERT INTO delivery_report(TransactionID,MSISDN,ServiceID) "
-//                    + "VALUES ('" + message + "','" + number + "','" + service + "')";
-//            stmt.execute(sql);
             //////////// mobile ดูว่ามีเบอร์แล้วหรือยังมี ดึง ID ไม่มีให้ INSERT
+            conn = DriverManager.getConnection(connectionUrl);
+            stmt = conn.createStatement();
             sql = "exec sp_InsertMemberSubscription '" + number + "','3'";
             Log.info(sql);
             rs = stmt.executeQuery(sql);
@@ -96,8 +100,11 @@ public class ProcessDatabase {
                 str_msisdn = rs.getString("msisdn");
 
             }
+            conn.close();
 
             //////////////////services หา ID บริการ
+            conn = DriverManager.getConnection(connectionUrl);
+            stmt = conn.createStatement();
             sql = "select * from services where service_id = '" + service + "' AND access_number = '" + destination + "' ";
             rs = stmt.executeQuery(sql);
             Log.info(sql);
@@ -107,7 +114,7 @@ public class ProcessDatabase {
                 str_service = rs.getString("service_id");
                 str_product = rs.getString("access_number");
             }
-            
+
             //this.Log.info("XML service : " + service + " destination " + destination + " SQL str_service " + str_service + " str_product " + str_product);
         } catch (Exception e) {
             //System.out.println("Error delivery_request : " + e);
@@ -128,7 +135,7 @@ public class ProcessDatabase {
                 //////////////////register  non=ยังมีการทำรายการในบริการนั้น | UNREG เคยสมัคร ต้อง UPDATE | REG ส่งข้อความกลับไปแล้วสมัครแล้ว
                 String text = "Success receive request";
                 sql = "INSERT INTO register(api_req, reg_channel, mobile_id, service_id, reg_date, status,status_code,txid) "
-                        + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + time + "','0','0','" + message + "')";
+                        + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + New_date + "','0','0','" + message + "')";
                 stmt.execute(sql);
                 out_xml.OutXmlr(encoding, message, service, destination, number, text, messageid, out);
             } catch (Exception e) {
@@ -147,7 +154,7 @@ public class ProcessDatabase {
                 stmt = conn.createStatement();
                 String text = "Success receive request";
                 sql = "INSERT INTO register(api_req, reg_channel, mobile_id, service_id, reg_date, status,status_code,txid) "
-                        + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + time + "','0','0','" + message + "')";
+                        + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + New_date + "','0','0','" + message + "')";
                 stmt.execute(sql);
                 out_xml.OutXmlr(encoding, message, service, destination, number, text, messageid, out);
             } catch (Exception e) {
@@ -174,7 +181,7 @@ public class ProcessDatabase {
                 this.Log.info("encode : " + ud);
                 //statuscode เริ่ม 0 คือไม่ โช้หน้าเวป 1 โชหน้าเวป
                 sql = "INSERT INTO sms (msisdn,service_id,Product_ID,Timestamp,cdate,content,content_type,status,statuscode) "
-                        + "VALUES ('" + str_msisdn + "','" + service + "','" + destination + "','" + time + "','" + date_format + "','" + ud + "','T','0','0')";
+                        + "VALUES ('" + str_msisdn + "','" + service + "','" + destination + "','" + New_date + "','" + date_format + "','" + ud + "','T','0','0')";
                 stmt.execute(sql);
             } catch (Exception e) {
                 this.Log.info("Error DRACO : " + e);
