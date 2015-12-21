@@ -34,7 +34,7 @@ public class XML_insert {
     DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
     Date NewDate = new Date();
 
-    public String insert_r(String xml, String id) {
+    public String insert_r(String xml, String id,String Request) {
         String time = dateFormat.format(NewDate);
 
         String service = insert.getdata(xml, "service-id", 1, "");
@@ -58,26 +58,9 @@ public class XML_insert {
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
 
-            //String sql = "INSERT INTO register (api_req)VALUES('" + jumid_schedules + "')";
-            //stmt.execute(sql);
-            String id_service = "";
-            String id_number = "";
-            String sql = "select *,register.service_id id_ser from register "
-                    + "INNER JOIN services  ON services.id  = register.service_id "
-                    + "INNER JOIN mobile    ON mobile.mobile_id = register.mobile_id "
-                    + "where services.service_id = '" + service + "' and mobile.msisdn = '" + number + "' and  register.status = '10'";
-            rs = stmt.executeQuery(sql);
-            String id_register = "";
-            while (rs.next()) {
-                id_register = rs.getString("reg_id");
-                id_service = rs.getString("id_ser");
-                id_number = rs.getString("mobile_id");
-            }
-
-            sql = "UPDATE register SET status_code = '" + code + "',status = '30',send_date ='"+time+"' WHERE reg_id='" + id_register + "'";
+            String sql = "UPDATE register SET status_code = '" + code + "',status = '"+Request+"',send_date ='"+time+"' WHERE txid='" + messageid + "' ";
             stmt.executeUpdate(sql);
-            sql = "UPDATE subscribe SET sub_status = '30',udate = '" + time + "' WHERE service_id='" + id_service + "' and mobile_id='" + id_number + "' ";
-            stmt.executeUpdate(sql);
+     
 
             conn.close();
         } catch (Exception e) {

@@ -64,7 +64,7 @@ public class SMS_Worning implements Runnable {
             }
         }
     }
-    
+
     public List<data_sms> SMS() {
         user_data.clear();
         try {
@@ -73,102 +73,86 @@ public class SMS_Worning implements Runnable {
             ///////////////// 457777
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
+
+            String user = "7112409000:H84pL9aG";
+            String service = "112409000";
+            String access = "";
+            String text = "";
+
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
+            rs = stmt.executeQuery("select * from Vw_getApiDetail where access_number = '4557777' and mt_type ='WARNING'");
+            while (rs.next()) {
+                access = rs.getString("acc_id");
+                text = rs.getString("mt_msg");
+                this.Log.info("test ser : " + rs.getString("mt_msg"));
+                //iduser.setCode(rs2.getString("status"));
+            }
+            conn.close();
 
-            rs = stmt.executeQuery("exec dbo.sp_warning '4557777','3'");
+            conn = DriverManager.getConnection(connectionUrl);
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery("exec sp_warning '4557777','3'");
             while (rs.next()) {
                 data_sms iduser = new data_sms();
                 iduser.setNumber(rs.getString("msisdn"));
-
-                conn2 = DriverManager.getConnection(connectionUrl);
-                stmt2 = conn2.createStatement();
-                rs2 = stmt2.executeQuery("SELECT sv.access_number acc_id,* FROM [PLAYBOY].[dbo].[register] r "
-                        + "join [dbo].[mobile] m on r.mobile_id = m.mobile_id "
-                        + "join [dbo].[services] sv on r.service_id = sv.id "
-                        + "join [dbo].[api_sms] sms on r.service_id = sms.service_id "
-                        + "where   m.msisdn='" + rs.getString("msisdn") + "' and sv.access_number = '4557777' and sms.mt_type ='WARNING'");
-                while (rs2.next()) {
-                    id_user = rs2.getString("reg_id");
-                    //rs2.getString("service_id")
-                    iduser.setService_id("7112409000");
-                    //rs2.getString("acc_id")  //4557001
-                    iduser.setAccess(rs2.getString("acc_id"));
-                    iduser.setText_sms(rs2.getString("mt_msg"));
-                    this.Log.info("test ser : " + rs2.getString("mt_msg"));
-                    //iduser.setCode(rs2.getString("status"));
-                    String user = "7112409000:H84pL9aG";
-                    iduser.setEncoding(user);
-                    user_data.add(iduser);
-
-                }
-                conn2.close();
+                iduser.setService_id(service);
+                iduser.setAccess(access);
+                iduser.setText_sms(text);
+                iduser.setEncoding(user);
+                user_data.add(iduser);
             }
             conn.close();
+
             ///////////////// 4557555
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
+            rs = stmt.executeQuery("select * from Vw_getApiDetail where access_number = '4557555' and mt_type ='WARNING'");
+            while (rs.next()) {
+                access = rs.getString("acc_id");
+                text = rs.getString("mt_msg");
+                this.Log.info("test ser : " + rs.getString("mt_msg"));
+                //iduser.setCode(rs2.getString("status"));
+            }
+            conn.close();
 
+            conn = DriverManager.getConnection(connectionUrl);
+            stmt = conn.createStatement();
             rs = stmt.executeQuery("exec dbo.sp_warning '4557555','3'");
             while (rs.next()) {
                 data_sms iduser = new data_sms();
                 iduser.setNumber(rs.getString("msisdn"));
-
-                conn2 = DriverManager.getConnection(connectionUrl);
-                stmt2 = conn2.createStatement();
-                rs2 = stmt2.executeQuery("SELECT sv.access_number acc_id,* FROM [PLAYBOY].[dbo].[register] r "
-                        + "join [dbo].[mobile] m on r.mobile_id = m.mobile_id "
-                        + "join [dbo].[services] sv on r.service_id = sv.id "
-                        + "join [dbo].[api_sms] sms on r.service_id = sms.service_id "
-                        + "where   m.msisdn='" + rs.getString("msisdn") + "' and sv.access_number = '4557555' and sms.mt_type ='WARNING'");
-                while (rs2.next()) {
-                    id_user = rs2.getString("reg_id");
-                    //rs2.getString("service_id")
-                    iduser.setService_id("7112409000");
-                    //rs2.getString("acc_id")  //4557001
-                    iduser.setAccess(rs2.getString("acc_id"));
-                    iduser.setText_sms(rs2.getString("mt_msg"));
-                    this.Log.info("test ser : " + rs2.getString("mt_msg"));
-                    //iduser.setCode(rs2.getString("status"));
-                    String user = "7112409000:H84pL9aG";
-                    iduser.setEncoding(user);
-                    user_data.add(iduser);
-
-                }
-                conn2.close();
+                iduser.setService_id(service);
+                iduser.setAccess(access);
+                iduser.setText_sms(text);
+                iduser.setEncoding(user);
+                user_data.add(iduser);
             }
             conn.close();
+
             //////////////// 4557002
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
+            rs = stmt.executeQuery("select * from Vw_getApiDetail where access_number = '4557002' and mt_type ='WARNING'");
+            while (rs.next()) {
+                access = rs.getString("acc_id");
+                text = rs.getString("mt_msg");
+                this.Log.info("test ser : " + rs.getString("mt_msg"));
+                //iduser.setCode(rs2.getString("status"));
+            }
+            conn.close();
 
+            conn = DriverManager.getConnection(connectionUrl);
+            stmt = conn.createStatement();
             rs = stmt.executeQuery("exec dbo.sp_warning '4557002','3'");
             while (rs.next()) {
                 data_sms iduser = new data_sms();
                 iduser.setNumber(rs.getString("msisdn"));
-
-                conn2 = DriverManager.getConnection(connectionUrl);
-                stmt2 = conn2.createStatement();
-                rs2 = stmt2.executeQuery("SELECT sv.access_number acc_id,* FROM [PLAYBOY].[dbo].[register] r "
-                        + "join [dbo].[mobile] m on r.mobile_id = m.mobile_id "
-                        + "join [dbo].[services] sv on r.service_id = sv.id "
-                        + "join [dbo].[api_sms] sms on r.service_id = sms.service_id "
-                        + "where   m.msisdn='" + rs.getString("msisdn") + "' and sv.access_number = '4557002' and sms.mt_type ='WARNING'");
-                while (rs2.next()) {
-                    id_user = rs2.getString("reg_id");
-                    //rs2.getString("service_id")
-                    iduser.setService_id("7112409000");
-                    //rs2.getString("acc_id") //"4557001"
-                    iduser.setAccess(rs2.getString("acc_id"));
-                    iduser.setText_sms(rs2.getString("mt_msg"));
-                    this.Log.info("test ser : " + rs2.getString("mt_msg"));
-                    //iduser.setCode(rs2.getString("status"));
-                    String user = "7112409000:H84pL9aG";
-                    iduser.setEncoding(user);
-                    user_data.add(iduser);
-
-                }
-                conn2.close();
+                iduser.setService_id(service);
+                iduser.setAccess(access);
+                iduser.setText_sms(text);
+                iduser.setEncoding(user);
+                user_data.add(iduser);
             }
             conn.close();
 

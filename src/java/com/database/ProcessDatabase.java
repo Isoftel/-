@@ -53,9 +53,7 @@ public class ProcessDatabase {
         String to = (getdata(result, "to", 1, ""));
         //System.out.println("service " + service + " time " + time);
 
-        if (destination.equals("4557878")) {
-
-        } else {
+        if (!destination.equals("4557878")) {
             if (ud.equals("R") || ud.equals("r")) {
                 ud = "REG";
             } else if (ud.equals("C") || ud.equals("c")) {
@@ -90,17 +88,20 @@ public class ProcessDatabase {
 //            stmt.execute(sql);
             //////////// mobile ดูว่ามีเบอร์แล้วหรือยังมี ดึง ID ไม่มีให้ INSERT
             sql = "exec sp_InsertMemberSubscription '" + number + "','3'";
-
+            Log.info(sql);
             rs = stmt.executeQuery(sql);
             while (rs.next()) {
+                Log.info("found data msisdn " + rs.getInt("mobile_id") + " msisdn " + rs.getString("msisdn"));
                 id_number = rs.getInt("mobile_id");
                 str_msisdn = rs.getString("msisdn");
+
             }
             //////////////////services หา ID บริการ
 
             sql = "select * from services where service_id = '" + service + "' AND access_number = '" + destination + "' ";
             rs = stmt.executeQuery(sql);
             while (rs.next()) {
+                Log.info("found data services " + rs.getInt("service_id") + " msisdn " + rs.getString("access_number"));
                 id_service = rs.getInt("id");
                 str_service = rs.getString("service_id");
                 str_product = rs.getString("access_number");
@@ -124,47 +125,14 @@ public class ProcessDatabase {
                 String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
                 conn = DriverManager.getConnection(connectionUrl);
                 stmt = conn.createStatement();
-
-                //////////////////subscribe เช็คสมัครแล้วหรือยัง
-                String description = "non";
-                String id_subscribe = "";
-
-                sql = "select * from subscribe where service_id = '" + id_service + "' and mobile_id = '" + id_number + "' ";
-                rs = stmt.executeQuery(sql);
-                while (rs.next()) {
-                    description = rs.getString("description");
-                    id_subscribe = rs.getString("id");
-                }
-                //this.Log.info("id_service " + id_service + " id_number " + id_number + " description " + description);
                 //////////////////register  non=ยังมีการทำรายการในบริการนั้น | UNREG เคยสมัคร ต้อง UPDATE | REG ส่งข้อความกลับไปแล้วสมัครแล้ว
                 String text = "Success receive request";
-                //String text = "สมัครสมาชิก";
-                if (description.equals("non") || description.equals("UNREG")) {
-                    ///////// ยังไม่เคยสมัคร                    
-                    sql = "INSERT INTO register(api_req, reg_channel, mobile_id, service_id, reg_date, status,status_code,txid) "
-                            + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + time + "','0','0','" + message + "')";
-                    stmt.execute(sql);
-                    out_xml.OutXmlr(encoding, message, service, destination, number, text, messageid, out);
-                } else if (description.equals("REG")) {
-                    /// สมัครแล้วยังไม่ยกเลิก สมัครซ้ำ ส่งกลับทันที
-                    sql = "select * from api_sms where service_id='" + id_service + "' and mt_type = 'REG' and status='1' ";
-                    rs = stmt.executeQuery(sql);
-                    while (rs.next()) {
-                        text = rs.getString("mt_msg");
-                    }
-                    text = dumpStrings(text);
-                    String encod = "7112402000:H84pL9aG";
-                    byte[] b = encod.getBytes(Charset.forName("UTF-8"));
-                    String encode = new sun.misc.BASE64Encoder().encode(b);
-                    String RegXML = str_xml.getXmlReg("7112402000", number, text, str_product, encode, "TIS-620");
-                    xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
-                    text = "You can subscribe to this service";
-                    out_xml.OutXmlr(encoding, message, service, destination, number, text, messageid, out);
-                }
-
+                sql = "INSERT INTO register(api_req, reg_channel, mobile_id, service_id, reg_date, status,status_code,txid) "
+                        + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + time + "','0','0','" + message + "')";
+                stmt.execute(sql);
+                out_xml.OutXmlr(encoding, message, service, destination, number, text, messageid, out);
             } catch (Exception e) {
                 this.Log.info("Error REG : " + e);
-                //System.out.println("Error SQL Reg : " + e);
             } finally {
                 try {
                     conn.close();
@@ -177,67 +145,13 @@ public class ProcessDatabase {
                 String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
                 conn = DriverManager.getConnection(connectionUrl);
                 stmt = conn.createStatement();
-
-                String encod = "7112402000:H84pL9aG";
-                byte[] b = encod.getBytes(Charset.forName("UTF-8"));
-                String encode = new sun.misc.BASE64Encoder().encode(b);
-                //////////////////subscribe เช็คสมัครแล้วหรือยัง
-                String description = "non";
-                String id_subscribe = "";
-                sql = "select * from subscribe where service_id = '" + id_service + "' and mobile_id = '" + id_number + "' ";
-                rs = stmt.executeQuery(sql);
-                while (rs.next()) {
-                    description = rs.getString("description");
-                    id_subscribe = rs.getString("id");
-                }
-                //System.out.println("description " + description + " id_subscribe " + id_subscribe);
-                String text = "";
-                //String text = "ยกเลิกบริการสำเร็จ";
-                if (description.equals("non") || description.equals("UNREG")) {
-                    //ไม่เคยเป็นสมาชิก //เคยยกเลิกสมาชิกแล้ว
-                    sql = "select * from api_sms where service_id='" + id_service + "' and mt_type = 'UNREG' and status='1' ";
-                    rs = stmt.executeQuery(sql);
-                    while (rs.next()) {
-                        text = rs.getString("mt_msg");
-                    }
-                    text = dumpStrings(text);
-                    String RegXML = str_xml.getXmlReg("7112402000", number, text, str_product, encode, "TIS-620");
-                    String get_un = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
-                    //text = "ท่านยังไม่ได้เป็นสมาชิก";
-                    String code = getdata(get_un, "code", 1, "");
-                    sql = "INSERT INTO register(api_req, reg_channel, mobile_id, service_id, reg_date, status,status_code,txid) "
-                            + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + time + "','30','" + code + "','" + message + "')";
-                    stmt.execute(sql);
-                    text = "He was never a member";
-                    //text = "Have you ever canceled";
-                    out_xml.OutXmlr(encoding, message, service, destination, number, text, messageid, out);
-                } else if (description.equals("REG")) {
-                    //ทำการยกเลิกสมาชิก
-                    sql = "select * from api_sms where service_id='" + id_service + "' and mt_type = 'UNREG' and status='0' ";
-                    rs = stmt.executeQuery(sql);
-                    while (rs.next()) {
-                        text = rs.getString("mt_msg");
-                    }
-                    text = dumpStrings(text);
-                    String RegXML = str_xml.getXmlReg("7112402000", number, text, str_product, encode, "TIS-620");
-                    String get_un = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
-                    text = "Cancel service success";
-                    //text = "ได้ทำการยกเลิกสมาชิกแล้ว";
-                    //////////////////subscribe UPDATE เป็น UNREG เพื่อยกเลิกบริการ 
-                    String code = getdata(get_un, "code", 1, "");
-                    sql = "INSERT INTO register(api_req, reg_channel, mobile_id, service_id, reg_date, status,status_code,txid) "
-                            + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + time + "','30','" + code + "','" + message + "')";
-                    stmt.execute(sql);
-                    ////////////////// บันทึกเพื่อจะส่งยกเลิก
-//                    sql = "INSERT INTO register(api_req, reg_channel, mobile_id, service_id, reg_date, status,status_code,txid) "
-//                            + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + time + "','0','0','"+message+"')";
-//                    stmt.execute(sql);
-                    out_xml.OutXmlr(encoding, message, service, destination, number, text, messageid, out);
-                }
-
+                String text = "Success receive request";
+                sql = "INSERT INTO register(api_req, reg_channel, mobile_id, service_id, reg_date, status,status_code,txid) "
+                        + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + time + "','0','0','" + message + "')";
+                stmt.execute(sql);
+                out_xml.OutXmlr(encoding, message, service, destination, number, text, messageid, out);
             } catch (Exception e) {
                 this.Log.info("Error UNREG : " + e);
-                //System.out.println("Error SQL Unreg : " + e);
             } finally {
                 try {
                     conn.close();
@@ -253,10 +167,8 @@ public class ProcessDatabase {
                 String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
                 conn = DriverManager.getConnection(connectionUrl);
                 stmt = conn.createStatement();
-
                 ud = (getdata(result, "ud encoding=\"unicode\" type=\"text\"", 4, "ud"));
                 this.Log.info("ud : " + ud);
-                //ud = EncodeToString(ud);
                 ud = hex_to_int(ud);
                 ud = inthex_to_string(ud);
                 this.Log.info("encode : " + ud);
@@ -266,7 +178,6 @@ public class ProcessDatabase {
                 stmt.execute(sql);
             } catch (Exception e) {
                 this.Log.info("Error DRACO : " + e);
-                //System.out.println("Error Content : " + e);
             } finally {
                 try {
                     conn.close();
@@ -276,6 +187,10 @@ public class ProcessDatabase {
         }
 
         return result;
+    }
+
+    public void PreparePostData() {
+
     }
 
     public String ProcessSMS(String result, PrintWriter out) {

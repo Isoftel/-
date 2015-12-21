@@ -53,9 +53,9 @@ public class run_api extends HttpServlet implements Runnable {
                 tt.setPriority(1);
                 tt.start();
                 /// ส่ง Wap Push  ส่ง URL มี2แบบ
-//                Thread tt2 = new Thread(new Wap_Push());
-//                tt2.setPriority(1);
-//                tt2.start();
+                Thread tt2 = new Thread(new Wap_Push());
+                tt2.setPriority(1);
+                tt2.start();
                 worning();
             } catch (Exception ex) {
                 //System.out.println("Error Runing : " + ex);
