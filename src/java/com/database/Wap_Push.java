@@ -152,7 +152,7 @@ public class Wap_Push implements Runnable {
                 rs = stmt.executeQuery("select * from Vw_getApiDetail where id = '" + this.serviceid + "' and mt_type ='WARNING'");
 
                 while (rs.next()) {
-
+                    this.Log.info("ProcessVw_getApiDetail : " +  rs.getString("access_number"));
                     m.put("service_id", rs.getString("service_id"));
                     m.put("access_number", rs.getString("access_number"));
                     m.put("api_sender", rs.getString("api_sender"));
@@ -219,7 +219,9 @@ public class Wap_Push implements Runnable {
 
                     RegXML = str_xml.getXmlWapPush2(this.map.get("service_id").toString(), rs.getString("msisdn"), url, this.map.get("access_number").toString(), user_pass, "unicode");
                     //RegXML = str_xml.getXmlWapPush2(this.map.get("service_id"),rs.getString("msisdn"),url,this.map.get("access_number"), encode, "unicode");
+                    this.Log.info("Post XML : " + RegXML);
                     GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "wap_push");
+                    this.Log.info("Get XML : " + GetXML);
                     InserSendedConten(rs);
                 }
 
