@@ -217,7 +217,7 @@ public class Wap_Push implements Runnable {
                     RegXML = str_xml.getXmlSMS(this.map.get("service_id").toString(), rs.getString("msisdn"), url, this.map.get("access_number").toString(), user_pass, "unicode");
                     //RegXML = str_xml.getXmlWapPush2(this.map.get("service_id").toString(), rs.getString("msisdn"), url, this.map.get("access_number").toString(), user_pass, "unicode");
                     this.Log.info("Post XML WapPush : " + RegXML);
-                    GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "wap_push");
+                    GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), user_pass, "wap_push");
                     this.Log.info("Get XML WapPush : " + GetXML);
                     InserSendedConten(rs);
                 }
