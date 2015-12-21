@@ -67,9 +67,9 @@ public class MT_data implements Runnable {
                 encode = new sun.misc.BASE64Encoder().encode(b);
                 this.Log.info("User : " + r.getEncoding());
                 //default //TIS-620 //UTF-8 //
+                this.Log.info("Message " + r.getDescriptions());
                 String Text_Service = dumpStrings(r.getDescriptions());
-                this.Log.info("Message " + Text_Service);
-                RegXML = str_xml.getXmlWapPush2(r.getService_id(), r.getNumber_type(), Text_Service, r.getAccess(), encode, "TIS-620");
+                RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), Text_Service, r.getAccess(), encode, "TIS-620");
                 GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
                 //System.out.println("XML GET : " + GetXML);
                 insert_r.insert_r(GetXML, "MT");
@@ -116,103 +116,103 @@ public class MT_data implements Runnable {
 
     public List<data_user> ProcessRegister() {
         user_room.clear();
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
-            String jdbcutf8 = "&useUnicode=true&characterEncoding=UTF-8";
-            conn = DriverManager.getConnection(connectionUrl + jdbcutf8);
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery("select TOP(500)*,services.service_id service_user from register "
-                    + "INNER JOIN services  ON services.id  = register.service_id  "
-                    + "INNER JOIN mobile    ON mobile.mobile_id = register.mobile_id   "
-                    + "INNER JOIN mgr       ON mgr.operator_id = mobile.operator_id "
-                    + "INNER JOIN api_sms   ON api_sms.service_id = mgr.service_id "
-                    + "where register.status = '0' and register.status_code = '0' and register.api_req = 'REG' and mgr.api_req = 'REG' "
-                    + "and mgr.operator_id = '3' and api_sms.mt_type = 'REG' and api_sms.status = '0' "
-                    + "COLLATE  thai_ci_as");
-            //INNER JOIN sms		 ON sms.msisdn =  mobile.msisdn
-            while (rs.next()) {
-                String content_sms = "";
-                data_user iduser = new data_user();
-                id_user = rs.getString("reg_id");
-                String service = rs.getString("service_user");
-                String number = rs.getString("msisdn");
-                String Text_Service = rs.getString("mt_msg");
-                String access = rs.getString("access_number");
-                String date = rs.getString("cdate");
-                String user = rs.getString("api_user");
-                String pass = rs.getString("api_password");
-                //TIS-620//UTF-8
-//                String encode_test = URLEncoder.encode(Text_Service, "UTF-8");
-//                this.Log.info("Test Reg : " + encode_test);
-                //this.Log.info("service : " + service + " access " + access + " User " + user + " : " + pass);
-                //Text_Service = "ยินดีต้อนรับสู้ PLAYBOY จาก " + number;
-                iduser.setService_id(service);
-                iduser.setNumber_type(number);
-                iduser.setDescriptions(Text_Service);
-                iduser.setAccess(access);
-                iduser.setEncoding(user + ":" + pass);
-                iduser.setContent_sms(content_sms);
-                
-                //System.out.println("Test Reg : " + Text_Service);
-                String sql = "UPDATE register SET status = '10' WHERE reg_id='" + id_user + "' ";
-                stmt.executeUpdate(sql);
-                user_room.add(iduser);
-            }
-        } catch (Exception e) {
-            this.Log.info("Error select sql reg " + e);
-        } finally {
-            try {
-                conn.close();
-            } catch (Exception e) {
-            }
-        }
+//        try {
+//            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+//            String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
+//            String jdbcutf8 = "&useUnicode=true&characterEncoding=UTF-8";
+//            conn = DriverManager.getConnection(connectionUrl + jdbcutf8);
+//            stmt = conn.createStatement();
+//            rs = stmt.executeQuery("select TOP(500)*,services.service_id service_user from register "
+//                    + "INNER JOIN services  ON services.id  = register.service_id  "
+//                    + "INNER JOIN mobile    ON mobile.mobile_id = register.mobile_id   "
+//                    + "INNER JOIN mgr       ON mgr.operator_id = mobile.operator_id "
+//                    + "INNER JOIN api_sms   ON api_sms.service_id = mgr.service_id "
+//                    + "where register.status = '0' and register.status_code = '0' and register.api_req = 'REG' and mgr.api_req = 'REG' "
+//                    + "and mgr.operator_id = '3' and api_sms.mt_type = 'REG' and api_sms.status = '0' "
+//                    + "COLLATE  thai_ci_as");
+//            //INNER JOIN sms		 ON sms.msisdn =  mobile.msisdn
+//            while (rs.next()) {
+//                String content_sms = "";
+//                data_user iduser = new data_user();
+//                id_user = rs.getString("reg_id");
+//                String service = rs.getString("service_user");
+//                String number = rs.getString("msisdn");
+//                String Text_Service = rs.getString("mt_msg");
+//                String access = rs.getString("access_number");
+//                String date = rs.getString("cdate");
+//                String user = rs.getString("api_user");
+//                String pass = rs.getString("api_password");
+//                //TIS-620//UTF-8
+////                String encode_test = URLEncoder.encode(Text_Service, "UTF-8");
+////                this.Log.info("Test Reg : " + encode_test);
+//                //this.Log.info("service : " + service + " access " + access + " User " + user + " : " + pass);
+//                //Text_Service = "ยินดีต้อนรับสู้ PLAYBOY จาก " + number;
+//                iduser.setService_id(service);
+//                iduser.setNumber_type(number);
+//                iduser.setDescriptions(Text_Service);
+//                iduser.setAccess(access);
+//                iduser.setEncoding(user + ":" + pass);
+//                iduser.setContent_sms(content_sms);
+//                
+//                //System.out.println("Test Reg : " + Text_Service);
+//                String sql = "UPDATE register SET status = '10' WHERE reg_id='" + id_user + "' ";
+//                stmt.executeUpdate(sql);
+//                user_room.add(iduser);
+//            }
+//        } catch (Exception e) {
+//            this.Log.info("Error select sql reg " + e);
+//        } finally {
+//            try {
+//                conn.close();
+//            } catch (Exception e) {
+//            }
+//        }
         return user_room;
     }
 
     public List<data_user> ProcessUnRegister() {
         user_room.clear();
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
-            conn = DriverManager.getConnection(connectionUrl);
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery("select TOP(500)*,services.service_id service_user from register "
-                    + "INNER JOIN services  ON services.id  = register.service_id  "
-                    + "INNER JOIN mobile    ON mobile.mobile_id = register.mobile_id   "
-                    + "INNER JOIN mgr       ON mgr.operator_id = mobile.operator_id "
-                    + "where register.status = '0' and register.status_detail = '0'  and register.api_req = 'UNREG' and mgr.api_req = 'UNREG'");
-
-            while (rs.next()) {
-                data_user iduser = new data_user();
-                id_user = rs.getString("reg_id");
-                String service = rs.getString("service_user");
-                //service = "7112402000";
-                String number = rs.getString("msisdn");
-                String Text_Service = rs.getString("detail_reg");
-                String access = rs.getString("access_number");
-                //access = "4557000";
-                String date = rs.getString("cdate");
-                String user = rs.getString("api_user");
-                String pass = rs.getString("api_password");
-                //System.out.println("Sql : " + " 1 " + service + " 2 " + number + " 3 " + Text_Service + " 4 " + access);
-                iduser.setService_id(service);
-                iduser.setNumber_type(number);
-                iduser.setDescriptions(Text_Service);
-                iduser.setAccess(access);
-                iduser.setEncoding(user + ":" + pass);
-                String sql = "UPDATE register SET status = '60' WHERE reg_id='" + id_user + "' ";
-                stmt.executeUpdate(sql);
-                user_room.add(iduser);
-            }
-        } catch (Exception e) {
-            this.Log.info("Error select sql unreg " + e);
-        } finally {
-            try {
-                conn.close();
-            } catch (Exception e) {
-            }
-        }
+//        try {
+//            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+//            String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
+//            conn = DriverManager.getConnection(connectionUrl);
+//            stmt = conn.createStatement();
+//            rs = stmt.executeQuery("select TOP(500)*,services.service_id service_user from register "
+//                    + "INNER JOIN services  ON services.id  = register.service_id  "
+//                    + "INNER JOIN mobile    ON mobile.mobile_id = register.mobile_id   "
+//                    + "INNER JOIN mgr       ON mgr.operator_id = mobile.operator_id "
+//                    + "where register.status = '0' and register.status_detail = '0'  and register.api_req = 'UNREG' and mgr.api_req = 'UNREG'");
+//
+//            while (rs.next()) {
+//                data_user iduser = new data_user();
+//                id_user = rs.getString("reg_id");
+//                String service = rs.getString("service_user");
+//                //service = "7112402000";
+//                String number = rs.getString("msisdn");
+//                String Text_Service = rs.getString("detail_reg");
+//                String access = rs.getString("access_number");
+//                //access = "4557000";
+//                String date = rs.getString("cdate");
+//                String user = rs.getString("api_user");
+//                String pass = rs.getString("api_password");
+//                //System.out.println("Sql : " + " 1 " + service + " 2 " + number + " 3 " + Text_Service + " 4 " + access);
+//                iduser.setService_id(service);
+//                iduser.setNumber_type(number);
+//                iduser.setDescriptions(Text_Service);
+//                iduser.setAccess(access);
+//                iduser.setEncoding(user + ":" + pass);
+//                String sql = "UPDATE register SET status = '60' WHERE reg_id='" + id_user + "' ";
+//                stmt.executeUpdate(sql);
+//                user_room.add(iduser);
+//            }
+//        } catch (Exception e) {
+//            this.Log.info("Error select sql unreg " + e);
+//        } finally {
+//            try {
+//                conn.close();
+//            } catch (Exception e) {
+//            }
+//        }
         return user_room;
     }
 
