@@ -152,7 +152,7 @@ public class Wap_Push implements Runnable {
                 rs = stmt.executeQuery("select * from Vw_getApiDetail where id = '" + this.serviceid + "' and mt_type ='WARNING'");
 
                 while (rs.next()) {
-                    this.Log.info("ProcessVw_getApiDetail : " +  rs.getString("access_number"));
+                    this.Log.info("ProcessVw_getApiDetail : " + rs.getString("access_number"));
                     m.put("service_id", rs.getString("service_id"));
                     m.put("access_number", rs.getString("access_number"));
                     m.put("api_sender", rs.getString("api_sender"));
@@ -196,6 +196,7 @@ public class Wap_Push implements Runnable {
                 conn = DriverManager.getConnection(connectionUrl);
                 stmt = conn.createStatement();
                 ResultSet rs = stmt.executeQuery(Command);
+                this.Log.info("SQL PhoneNummber : " + Command);
                 while (rs.next()) {
 
                     //String http = "0605040b8423f0DC0601AE02056A0045C60C03";
