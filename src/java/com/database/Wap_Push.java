@@ -7,13 +7,16 @@ import java.nio.charset.Charset;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
 import org.apache.log4j.Logger;
 
 public class Wap_Push implements Runnable {
@@ -59,25 +62,17 @@ public class Wap_Push implements Runnable {
 
         List<data_user> id_user_reg = ProcessWapPush();
         for (data_user r : id_user_reg) {
-            byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
-            encode = new sun.misc.BASE64Encoder().encode(b);
+
             try {
                 /////////// Wap Push
-                String http = "0605040b8423f0DC0601AE02056A0045C60C03";
-                String www = asciiToHex(r.getUrl());
-                String fig1 = "000103";
-                String name_api = asciiToHex(r.getApi_name());
-                String ref = asciiToHex(r.getRef());
-                String fig2 = "000101";
-                String url = http + www + fig1 + name_api + ref + fig2;
-                this.Log.info("Url Wap Push : " + url);
+
 //                if (wap.equals("ส่งแบบธรรมดา")) {
 //                    RegXML = str_xml.getXmlWapPush(r.getService_id(), r.getNumber_type(), r.getUrl(), r.getAccess(), encode, "TIS-620");
 //                } else if (wap.equals("ส่งแบบ binary ทำการแปลง url ก่อน")) {
                 //System.out.println("r.getService_id() " + r.getService_id() + " r.getNumber_type() " + r.getNumber_type() + " url " + url + " r.getAccess() " + r.getAccess() + " encode " + encode);
-                RegXML = str_xml.getXmlWapPush2(r.getService_id(), r.getNumber_type(), url, r.getAccess(), encode, "binary");
 //                }
-                GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "wap_push");
+//                RegXML = str_xml.getXmlWapPush2(r.getService_id(), r.getNumber_type(), url, r.getAccess(), encode, "binary");
+//                GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "wap_push");
 //                insert_r.insert_r(GetXML, "MT");
             } catch (Exception e) {
                 this.Log.info("Error : " + e);
@@ -98,92 +93,29 @@ public class Wap_Push implements Runnable {
             //เวลาปุจจุบัน
             String date_new = dateFormat.format(NewDate);
 
+            String id_ser = "";
+            String access = "";
+            String text = "";
             /////////////////content ที่ยังสมัครไม่เกิน 7 วัน
 //            Date cdate_sms = Format_content.parse(date_format);
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
-
-//            and convert(varchar(10),getdate(),110)  >= contents.send_datetime  
-//            and convert(varchar(10),dateadd(day,-7,getdate()),110) < contents.send_datetime 
-//            and convert(varchar(10),dateadd(day,-7,getdate()),110) >= contents.send_datetime 
-            rs = stmt.executeQuery("SELECT contents.id id_row_con,services.service_id ser_id,contents.service_id ser_con,contents.id id_con,* FROM contents "
-                    + "INNER JOIN services  ON services.id  = contents.service_id "
-                    + "INNER JOIN url  ON url.api_statename  = contents.contents_name "
-                    + "INNER JOIN mobile  ON mobile.operator_id  = url.operator_id "
-                    + "INNER JOIN subscribe  ON subscribe.mobile_id  = mobile.mobile_id "
-                    + "where contents.id not in (select content_sended.content_id from content_sended where content_sended.oper='3')"
-                    + "and subscribe.description = 'REG'"
-                    + "and convert(varchar(10),getdate(),110) >= contents.send_datetime ");
+            rs = stmt.executeQuery("exec sp_CheckContent '" + date_new + "','3'");
             while (rs.next()) {
-                data_user iduser = new data_user();
-                //rs.getString("ser_id")  
-                row_id_con = rs.getString("id_row_con");
-                time_con = rs.getString("send_datetime");
-                service_id = rs.getString("ser_con");
 
-                Date date = dateFormat.parse(time_con);
-                Date tomorrow = new Date(NewDate.getTime() - (7000 * 60 * 60 * 24));
-                // ปัจจุบันน้อยกว่า -1
-                if (tomorrow.compareTo(date) < 0) {
-                    conn2 = DriverManager.getConnection(connectionUrl);
-                    stmt2 = conn2.createStatement();
-                    rs2 = stmt2.executeQuery("SELECT * FROM mgr where operator_id = '3' and api_req ='REG' and service_id = '3'");
-                    while (rs2.next()) {
-                        iduser.setEncoding(rs2.getString("api_user") + ":" + rs2.getString("api_password"));
-                    }
-                    conn2.close();
-                    //iduser.setEncoding("7112409001:H84pL9aG");
-                    iduser.setService_id("7112409001");
-                }
-                if (tomorrow.compareTo(date) >= 0) {
-                    conn2 = DriverManager.getConnection(connectionUrl);
-                    stmt2 = conn2.createStatement();
-                    rs2 = stmt2.executeQuery("SELECT * FROM mgr where operator_id = '3' and api_req ='REG' and service_id = '" + service_id + "'");
-                    while (rs2.next()) {
-                        iduser.setEncoding(rs2.getString("api_user") + ":" + rs2.getString("api_password"));
-                    }
-                    conn2.close();
-                    iduser.setService_id(rs.getString("ser_id"));
-                }
-                iduser.setUrl(rs.getString("api_url"));
-                iduser.setApi_name(rs.getString("api_statename"));
-                iduser.setRef(rs.getString("ref"));
-                iduser.setNumber_type(rs.getString("msisdn"));
-                iduser.setAccess(rs.getString("access_number"));
+                Thread th = new Thread(new ProcessContents(rs.getInt("id"), NewDate, rs.getString("contents_name"), rs.getString("ref"), rs.getInt("id")));
+                th.start();
 
-                id_content = rs.getString("id_con");
-
-                user_room.add(iduser);
-//                System.out.println("'" + rs.getString("msisdn") + "','" + rs.getString("ref") + "','" + date_new + "','" + service_id + "','" + id_content + "'");
-                sql = "INSERT INTO download(MSISDN,REF_ID,TIMESTAMP,SERVICE_ID,CONTEN_ID) "
-                        + "VALUES ('" + rs.getString("msisdn") + "','" + rs.getString("ref") + "','" + date_new + "','" + service_id + "','" + id_content + "')";
-                stmt.execute(sql);
-
-                String content_sen = "non";
-                conn2 = DriverManager.getConnection(connectionUrl);
-                stmt2 = conn2.createStatement();
-                rs2 = stmt2.executeQuery("SELECT * FROM content_sended where service_id = '" + service_id + "' and content_id = '" + row_id_con + "' and oper = '3'");
-                while (rs2.next()) {
-                    content_sen = "post";
-                }
-                conn2.close();
-
-                if (content_sen.equals("non")) {
-                    sql = "INSERT INTO content_sended(send_date,service_id,content_id,oper) "
-                            + "VALUES ('" + date_new + "','" + service_id + "','" + id_content + "','3')";
-                    stmt.execute(sql);
-                }
             }
             conn.close();
 
-            ////////////////content ที่ยังสมัครเกิน 7 วัน
-            // ดีง url รอเปลี่ยน
-            //rs = stmt.executeQuery("SELECT * FROM download ");
+//                sql = "INSERT INTO content_sended(send_date,service_id,content_id,oper) "
+//                        + "VALUES ('" + date_new + "','" + service_id + "','" + id_content + "','3')";
+//                stmt.execute(sql);
         } catch (Exception e) {
-//            System.out.println("Error select sql : " + e);
-//            this.Log.info("Error select Wap push " + e);
+
         }
         return user_room;
     }
@@ -197,4 +129,120 @@ public class Wap_Push implements Runnable {
         return hex.toString();
     }
 
+    private class ProcessContents implements Runnable {
+
+        int serviceid;
+        Date SendDate;
+        String ContentName;
+        String referid;
+        int Contentid;
+        HashMap map = new HashMap();
+
+        public ProcessContents(int serviceid, Date SendDate, String ContentName, String referid, int Contentid) {
+            this.serviceid = serviceid;
+            this.SendDate = SendDate;
+            this.referid = referid;
+            this.Contentid = Contentid;
+            this.ContentName = ContentName;
+
+        }
+
+        @Override
+        public void run() {
+            map = ProcessVw_getApiDetail();
+            getPhoneNummber("exec dbo.sp_getMobileFree '" + serviceid + "','3'");
+            getPhoneNummber("exec dbo.sp_getMobileCharge '" + serviceid + "','3'");
+        }
+
+        private HashMap ProcessVw_getApiDetail() {
+            HashMap m = new HashMap();
+            try {
+                Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+                String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
+                conn = DriverManager.getConnection(connectionUrl);
+                stmt = conn.createStatement();
+                rs = stmt.executeQuery("select * from Vw_getApiDetail where id = '" + this.serviceid + "' and mt_type ='WARNING'");
+
+                while (rs.next()) {
+
+                    m.put("service_id", rs.getString("service_id"));
+                    m.put("access_number", rs.getString("access_number"));
+                    m.put("api_sender", rs.getString("api_sender"));
+                    m.put("api_password", rs.getString("api_password"));
+                    break;
+                }
+                conn.close();
+
+            } catch (Exception ex) {
+
+            } finally {
+                return m;
+            }
+
+        }
+
+        private void InserSendedConten(ResultSet r) {
+            //                System.out.println("'" + rs.getString("msisdn") + "','" + rs.getString("ref") + "','" + date_new + "','" + service_id + "','" + id_content + "'");
+            String sql;
+            try {
+                Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+                String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
+                conn = DriverManager.getConnection(connectionUrl);
+                stmt = conn.createStatement();
+                sql = "INSERT INTO download(MSISDN,REF_ID,TIMESTAMP,SERVICE_ID,CONTEN_ID) "
+                        + "VALUES ('" + r.getString("msisdn") + "','" + r.getString("ref") + "','" + this.SendDate + "','" + this.serviceid + "','" + this.Contentid + "')";
+                stmt.execute(sql);
+            } catch (SQLException ex) {
+                java.util.logging.Logger.getLogger(Wap_Push.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                java.util.logging.Logger.getLogger(Wap_Push.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        private void getPhoneNummber(String Command) {
+            try {
+                Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+                String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
+                conn = DriverManager.getConnection(connectionUrl);
+                stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(Command);
+                while (rs.next()) {
+
+                    //String http = "0605040b8423f0DC0601AE02056A0045C60C03";
+                    String http = dumpStrings("http://");
+                    String www = dumpStrings(this.referid);
+                    String fig1 = dumpStrings("000103");
+                    String name_api = dumpStrings(this.ContentName);
+                    //String ref = dumpStrings(r.getRef());
+                    String ref = "";
+                    String fig2 = dumpStrings("000101");
+                    String url = http + www + fig1 + name_api + ref + fig2;
+                    String user = this.map.get("service_id").toString() + ":" + this.map.get("api_password").toString();
+                    byte[] b = user.getBytes(Charset.forName("UTF-8"));
+                    encode = new sun.misc.BASE64Encoder().encode(b);
+
+                    RegXML = str_xml.getXmlWapPush2(this.map.get("service_id").toString(), rs.getString("msisdn"), url, this.map.get("access_number").toString(), encode, "unicode");
+                    //RegXML = str_xml.getXmlWapPush2(this.map.get("service_id"),rs.getString("msisdn"),url,this.map.get("access_number"), encode, "unicode");
+                    GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "wap_push");
+                    InserSendedConten(rs);
+                }
+
+            } catch (ClassNotFoundException ex) {
+                java.util.logging.Logger.getLogger(Wap_Push.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                java.util.logging.Logger.getLogger(Wap_Push.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+//        private String PraserXml(){
+//            return 
+//        }
+        public String dumpStrings(String text) {
+            String str_unicode = "";
+            for (int i = 0; i < text.length(); i++) {
+                str_unicode = str_unicode + "&#" + (int) text.charAt(i) + ";";
+            }
+            return str_unicode;
+        }
+    }
 }
