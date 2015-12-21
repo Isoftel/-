@@ -162,7 +162,7 @@ public class Wap_Push implements Runnable {
                 conn.close();
 
             } catch (Exception ex) {
-                this.Log.info("Error : " + ex);
+                this.Log.info("Error ProcessVw_getApiDetail : " + ex);
             } finally {
                 return m;
             }
@@ -184,9 +184,9 @@ public class Wap_Push implements Runnable {
                 stmt.execute(sql);
 
             } catch (SQLException ex) {
-                this.Log.info("Error : " + ex);
+                this.Log.info("Error InserSendedConten : " + ex);
             } catch (ClassNotFoundException ex) {
-                this.Log.info("Error : " + ex);
+                this.Log.info("Error InserSendedConten : " + ex);
             }
         }
 
@@ -211,7 +211,7 @@ public class Wap_Push implements Runnable {
                     String url = http + www + fig1 + name_api + ref + fig2;
                     String user_pass = "";
                     if (ch.equals("free")) {
-                        user_pass = this.map.get("7112402000").toString() + ":" + this.map.get("H84pL9aG").toString();
+                        user_pass = "7112402000:H84pL9aG";
                     } else if (ch.equals("charge")) {
                         user_pass = this.map.get("service_id").toString() + ":" + this.map.get("api_password").toString();
                     }
@@ -228,9 +228,9 @@ public class Wap_Push implements Runnable {
                 }
                 conn.close();
             } catch (ClassNotFoundException ex) {
-                this.Log.info("Error : " + ex);
+                this.Log.info("Error getPhoneNummber : " + ex);
             } catch (SQLException ex) {
-                this.Log.info("Error : " + ex);
+                this.Log.info("Error getPhoneNummber : " + ex);
             }
         }
 
