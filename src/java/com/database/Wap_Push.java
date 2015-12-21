@@ -61,23 +61,6 @@ public class Wap_Push implements Runnable {
     public void run() {
 
         List<data_user> id_user_reg = ProcessWapPush();
-        for (data_user r : id_user_reg) {
-
-            try {
-                /////////// Wap Push
-
-//                if (wap.equals("ส่งแบบธรรมดา")) {
-//                    RegXML = str_xml.getXmlWapPush(r.getService_id(), r.getNumber_type(), r.getUrl(), r.getAccess(), encode, "TIS-620");
-//                } else if (wap.equals("ส่งแบบ binary ทำการแปลง url ก่อน")) {
-                //System.out.println("r.getService_id() " + r.getService_id() + " r.getNumber_type() " + r.getNumber_type() + " url " + url + " r.getAccess() " + r.getAccess() + " encode " + encode);
-//                }
-//                RegXML = str_xml.getXmlWapPush2(r.getService_id(), r.getNumber_type(), url, r.getAccess(), encode, "binary");
-//                GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "wap_push");
-//                insert_r.insert_r(GetXML, "MT");
-            } catch (Exception e) {
-                this.Log.info("Error : " + e);
-            }
-        }
 
     }
 
@@ -103,8 +86,10 @@ public class Wap_Push implements Runnable {
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
             rs = stmt.executeQuery("exec sp_CheckContent '" + date_new + "','3'");
+            this.Log.info("Sql sp: " + "exec sp_CheckContent '" + date_new + "','3'");
             while (rs.next()) {
 
+                this.Log.info("rs : " + rs.getString("contents_name") + " : " + rs.getInt("id"));
                 Thread th = new Thread(new ProcessContents(rs.getInt("id"), NewDate, rs.getString("contents_name"), rs.getString("ref"), rs.getInt("id")));
                 th.start();
 
@@ -115,7 +100,7 @@ public class Wap_Push implements Runnable {
             conn.close();
 
         } catch (Exception e) {
-
+            this.Log.info("Error : " + e);
         }
         return user_room;
     }
@@ -137,6 +122,7 @@ public class Wap_Push implements Runnable {
         String referid;
         int Contentid;
         HashMap map = new HashMap();
+        Logger Log = Logger.getLogger(this.getClass());
 
         public ProcessContents(int serviceid, Date SendDate, String ContentName, String referid, int Contentid) {
             this.serviceid = serviceid;
@@ -156,6 +142,7 @@ public class Wap_Push implements Runnable {
         }
 
         private HashMap ProcessVw_getApiDetail() {
+
             HashMap m = new HashMap();
             try {
                 Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -175,7 +162,7 @@ public class Wap_Push implements Runnable {
                 conn.close();
 
             } catch (Exception ex) {
-
+                this.Log.info("Error : " + ex);
             } finally {
                 return m;
             }
@@ -183,6 +170,7 @@ public class Wap_Push implements Runnable {
         }
 
         private void InserSendedConten(ResultSet r) {
+
             //                System.out.println("'" + rs.getString("msisdn") + "','" + rs.getString("ref") + "','" + date_new + "','" + service_id + "','" + id_content + "'");
             String sql;
             try {
@@ -195,9 +183,9 @@ public class Wap_Push implements Runnable {
                 stmt.execute(sql);
 
             } catch (SQLException ex) {
-                java.util.logging.Logger.getLogger(Wap_Push.class.getName()).log(Level.SEVERE, null, ex);
+                this.Log.info("Error : " + ex);
             } catch (ClassNotFoundException ex) {
-                java.util.logging.Logger.getLogger(Wap_Push.class.getName()).log(Level.SEVERE, null, ex);
+                this.Log.info("Error : " + ex);
             }
         }
 
@@ -236,9 +224,9 @@ public class Wap_Push implements Runnable {
                 }
 
             } catch (ClassNotFoundException ex) {
-                java.util.logging.Logger.getLogger(Wap_Push.class.getName()).log(Level.SEVERE, null, ex);
+                this.Log.info("Error : " + ex);
             } catch (SQLException ex) {
-                java.util.logging.Logger.getLogger(Wap_Push.class.getName()).log(Level.SEVERE, null, ex);
+                this.Log.info("Error : " + ex);
             }
         }
 
