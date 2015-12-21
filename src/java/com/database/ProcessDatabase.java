@@ -81,26 +81,26 @@ public class ProcessDatabase {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
-            conn = DriverManager.getConnection(connectionUrl);
-            stmt = conn.createStatement();
-            sql = "INSERT INTO delivery_request(TransactionID,product_id,MSISDN,Content,cdate,service_id) "
-                    + "VALUES ('" + message + "','" + destination + "','" + number + "','" + ud + "','" + New_date + "','" + service + "')";
-            stmt.execute(sql);
-            conn.close();
+//            conn = DriverManager.getConnection(connectionUrl);
+//            stmt = conn.createStatement();
+//            sql = "INSERT INTO delivery_request(TransactionID,product_id,MSISDN,Content,cdate,service_id) "
+//                    + "VALUES ('" + message + "','" + destination + "','" + number + "','" + ud + "','" + New_date + "','" + service + "')";
+//            stmt.execute(sql);
+//            conn.close();
 
             //////////// mobile ดูว่ามีเบอร์แล้วหรือยังมี ดึง ID ไม่มีให้ INSERT
-            conn = DriverManager.getConnection(connectionUrl);
-            stmt = conn.createStatement();
-            sql = "exec sp_InsertMemberSubscription '" + number + "','3'";
-            Log.info(sql);
-            rs = stmt.executeQuery(sql);
-            while (rs.next()) {
-                Log.info("found data msisdn " + rs.getInt("mobile_id") + " msisdn " + rs.getString("msisdn"));
-                id_number = rs.getInt("mobile_id");
-                str_msisdn = rs.getString("msisdn");
-
-            }
-            conn.close();
+//            conn = DriverManager.getConnection(connectionUrl);
+//            stmt = conn.createStatement();
+//            sql = "exec sp_InsertMemberSubscription '" + number + "','3'";
+//            Log.info(sql);
+//            rs = stmt.executeQuery(sql);
+//            while (rs.next()) {
+//                Log.info("found data msisdn " + rs.getInt("mobile_id") + " msisdn " + rs.getString("msisdn"));
+//                id_number = rs.getInt("mobile_id");
+//                str_msisdn = rs.getString("msisdn");
+//
+//            }
+//            conn.close();
 
             //////////////////services หา ID บริการ
             conn = DriverManager.getConnection(connectionUrl);
