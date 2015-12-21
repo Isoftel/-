@@ -124,16 +124,16 @@ public class MT_data implements Runnable {
             String jdbcutf8 = "&useUnicode=true&characterEncoding=UTF-8";
             conn = DriverManager.getConnection(connectionUrl + jdbcutf8);
             stmt = conn.createStatement();
-            String sql ="\"select TOP(500)*,services.service_id service_user from register \"\n" +
-"                    + \"INNER JOIN services  ON services.id  = register.service_id  \"\n" +
-"                    + \"INNER JOIN mobile    ON mobile.mobile_id = register.mobile_id   \"\n" +
-"                    + \"INNER JOIN mgr       ON mgr.operator_id = mobile.operator_id \"\n" +
-"                    + \"INNER JOIN api_sms   ON api_sms.service_id = mgr.service_id \"\n" +
-"                    + \"where register.status = '0' and register.status_code = '0' and register.api_req = 'REG' and mgr.api_req = 'REG' \"\n" +
-"                    + \"and mgr.operator_id = '3' and api_sms.mt_type = 'REG' and api_sms.status = '0' \"\n" +
-"                    + \"COLLATE  thai_ci_as\"";
+            String sql = "select TOP(500)*,services.service_id service_user from register "
+                    + "INNER JOIN services  ON services.id  = register.service_id  "
+                    + "INNER JOIN mobile    ON mobile.mobile_id = register.mobile_id   "
+                    + "INNER JOIN mgr       ON mgr.operator_id = mobile.operator_id "
+                    + "INNER JOIN api_sms   ON api_sms.service_id = mgr.service_id "
+                    + "where register.status = '0' and register.status_code = '30' and register.api_req = 'REG' and mgr.api_req = 'REG' "
+                    + "and mgr.operator_id = '3' and api_sms.mt_type = 'REG' and api_sms.status = '30' "
+                    + "COLLATE  thai_ci_as";
             rs = stmt.executeQuery(sql);
-            Log.info("ProcessRegister "+sql);
+            Log.info("ProcessRegister " + sql);
             //INNER JOIN sms		 ON sms.msisdn =  mobile.msisdn
             while (rs.next()) {
                 String content_sms = "";
@@ -157,7 +157,7 @@ public class MT_data implements Runnable {
                 iduser.setAccess(access);
                 iduser.setEncoding(user + ":" + pass);
                 iduser.setContent_sms(content_sms);
-                
+
                 //System.out.println("Test Reg : " + Text_Service);
                 sql = "UPDATE register SET status = '10' WHERE reg_id='" + id_user + "' ";
                 stmt.executeUpdate(sql);
