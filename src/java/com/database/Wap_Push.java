@@ -180,9 +180,10 @@ public class Wap_Push implements Runnable {
                 String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
                 conn = DriverManager.getConnection(connectionUrl);
                 stmt = conn.createStatement();
+                this.Log.info("SQL InserSendedConten : "+"'" + r.getString("msisdn") + "','" + this.ref + "','" + this.SendDate + "','" + this.serviceid + "','" + this.Contentid + "'" );
                 sql = "INSERT INTO download(MSISDN,REF_ID,TIMESTAMP,SERVICE_ID,CONTEN_ID) "
                         + "VALUES ('" + r.getString("msisdn") + "','" + this.ref + "','" + this.SendDate + "','" + this.serviceid + "','" + this.Contentid + "')";
-                this.Log.info("SQL InserSendedConten : " + sql);
+                
                 stmt.execute(sql);
 
             } catch (SQLException ex) {
