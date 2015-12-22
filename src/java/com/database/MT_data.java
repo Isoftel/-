@@ -36,8 +36,7 @@ public class MT_data implements Runnable {
     String post_xml_true = msg.getString("true_url");
     String url_mo = msg.getString("ip_mo");
 
-    Connection conn = null;
-    Statement stmt = null;
+ 
     ResultSet rs = null;
     List<data_user> user_room = new ArrayList<data_user>();
     List<data_userun> user_roomun = new ArrayList<data_userun>();
@@ -151,11 +150,16 @@ public class MT_data implements Runnable {
 
     public List<data_user> ProcessRegister() {
         user_room.clear();
+        Connection conn = null;
+        Statement stmt = null;
         try {
+            
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
             String jdbcutf8 = "&useUnicode=true&characterEncoding=UTF-8";
+  
             conn = DriverManager.getConnection(connectionUrl + jdbcutf8);
+                       
             stmt = conn.createStatement();
             String sql = "exec sp_getServiceDetail 'REG'";
             rs = stmt.executeQuery(sql);
@@ -197,7 +201,8 @@ public class MT_data implements Runnable {
             this.Log.info("Error ProcessRegister " + e);
         } finally {
             try {
-                conn.close();
+                if(!stmt.isClosed())stmt.close();
+                if(!conn.isClosed())   conn.close();
             } catch (Exception e) {
             }
         }
@@ -206,6 +211,8 @@ public class MT_data implements Runnable {
 
     public List<data_userun> ProcessUnRegister() {
         user_roomun.clear();
+        Connection conn = null;
+        Statement stmt = null;
         try {
 
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -249,8 +256,10 @@ public class MT_data implements Runnable {
             this.Log.info("Error ProcessUnRegister " + e);
         } finally {
             try {
-                conn.close();
+                if(!stmt.isClosed())stmt.close();
+                if(!conn.isClosed())   conn.close();
             } catch (Exception e) {
+                
             }
         }
         return user_roomun;
@@ -258,6 +267,8 @@ public class MT_data implements Runnable {
 
     public List<data_message> ProcessSMS() {
         data_message.clear();
+        Connection conn = null;
+        Statement stmt = null;
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
@@ -302,7 +313,8 @@ public class MT_data implements Runnable {
             this.Log.info("Error ProcessSMS " + e);
         } finally {
             try {
-                conn.close();
+             if(!stmt.isClosed())stmt.close();
+             if(!conn.isClosed())   conn.close();
             } catch (Exception e) {
             }
         }
