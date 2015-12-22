@@ -152,6 +152,7 @@ public class MT_data implements Runnable {
         user_room.clear();
         Connection conn = null;
         Statement stmt = null;
+        ResultSet rs = null;
         try {
             
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -160,7 +161,7 @@ public class MT_data implements Runnable {
             conn = DriverManager.getConnection(connectionUrl + jdbcutf8);                       
             stmt = conn.createStatement();
             String sql = "exec sp_getServiceDetail 'REG'";
-            ResultSet rs = stmt.executeQuery(sql);
+            rs = stmt.executeQuery(sql);
             //Log.info("ProcessRegister " + sql);
             //INNER JOIN sms		 ON sms.msisdn =  mobile.msisdn
             while (rs.next()) {
@@ -199,6 +200,8 @@ public class MT_data implements Runnable {
             this.Log.info("Error ProcessRegister " + e);
         } finally {
             try {
+                Log.info("Connection State is close"+ conn.isClosed() +" is Close "+stmt.isClosed() +" ResultSet is close"+rs.isClosed());
+                if(!rs.isClosed()) rs.close();
                 if(!stmt.isClosed())stmt.close();
                 if(!conn.isClosed())   conn.close();
             } catch (Exception e) {
