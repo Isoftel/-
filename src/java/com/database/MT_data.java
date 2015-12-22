@@ -111,6 +111,7 @@ public class MT_data implements Runnable {
                     byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
                     encode = new sun.misc.BASE64Encoder().encode(b);
                     RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode, "default");
+                    System.out.println("Post ProcessUnRegister : " + RegXML);
                     GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
                     System.out.println("XML GET ProcessUnRegister : " + GetXML);
                     insert_r.insert_r(GetXML, "MT", "50");
@@ -183,7 +184,7 @@ public class MT_data implements Runnable {
                 iduser.setAccess(access);
                 iduser.setEncoding(user + ":" + pass);
                 iduser.setContent_sms(content_sms);
-                
+
                 //System.out.println("Test Reg : " + Text_Service);
                 //sql = "exec sp_UpdateRegister '" + id_user + "' ";
                 sql = "UPDATE register SET status = '10' WHERE reg_id='" + id_user + "' ";
