@@ -222,7 +222,7 @@ public class MT_data implements Runnable {
                 //rs.getString("service_user")
                 String service = "7112402000";
                 String number = rs.getString("msisdn");
-                String Text_Service = rs.getString("detail_reg");
+                String Text_Service = rs.getString("mt_msg");
                 String access = rs.getString("access_number");
                 String date = rs.getString("cdate");
                 //rs.getString("api_user")
