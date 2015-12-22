@@ -156,13 +156,11 @@ public class MT_data implements Runnable {
             
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
-            String jdbcutf8 = "&useUnicode=true&characterEncoding=UTF-8";
-  
-            conn = DriverManager.getConnection(connectionUrl + jdbcutf8);
-                       
+            String jdbcutf8 = "&useUnicode=true&characterEncoding=UTF-8";  
+            conn = DriverManager.getConnection(connectionUrl + jdbcutf8);                       
             stmt = conn.createStatement();
             String sql = "exec sp_getServiceDetail 'REG'";
-            rs = stmt.executeQuery(sql);
+            ResultSet rs = stmt.executeQuery(sql);
             //Log.info("ProcessRegister " + sql);
             //INNER JOIN sms		 ON sms.msisdn =  mobile.msisdn
             while (rs.next()) {
@@ -222,7 +220,7 @@ public class MT_data implements Runnable {
             stmt = conn.createStatement();
             String sql = "exec sp_getServiceDetail 'UNREG'";
             //this.Log.info("ProcessUnRegister " + sql);
-            rs = stmt.executeQuery(sql);
+            ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 data_userun iduser = new data_userun();
                 id_user = rs.getInt("reg_id");
@@ -275,7 +273,7 @@ public class MT_data implements Runnable {
             String jdbcutf8 = "&useUnicode=true&characterEncoding=UTF-8";
             conn = DriverManager.getConnection(connectionUrl + jdbcutf8);
             stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT TOP(500)* FROM sms "
+            ResultSet rs = stmt.executeQuery("SELECT TOP(500)* FROM sms "
                     + "INNER JOIN services  ON services.service_id  = sms.service_id  "
                     + "INNER JOIN mobile    ON mobile.msisdn = sms.msisdn "
                     + "INNER JOIN mgr       ON mgr.operator_id = mobile.operator_id "
