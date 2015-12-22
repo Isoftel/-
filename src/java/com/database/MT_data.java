@@ -45,7 +45,7 @@ public class MT_data implements Runnable {
     private List<data_user> id_user_unreg;
     private List<data_message> id_user_thank_sms;
 
-    String id_user = "";
+    int id_user = 0;
     String encode = "";
     String RegXML = "";
     String GetXML = "";
@@ -163,7 +163,7 @@ public class MT_data implements Runnable {
             while (rs.next()) {
                 String content_sms = "";
                 data_user iduser = new data_user();
-                id_user = rs.getString("reg_id");
+                id_user = rs.getInt("reg_id");
                 //rs.getString("service_user")
                 String service = "7112402000";
                 String number = rs.getString("msisdn");
@@ -214,7 +214,7 @@ public class MT_data implements Runnable {
             rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 data_user iduser = new data_user();
-                id_user = rs.getString("reg_id");
+                id_user = rs.getInt("reg_id");
                 Log.info("id_user " + id_user);
                 //rs.getString("service_user")
                 String service = "7112402000";
