@@ -61,8 +61,8 @@ public class MT_data implements Runnable {
         Thread UnReg = new Thread(new ThreaUnRegister());
         UnReg.start();
 
-        Thread DraCo = new Thread(new ThreaDraco());
-        DraCo.start();
+//        Thread DraCo = new Thread(new ThreaDraco());
+//        DraCo.start();
 //        //////////////////////////////////////////////////////////////////
 
     }
