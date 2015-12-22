@@ -112,7 +112,7 @@ public class Post_XML {
             con.disconnect();
         } catch (Exception e) {
             this.Log.info("Error Post : " + e);
-            System.out.println("Error Post : " + e);
+            //System.out.println("Error Post : " + e);
         }
         return xmlRes;
     }
