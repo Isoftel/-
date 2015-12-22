@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import com.table_data.data_user;
+import com.table_data.data_userun;
 import com.xml.Post_XML;
 import com.xml.Set_XML;
 import java.net.URLEncoder;
@@ -39,10 +40,11 @@ public class MT_data implements Runnable {
     Statement stmt = null;
     ResultSet rs = null;
     List<data_user> user_room = new ArrayList<data_user>();
+    List<data_userun> user_roomun = new ArrayList<data_userun>();
     List<data_message> data_message = new ArrayList<data_message>();
 
     private List<data_user> id_user_reg;
-    private List<data_user> id_user_unreg;
+    private List<data_userun> id_user_unreg;
     private List<data_message> id_user_thank_sms;
 
     int id_user = 0;
@@ -104,9 +106,9 @@ public class MT_data implements Runnable {
         @Override
         public void run() {
             ////////////////////////////////////////////////////// mt ส่งยกเลิก
-            List<data_user> id_user_unreg = ProcessUnRegister();
+            List<data_userun> id_user_unreg = ProcessUnRegister();
             //this.Log.info("Found data Unregister : " + id_user_reg.size());
-            for (data_user r : id_user_unreg) {
+            for (data_userun r : id_user_unreg) {
                 try {
                     byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
                     encode = new sun.misc.BASE64Encoder().encode(b);
@@ -205,8 +207,8 @@ public class MT_data implements Runnable {
         return user_room;
     }
 
-    public List<data_user> ProcessUnRegister() {
-        user_room.clear();
+    public List<data_userun> ProcessUnRegister() {
+        user_roomun.clear();
         try {
 
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -217,7 +219,7 @@ public class MT_data implements Runnable {
             Log.info("ProcessUnRegister " + sql);
             rs = stmt.executeQuery(sql);
             while (rs.next()) {
-                data_user iduser = new data_user();
+                data_userun iduser = new data_userun();
                 id_user = rs.getInt("reg_id");
                 sql = "UPDATE register SET status = '40' WHERE reg_id='" + id_user + "' ";
                 stmt.executeUpdate(sql);
@@ -241,7 +243,7 @@ public class MT_data implements Runnable {
                 iduser.setAccess(access);
                 iduser.setEncoding(user + ":" + pass);
                 
-                user_room.add(iduser);
+                user_roomun.add(iduser);
                 Log.info("id_user ENDs ");
             }
         } catch (Exception e) {
@@ -252,7 +254,7 @@ public class MT_data implements Runnable {
             } catch (Exception e) {
             }
         }
-        return user_room;
+        return user_roomun;
     }
 
     public List<data_message> ProcessSMS() {
