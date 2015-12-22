@@ -191,7 +191,7 @@ public class MT_data implements Runnable {
                 iduser.setEncoding(user + ":" + pass);
                 iduser.setContent_sms(content_sms);
 
-                //System.out.println("Test Reg : " + Text_Service);
+                this.Log.info("Test Reg : " + Text_Service);
                 //sql = "exec sp_UpdateRegister '" + id_user + "' ";
                 
                 user_room.add(iduser);
@@ -217,7 +217,7 @@ public class MT_data implements Runnable {
             conn = DriverManager.getConnection(connectionUrl + jdbcutf8);
             stmt = conn.createStatement();
             String sql = "exec sp_getServiceDetail 'UNREG'";
-            Log.info("ProcessUnRegister " + sql);
+            this.Log.info("ProcessUnRegister " + sql);
             rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 data_userun iduser = new data_userun();
@@ -245,7 +245,7 @@ public class MT_data implements Runnable {
                 iduser.setEncoding(user + ":" + pass);
                 
                 user_roomun.add(iduser);
-                Log.info("id_user ENDs ");
+                this.Log.info("id_user ENDs ");
             }
         } catch (Exception e) {
             this.Log.info("Error ProcessUnRegister " + e);
