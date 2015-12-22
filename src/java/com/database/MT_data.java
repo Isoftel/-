@@ -246,12 +246,11 @@ public class MT_data implements Runnable {
                 user_roomun.add(iduser);
                 this.Log.info("id_user ENDs ");
             }
-            conn.close();
         } catch (Exception e) {
             this.Log.info("Error ProcessUnRegister " + e);
         } finally {
             try {
-                
+                conn.close();
             } catch (Exception e) {
             }
         }
@@ -295,15 +294,13 @@ public class MT_data implements Runnable {
                 iduser.setDescriptions(unicode_test);
                 iduser.setAccess(access);
                 iduser.setEncoding(user + ":" + pass);
-
+                String sql = "UPDATE sms SET status = '90' WHERE sms_id ='" + id_user + "' ";
+            stmt.executeUpdate(sql);
                 data_message.add(iduser);
             }
-
-            String sql = "UPDATE sms SET status = '90' WHERE sms_id ='" + id_user + "' ";
-            stmt.executeUpdate(sql);
         } catch (Exception e) {
             //System.out.println("Error : " + e);
-            //this.Log.info("Error ProcessSMS " + e);
+            this.Log.info("Error ProcessSMS " + e);
         } finally {
             try {
                 conn.close();
