@@ -160,9 +160,10 @@ public class MT_data implements Runnable {
                 String content_sms = "";
                 data_user iduser = new data_user();
                 id_user = rs.getInt("reg_id");
-                sql = "UPDATE register SET status = '10' WHERE reg_id='" + id_user + "' ";
-                Statement st = conn.createStatement();
-                st.executeUpdate(sql);
+//                sql = "UPDATE register SET status = '10' WHERE reg_id='" + id_user + "' ";
+//                Statement st = conn.createStatement();
+//                st.executeUpdate(sql);
+                
                 //rs.getString("service_user")
                 String service = "7112402000";
                 String number = rs.getString("msisdn");
