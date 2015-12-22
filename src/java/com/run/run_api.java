@@ -84,7 +84,7 @@ public class run_api extends HttpServlet implements Runnable {
             Date start = Format.parse(date_start);
             Date end = Format.parse(date_end);
             /////// Date < Date = -1 | Date = Date = 0 | Date > Date = 1
-            this.Log.info("Sta : " + convertedDate.compareTo(start) + " : " + date_start + " End : " + convertedDate.compareTo(end) + " : " + date_end);
+            this.Log.info("Date time : " + convertedDate + " Sta : " + convertedDate.compareTo(start) + " : " + date_start + " End : " + convertedDate.compareTo(end) + " : " + date_end);
             if (convertedDate.compareTo(start) == 1 && convertedDate.compareTo(end) == -1) {
                 Thread tt = new Thread(new SMS_Worning());
                 tt.setPriority(1);
