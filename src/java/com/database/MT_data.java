@@ -213,7 +213,8 @@ public class MT_data implements Runnable {
 
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
-            conn = DriverManager.getConnection(connectionUrl);
+            String jdbcutf8 = "&useUnicode=true&characterEncoding=UTF-8";
+            conn = DriverManager.getConnection(connectionUrl + jdbcutf8);
             stmt = conn.createStatement();
             String sql = "exec sp_getServiceDetail 'UNREG'";
             Log.info("ProcessUnRegister " + sql);
@@ -262,7 +263,8 @@ public class MT_data implements Runnable {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
-            conn = DriverManager.getConnection(connectionUrl);
+            String jdbcutf8 = "&useUnicode=true&characterEncoding=UTF-8";
+            conn = DriverManager.getConnection(connectionUrl + jdbcutf8);
             stmt = conn.createStatement();
             rs = stmt.executeQuery("SELECT TOP(500)* FROM sms "
                     + "INNER JOIN services  ON services.service_id  = sms.service_id  "
