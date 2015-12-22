@@ -85,7 +85,7 @@ public class MT_data implements Runnable {
 
                     RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), Text_Service, r.getAccess(), encode, "TIS-620");
                     GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
-                    //System.out.println("XML GET : " + GetXML);
+                    System.out.println("XML GET ProcessRegister : " + GetXML);
                     insert_r.insert_r(GetXML, "MT", "30");
                     this.Log.info("Get Xml Reg : " + GetXML);
                 } catch (Exception e) {
@@ -112,6 +112,7 @@ public class MT_data implements Runnable {
                     encode = new sun.misc.BASE64Encoder().encode(b);
                     RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode, "default");
                     GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
+                    System.out.println("XML GET ProcessUnRegister : " + GetXML);
                     insert_r.insert_r(GetXML, "MT", "50");
                 } catch (Exception e) {
                     this.Log.info("Error Unreg : " + e);
