@@ -74,7 +74,7 @@ public class SMS_Worning implements Runnable {
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
 
             String user = "7112409000:H84pL9aG";
-            String service = "112409000";
+            String service = "7112409000";
             String access = "";
             String text = "";
 
