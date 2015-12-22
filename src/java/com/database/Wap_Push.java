@@ -86,7 +86,7 @@ public class Wap_Push implements Runnable {
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
             rs = stmt.executeQuery("exec sp_CheckContent '" + date_new + "','3'");
-            this.Log.info("Sql sp: " + "exec sp_CheckContent '" + date_new + "','3'");
+            //this.Log.info("Sql sp: " + "exec sp_CheckContent '" + date_new + "','3'");
             while (rs.next()) {
 
                 //this.Log.info("rs : " + rs.getString("contents_name") + " : " + rs.getInt("id"));
