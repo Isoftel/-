@@ -22,7 +22,7 @@ public class run_api extends HttpServlet implements Runnable {
 
     ProcessDatabase xml = new ProcessDatabase();
     ResourceBundle msg = ResourceBundle.getBundle("configs");
-    int ThreadSleep = Integer.parseInt(msg.getString("Thread"));
+    int ThreadSleep;
     Thread th;
     String msdfsdfd;
     Logger Log = Logger.getLogger(this.getClass());
@@ -35,7 +35,7 @@ public class run_api extends HttpServlet implements Runnable {
 
     @Override
     public void init(ServletConfig config) {
-
+        ThreadSleep = Integer.parseInt(msg.getString("Thread"));
         th = new Thread(this);
         th.setPriority(1);
         th.start();
