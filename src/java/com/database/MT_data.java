@@ -110,7 +110,9 @@ public class MT_data implements Runnable {
                 try {
                     byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
                     encode = new sun.misc.BASE64Encoder().encode(b);
-                    RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), r.getDescriptions(), r.getAccess(), encode, "default");
+                    String Text_Service = dumpStrings(r.getDescriptions());
+                    
+                    RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(),Text_Service, r.getAccess(), encode, "TIS-620");
                     System.out.println("Post ProcessUnRegister : " + RegXML);
                     GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
                     System.out.println("XML GET ProcessUnRegister : " + GetXML);

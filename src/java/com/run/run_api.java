@@ -88,7 +88,7 @@ public class run_api extends HttpServlet implements Runnable {
                 Thread tt = new Thread(new SMS_Worning());
                 tt.setPriority(1);
                 tt.start();
-                Thread.sleep(100000);
+                //Thread.sleep(100000);
             }
         } catch (Exception e) {
             this.Log.info("Error Time : " + e);
