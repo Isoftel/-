@@ -60,7 +60,7 @@ public class SMS_Worning implements Runnable {
 
                 //str_xml
             } catch (Exception e) {
-                this.Log.info("Error Worning : " + e);
+                this.Log.info("Error Worning P and G : " + e);
             }
         }
     }
@@ -82,7 +82,7 @@ public class SMS_Worning implements Runnable {
             stmt = conn.createStatement();
             rs = stmt.executeQuery("select * from Vw_getApiDetail where access_number = '4557777' and mt_type ='WARNING'");
             while (rs.next()) {
-                access = rs.getString("acc_id");
+                access = rs.getString("access_number");
                 text = rs.getString("mt_msg");
                 this.Log.info("test ser : " + rs.getString("mt_msg"));
                 //iduser.setCode(rs2.getString("status"));
@@ -108,7 +108,7 @@ public class SMS_Worning implements Runnable {
             stmt = conn.createStatement();
             rs = stmt.executeQuery("select * from Vw_getApiDetail where access_number = '4557555' and mt_type ='WARNING'");
             while (rs.next()) {
-                access = rs.getString("acc_id");
+                access = rs.getString("access_number");
                 text = rs.getString("mt_msg");
                 this.Log.info("test ser : " + rs.getString("mt_msg"));
                 //iduser.setCode(rs2.getString("status"));
@@ -134,7 +134,7 @@ public class SMS_Worning implements Runnable {
             stmt = conn.createStatement();
             rs = stmt.executeQuery("select * from Vw_getApiDetail where access_number = '4557002' and mt_type ='WARNING'");
             while (rs.next()) {
-                access = rs.getString("acc_id");
+                access = rs.getString("access_number");
                 text = rs.getString("mt_msg");
                 this.Log.info("test ser : " + rs.getString("mt_msg"));
                 //iduser.setCode(rs2.getString("status"));
@@ -159,7 +159,7 @@ public class SMS_Worning implements Runnable {
 //            String sql = "UPDATE register SET status_code = '50' WHERE sms_id ='" + id_user + "' ";
 //            stmt.executeUpdate(sql);
         } catch (Exception e) {
-            this.Log.info("Error Worning : " + e);
+            this.Log.info("Error Worning SQL : " + e);
         }
         return user_data;
     }

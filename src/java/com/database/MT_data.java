@@ -64,7 +64,7 @@ public class MT_data implements Runnable {
         @Override
         public void run() {
             List<data_user> id_user_reg = ProcessRegister();
-            this.Log.info("Found data register : " + id_user_reg.size());
+            //this.Log.info("Found data register : " + id_user_reg.size());
             for (data_user r : id_user_reg) {
                 try {
                     byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
@@ -91,7 +91,7 @@ public class MT_data implements Runnable {
         public void run() {
             ////////////////////////////////////////////////////// mt ส่งยกเลิก
             List<data_userun> id_user_unreg = ProcessUnRegister();
-            this.Log.info("Found data Unregister : " + id_user_unreg.size());
+            //this.Log.info("Found data Unregister : " + id_user_unreg.size());
             for (data_userun r : id_user_unreg) {
                 try {
                     byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
@@ -202,7 +202,7 @@ public class MT_data implements Runnable {
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
             String sql = "exec sp_getServiceDetail 'UNREG'";
-            this.Log.info("ProcessUnRegister " + sql);
+            //this.Log.info("ProcessUnRegister " + sql);
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 data_userun iduser = new data_userun();

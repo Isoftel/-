@@ -19,20 +19,20 @@ import javax.servlet.http.HttpServlet;
 import org.apache.log4j.Logger;
 
 public class run_api extends HttpServlet implements Runnable {
-    
+
     ProcessDatabase xml = new ProcessDatabase();
     ResourceBundle msg = ResourceBundle.getBundle("configs");
     int ThreadSleep;
     Thread th;
     String msdfsdfd;
     Logger Log = Logger.getLogger(this.getClass());
-    
+
     Date date = new Date();
     //HH:mm:ss
     DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    
+
     DateFormat Format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-    
+
     @Override
     public void init(ServletConfig config) {
         ThreadSleep = Integer.parseInt(msg.getString("Thread"));
@@ -40,7 +40,7 @@ public class run_api extends HttpServlet implements Runnable {
         th.setPriority(1);
         th.start();
     }
-    
+
     @Override
     public void run() {
         while (true) {
@@ -64,27 +64,27 @@ public class run_api extends HttpServlet implements Runnable {
                 try {
                     Thread.sleep(ThreadSleep);
                 } catch (Exception ex) {
-                    
+
                 }
             }
-            
+
         }
-        
+
     }
-    
+
     public void worning() {
-        DateFormat dateFormat_set_start = new SimpleDateFormat("yyyy-MM-dd 17:28:10");
-        DateFormat dateFormat_set_end = new SimpleDateFormat("yyyy-MM-dd 17:29:30");
+        DateFormat dateFormat_set_start = new SimpleDateFormat("yyyy-MM-dd 17:35:10");
+        DateFormat dateFormat_set_end = new SimpleDateFormat("yyyy-MM-dd 17:36:30");
         try {
             String date_warning = dateFormat.format(date);
             String date_start = dateFormat_set_start.format(date);
             String date_end = dateFormat_set_end.format(date);
-            
+
             Date convertedDate = Format.parse(date_warning);
             Date start = Format.parse(date_start);
             Date end = Format.parse(date_end);
             /////// Date < Date = -1 | Date = Date = 0 | Date > Date = 1
-            this.Log.info("Sta : " + convertedDate.compareTo(start) + " End : " + convertedDate.compareTo(end));
+            this.Log.info("Sta : " + convertedDate.compareTo(start) + " : " + date_start + " End : " + convertedDate.compareTo(end) + " : " + date_end);
             if (convertedDate.compareTo(start) == 1 && convertedDate.compareTo(end) == -1) {
                 Thread tt = new Thread(new SMS_Worning());
                 tt.setPriority(1);
@@ -95,7 +95,7 @@ public class run_api extends HttpServlet implements Runnable {
             this.Log.info("Error Time : " + e);
         }
     }
-    
+
     public String dumpStrings(String text) {
         String str_unicode = "";
         for (int i = 0; i < text.length(); i++) {
@@ -104,7 +104,7 @@ public class run_api extends HttpServlet implements Runnable {
         }
         return str_unicode;
     }
-    
+
     public String dumpStrings2(String text) {
         text = text.replace("&", "");
         text = text.replace(";", "");
@@ -112,11 +112,11 @@ public class run_api extends HttpServlet implements Runnable {
         String str_unicode = "";
         try {
             for (int i = 1; i < arr.length; i++) {
-                
+
                 int hexVal = Integer.parseInt(arr[i]);
                 str_unicode += (char) hexVal;
             }
-            
+
         } catch (Exception e) {
             this.Log.info("Err en " + e);
         }
