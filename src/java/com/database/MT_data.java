@@ -235,7 +235,6 @@ public class MT_data implements Runnable {
                 iduser.setAccess(access);
                 iduser.setEncoding(user + ":" + pass);
                 sql = "UPDATE register SET status = '40' WHERE reg_id='" + id_user + "' ";
-                rs = stmt.executeQuery(sql);
                 stmt.executeUpdate(sql);
                 user_room.add(iduser);
             }
