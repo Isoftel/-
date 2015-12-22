@@ -36,7 +36,7 @@ public class MT_data implements Runnable {
     String post_xml_true = msg.getString("true_url");
     String url_mo = msg.getString("ip_mo");
 
- 
+        String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";&useUnicode=true&characterEncoding=UTF-8";
 
     int id_user = 0;
     String encode = "";
@@ -142,10 +142,9 @@ public class MT_data implements Runnable {
         Statement stmt = null;
         try {
 
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
-            String jdbcutf8 = "&useUnicode=true&characterEncoding=UTF-8";
-            conn = DriverManager.getConnection(connectionUrl + jdbcutf8);
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");     
+            conn = DriverManager.getConnection(connectionUrl);
+            
             stmt = conn.createStatement();
             String sql = "exec sp_getServiceDetail 'REG'";
             ResultSet rs = stmt.executeQuery(sql);
@@ -170,20 +169,21 @@ public class MT_data implements Runnable {
                 iduser.setAccess(access);
                 iduser.setEncoding(user + ":" + pass);
                 //iduser.setContent_sms(content_sms);
-
                 this.Log.info("Test Reg : " + Text_Service);
-                sql = "exec sp_UpdateRegister '" + id_user + "' ";
-
                 user_room.add(iduser);
-
+ 
                 // sql = "UPDATE register SET status = '10' WHERE reg_id='" + id_user + "' ";
+                sql = "exec sp_UpdateRegister '" + id_user + "' ";
                 Statement st = conn.createStatement();
                 st.executeUpdate(sql);
 
             }
-
-            this.Log.info("return ProcessRegister " + user_room.size());
-
+            rs.close();
+            stmt.close();
+            conn.close();
+             this.Log.info("return ProcessRegister " + user_room.size()+" Database Connection close "+conn.isClosed());
+            //conn //stmt // rs
+            //this.Log.info(conn.get
             return user_room;
         } catch (Exception e) {
             this.Log.info("Error ProcessRegister " + e);
@@ -198,10 +198,8 @@ public class MT_data implements Runnable {
         Statement stmt = null;
         try {
 
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
-            String jdbcutf8 = "&useUnicode=true&characterEncoding=UTF-8";
-            conn = DriverManager.getConnection(connectionUrl + jdbcutf8);
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");     
+            conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
             String sql = "exec sp_getServiceDetail 'UNREG'";
             this.Log.info("ProcessUnRegister " + sql);
@@ -238,7 +236,10 @@ public class MT_data implements Runnable {
                 st.executeUpdate(sql);
                 
             }
-            this.Log.info("id_user END "+user_roomun.size());
+             rs.close();
+            stmt.close();
+            conn.close();
+             this.Log.info("return ProcessRegister " + user_roomun.size()+" Database Connection close "+conn.isClosed());
             return user_roomun;
         } catch (Exception e) {
             this.Log.info("Error ProcessUnRegister " + e);
@@ -248,14 +249,12 @@ public class MT_data implements Runnable {
     }
 
     public List<data_message> ProcessSMS() {
-        List<data_message> data_message = new ArrayList<data_message>();
+        List<data_message> data_message = new ArrayList();
         Connection conn = null;
         Statement stmt = null;
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
-            String jdbcutf8 = "&useUnicode=true&characterEncoding=UTF-8";
-            conn = DriverManager.getConnection(connectionUrl + jdbcutf8);
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");     
+            conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT TOP(500)* FROM sms "
                     + "INNER JOIN services  ON services.service_id  = sms.service_id  "
@@ -291,6 +290,11 @@ public class MT_data implements Runnable {
                 st.executeUpdate(sql);
                 data_message.add(iduser);
             }
+            rs.close();
+            stmt.close();
+            conn.close();
+             this.Log.info("return ProcessRegister " + data_message.size()+" Database Connection close "+conn.isClosed());
+             
         } catch (Exception e) {
             //System.out.println("Error : " + e);
             this.Log.info("Error ProcessSMS " + e);
