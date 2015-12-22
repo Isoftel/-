@@ -181,7 +181,7 @@ public class MT_data implements Runnable {
             rs.close();
             stmt.close();
             conn.close();
-             this.Log.info("return ProcessRegister " + user_room.size()+" Database Connection close "+conn.isClosed());
+             //this.Log.info("return ProcessRegister " + user_room.size()+" Database Connection close "+conn.isClosed());
             //conn //stmt // rs
             //this.Log.info(conn.get
             return user_room;
@@ -239,7 +239,7 @@ public class MT_data implements Runnable {
              rs.close();
             stmt.close();
             conn.close();
-             this.Log.info("return ProcessRegister " + user_roomun.size()+" Database Connection close "+conn.isClosed());
+            //this.Log.info("return ProcessRegister " + user_roomun.size()+" Database Connection close "+conn.isClosed());
             return user_roomun;
         } catch (Exception e) {
             this.Log.info("Error ProcessUnRegister " + e);
@@ -293,7 +293,7 @@ public class MT_data implements Runnable {
             rs.close();
             stmt.close();
             conn.close();
-             this.Log.info("return ProcessRegister " + data_message.size()+" Database Connection close "+conn.isClosed());
+            //this.Log.info("return ProcessRegister " + data_message.size()+" Database Connection close "+conn.isClosed());
              
         } catch (Exception e) {
             //System.out.println("Error : " + e);
