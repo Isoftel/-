@@ -181,7 +181,9 @@ public class MT_data implements Runnable {
                 String user = "7112402000";
                 //rs.getString("api_password")
                 String pass = "H84pL9aG";
-                this.Log.info("DATA Unreg : id_user " + id_user + " service " + service + " number " + number + " Text_Service " + Text_Service + " access " + access + " date " + date + " User " + user + " : " + pass);
+                String data_user = "DATA Unreg : id_user " + id_user + " service " + service + " number " + number + " Text_Service " + Text_Service + " access " + access + " date " + date + " User " + user + " : " + pass;
+                this.Log.info("DATA Reg : id_user " + data_user);
+                System.out.println("DATA Reg : id_user " + data_user);
                 //TIS-620//UTF-8
                 iduser.setService_id(service);
                 iduser.setNumber_type(number);
@@ -189,7 +191,7 @@ public class MT_data implements Runnable {
                 iduser.setAccess(access);
                 iduser.setEncoding(user + ":" + pass);
                 iduser.setContent_sms(content_sms);
-                
+
                 this.Log.info("Test Reg : " + Text_Service);
                 //sql = "exec sp_UpdateRegister '" + id_user + "' ";
 
@@ -234,7 +236,9 @@ public class MT_data implements Runnable {
                 String user = "7112402000";
                 //rs.getString("api_password")
                 String pass = "H84pL9aG";
-                this.Log.info("DATA Unreg : id_user " + id_user + " service " + service + " number " + number + " Text_Service " + Text_Service + " access " + access + " date " + date + " User " + user + " : " + pass);
+                String data_user = "DATA Unreg : id_user " + id_user + " service " + service + " number " + number + " Text_Service " + Text_Service + " access " + access + " date " + date + " User " + user + " : " + pass;
+                this.Log.info("DATA Unreg : id_user " + data_user);
+                System.out.println("DATA Unreg : id_user " + data_user);
                 //System.out.println("Sql : " + " 1 " + service + " 2 " + number + " 3 " + Text_Service + " 4 " + access);
                 iduser.setService_id(service);
                 iduser.setNumber_type(number);
