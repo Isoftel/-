@@ -36,11 +36,6 @@ public class MT_data implements Runnable {
     String post_xml_true = msg.getString("true_url");
     String url_mo = msg.getString("ip_mo");
 
-
-
-    
-    
-
     private List<data_user> id_user_reg;
     private List<data_userun> id_user_unreg;
     private List<data_message> id_user_thank_sms;
@@ -143,27 +138,32 @@ public class MT_data implements Runnable {
     }
 
     public List<data_user> ProcessRegister() {
-        List<data_user>  user_room = new ArrayList();
+        List<data_user> user_room = new ArrayList();
         Connection conn = null;
         Statement stmt = null;
-       
+
         try {
-            
+
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
-            String jdbcutf8 = "&useUnicode=true&characterEncoding=UTF-8";  
-            conn = DriverManager.getConnection(connectionUrl + jdbcutf8);                       
-            stmt = conn.createStatement();
+            String jdbcutf8 = "&useUnicode=true&characterEncoding=UTF-8";
+            conn = DriverManager.getConnection(connectionUrl + jdbcutf8);
+            stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_UPDATABLE);
+//            stmt = conn.createStatement();
             String sql = "exec sp_getServiceDetail 'REG'";
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 String content_sms = "";
                 data_user iduser = new data_user();
                 id_user = rs.getInt("reg_id");
+                
+                rs.updateInt("status", 10);
+                rs.updateRow();
 //                sql = "UPDATE register SET status = '10' WHERE reg_id='" + id_user + "' ";
 //                Statement st = conn.createStatement();
 //                st.executeUpdate(sql);
-                
+
                 //rs.getString("service_user")
                 String service = "7112402000";
                 String number = rs.getString("msisdn");
@@ -194,12 +194,16 @@ public class MT_data implements Runnable {
             this.Log.info("Error ProcessRegister " + e);
         } finally {
             try {
-                Log.info("Connection State is close : "+ conn.isClosed() +" is Close :"+stmt.isClosed());
-               // if(!rs.isClosed()) rs.close();
-                if(!stmt.isClosed())stmt.close();
-                if(!conn.isClosed())   conn.close();
+                Log.info("Connection State is close : " + conn.isClosed() + " is Close :" + stmt.isClosed());
+                // if(!rs.isClosed()) rs.close();
+                if (!stmt.isClosed()) {
+                    stmt.close();
+                }
+                if (!conn.isClosed()) {
+                    conn.close();
+                }
             } catch (Exception e) {
-                  this.Log.info("Finally exception ProcessRegister " + e);
+                this.Log.info("Finally exception ProcessRegister " + e);
             }
         }
         return user_room;
@@ -253,10 +257,14 @@ public class MT_data implements Runnable {
             this.Log.info("Error ProcessUnRegister " + e);
         } finally {
             try {
-                if(!stmt.isClosed())   stmt.close();
-                if(!conn.isClosed())   conn.close();
+                if (!stmt.isClosed()) {
+                    stmt.close();
+                }
+                if (!conn.isClosed()) {
+                    conn.close();
+                }
             } catch (Exception e) {
-                    this.Log.info("Finally exception ProcessUnRegister " + e);
+                this.Log.info("Finally exception ProcessUnRegister " + e);
             }
         }
         return user_roomun;
@@ -311,10 +319,14 @@ public class MT_data implements Runnable {
             this.Log.info("Error ProcessSMS " + e);
         } finally {
             try {
-             if(!stmt.isClosed())stmt.close();
-             if(!conn.isClosed())   conn.close();
+                if (!stmt.isClosed()) {
+                    stmt.close();
+                }
+                if (!conn.isClosed()) {
+                    conn.close();
+                }
             } catch (Exception e) {
-              this.Log.info("Finally exception ProcessSMS " + e); 
+                this.Log.info("Finally exception ProcessSMS " + e);
             }
         }
         return data_message;
