@@ -55,8 +55,8 @@ public class MT_data implements Runnable {
     @Override
     public void run() {
 
-        Thread Reg = new Thread(new ThreaRegister());
-        Reg.start();
+//        Thread Reg = new Thread(new ThreaRegister());
+//        Reg.start();
 
         Thread UnReg = new Thread(new ThreaUnRegister());
         UnReg.start();
@@ -87,7 +87,6 @@ public class MT_data implements Runnable {
 
                     RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), Text_Service, r.getAccess(), encode, "TIS-620");
                     GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
-                    System.out.println("XML GET ProcessRegister : " + GetXML);
                     insert_r.insert_r(GetXML, "MT", "30");
                     this.Log.info("Get Xml Reg : " + GetXML);
                 } catch (Exception e) {
@@ -115,9 +114,7 @@ public class MT_data implements Runnable {
                     String Text_Service = dumpStrings(r.getDescriptions());
 
                     RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), Text_Service, r.getAccess(), encode, "TIS-620");
-                    System.out.println("Post ProcessUnRegister : " + RegXML);
                     GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
-                    System.out.println("XML GET ProcessUnRegister : " + GetXML);
                     insert_r.insert_r(GetXML, "MT", "50");
                 } catch (Exception e) {
                     this.Log.info("Error Unreg : " + e);
@@ -183,7 +180,7 @@ public class MT_data implements Runnable {
                 String pass = "H84pL9aG";
                 String data_user = "DATA Unreg : id_user " + id_user + " service " + service + " number " + number + " Text_Service " + Text_Service + " access " + access + " date " + date + " User " + user + " : " + pass;
                 this.Log.info("DATA Reg : id_user " + data_user);
-                System.out.println("DATA Reg : id_user " + data_user);
+                //System.out.println("DATA Reg : id_user " + data_user);
                 //TIS-620//UTF-8
                 iduser.setService_id(service);
                 iduser.setNumber_type(number);
@@ -238,7 +235,7 @@ public class MT_data implements Runnable {
                 String pass = "H84pL9aG";
                 String data_user = "DATA Unreg : id_user " + id_user + " service " + service + " number " + number + " Text_Service " + Text_Service + " access " + access + " date " + date + " User " + user + " : " + pass;
                 this.Log.info("DATA Unreg : id_user " + data_user);
-                System.out.println("DATA Unreg : id_user " + data_user);
+                //System.out.println("DATA Unreg : id_user " + data_user);
                 //System.out.println("Sql : " + " 1 " + service + " 2 " + number + " 3 " + Text_Service + " 4 " + access);
                 iduser.setService_id(service);
                 iduser.setNumber_type(number);
