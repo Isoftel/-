@@ -200,7 +200,7 @@ public class MT_data implements Runnable {
             this.Log.info("Error ProcessRegister " + e);
         } finally {
             try {
-                conn.close();
+                //conn.close();
             } catch (Exception e) {
             }
         }
@@ -251,7 +251,7 @@ public class MT_data implements Runnable {
             this.Log.info("Error ProcessUnRegister " + e);
         } finally {
             try {
-                conn.close();
+                //conn.close();
             } catch (Exception e) {
             }
         }
