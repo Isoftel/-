@@ -113,8 +113,8 @@ public class MT_data implements Runnable {
                     byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
                     encode = new sun.misc.BASE64Encoder().encode(b);
                     String Text_Service = dumpStrings(r.getDescriptions());
-                    
-                    RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(),Text_Service, r.getAccess(), encode, "TIS-620");
+
+                    RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), Text_Service, r.getAccess(), encode, "TIS-620");
                     System.out.println("Post ProcessUnRegister : " + RegXML);
                     GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
                     System.out.println("XML GET ProcessUnRegister : " + GetXML);
@@ -181,8 +181,7 @@ public class MT_data implements Runnable {
                 String user = "7112402000";
                 //rs.getString("api_password")
                 String pass = "H84pL9aG";
-                this.Log.info("Message test : " + Text_Service);
-                this.Log.info("id_user " + id_user + " service " + service + " number " + number + " access " + access + " date " + date + " User " + user + " : " + pass);
+                this.Log.info("DATA Unreg : id_user " + id_user + " service " + service + " number " + number + " Text_Service " + Text_Service + " access " + access + " date " + date + " User " + user + " : " + pass);
                 //TIS-620//UTF-8
                 iduser.setService_id(service);
                 iduser.setNumber_type(number);
@@ -190,10 +189,10 @@ public class MT_data implements Runnable {
                 iduser.setAccess(access);
                 iduser.setEncoding(user + ":" + pass);
                 iduser.setContent_sms(content_sms);
-
+                
                 this.Log.info("Test Reg : " + Text_Service);
                 //sql = "exec sp_UpdateRegister '" + id_user + "' ";
-                
+
                 user_room.add(iduser);
             }
         } catch (Exception e) {
@@ -235,15 +234,14 @@ public class MT_data implements Runnable {
                 String user = "7112402000";
                 //rs.getString("api_password")
                 String pass = "H84pL9aG";
-                //this.Log.info("Message test : " + Text_Service);
-                //this.Log.info("id_user " + id_user + " service " + service + " number " + number + " access " + access + " date " + date + " User " + user + " : " + pass);
+                this.Log.info("DATA Unreg : id_user " + id_user + " service " + service + " number " + number + " Text_Service " + Text_Service + " access " + access + " date " + date + " User " + user + " : " + pass);
                 //System.out.println("Sql : " + " 1 " + service + " 2 " + number + " 3 " + Text_Service + " 4 " + access);
                 iduser.setService_id(service);
                 iduser.setNumber_type(number);
                 iduser.setDescriptions(Text_Service);
                 iduser.setAccess(access);
                 iduser.setEncoding(user + ":" + pass);
-                
+
                 user_roomun.add(iduser);
                 this.Log.info("id_user ENDs ");
             }
