@@ -147,7 +147,7 @@ public class MT_data implements Runnable {
         }
 
     }
-    
+
     public List<data_user> ProcessRegister() {
         user_room.clear();
         try {
@@ -204,7 +204,7 @@ public class MT_data implements Runnable {
     public List<data_user> ProcessUnRegister() {
         user_room.clear();
         try {
-            
+
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
             conn = DriverManager.getConnection(connectionUrl);
@@ -215,6 +215,7 @@ public class MT_data implements Runnable {
             while (rs.next()) {
                 data_user iduser = new data_user();
                 id_user = rs.getString("reg_id");
+                Log.info("id_user " + id_user);
                 //rs.getString("service_user")
                 String service = "7112402000";
                 String number = rs.getString("msisdn");
