@@ -183,10 +183,10 @@ public class MT_data implements Runnable {
                 iduser.setAccess(access);
                 iduser.setEncoding(user + ":" + pass);
                 iduser.setContent_sms(content_sms);
-
+                
                 //System.out.println("Test Reg : " + Text_Service);
-                sql = "exec sp_UpdateRegister '" + id_user + "' ";
-
+                //sql = "exec sp_UpdateRegister '" + id_user + "' ";
+                sql = "UPDATE register SET status = '10' WHERE reg_id='" + id_user + "' ";
                 stmt.executeUpdate(sql);
                 user_room.add(iduser);
             }
@@ -235,6 +235,7 @@ public class MT_data implements Runnable {
                 iduser.setAccess(access);
                 iduser.setEncoding(user + ":" + pass);
                 sql = "UPDATE register SET status = '40' WHERE reg_id='" + id_user + "' ";
+                rs = stmt.executeQuery(sql);
                 stmt.executeUpdate(sql);
                 user_room.add(iduser);
             }
