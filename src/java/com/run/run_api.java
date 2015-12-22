@@ -62,7 +62,7 @@ public class run_api extends HttpServlet implements Runnable {
                 this.Log.info("application exception " + ex);
             } finally {
                 try {
-                    Thread.sleep(10000);
+                    Thread.sleep(ThreadSleep);
                 } catch (Exception ex) {
 
                 }
