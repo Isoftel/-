@@ -167,6 +167,8 @@ public class MT_data implements Runnable {
                 String content_sms = "";
                 data_user iduser = new data_user();
                 id_user = rs.getInt("reg_id");
+                sql = "UPDATE register SET status = '10' WHERE reg_id='" + id_user + "' ";
+                stmt.executeUpdate(sql);
                 //rs.getString("service_user")
                 String service = "7112402000";
                 String number = rs.getString("msisdn");
@@ -189,8 +191,7 @@ public class MT_data implements Runnable {
 
                 //System.out.println("Test Reg : " + Text_Service);
                 //sql = "exec sp_UpdateRegister '" + id_user + "' ";
-                sql = "UPDATE register SET status = '10' WHERE reg_id='" + id_user + "' ";
-                stmt.executeUpdate(sql);
+                
                 user_room.add(iduser);
             }
         } catch (Exception e) {
@@ -218,6 +219,8 @@ public class MT_data implements Runnable {
             while (rs.next()) {
                 data_user iduser = new data_user();
                 id_user = rs.getInt("reg_id");
+                sql = "UPDATE register SET status = '40' WHERE reg_id='" + id_user + "' ";
+                stmt.executeUpdate(sql);
                 Log.info("id_user " + id_user);
                 //rs.getString("service_user")
                 String service = "7112402000";
@@ -237,9 +240,9 @@ public class MT_data implements Runnable {
                 iduser.setDescriptions(Text_Service);
                 iduser.setAccess(access);
                 iduser.setEncoding(user + ":" + pass);
-                sql = "UPDATE register SET status = '40' WHERE reg_id='" + id_user + "' ";
-                stmt.executeUpdate(sql);
+                
                 user_room.add(iduser);
+                Log.info("id_user ENDs ");
             }
         } catch (Exception e) {
             this.Log.info("Error ProcessUnRegister " + e);
