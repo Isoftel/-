@@ -17,26 +17,26 @@ import java.util.ResourceBundle;
 import org.apache.log4j.Logger;
 
 public class XML_insert {
-    
+
     ProcessDatabase insert = new ProcessDatabase();
     Logger Log = Logger.getLogger(this.getClass());
-    
+
     Connection conn = null;
     Statement stmt = null;
     ResultSet rs = null;
-    
+
     ResourceBundle msg = ResourceBundle.getBundle("configs");
     String local = msg.getString("localhost");
     String data_base = msg.getString("data");
     String user = msg.getString("user");
     String pass = msg.getString("pass");
-    
+
     DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
     Date NewDate = new Date();
-    
-    public String insert_r(String xml, String id, String Request) {
+
+    public String insert_r(String xml, String id, String Request, String detail_status, String reg_unreg) {
         String time = dateFormat.format(NewDate);
-        
+
         String service = insert.getdata(xml, "service-id", 1, "");
         //<destination messageid=\"
         String messageid = insert.getdata(xml, "destination messageid=\"", 3, "");
@@ -57,19 +57,23 @@ public class XML_insert {
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
-            
-            String sql = "UPDATE register SET status_code = '" + code + "',status = '" + Request + "',send_date ='" + time + "' WHERE txid='" + messageid + "' ";
+
+            //String sql = "UPDATE register SET status_code = '" + code + "',status = '" + Request + "',send_date ='" + time + "' WHERE status='10' and  ";
+            String sql = "update r set r.status = '" + Request + "',r.status_code='" + code + "',r.txid ='" + messageid + "'"
+                    + ",r.status_detail='" + description + "',r.send_date = getdate() "
+                    + "from register r inner join mobile m on m.mobile_id = r.mobile_id "
+                    + "and m.msisdn = '" + number + "' and r.status = '" + detail_status + "' and api_req ='" + reg_unreg + "'";
             this.Log.info(sql);
             stmt.executeUpdate(sql);
             conn.close();
-            
+
         } catch (Exception e) {
             this.Log.info("insert_r : " + e);
             //System.out.println("Error : " + e);
         }
         return xml;
     }
-    
+
     public String insert_sms(String xml) {
         String service = insert.getdata(xml, "service-id", 1, "");
         String messageid = insert.getdata(xml, "destination messageid=\"", 3, "");
@@ -78,26 +82,26 @@ public class XML_insert {
         String description = insert.getdata(xml, "description", 1, "description");
         String number_text = "non";
         number_text = insert.getdata(xml, "number type=\"abbreviated\"", 4, "number");
-        
+
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
-            
+
             String sql = "UPDATE sms SET status = '100' WHERE msisdn ='" + number + "' AND service_id ='" + service + "' AND status='90' ";
             stmt.executeUpdate(sql);
-            
+
             conn.close();
         } catch (Exception e) {
         }
-        
+
         return xml;
     }
-    
+
     public String insert_worning(String xml, String id) {
         String time = dateFormat.format(NewDate);
-        
+
         String service = insert.getdata(xml, "service-id", 1, "");
         //<destination messageid=\"
         String messageid = insert.getdata(xml, "destination messageid=\"", 3, "");
@@ -112,7 +116,7 @@ public class XML_insert {
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
-            
+
             String id_service = "";
             String id_number = "";
             String sql = "select *,register.service_id id_ser from register "

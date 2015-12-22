@@ -72,7 +72,7 @@ public class MT_data implements Runnable {
                     String Text_Service = dumpStrings(r.getDescriptions());
                     RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), Text_Service, r.getAccess(), encode, "TIS-620");
                     GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
-                    insert_r.insert_r(GetXML, "MT", "30");
+                    insert_r.insert_r(GetXML, "MT", "30","10","REG");
                     this.Log.info("Get Xml Reg : " + GetXML);
                 } catch (Exception e) {
                     this.Log.info("Error Reg : " + e);
@@ -100,7 +100,8 @@ public class MT_data implements Runnable {
 
                     RegXML = str_xml.getXmlUnreg(r.getService_id(), r.getNumber_type(), Text_Service, r.getAccess(), encode, "TIS-620");
                     GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
-                    insert_r.insert_r(GetXML, "MT", "50");
+                    insert_r.insert_r(GetXML, "MT", "50","40","UNREG");
+                    this.Log.info("Get Xml UnReg : " + GetXML);
                 } catch (Exception e) {
                     this.Log.info("Error Unreg : " + e);
                 }
