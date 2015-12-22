@@ -246,11 +246,12 @@ public class MT_data implements Runnable {
                 user_roomun.add(iduser);
                 this.Log.info("id_user ENDs ");
             }
+            conn.close();
         } catch (Exception e) {
             this.Log.info("Error ProcessUnRegister " + e);
         } finally {
             try {
-                conn.close();
+                
             } catch (Exception e) {
             }
         }
