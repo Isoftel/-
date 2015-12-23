@@ -36,7 +36,7 @@ public class MT_data implements Runnable {
     String post_xml_true = msg.getString("true_url");
     String url_mo = msg.getString("ip_mo");
 
-        String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";&useUnicode=true&characterEncoding=UTF-8";
+    String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";&useUnicode=true&characterEncoding=UTF-8";
 
     int id_user = 0;
     String encode = "";
@@ -72,7 +72,7 @@ public class MT_data implements Runnable {
                     String Text_Service = dumpStrings(r.getDescriptions());
                     RegXML = str_xml.getXmlReg(r.getService_id(), r.getNumber_type(), Text_Service, r.getAccess(), encode, "TIS-620");
                     GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
-                    insert_r.insert_r(GetXML, "MT", "30","10","REG");
+                    insert_r.insert_r(GetXML, "MT", "30", "10", "REG");
                     this.Log.info("Get Xml Reg : " + GetXML);
                 } catch (Exception e) {
                     this.Log.info("Error Reg : " + e);
@@ -100,7 +100,7 @@ public class MT_data implements Runnable {
 
                     RegXML = str_xml.getXmlUnreg(r.getService_id(), r.getNumber_type(), Text_Service, r.getAccess(), encode, "TIS-620");
                     GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
-                    insert_r.insert_r(GetXML, "MT", "50","40","UNREG");
+                    insert_r.insert_r(GetXML, "MT", "50", "40", "UNREG");
                     this.Log.info("Get Xml UnReg : " + GetXML);
                 } catch (Exception e) {
                     this.Log.info("Error Unreg : " + e);
@@ -142,9 +142,9 @@ public class MT_data implements Runnable {
         Statement stmt = null;
         try {
 
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");     
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             conn = DriverManager.getConnection(connectionUrl);
-            
+
             stmt = conn.createStatement();
             String sql = "exec sp_getServiceDetail 'REG'";
             ResultSet rs = stmt.executeQuery(sql);
@@ -152,15 +152,16 @@ public class MT_data implements Runnable {
                 String content_sms = "";
                 data_user iduser = new data_user();
                 id_user = rs.getInt("reg_id");
-                String service = "7112402000";
+                String service = rs.getString("service_user");
+//                String service = "7112402000";
                 String number = rs.getString("msisdn");
                 String Text_Service = rs.getString("mt_msg");
                 String access = rs.getString("access_number");
                 String date = rs.getString("cdate");
-                //rs.getString("api_user")
-                String user = "7112402000";
-                //rs.getString("api_password")
-                String pass = "H84pL9aG";
+                String user = rs.getString("api_user");
+//                String user = "7112402000";
+                String pass=rs.getString("api_password");
+//                String pass = "H84pL9aG";
                 String data_user = "DATA Unreg : id_user " + id_user + " service " + service + " number " + number + " Text_Service " + Text_Service + " access " + access + " date " + date + " User " + user + " : " + pass;
                 this.Log.info("DATA Reg : id_user " + data_user);
                 iduser.setService_id(service);
@@ -171,7 +172,7 @@ public class MT_data implements Runnable {
                 //iduser.setContent_sms(content_sms);
                 this.Log.info("Test Reg : " + Text_Service);
                 user_room.add(iduser);
- 
+
                 // sql = "UPDATE register SET status = '10' WHERE reg_id='" + id_user + "' ";
                 sql = "exec sp_UpdateRegister '" + id_user + "' ";
                 Statement st = conn.createStatement();
@@ -181,7 +182,7 @@ public class MT_data implements Runnable {
             rs.close();
             stmt.close();
             conn.close();
-             //this.Log.info("return ProcessRegister " + user_room.size()+" Database Connection close "+conn.isClosed());
+            //this.Log.info("return ProcessRegister " + user_room.size()+" Database Connection close "+conn.isClosed());
             //conn //stmt // rs
             //this.Log.info(conn.get
             return user_room;
@@ -198,7 +199,7 @@ public class MT_data implements Runnable {
         Statement stmt = null;
         try {
 
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");     
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
             String sql = "exec sp_getServiceDetail 'UNREG'";
@@ -209,16 +210,16 @@ public class MT_data implements Runnable {
                 id_user = rs.getInt("reg_id");
 
                 Log.info("id_user " + id_user);
-                //rs.getString("service_user")
-                String service = "7112402000";
+                String service = rs.getString("service_user");
+//                String service = "7112402000";
                 String number = rs.getString("msisdn");
                 String Text_Service = rs.getString("mt_msg");
                 String access = rs.getString("access_number");
                 String date = rs.getString("cdate");
-                //rs.getString("api_user")
-                String user = "7112402000";
-                //rs.getString("api_password")
-                String pass = "H84pL9aG";
+                String user = rs.getString("api_user");
+//                String user = "7112402000";
+                String pass=rs.getString("api_password");
+//                String pass = "H84pL9aG";
                 String data_user = "DATA Unreg : id_user " + id_user + " service " + service + " number " + number + " Text_Service " + Text_Service + " access " + access + " date " + date + " User " + user + " : " + pass;
                 this.Log.info("DATA Unreg : id_user " + data_user);
                 //System.out.println("DATA Unreg : id_user " + data_user);
@@ -234,9 +235,9 @@ public class MT_data implements Runnable {
                 sql = "UPDATE register SET status = '40' WHERE reg_id='" + id_user + "' ";
                 Statement st = conn.createStatement();
                 st.executeUpdate(sql);
-                
+
             }
-             rs.close();
+            rs.close();
             stmt.close();
             conn.close();
             //this.Log.info("return ProcessRegister " + user_roomun.size()+" Database Connection close "+conn.isClosed());
@@ -253,7 +254,7 @@ public class MT_data implements Runnable {
         Connection conn = null;
         Statement stmt = null;
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");     
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT TOP(500)* FROM sms "
@@ -294,7 +295,7 @@ public class MT_data implements Runnable {
             stmt.close();
             conn.close();
             //this.Log.info("return ProcessRegister " + data_message.size()+" Database Connection close "+conn.isClosed());
-             
+
         } catch (Exception e) {
             //System.out.println("Error : " + e);
             this.Log.info("Error ProcessSMS " + e);
