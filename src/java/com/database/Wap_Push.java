@@ -203,7 +203,7 @@ public class Wap_Push implements Runnable {
                 ResultSet rs = stmt.executeQuery(Command);
                 this.Log.info("SQL PhoneNummber : " + Command);
                 while (rs.next()) {
-
+                       
                     String url = dumpStrings(this.ContentName + " " + this.referid);
 //                    String url = this.ContentName + " " + this.referid;
                     String user_pass = "";
