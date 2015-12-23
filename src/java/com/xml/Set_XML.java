@@ -93,7 +93,8 @@ public class Set_XML {
         //type = "TIS-620";
         sb.append("<ud type=\"text\" encoding=\"").append(type).append("\">").append(Text_Service).append("</ud>");
         sb.append("<scts>").append(dateFormat2.format(date)).append("</scts>");
-        sb.append("<dro>").append("false").append("</dro>");
+        //false
+        sb.append("<dro>").append("true").append("</dro>");
         sb.append("</sms>");
         sb.append("</message>");
         return sb.toString();
