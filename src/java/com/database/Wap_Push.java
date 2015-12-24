@@ -203,23 +203,25 @@ public class Wap_Push implements Runnable {
                 ResultSet rs = stmt.executeQuery(Command);
                 this.Log.info("SQL PhoneNummber : " + Command);
                 while (rs.next()) {
-                       
+
                     String url = dumpStrings(this.ContentName + " " + this.referid);
 //                    String url = this.ContentName + " " + this.referid;
                     String user_pass = "";
+                    String service = "";
                     if (ch.equals("free")) {
+                        service = "7112402000";
                         user_pass = "7112402000:H84pL9aG";
                     } else if (ch.equals("charge")) {
+                        service = this.map.get("service_id").toString();
                         user_pass = this.map.get("service_id").toString() + ":" + this.map.get("api_password").toString();
                     }
-
                     byte[] b = user_pass.getBytes(Charset.forName("UTF-8"));
                     user_pass = new sun.misc.BASE64Encoder().encode(b);
 
-                    RegXML = str_xml.getXmlSMS(this.map.get("service_id").toString(), rs.getString("msisdn"), url, this.map.get("access_number").toString(), user_pass, "unicode");
+                    RegXML = str_xml.getXmlReg(this.map.get("service_id").toString(), rs.getString("msisdn"), url, this.map.get("access_number").toString(), user_pass, "TIS-620");
                     //RegXML = str_xml.getXmlWapPush2(this.map.get("service_id").toString(), rs.getString("msisdn"), url, this.map.get("access_number").toString(), user_pass, "unicode");
                     this.Log.info("Post XML WapPush : " + RegXML);
-                    GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), user_pass, "wap_push");
+                    GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), user_pass, "mt");
                     this.Log.info("Get XML WapPush : " + GetXML);
                     String messageid = insert.getdata(GetXML, "destination messageid=\"", 3, "");
                     InserSendedConten(rs, messageid);
