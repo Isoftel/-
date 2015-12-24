@@ -218,7 +218,7 @@ public class Wap_Push implements Runnable {
                     byte[] b = user_pass.getBytes(Charset.forName("UTF-8"));
                     user_pass = new sun.misc.BASE64Encoder().encode(b);
 
-                    RegXML = str_xml.getXmlReg(this.map.get("service_id").toString(), rs.getString("msisdn"), url, this.map.get("access_number").toString(), user_pass, "TIS-620");
+                    RegXML = str_xml.getXmlReg(service, rs.getString("msisdn"), url, this.map.get("access_number").toString(), user_pass, "TIS-620");
                     //RegXML = str_xml.getXmlWapPush2(this.map.get("service_id").toString(), rs.getString("msisdn"), url, this.map.get("access_number").toString(), user_pass, "unicode");
                     this.Log.info("Post XML WapPush : " + RegXML);
                     GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), user_pass, "mt");
