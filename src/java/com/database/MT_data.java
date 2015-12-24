@@ -154,14 +154,12 @@ public class MT_data implements Runnable {
                 id_user = rs.getInt("reg_id");
 //                String service = rs.getString("service_user");
                 String service = "7112402000";
-                service = "7112409001";
                 String number = rs.getString("msisdn");
                 String Text_Service = rs.getString("mt_msg");
                 String access = rs.getString("access_number");
                 String date = rs.getString("cdate");
 //                String user = rs.getString("api_user");
                 String user = "7112402000";
-                user = "7112409001";
 //                String pass=rs.getString("api_password");
                 String pass = "H84pL9aG";
                 String data_user = "DATA Unreg : id_user " + id_user + " service " + service + " number " + number + " Text_Service " + Text_Service + " access " + access + " date " + date + " User " + user + " : " + pass;
