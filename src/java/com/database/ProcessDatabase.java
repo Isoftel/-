@@ -215,8 +215,14 @@ public class ProcessDatabase {
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
-            sql = "INSERT INTO delivery_report(TransactionID,ServiceID,MSISDN,Content,MMS_status,Date,OperId,FRDN) "
-                    + "VALUES ('" + message_id + "','" + service + "','" + number + "','" + message + "','" + code + "','" + date_format + "','3','true')";
+            String S_message = "";
+            if (message.equals("The service is not associated to given subscriber") || message.equals("Message rejected by SMSC")) {
+                S_message = "UNREG_IMMEDIATE";
+            } else if (message.equals("Message acknowledged by SMSC")) {
+                S_message = "REG_SUCCESS";
+            }
+            sql = "INSERT INTO delivery_report(TransactionID,ServiceID,MSISDN,Content,MMS_status,Date,OperId,FRDN,SSSActionReport) "
+                    + "VALUES ('" + message_id + "','" + service + "','" + number + "','" + message + "','" + code + "','" + date_format + "','3','true','"+S_message+"')";
             this.Log.info("Log delivery_report : " + sql);
             stmt.execute(sql);
 //            sql = "INSERT INTO delivery_request(TransactionID,product_id,MSISDN,Content,StatusCode,cdate,service_id) "
