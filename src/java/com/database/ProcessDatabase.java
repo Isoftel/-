@@ -219,7 +219,8 @@ public class ProcessDatabase {
             if (message.equals("The service is not associated to given subscriber") || message.equals("Message rejected by SMSC")) {
                 S_message = "UNREG_IMMEDIATE";
             } else if (message.equals("Message acknowledged by SMSC")) {
-                S_message = "REG_SUCCESS";
+                //REG_SUCCESS
+                S_message = "RECURRING";
             }
             sql = "INSERT INTO delivery_report(TransactionID,ServiceID,MSISDN,Content,MMS_status,Date,OperId,FRDN,SSSActionReport) "
                     + "VALUES ('" + message_id + "','" + service + "','" + number + "','" + message + "','" + code + "','" + date_format + "','3','true','"+S_message+"')";
