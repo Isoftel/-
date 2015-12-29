@@ -52,7 +52,8 @@ public class ProcessDatabase {
         String from = (getdata(result, "from", 1, ""));
         String to = (getdata(result, "to", 1, ""));
         //System.out.println("service " + service + " time " + time);
-
+        time = time.replace("T", " ");
+        time = time.replace("Z", "");
         if (!destination.equals("4557878")) {
             if (ud.equals("R") || ud.equals("r")) {
                 ud = "REG";
