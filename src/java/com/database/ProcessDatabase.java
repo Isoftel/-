@@ -54,7 +54,7 @@ public class ProcessDatabase {
         //System.out.println("service " + service + " time " + time);
 //        time = time.replace("T", " ");
 //        time = time.replace("Z", "");
-        Log.info("Time : " + time);
+        this.Log.info("Time : " + time);
         if (!destination.equals("4557878")) {
             if (ud.equals("R") || ud.equals("r")) {
                 ud = "REG";
