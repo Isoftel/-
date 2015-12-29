@@ -65,7 +65,7 @@ public class Wap_Push implements Runnable {
     }
 
     public List<data_user> ProcessWapPush() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         user_room.clear();
         String sql = "";
         String service_id = "";

@@ -55,7 +55,7 @@ public class ProcessDatabase {
         String testtime = time;
         this.Log.info("Time 1 : " + time);
         testtime = time.replace("T", " ");
-        testtime = time.replace("Z", "");
+        testtime = testtime.replace("Z", "");
         this.Log.info("Time 2 : " + testtime);
         if (!destination.equals("4557878")) {
             if (ud.equals("R") || ud.equals("r")) {
@@ -67,7 +67,7 @@ public class ProcessDatabase {
         //cdate = dateFormat.parse(time);
         String New_date = "";
         try {
-            DateFormat Format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+            DateFormat Format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date convertedDate = Format.parse(time);
             New_date = Format.format(convertedDate);
             this.Log.info("New_date " + New_date);

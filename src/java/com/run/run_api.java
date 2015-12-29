@@ -48,6 +48,21 @@ public class run_api extends HttpServlet implements Runnable {
                 Thread.sleep(ThreadSleep);
                 System.out.println("Runing API");
                 this.Log.info("Runing API");
+
+                String time = "2015-12-29T15:42:10Z";
+                String testtime = "";
+                testtime = time.replace("T", " ");
+                testtime = testtime.replace("Z", "");
+                System.out.println("Time 2 : " + testtime);
+
+                String New_date = "";
+                DateFormat Format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date convertedDate = Format.parse(testtime);
+                System.out.println("convertedDate : " + convertedDate);
+                New_date = Format.format(convertedDate);
+
+                System.out.println("New Date : " + New_date);
+
                 /////  ส่ง MT
                 Thread tt = new Thread(new MT_data());
                 tt.setPriority(1);
