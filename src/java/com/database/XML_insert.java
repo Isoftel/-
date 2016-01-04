@@ -89,7 +89,7 @@ public class XML_insert {
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
 
-            String sql = "UPDATE sms SET status = '100' WHERE msisdn ='" + number + "' AND service_id ='" + service + "' AND status='90' ";
+            String sql = "UPDATE sms SET statuscode = '100' WHERE msisdn ='" + number + "' AND service_id ='" + service + "' AND status='90' ";
             stmt.executeUpdate(sql);
 
             conn.close();

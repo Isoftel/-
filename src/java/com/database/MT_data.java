@@ -262,7 +262,7 @@ public class MT_data implements Runnable {
                     + "INNER JOIN mobile    ON mobile.msisdn = sms.msisdn "
                     + "INNER JOIN mgr       ON mgr.operator_id = mobile.operator_id "
                     + "INNER JOIN api_sms   ON api_sms.service_id = mgr.service_id "
-                    + "WHERE mgr.api_req = 'REG' AND sms.status = '0' AND mgr.service_id = '6' and api_sms.mt_type = 'FREE'");
+                    + "WHERE mgr.api_req = 'REG' AND sms.status = '0' AND sms.statuscode = '0' AND mgr.service_id = '6' and api_sms.mt_type = 'FREE'");
             String id_user = "";
             while (rs.next()) {
                 data_message iduser = new data_message();
@@ -286,7 +286,7 @@ public class MT_data implements Runnable {
                 iduser.setDescriptions(unicode_test);
                 iduser.setAccess(access);
                 iduser.setEncoding(user + ":" + pass);
-                String sql = "UPDATE sms SET status = '90' WHERE sms_id ='" + id_user + "' ";
+                String sql = "UPDATE sms SET statuscode = '90' WHERE sms_id ='" + id_user + "' ";
                 Statement st = conn.createStatement();
                 st.executeUpdate(sql);
                 data_message.add(iduser);
