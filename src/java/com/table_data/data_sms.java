@@ -8,6 +8,15 @@ public class data_sms implements java.io.Serializable {
     private String text_sms;
     private String code;
     private String encoding;
+    private String id_num_ser;
+
+    public String getId_num_ser() {
+        return id_num_ser;
+    }
+
+    public void setId_num_ser(String id_num_ser) {
+        this.id_num_ser = id_num_ser;
+    }
 
     public String getEncoding() {
         return encoding;

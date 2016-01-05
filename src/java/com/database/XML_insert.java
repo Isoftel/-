@@ -94,6 +94,7 @@ public class XML_insert {
 
             conn.close();
         } catch (Exception e) {
+            this.Log.info("insert_sms : " + e);
         }
 
         return xml;
@@ -131,11 +132,14 @@ public class XML_insert {
                 id_number = rs.getString("mobile_id");
             }
 
-//            sql = "UPDATE register SET status_code = '50' WHERE sms_id ='" + id_register + "' ";
-//            stmt.executeUpdate(sql);
+
+            sql = "UPDATE register SET status_code = '50',send_date=getdate() WHERE reg_id ='" + id_register + "' ";
+            stmt.executeUpdate(sql);
+            
             conn.close();
         } catch (Exception e) {
-            System.out.println("Error : " + e);
+            this.Log.info("insert_worning : " + e);
+            //System.out.println("Error : " + e);
         }
         return xml;
     }

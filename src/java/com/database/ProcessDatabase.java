@@ -153,7 +153,7 @@ public class ProcessDatabase {
                 stmt = conn.createStatement();
                 String text = "Success receive request";
                 sql = "INSERT INTO register(api_req, reg_channel, mobile_id, service_id, reg_date, status,status_code,txid) "
-                        + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + New_date + "','0','0','" + message + "')";
+                        + "VALUES('" + ud + "','SMS','" + id_number + "','" + id_service + "','" + New_date + "','60','0','" + message + "')";
                 stmt.execute(sql);
                 out_xml.OutXmlr(encoding, message, service, destination, number, text, messageid, out);
             } catch (Exception e) {

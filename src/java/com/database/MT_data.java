@@ -100,7 +100,7 @@ public class MT_data implements Runnable {
 
                     RegXML = str_xml.getXmlUnreg(r.getService_id(), r.getNumber_type(), Text_Service, r.getAccess(), encode, "TIS-620");
                     GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "mt");
-                    insert_r.insert_r(GetXML, "MT", "50", "40", "UNREG");
+                    insert_r.insert_r(GetXML, "MT", "80", "70", "UNREG");
                     this.Log.info("Get Xml UnReg : " + GetXML);
                 } catch (Exception e) {
                     this.Log.info("Error Unreg : " + e);
@@ -232,7 +232,7 @@ public class MT_data implements Runnable {
 
                 user_roomun.add(iduser);
 
-                sql = "UPDATE register SET status = '40' WHERE reg_id='" + id_user + "' ";
+                sql = "UPDATE register SET status = '70' WHERE reg_id='" + id_user + "' ";
                 Statement st = conn.createStatement();
                 st.executeUpdate(sql);
 

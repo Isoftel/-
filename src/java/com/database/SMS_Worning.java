@@ -8,7 +8,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import org.apache.log4j.Logger;
@@ -41,6 +44,9 @@ public class SMS_Worning implements Runnable {
     List<data_sms> user_data = new ArrayList<data_sms>();
 
     private List<data_sms> sms_data = SMS();
+    Date NewDate = new Date();
+    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+    String new_date_format = dateFormat.format(NewDate);
 
     @Override
     public void run() {
@@ -50,10 +56,29 @@ public class SMS_Worning implements Runnable {
             String SmsXML = null;
             String GetXML = null;
             try {
+
+                Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+                String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
+                conn = DriverManager.getConnection(connectionUrl);
+                stmt = conn.createStatement();
+                String text = "Success receive request";
+                String sql = "INSERT INTO register(api_req, reg_channel, mobile_id, service_id, reg_date, status,status_code) "
+                        + "VALUES('WORNING','SMS','" + r.getNumber() + "','" + r.getService_id() + "','" + new_date_format + "','40','0')";
+                stmt.execute(sql);
+
                 byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
                 encode = new sun.misc.BASE64Encoder().encode(b);
                 String Text_Service = dumpStrings(r.getText_sms());
                 SmsXML = str_xml.getXmlWorning(r.getService_id(), r.getNumber(), Text_Service, r.getAccess(), encode, "TIS-620");
+                /*
+                
+                 iduser.setNumber(rs.getString("msisdn"));
+                 iduser.setService_id(service);
+                 iduser.setAccess(access);
+                 iduser.setText_sms(text);
+                 iduser.setEncoding(user);
+                 iduser.setService_id(id_num_ser);
+                 */
                 GetXML = post_xml.PostXml(SmsXML, msg.getString("ip_mo"), encode, "mt");
                 this.Log.info("Get Xml Worning : " + GetXML);
                 insert_data.insert_worning(GetXML, "SMS");
@@ -77,6 +102,7 @@ public class SMS_Worning implements Runnable {
             String service = "7112409000";
             String access = "";
             String text = "";
+            String id_num_ser = "";
 
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
@@ -84,6 +110,7 @@ public class SMS_Worning implements Runnable {
             while (rs.next()) {
                 access = rs.getString("access_number");
                 text = rs.getString("mt_msg");
+                id_num_ser = rs.getString("id");
                 this.Log.info("test ser : " + rs.getString("mt_msg"));
                 //iduser.setCode(rs2.getString("status"));
             }
@@ -99,6 +126,7 @@ public class SMS_Worning implements Runnable {
                 iduser.setAccess(access);
                 iduser.setText_sms(text);
                 iduser.setEncoding(user);
+                iduser.setService_id(id_num_ser);
                 user_data.add(iduser);
             }
             conn.close();
@@ -110,6 +138,7 @@ public class SMS_Worning implements Runnable {
             while (rs.next()) {
                 access = rs.getString("access_number");
                 text = rs.getString("mt_msg");
+                id_num_ser = rs.getString("id");
                 this.Log.info("test ser : " + rs.getString("mt_msg"));
                 //iduser.setCode(rs2.getString("status"));
             }
@@ -125,6 +154,7 @@ public class SMS_Worning implements Runnable {
                 iduser.setAccess(access);
                 iduser.setText_sms(text);
                 iduser.setEncoding(user);
+                iduser.setService_id(id_num_ser);
                 user_data.add(iduser);
             }
             conn.close();
@@ -136,6 +166,7 @@ public class SMS_Worning implements Runnable {
             while (rs.next()) {
                 access = rs.getString("access_number");
                 text = rs.getString("mt_msg");
+                id_num_ser = rs.getString("id");
                 this.Log.info("test ser : " + rs.getString("mt_msg"));
                 //iduser.setCode(rs2.getString("status"));
             }
@@ -151,6 +182,7 @@ public class SMS_Worning implements Runnable {
                 iduser.setAccess(access);
                 iduser.setText_sms(text);
                 iduser.setEncoding(user);
+                iduser.setService_id(id_num_ser);
                 user_data.add(iduser);
             }
             conn.close();
