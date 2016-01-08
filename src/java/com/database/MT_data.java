@@ -125,8 +125,8 @@ public class MT_data implements Runnable {
                     insert_r.insert_sms("Test : " + r.getDescriptions());
                     byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
                     encode = new sun.misc.BASE64Encoder().encode(b);
-                    String Text_Service = dumpStrings("ขอบคุณที่ใช้บริการคะ");
-                    RegXML = str_xml.getXmlSMS(r.getService_id(), r.getNumber_type(), Text_Service, r.getAccess(), encode, "unicode");
+
+                    RegXML = str_xml.getXmlSMS(r.getService_id(), r.getNumber_type(), r.getText_Service(), r.getAccess(), encode, "unicode");
                     GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "sms");
                     this.Log.info("Get Xml SMS : " + GetXML);
                     insert_r.insert_sms(GetXML);
@@ -286,17 +286,19 @@ public class MT_data implements Runnable {
                 iduser.setService_id(service_id);
                 iduser.setNumber_type(number);
 
-//                String unicode_test = dumpStrings(rs.getString("mt_msg"));
-                String unicode_test = "";
-                if (rs.getString("status").equals("10")) {
-                    unicode_test = "คุณมี xxxx แต้ม xxx สิทธิ์ ตรวจสอบและประกาศผลทาง www.draco.co.th";
-                }else if (rs.getString("status").equals("20")) {
-                    unicode_test = "รหัสถูกใช้งานไปแล้ว กรุณาตรวจสอบรหัสอีกครั้ง";
-                }else if (rs.getString("status").equals("30")) {
-                    unicode_test = "รหัสผิดพลาด กรุณาตรวจสอบรหัสอีกครั้ง";
-                }
-                
+                String unicode_test = dumpStrings(rs.getString("mt_msg"));
 
+//                String Text_Service = dumpStrings("ขอบคุณที่ใช้บริการคะ");
+                String Text_Service = "";
+                if (rs.getString("status").equals("10")) {
+                    Text_Service = "คุณมี xxxx แต้ม xxx สิทธิ์ ตรวจสอบและประกาศผลทาง www.draco.co.th";
+                } else if (rs.getString("status").equals("20")) {
+                    Text_Service = "รหัสถูกใช้งานไปแล้ว กรุณาตรวจสอบรหัสอีกครั้ง";
+                } else if (rs.getString("status").equals("30")) {
+                    Text_Service = "รหัสผิดพลาด กรุณาตรวจสอบรหัสอีกครั้ง";
+                }
+
+                iduser.setText_Service(Text_Service);
                 iduser.setDescriptions(unicode_test);
                 iduser.setAccess(access);
                 iduser.setEncoding(user + ":" + pass);
