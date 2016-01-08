@@ -28,6 +28,7 @@ public class MT_data implements Runnable {
     XML_insert insert_r = new XML_insert();
     String local = msg.getString("localhost");
     String data_base = msg.getString("data");
+    String data_base2 = msg.getString("data");
     String user = msg.getString("user");
     String pass = msg.getString("pass");
     String port = msg.getString("port");
@@ -37,6 +38,7 @@ public class MT_data implements Runnable {
     String url_mo = msg.getString("ip_mo");
 
     String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";&useUnicode=true&characterEncoding=UTF-8";
+    String connectionUrl2 = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";&useUnicode=true&characterEncoding=UTF-8";
 
     int id_user = 0;
     String encode = "";
@@ -128,6 +130,7 @@ public class MT_data implements Runnable {
                     GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "sms");
                     this.Log.info("Get Xml SMS : " + GetXML);
                     insert_r.insert_sms(GetXML);
+
                 } catch (Exception e) {
                     this.Log.info("Error SMS : " + e);
                 }
@@ -255,7 +258,7 @@ public class MT_data implements Runnable {
         Statement stmt = null;
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            conn = DriverManager.getConnection(connectionUrl);
+            conn = DriverManager.getConnection(connectionUrl2);
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT TOP(500)* FROM sms "
                     + "INNER JOIN services  ON services.service_id  = sms.service_id  "
@@ -263,9 +266,11 @@ public class MT_data implements Runnable {
                     + "INNER JOIN mgr       ON mgr.operator_id = mobile.operator_id "
                     + "INNER JOIN api_sms   ON api_sms.service_id = mgr.service_id "
                     + "WHERE mgr.api_req = 'REG' AND sms.status = '0' AND sms.statuscode = '0' AND mgr.service_id = '6' and api_sms.mt_type = 'FREE'");
+//            ResultSet rs = stmt.executeQuery("");
             String id_user = "";
             while (rs.next()) {
                 data_message iduser = new data_message();
+
                 id_user = rs.getString("sms_id");
                 String number = rs.getString("msisdn");
                 String service_id = rs.getString("service_id");
@@ -280,15 +285,29 @@ public class MT_data implements Runnable {
 
                 iduser.setService_id(service_id);
                 iduser.setNumber_type(number);
-                //ขอบคุณที่ใช้บริการ
-                String unicode_test = dumpStrings(rs.getString("mt_msg"));
+
+//                คุณมี xxxx แต้ม xxx สิทธิ์ ตรวจสอบและประกาศผลทาง www.draco.co.th
+//                รหัสผิดพลาด กรุณาตรวจสอบรหัสอีกครั้ง
+//                รหัสถูกใช้งานไปแล้ว กรุณาตรวจสอบรหัสอีกครั้ง
+//                String unicode_test = dumpStrings(rs.getString("mt_msg"));
+                String unicode_test = "";
+                if (rs.getString("status").equals("10")) {
+                    unicode_test = "คุณมี xxxx แต้ม xxx สิทธิ์ ตรวจสอบและประกาศผลทาง www.draco.co.th";
+                }else if (rs.getString("status").equals("20")) {
+                    unicode_test = "รหัสถูกใช้งานไปแล้ว กรุณาตรวจสอบรหัสอีกครั้ง";
+                }else if (rs.getString("status").equals("30")) {
+                    unicode_test = "รหัสผิดพลาด กรุณาตรวจสอบรหัสอีกครั้ง";
+                }
+                
 
                 iduser.setDescriptions(unicode_test);
                 iduser.setAccess(access);
                 iduser.setEncoding(user + ":" + pass);
+
                 String sql = "UPDATE sms SET statuscode = '90' WHERE sms_id ='" + id_user + "' ";
                 Statement st = conn.createStatement();
                 st.executeUpdate(sql);
+
                 data_message.add(iduser);
             }
             rs.close();

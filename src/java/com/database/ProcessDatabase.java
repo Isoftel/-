@@ -24,6 +24,7 @@ public class ProcessDatabase {
     Out_XML out_xml = new Out_XML();
     String local = msg.getString("localhost");
     String data_base = msg.getString("data");
+    String data_base2 = msg.getString("data2");
     String user = msg.getString("user");
     String pass = msg.getString("pass");
     String url = msg.getString("true_url");
@@ -52,7 +53,7 @@ public class ProcessDatabase {
         String from = (getdata(result, "from", 1, ""));
         String to = (getdata(result, "to", 1, ""));
         //System.out.println("service " + service + " time " + time);
-        
+
         time = time.replace("T", " ");
         time = time.replace("Z", "");
         if (!destination.equals("4557878")) {
@@ -165,12 +166,14 @@ public class ProcessDatabase {
                 }
             }
         } else if (destination.equals("4557878")) {
-            ///// ส่งข้อความ เก็บ content
+            ///// ส่งข้อความ เก็บ content  draco   เชื่อม data_base2
             try {
+                int id_serial = 0, point = 0, status = 0;
+                String status_serial = "";
                 String date_format = dateFormat.format(NewDate);
                 Date cdate_sms = dateFormat.parse(date_format);
                 Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-                String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
+                String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base2 + ";user=" + user + ";password=" + pass + ";";
                 conn = DriverManager.getConnection(connectionUrl);
                 stmt = conn.createStatement();
                 ud = (getdata(result, "ud encoding=\"unicode\" type=\"text\"", 4, "ud"));
@@ -179,11 +182,37 @@ public class ProcessDatabase {
                 ud = inthex_to_string(ud);
                 this.Log.info("encode : " + ud);
                 //statuscode เริ่ม 0 คือไม่ โช้หน้าเวป 1 โชหน้าเวป
+
+                sql = "select * from Drago_serial where serial = '" + ud + "'";
+                rs = stmt.executeQuery(sql);
+                while (rs.next()) {
+                    id_serial = rs.getInt("Id");
+                    status_serial = rs.getString("status");
+                    point = rs.getInt("point");
+                }
+
+                if (id_serial != 0) {
+                    ///// serial ถูก
+                    if (status_serial.equals("N")) {
+                        ///// ยังไม่ถูกใช้
+                        sql = "INSERT INTO Prago_point (msisdn,id_serial,point,datetime,service_id,transec_id,oper) "
+                                + "VALUES ('" + str_msisdn + "','" + id_serial + "','" + New_date + "','" + destination + "','" + message + "','true')";
+                        stmt.execute(sql);
+                        status = 10;
+                    } else {
+                        ///// ถูกใช้แล้ว
+                        status = 20;
+                    }
+                } else {
+                    ///// serial ไม่มีอยู่ ผิด
+                    status = 30;
+                }
                 sql = "INSERT INTO sms (msisdn,service_id,Product_ID,Timestamp,cdate,content,content_type,status,statuscode) "
-                        + "VALUES ('" + str_msisdn + "','" + service + "','" + destination + "','" + New_date + "','" + date_format + "','" + ud + "','T','0','0')";
+                        + "VALUES ('" + str_msisdn + "','" + service + "','" + destination + "','" + New_date + "','" + date_format + "','" + ud + "','T','" + status + "','0')";
                 stmt.execute(sql);
             } catch (Exception e) {
                 this.Log.info("Error DRACO : " + e);
+                System.out.println("Error 4557878 : " + e);
             } finally {
                 try {
                     conn.close();
