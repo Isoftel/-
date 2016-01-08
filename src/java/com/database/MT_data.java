@@ -125,8 +125,8 @@ public class MT_data implements Runnable {
                     insert_r.insert_sms("Test : " + r.getDescriptions());
                     byte[] b = r.getEncoding().getBytes(Charset.forName("UTF-8"));
                     encode = new sun.misc.BASE64Encoder().encode(b);
-
-                    RegXML = str_xml.getXmlSMS(r.getService_id(), r.getNumber_type(), r.getText_Service(), r.getAccess(), encode, "unicode");
+                    String Text_Service = dumpStrings(r.getDescriptions());
+                    RegXML = str_xml.getXmlSMS(r.getService_id(), r.getNumber_type(), Text_Service, r.getAccess(), encode, "unicode");
                     GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), encode, "sms");
                     this.Log.info("Get Xml SMS : " + GetXML);
                     insert_r.insert_sms(GetXML);
@@ -298,8 +298,7 @@ public class MT_data implements Runnable {
                     Text_Service = "รหัสผิดพลาด กรุณาตรวจสอบรหัสอีกครั้ง";
                 }
 
-                iduser.setText_Service(Text_Service);
-                iduser.setDescriptions(unicode_test);
+                iduser.setDescriptions(Text_Service);
                 iduser.setAccess(access);
                 iduser.setEncoding(user + ":" + pass);
 

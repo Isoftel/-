@@ -24,18 +24,7 @@ public class data_message implements java.io.Serializable{
     private String descriptions;
     private String detail;
     private String url;
-    private String Text_Service;
-
-    public String getText_Service() {
-        return Text_Service;
-    }
-
-    public void setText_Service(String Text_Service) {
-        this.Text_Service = Text_Service;
-    }
-
-    
-    
+ 
     public String getUser() {
         return user;
     }
