@@ -290,11 +290,12 @@ public class MT_data implements Runnable {
 
 //                String Text_Service = dumpStrings("ขอบคุณที่ใช้บริการคะ");
                 String Text_Service = "";
-                if (rs.getString("status").equals("10")) {
+                String statuscode = rs.getString("statuscode");
+                if (statuscode.equals("10")) {
                     Text_Service = "คุณมี xxxx แต้ม xxx สิทธิ์ ตรวจสอบและประกาศผลทาง www.draco.co.th";
-                } else if (rs.getString("status").equals("20")) {
+                } else if (statuscode.equals("20")) {
                     Text_Service = "รหัสถูกใช้งานไปแล้ว กรุณาตรวจสอบรหัสอีกครั้ง";
-                } else if (rs.getString("status").equals("30")) {
+                } else if (statuscode.equals("30")) {
                     Text_Service = "รหัสผิดพลาด กรุณาตรวจสอบรหัสอีกครั้ง";
                 }
 
