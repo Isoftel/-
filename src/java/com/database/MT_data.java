@@ -265,7 +265,7 @@ public class MT_data implements Runnable {
                     + "INNER JOIN mobile    ON mobile.msisdn = sms.msisdn "
                     + "INNER JOIN mgr       ON mgr.operator_id = mobile.operator_id "
                     + "INNER JOIN api_sms   ON api_sms.service_id = mgr.service_id "
-                    + "WHERE mgr.api_req = 'REG' AND sms.status = '0' AND sms.statuscode = '0' AND mgr.service_id = '6' and api_sms.mt_type = 'FREE'");
+                    + "WHERE mgr.api_req = 'REG' AND sms.status = '0' OR sms.status = '10' AND mgr.service_id = '6' and api_sms.mt_type = 'FREE' AND (sms.statuscode = '0' OR sms.statuscode = '10' OR sms.statuscode = '20' OR sms.statuscode = '30')");
 //            ResultSet rs = stmt.executeQuery("");
             String id_user = "";
             while (rs.next()) {
@@ -286,9 +286,6 @@ public class MT_data implements Runnable {
                 iduser.setService_id(service_id);
                 iduser.setNumber_type(number);
 
-//                คุณมี xxxx แต้ม xxx สิทธิ์ ตรวจสอบและประกาศผลทาง www.draco.co.th
-//                รหัสผิดพลาด กรุณาตรวจสอบรหัสอีกครั้ง
-//                รหัสถูกใช้งานไปแล้ว กรุณาตรวจสอบรหัสอีกครั้ง
 //                String unicode_test = dumpStrings(rs.getString("mt_msg"));
                 String unicode_test = "";
                 if (rs.getString("status").equals("10")) {
