@@ -208,6 +208,9 @@ public class ProcessDatabase {
                                 + "VALUES ('" + str_msisdn + "','" + id_serial + "','" + New_date + "','" + destination + "','" + message + "','true')";
                         this.Log.info(sql);
                         stmt.execute(sql);
+                        sql = "UPDATE Draco_serial SET status = 'Y' WHERE id='" + id_serial + "'";
+                        this.Log.info(sql);
+                        stmt.executeUpdate(sql);
                         status = 10;
                     } else {
                         ///// ถูกใช้แล้ว
