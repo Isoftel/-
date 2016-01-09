@@ -44,27 +44,27 @@ public class DeliveryRequest_true extends HttpServlet {
 
             //////////////////แปลง InputStream to String
             InputStream inStream = request.getInputStream();
-//            String result = getStringFromInputStream(inStream);
-            String result = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n"
-                    + "<message id=\"routerSMSNode1@PBIMAVGW-SMSP01:7353585079\">\n"
-                    + "<sms type=\"mo\">\n"
-                    + "<retry count=\"0\" max=\"0\"/>\n"
-                    + "<destination messageid=\"1F4D296A\">\n"
-                    + "<address><number type=\"abbreviated\">4557878</number>\n"
-                    + "</address>\n"
-                    + "</destination>\n"
-                    + "<source>\n"
-                    + "<address>\n"
-                    + "<number type=\"international\">66999999999</number>\n"
-                    + "</address>\n"
-                    + "</source>\n"
-                    + "<ud encoding=\"unicode\" type=\"text\">&#xe40;&#xe14;&#xe14;</ud>\n"
-                    + "<dcs>08</dcs>\n"
-                    + "<scts>2016-01-08T10:34:56Z</scts>\n"
-                    + "<service-id>7112402001</service-id>\n"
-                    + "</sms><from>RMV_SMPP_CMG1</from>\n"
-                    + "<to>HttpAdapter::7112402001</to>\n"
-                    + "</message>";
+            String result = getStringFromInputStream(inStream);
+//            String result = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n"
+//                    + "<message id=\"routerSMSNode1@PBIMAVGW-SMSP01:7353585079\">\n"
+//                    + "<sms type=\"mo\">\n"
+//                    + "<retry count=\"0\" max=\"0\"/>\n"
+//                    + "<destination messageid=\"1F4D296A\">\n"
+//                    + "<address><number type=\"abbreviated\">4557878</number>\n"
+//                    + "</address>\n"
+//                    + "</destination>\n"
+//                    + "<source>\n"
+//                    + "<address>\n"
+//                    + "<number type=\"international\">66999999999</number>\n"
+//                    + "</address>\n"
+//                    + "</source>\n"
+//                    + "<ud encoding=\"unicode\" type=\"text\">&#xe40;&#xe14;&#xe14;</ud>\n"
+//                    + "<dcs>08</dcs>\n"
+//                    + "<scts>2016-01-08T10:34:56Z</scts>\n"
+//                    + "<service-id>7112402001</service-id>\n"
+//                    + "</sms><from>RMV_SMPP_CMG1</from>\n"
+//                    + "<to>HttpAdapter::7112402001</to>\n"
+//                    + "</message>";
             this.Log.info("Request Get XML : " + result);
             //System.out.println("XML Http : " + result);
             //4557777//4557555//4557878//457000//457001//457002
