@@ -176,10 +176,17 @@ public class ProcessDatabase {
                 String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base2 + ";user=" + user + ";password=" + pass + ";";
                 conn = DriverManager.getConnection(connectionUrl);
                 stmt = conn.createStatement();
+                ud = "";
                 ud = (getdata(result, "ud encoding=\"unicode\" type=\"text\"", 4, "ud"));
-                this.Log.info("ud : " + ud);
-                ud = hex_to_int(ud);
-                ud = inthex_to_string(ud);
+                
+                if (ud.equals("")) {
+                    ud = (getdata(result, "ud type=\"text\"", 4, "ud"));
+                    this.Log.info("ud type text : " + ud);
+                } else {
+                    this.Log.info("ud type unicode : " + ud);
+                    ud = hex_to_int(ud);
+                    ud = inthex_to_string(ud);
+                }
                 this.Log.info("encode : " + ud);
                 //statuscode เริ่ม 0 คือไม่ โช้หน้าเวป 1 โชหน้าเวป
 
@@ -208,7 +215,7 @@ public class ProcessDatabase {
                     status = 30;
                 }
                 sql = "INSERT INTO sms (msisdn,service_id,Product_ID,Timestamp,cdate,content,content_type,status,statuscode) "
-                        + "VALUES ('" + str_msisdn + "','" + service + "','" + destination + "','" + New_date + "','" + date_format + "','" + ud + "','T','" + status + "','0')";
+                        + "VALUES ('" + str_msisdn + "','" + service + "','" + destination + "','" + New_date + "','" + date_format + "','" + ud + "','T','0','" + status + "')";
                 stmt.execute(sql);
             } catch (Exception e) {
                 this.Log.info("Error DRACO : " + e);
