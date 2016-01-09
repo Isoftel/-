@@ -183,7 +183,7 @@ public class ProcessDatabase {
                 this.Log.info("encode : " + ud);
                 //statuscode เริ่ม 0 คือไม่ โช้หน้าเวป 1 โชหน้าเวป
 
-                sql = "select * from Drago_serial where serial = '" + ud + "'";
+                sql = "select * from Draco_serial where serial = '" + ud + "'";
                 rs = stmt.executeQuery(sql);
                 while (rs.next()) {
                     id_serial = rs.getInt("Id");
@@ -195,7 +195,7 @@ public class ProcessDatabase {
                     ///// serial ถูก
                     if (status_serial.equals("N")) {
                         ///// ยังไม่ถูกใช้
-                        sql = "INSERT INTO Prago_point (msisdn,id_serial,point,datetime,service_id,transec_id,oper) "
+                        sql = "INSERT INTO Draco_point (msisdn,id_serial,point,datetime,service_id,transec_id,oper) "
                                 + "VALUES ('" + str_msisdn + "','" + id_serial + "','" + New_date + "','" + destination + "','" + message + "','true')";
                         stmt.execute(sql);
                         status = 10;
