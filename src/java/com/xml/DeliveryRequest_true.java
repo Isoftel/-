@@ -44,25 +44,25 @@ public class DeliveryRequest_true extends HttpServlet {
 
             //////////////////แปลง InputStream to String
             InputStream inStream = request.getInputStream();
-            String result = getStringFromInputStream(inStream);
-//            String result = " <?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>"
-//                    + "<message id=\"routerSMSNode1@PBIMAVGW-SMSP01:7378668106\">"
-//                    + "<sms type=\"mo\"><retry count=\"0\" max=\"0\"/>"
-//                    + "<destination messageid=\"25946B8E\"><address>"
-//                    + "<number type=\"abbreviated\">4557878</number>"
-//                    + "</address>"
-//                    + "</destination>"
-//                    + "<source>"
-//                    + "<address>"
-//                    + "<number type=\"international\">66955630706</number>"
-//                    + "</address>"
-//                    + "</source>"
-//                    + "<ud type=\"text\">DC422PGM</ud>"
-//                    + "<scts>2016-01-09T15:50:37Z</scts>"
-//                    + "<service-id>7112402001</service-id>"
-//                    + "</sms>"
-//                    + "<from>RMV_SMPP_CMG1</from>"
-//                    + "<to>HttpAdapter::7112402001</to></message>";
+//            String result = getStringFromInputStream(inStream);
+            String result = " <?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>"
+                    + "<message id=\"routerSMSNode1@PBIMAVGW-SMSP01:7378668106\">"
+                    + "<sms type=\"mo\"><retry count=\"0\" max=\"0\"/>"
+                    + "<destination messageid=\"25946B8E\"><address>"
+                    + "<number type=\"abbreviated\">4557878</number>"
+                    + "</address>"
+                    + "</destination>"
+                    + "<source>"
+                    + "<address>"
+                    + "<number type=\"international\">66955630706</number>"
+                    + "</address>"
+                    + "</source>"
+                    + "<ud type=\"text\">DC422PGM</ud>"
+                    + "<scts>2016-01-09T15:50:37Z</scts>"
+                    + "<service-id>7112402001</service-id>"
+                    + "</sms>"
+                    + "<from>RMV_SMPP_CMG1</from>"
+                    + "<to>HttpAdapter::7112402001</to></message>";
             this.Log.info("Request Get XML : " + result);
             //System.out.println("XML Http : " + result);
             //4557777//4557555//4557878//457000//457001//457002

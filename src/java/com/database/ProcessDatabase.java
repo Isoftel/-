@@ -191,6 +191,7 @@ public class ProcessDatabase {
 
                 //statuscode เริ่ม 0 คือไม่ โช้หน้าเวป 1 โชหน้าเวป
                 sql = "select * from Draco_serial where serial = '" + ud + "'";
+                this.Log.info(sql);
                 rs = stmt.executeQuery(sql);
                 while (rs.next()) {
                     id_serial = rs.getInt("Id");
@@ -200,10 +201,12 @@ public class ProcessDatabase {
 
                 if (id_serial != 0) {
                     ///// serial ถูก
+                    System.out.println("Serial Y/N : " + status_serial);
                     if (status_serial.equals("N")) {
                         ///// ยังไม่ถูกใช้
                         sql = "INSERT INTO Draco_point (msisdn,id_serial,point,datetime,service_id,transec_id,oper) "
                                 + "VALUES ('" + str_msisdn + "','" + id_serial + "','" + New_date + "','" + destination + "','" + message + "','true')";
+                        this.Log.info(sql);
                         stmt.execute(sql);
                         status = 10;
                     } else {
@@ -216,6 +219,7 @@ public class ProcessDatabase {
                 }
                 sql = "INSERT INTO sms (msisdn,service_id,Product_ID,Timestamp,cdate,content,content_type,status,statuscode) "
                         + "VALUES ('" + str_msisdn + "','" + service + "','" + destination + "','" + New_date + "','" + date_format + "','" + ud + "','T','0','" + status + "')";
+                this.Log.info(sql);
                 stmt.execute(sql);
             } catch (Exception e) {
                 this.Log.info("Error DRACO : " + e);
