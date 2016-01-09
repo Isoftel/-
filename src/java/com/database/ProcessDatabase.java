@@ -182,6 +182,8 @@ public class ProcessDatabase {
 //                    ud = inthex_to_string(ud);
 //                }
                 this.Log.info("encode : " + ud);
+                ud = ud.toUpperCase();
+                this.Log.info("encode to Big : " + ud);
                 String date_format = dateFormat.format(NewDate);
                 Date cdate_sms = dateFormat.parse(date_format);
                 Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
