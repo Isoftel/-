@@ -28,7 +28,7 @@ public class MT_data implements Runnable {
     XML_insert insert_r = new XML_insert();
     String local = msg.getString("localhost");
     String data_base = msg.getString("data");
-    String data_base2 = msg.getString("data");
+    String data_base2 = msg.getString("data2");
     String user = msg.getString("user");
     String pass = msg.getString("pass");
     String port = msg.getString("port");
