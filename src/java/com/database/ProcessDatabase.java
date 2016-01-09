@@ -169,27 +169,27 @@ public class ProcessDatabase {
             ///// ส่งข้อความ เก็บ content  draco   เชื่อม data_base2
             try {
                 int id_serial = 0, point = 0, status = 0;
-                String status_serial = "";
+                String status_serial = "", dcs = "";
+//                dcs = getdata(result, "dcs", 1, "dcs");
+//                if (dcs.equals(null)) {
+//                    ud = (getdata(result, "ud type=\"text\"", 4, "ud"));
+//                    this.Log.info("ud type text : " + ud);
+//                }
+//                } else {
+//                    ud = (getdata(result, "ud encoding=\"unicode\" type=\"text\"", 4, "ud"));
+//                    this.Log.info("ud type unicode : " + ud);
+//                    ud = hex_to_int(ud);
+//                    ud = inthex_to_string(ud);
+//                }
+                this.Log.info("encode : " + ud);
                 String date_format = dateFormat.format(NewDate);
                 Date cdate_sms = dateFormat.parse(date_format);
                 Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
                 String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base2 + ";user=" + user + ";password=" + pass + ";";
                 conn = DriverManager.getConnection(connectionUrl);
                 stmt = conn.createStatement();
-                ud = "";
-                ud = (getdata(result, "ud encoding=\"unicode\" type=\"text\"", 4, "ud"));
-                
-                if (ud.equals("")) {
-                    ud = (getdata(result, "ud type=\"text\"", 4, "ud"));
-                    this.Log.info("ud type text : " + ud);
-                } else {
-                    this.Log.info("ud type unicode : " + ud);
-                    ud = hex_to_int(ud);
-                    ud = inthex_to_string(ud);
-                }
-                this.Log.info("encode : " + ud);
-                //statuscode เริ่ม 0 คือไม่ โช้หน้าเวป 1 โชหน้าเวป
 
+                //statuscode เริ่ม 0 คือไม่ โช้หน้าเวป 1 โชหน้าเวป
                 sql = "select * from Draco_serial where serial = '" + ud + "'";
                 rs = stmt.executeQuery(sql);
                 while (rs.next()) {
@@ -346,7 +346,7 @@ public class ProcessDatabase {
             }
 
         } catch (Exception e) {
-            System.out.println("Err en " + e);
+//            System.out.println("Err en " + e);
         }
         return str_unicode;
     }
@@ -383,7 +383,7 @@ public class ProcessDatabase {
             }
 
         } catch (Exception e) {
-            System.out.println("Err en " + e);
+//            System.out.println("Err en " + e);
         }
         return str_unicode;
     }
