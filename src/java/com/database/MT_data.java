@@ -38,7 +38,7 @@ public class MT_data implements Runnable {
     String url_mo = msg.getString("ip_mo");
 
     String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";&useUnicode=true&characterEncoding=UTF-8";
-    String connectionUrl2 = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";&useUnicode=true&characterEncoding=UTF-8";
+    String connectionUrl2 = "jdbc:sqlserver://" + local + ";databaseName=" + data_base2 + ";user=" + user + ";password=" + pass + ";&useUnicode=true&characterEncoding=UTF-8";
 
     int id_user = 0;
     String encode = "";
