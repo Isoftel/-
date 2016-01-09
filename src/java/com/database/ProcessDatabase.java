@@ -198,13 +198,13 @@ public class ProcessDatabase {
                     status_serial = rs.getString("status");
                     point = rs.getInt("point");
                 }
-
+                status_serial = status_serial.replace(" ", "");
                 if (id_serial != 0) {
                     ///// serial ถูก
-                    System.out.println("Serial Y/N : " + status_serial);
+                    this.Log.info("Serial Y/N : " + status_serial + " id_serial : " + id_serial + " point : " + point);
                     if (status_serial.equals("N")) {
                         ///// ยังไม่ถูกใช้
-                        sql = "INSERT INTO Draco_point (msisdn,id_serial,point,datetime,service_id,transec_id,oper) "
+                        sql = "INSERT INTO Draco_point (msisdn,id_serial,cdate,service,transec_id,oper) "
                                 + "VALUES ('" + str_msisdn + "','" + id_serial + "','" + New_date + "','" + destination + "','" + message + "','true')";
                         this.Log.info(sql);
                         stmt.execute(sql);
