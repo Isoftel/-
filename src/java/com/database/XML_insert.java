@@ -28,6 +28,7 @@ public class XML_insert {
     ResourceBundle msg = ResourceBundle.getBundle("configs");
     String local = msg.getString("localhost");
     String data_base = msg.getString("data");
+    String data_base2 = msg.getString("data2");
     String user = msg.getString("user");
     String pass = msg.getString("pass");
 
@@ -85,7 +86,7 @@ public class XML_insert {
 
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
+            String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base2 + ";user=" + user + ";password=" + pass + ";";
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
 
