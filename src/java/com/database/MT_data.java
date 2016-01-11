@@ -265,9 +265,9 @@ public class MT_data implements Runnable {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             conn = DriverManager.getConnection(connectionUrl2);
             stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT TOP(500)* FROM sms ="
-                    + "INNER JOIN services  ON services.service_id  = sms.service_id  ="
-                    + "INNER JOIN mgr       ON mgr.service_id = services.id ="
+            ResultSet rs = stmt.executeQuery("SELECT TOP(500)* FROM sms "
+                    + "INNER JOIN services  ON services.service_id  = sms.service_id  "
+                    + "INNER JOIN mgr       ON mgr.service_id = services.id "
                     + "WHERE sms.status = '0' AND (sms.statuscode = '0' OR sms.statuscode = '10' OR sms.statuscode = '20' OR sms.statuscode = '30') "
                     + "AND mgr.api_req = 'REG'");
 //            ResultSet rs = stmt.executeQuery("");
