@@ -295,7 +295,8 @@ public class MT_data implements Runnable {
 
                 conn2 = DriverManager.getConnection(connectionUrl2);
                 stmt2 = conn.createStatement();
-                ResultSet rs2 = stmt2.executeQuery("exec sp_getPoint '" + service_id + "','true','" + number + "'");
+                ResultSet rs2 = stmt2.executeQuery("exec sp_getPoint '4557878','true','" + number + "'");
+                this.Log.info("GetPoint : " + "exec sp_getPoint" + "4557878" + "true" + number);
                 while (rs2.next()) {
                     point = rs2.getString("point");
                     tatal_point = rs2.getString("tatal_point");
