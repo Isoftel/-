@@ -294,7 +294,7 @@ public class MT_data implements Runnable {
                 ResultSet rs2 = stmt2.executeQuery("exec sp_getPoint '4557878','true','" + number + "'");
                 this.Log.info("GetPoint : " + "exec sp_getPoint" + "4557878" + "true" + number);
                 while (rs2.next()) {
-                    point = rs2.getString("point");
+                    point = rs2.getString("privilege");
                     total_point = rs2.getString("total_point");
                 }
                 conn2.close();
@@ -302,7 +302,7 @@ public class MT_data implements Runnable {
                 String Text_Service = "";
                 String statuscode = rs.getString("statuscode");
                 if (statuscode.equals("10")) {
-                    Text_Service = "คุณมี " + point + " แต้ม " + total_point + " สิทธิ์ ตรวจสอบและประกาศผลทาง www.draco.co.th";
+                    Text_Service = "คุณมี " + total_point + " แต้ม " + point + " สิทธิ์ ตรวจสอบและประกาศผลทาง www.draco.co.th";
 //                    Text_Service = "ของคุณที่ใช้บริการ";
                 } else if (statuscode.equals("20")) {
                     Text_Service = "รหัสถูกใช้งานไปแล้ว กรุณาตรวจสอบรหัสอีกครั้ง";
