@@ -261,7 +261,7 @@ public class MT_data implements Runnable {
         Statement stmt2 = null;
 
         try {
-            String number = "", service_id = "", point = "", tatal_point = "";
+            String number = "", service_id = "", point = "0", total_point = "0";
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             conn = DriverManager.getConnection(connectionUrl2);
             stmt = conn.createStatement();
@@ -299,14 +299,14 @@ public class MT_data implements Runnable {
                 this.Log.info("GetPoint : " + "exec sp_getPoint" + "4557878" + "true" + number);
                 while (rs2.next()) {
                     point = rs2.getString("point");
-                    tatal_point = rs2.getString("tatal_point");
+                    total_point = rs2.getString("total_point");
                 }
                 conn2.close();
 //                String Text_Service = dumpStrings("ขอบคุณที่ใช้บริการคะ");
                 String Text_Service = "";
                 String statuscode = rs.getString("statuscode");
                 if (statuscode.equals("10")) {
-                    Text_Service = "คุณมี " + point + " แต้ม " + tatal_point + " สิทธิ์ ตรวจสอบและประกาศผลทาง www.draco.co.th";
+                    Text_Service = "คุณมี " + point + " แต้ม " + total_point + " สิทธิ์ ตรวจสอบและประกาศผลทาง www.draco.co.th";
 //                    Text_Service = "ของคุณที่ใช้บริการ";
                 } else if (statuscode.equals("20")) {
                     Text_Service = "รหัสถูกใช้งานไปแล้ว กรุณาตรวจสอบรหัสอีกครั้ง";
