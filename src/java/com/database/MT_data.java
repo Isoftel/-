@@ -265,12 +265,11 @@ public class MT_data implements Runnable {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             conn = DriverManager.getConnection(connectionUrl2);
             stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT TOP(500)* FROM sms "
-                    + "INNER JOIN services  ON services.service_id  = sms.service_id  "
-                    + "INNER JOIN mobile    ON mobile.msisdn = sms.msisdn "
-                    + "INNER JOIN mgr       ON mgr.operator_id = mobile.operator_id "
-                    + "INNER JOIN api_sms   ON api_sms.service_id = mgr.service_id "
-                    + "WHERE mgr.api_req = 'REG' AND sms.status = '0'  AND mgr.service_id = '6' and api_sms.mt_type = 'FREE' AND (sms.statuscode = '0' OR sms.statuscode = '10' OR sms.statuscode = '20' OR sms.statuscode = '30')");
+            ResultSet rs = stmt.executeQuery("SELECT TOP(500)* FROM sms ="
+                    + "INNER JOIN services  ON services.service_id  = sms.service_id  ="
+                    + "INNER JOIN mgr       ON mgr.service_id = services.id ="
+                    + "WHERE sms.status = '0' AND (sms.statuscode = '0' OR sms.statuscode = '10' OR sms.statuscode = '20' OR sms.statuscode = '30') "
+                    + "AND mgr.api_req = 'REG'");
 //            ResultSet rs = stmt.executeQuery("");
             String id_user = "";
             while (rs.next()) {
@@ -281,7 +280,6 @@ public class MT_data implements Runnable {
                 service_id = rs.getString("service_id");
                 //service_id = "7112402000";
                 String product_id = rs.getString("Product_ID");
-                String content = rs.getString("content");
                 String access = rs.getString("access_number");
                 //access = "4557000";
                 String date = rs.getString("cdate");
@@ -290,8 +288,6 @@ public class MT_data implements Runnable {
 
                 iduser.setService_id(service_id);
                 iduser.setNumber_type(number);
-
-                String unicode_test = dumpStrings(rs.getString("mt_msg"));
 
                 conn2 = DriverManager.getConnection(connectionUrl2);
                 stmt2 = conn.createStatement();
