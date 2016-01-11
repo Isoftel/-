@@ -256,7 +256,12 @@ public class MT_data implements Runnable {
         List<data_message> data_message = new ArrayList();
         Connection conn = null;
         Statement stmt = null;
+
+        Connection conn2 = null;
+        Statement stmt2 = null;
+
         try {
+            String number = "", service_id = "", point = "", tatal_point = "";
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             conn = DriverManager.getConnection(connectionUrl2);
             stmt = conn.createStatement();
@@ -272,8 +277,8 @@ public class MT_data implements Runnable {
                 data_message iduser = new data_message();
 
                 id_user = rs.getString("sms_id");
-                String number = rs.getString("msisdn");
-                String service_id = rs.getString("service_id");
+                number = rs.getString("msisdn");
+                service_id = rs.getString("service_id");
                 //service_id = "7112402000";
                 String product_id = rs.getString("Product_ID");
                 String content = rs.getString("content");
@@ -288,12 +293,20 @@ public class MT_data implements Runnable {
 
                 String unicode_test = dumpStrings(rs.getString("mt_msg"));
 
+                conn2 = DriverManager.getConnection(connectionUrl2);
+                stmt2 = conn.createStatement();
+                ResultSet rs2 = stmt2.executeQuery("exec sp_getPoint '" + service_id + "','true','" + number + "'");
+                while (rs2.next()) {
+                    point = rs2.getString("point");
+                    tatal_point = rs2.getString("tatal_point");
+                }
+                conn2.close();
 //                String Text_Service = dumpStrings("ขอบคุณที่ใช้บริการคะ");
                 String Text_Service = "";
                 String statuscode = rs.getString("statuscode");
                 if (statuscode.equals("10")) {
-                    //Text_Service = "คุณมี xxxx แต้ม xxx สิทธิ์ ตรวจสอบและประกาศผลทาง www.draco.co.th";
-                    Text_Service = "ของคุณที่ใช้บริการ";
+                    Text_Service = "คุณมี point แต้ม tatal_point สิทธิ์ ตรวจสอบและประกาศผลทาง www.draco.co.th";
+//                    Text_Service = "ของคุณที่ใช้บริการ";
                 } else if (statuscode.equals("20")) {
                     Text_Service = "รหัสถูกใช้งานไปแล้ว กรุณาตรวจสอบรหัสอีกครั้ง";
                 } else if (statuscode.equals("30")) {
@@ -310,6 +323,7 @@ public class MT_data implements Runnable {
 
                 data_message.add(iduser);
             }
+
             rs.close();
             stmt.close();
             conn.close();

@@ -42,7 +42,7 @@ public class ProcessDatabase {
         Set_XML str_xml = new Set_XML();
         //this.Log.info("Get Xml true : " + result);
         String encoding = (getdata(result, "?xml version=\"1.0\" encoding=\"", 2, ""));
-        String message = (getdata(result, "message id=\"", 3, ""));
+        String message = (getdata(result, "message id=\"routerSMSNode1@PBIMAVGW-SMSP01:", 3, ""));
         String sms = (getdata(result, "sms type=\"", 3, ""));
         String messageid = (getdata(result, "destination messageid=\"", 3, ""));
         String destination = (getdata(result, "number type=\"abbreviated\"", 4, "number"));
@@ -218,7 +218,9 @@ public class ProcessDatabase {
                         ///// ถูกใช้แล้ว
                         status = 20;
                     }
-                } else {
+                }else if(ud.equals("DC")){
+                    status = 10;
+                }else {
                     ///// serial ไม่มีอยู่ ผิด
                     status = 30;
                 }
