@@ -271,6 +271,16 @@ public class ProcessDatabase {
                 //REG_SUCCESS
                 S_message = "RECURRING";
             }
+            
+
+            sql = "select * from services where access_number = '" + destination + "' ";
+            rs = stmt.executeQuery(sql);
+            Log.info(sql);
+            while (rs.next()) {
+                service = rs.getString("id");
+            }
+            ////////////////
+            
             sql = "INSERT INTO delivery_report(TransactionID,ServiceID,MSISDN,Content,MMS_status,StatusCode,Date,OperId,FRDN,SSSActionReport) "
                     + "VALUES ('" + message_id + "','" + service + "','" + number + "','" + message + "','" + code + "','" + code + "','" + date_format + "','3','true','" + S_message + "')";
             this.Log.info("Log delivery_report : " + sql);
