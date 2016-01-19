@@ -73,8 +73,13 @@ public class ProcessDatabase {
             stmt = conn.createStatement();
             sql = "select * from services where service_id = '" + service + "' AND access_number = '" + destination + "' ";
             rs = stmt.executeQuery(sql);
+            String ser="";
+            while (rs.next()) {
+                ser = rs.getString("id");
+            }
+            
             sql = "INSERT INTO delivery_report(TransactionID,ServiceID,MSISDN,Content,MMS_status,StatusCode,Date,OperId,FRDN) "
-                    + "VALUES ('" + message + "','" + service + "','" + number + "','" + "" + "','" + code + "','" + code + "','" + date_format + "','3','true')";
+                    + "VALUES ('" + message + "','" + ser + "','" + number + "','" + "" + "','" + code + "','" + code + "','" + date_format + "','3','true')";
             this.Log.info("Log delivery_report : " + sql);
             stmt.execute(sql);
 
