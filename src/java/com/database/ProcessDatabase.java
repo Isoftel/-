@@ -42,7 +42,7 @@ public class ProcessDatabase {
         Set_XML str_xml = new Set_XML();
         //this.Log.info("Get Xml true : " + result);
         String encoding = (getdata(result, "?xml version=\"1.0\" encoding=\"", 2, ""));
-        String message = (getdata(result, "message id=\"routerSMSNode1@PBIMAVGW-SMSP01:", 3, ""));
+        String message = (getdata(result, "message id=\"", 3, ""));
         String sms = (getdata(result, "sms type=\"", 3, ""));
         String messageid = (getdata(result, "destination messageid=\"", 3, ""));
         String destination = (getdata(result, "number type=\"abbreviated\"", 4, "number"));
@@ -52,8 +52,42 @@ public class ProcessDatabase {
         String service = (getdata(result, "service-id", 1, "service-id"));
         String from = (getdata(result, "from", 1, ""));
         String to = (getdata(result, "to", 1, ""));
-        //System.out.println("service " + service + " time " + time);
 
+        String S_message = "";
+        if (message.equals("The service is not associated to given subscriber") || message.equals("Message rejected by SMSC")) {
+            S_message = "UNREG_IMMEDIATE";
+        } else if (message.equals("Message acknowledged by SMSC")) {
+            //REG_SUCCESS
+            S_message = "RECURRING";
+        }
+
+        String message_id = (getdata(result, "message id=\"", 3, ""));
+        String code = (getdata(result, "code", 1, "code"));
+        String date_format = dateFormat.format(NewDate);
+
+        ///////////////////// delivery_report
+        try {
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
+            //////////////////services หา ID บริการ
+            conn = DriverManager.getConnection(connectionUrl);
+            stmt = conn.createStatement();
+            sql = "select * from services where service_id = '" + service + "' AND access_number = '" + destination + "' ";
+            rs = stmt.executeQuery(sql);
+            sql = "INSERT INTO delivery_report(TransactionID,ServiceID,MSISDN,Content,MMS_status,StatusCode,Date,OperId,FRDN,SSSActionReport) "
+                    + "VALUES ('" + message_id + "','" + service + "','" + number + "','" + message + "','" + code + "','" + code + "','" + date_format + "','3','true','" + S_message + "')";
+            this.Log.info("Log delivery_report : " + sql);
+            stmt.execute(sql);
+
+        } catch (Exception e) {
+        } finally {
+            try {
+                conn.close();
+            } catch (Exception e) {
+            }
+        }
+
+        ///////////////////////////////////////
         time = time.replace("T", " ");
         time = time.replace("Z", "");
         if (!destination.equals("4557878")) {
@@ -184,7 +218,6 @@ public class ProcessDatabase {
                 this.Log.info("encode : " + ud);
                 ud = ud.toUpperCase();
                 this.Log.info("encode to Big : " + ud);
-                String date_format = dateFormat.format(NewDate);
                 Date cdate_sms = dateFormat.parse(date_format);
                 Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
                 String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base2 + ";user=" + user + ";password=" + pass + ";";
@@ -218,9 +251,9 @@ public class ProcessDatabase {
                         ///// ถูกใช้แล้ว
                         status = 20;
                     }
-                }else if(ud.equals("DC")){
+                } else if (ud.equals("DC")) {
                     status = 10;
-                }else {
+                } else {
                     ///// serial ไม่มีอยู่ ผิด
                     status = 30;
                 }
@@ -240,10 +273,6 @@ public class ProcessDatabase {
         }
 
         return result;
-    }
-
-    public void PreparePostData() {
-
     }
 
     public String ProcessSMS(String result, PrintWriter out) {
@@ -271,7 +300,6 @@ public class ProcessDatabase {
                 //REG_SUCCESS
                 S_message = "RECURRING";
             }
-            
 
             sql = "select * from services where access_number = '" + destination + "' ";
             rs = stmt.executeQuery(sql);
@@ -280,9 +308,9 @@ public class ProcessDatabase {
                 service = rs.getString("id");
             }
             ////////////////
-            
-            sql = "INSERT INTO delivery_report(TransactionID,ServiceID,MSISDN,Content,MMS_status,StatusCode,Date,OperId,FRDN,SSSActionReport) "
-                    + "VALUES ('" + message_id + "','" + service + "','" + number + "','" + message + "','" + code + "','" + code + "','" + date_format + "','3','true','" + S_message + "')";
+
+            sql = "INSERT INTO delivery_report(TransactionID,ServiceID,MSISDN,Content,MMS_status,StatusCode,Date,OperId,FRDN,SSSActionReport,MessageID) "
+                    + "VALUES ('" + message_id + "','" + service + "','" + number + "','" + message + "','" + code + "','" + code + "','" + date_format + "','3','true','" + S_message + "','" + message_id + "')";
             this.Log.info("Log delivery_report : " + sql);
             stmt.execute(sql);
 //            sql = "INSERT INTO delivery_request(TransactionID,product_id,MSISDN,Content,StatusCode,cdate,service_id) "

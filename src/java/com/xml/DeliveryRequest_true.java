@@ -21,14 +21,14 @@ import org.apache.commons.codec.binary.Hex;
 import org.apache.log4j.Logger;
 
 public class DeliveryRequest_true extends HttpServlet {
-
+    
     DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     DateFormat Format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
     Date date = new Date();
-
+    
     ProcessDatabase insert = new ProcessDatabase();
     Logger Log = Logger.getLogger(this.getClass());
-
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) {
 
         //////////////////////////////////////////////////
@@ -70,7 +70,7 @@ public class DeliveryRequest_true extends HttpServlet {
             String sms = (insert.getdata(result, "sms type=\"", 3, ""));
             String ud = (insert.getdata(result, "ud type=\"text\"", 4, "ud"));
             String rsr = (insert.getdata(result, "rsr type=\"", 3, ""));
-
+            this.Log.info("Get XML : " + result);
             //System.out.println("SMS : " + sms + " UD : " + ud + " rsr " + rsr);
             //this.Log.info("MO//" + "SMS : " + sms + " UD : " + ud);
             if (sms.equals("mo")) {
@@ -96,24 +96,24 @@ public class DeliveryRequest_true extends HttpServlet {
             out.close();
         }
     }
-
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
-
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
-
+    
     @Override
     public String getServletInfo() {
         return "Short description";
     }
-
+    
     private static String getStringFromInputStream(InputStream is) {
         BufferedReader br = null;
         StringBuilder sb = new StringBuilder();
@@ -136,5 +136,5 @@ public class DeliveryRequest_true extends HttpServlet {
         }
         return sb.toString();
     }
-
+    
 }
