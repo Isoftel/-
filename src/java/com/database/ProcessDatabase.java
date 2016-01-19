@@ -42,7 +42,7 @@ public class ProcessDatabase {
         Set_XML str_xml = new Set_XML();
         //this.Log.info("Get Xml true : " + result);
         String encoding = (getdata(result, "?xml version=\"1.0\" encoding=\"", 2, ""));
-        String message = (getdata(result, "message id=\"", 3, ""));
+        String message = (getdata(result, "message id=\"routerSMSNode1@PBIMAVGW-SMSP01:", 3, ""));
         String sms = (getdata(result, "sms type=\"", 3, ""));
         String messageid = (getdata(result, "destination messageid=\"", 3, ""));
         String destination = (getdata(result, "number type=\"abbreviated\"", 4, "number"));
@@ -52,7 +52,7 @@ public class ProcessDatabase {
         String service = (getdata(result, "service-id", 1, "service-id"));
         String from = (getdata(result, "from", 1, ""));
         String to = (getdata(result, "to", 1, ""));
-
+        
         String S_message = "";
         if (message.equals("The service is not associated to given subscriber") || message.equals("Message rejected by SMSC")) {
             S_message = "UNREG_IMMEDIATE";
@@ -60,7 +60,7 @@ public class ProcessDatabase {
             //REG_SUCCESS
             S_message = "RECURRING";
         }
-
+        S_message = "Message acknowledged by SMSC";
         String message_id = (getdata(result, "message id=\"", 3, ""));
         String code = (getdata(result, "code", 1, "code"));
         String date_format = dateFormat.format(NewDate);
@@ -75,7 +75,7 @@ public class ProcessDatabase {
             sql = "select * from services where service_id = '" + service + "' AND access_number = '" + destination + "' ";
             rs = stmt.executeQuery(sql);
             sql = "INSERT INTO delivery_report(TransactionID,ServiceID,MSISDN,Content,MMS_status,StatusCode,Date,OperId,FRDN,SSSActionReport) "
-                    + "VALUES ('" + message_id + "','" + service + "','" + number + "','" + message + "','" + code + "','" + code + "','" + date_format + "','3','true','" + S_message + "')";
+                    + "VALUES ('" + message_id + "','" + service + "','" + number + "','" + "" + "','" + code + "','" + code + "','" + date_format + "','3','true','" + S_message + "')";
             this.Log.info("Log delivery_report : " + sql);
             stmt.execute(sql);
 
