@@ -52,17 +52,17 @@ public class ProcessDatabase {
         String service = (getdata(result, "service-id", 1, "service-id"));
         String from = (getdata(result, "from", 1, ""));
         String to = (getdata(result, "to", 1, ""));
-        
+
         String code = (getdata(result, "code", 1, "code"));
         String date_format = dateFormat.format(NewDate);
         String S_message = "";
         if (message.equals("The service is not associated to given subscriber") || message.equals("Message rejected by SMSC")) {
-           
+
         } else if (message.equals("Message acknowledged by SMSC")) {
             //REG_SUCCESS
-            
+
         }
-        
+
         ///////////////////////////////////////
         time = time.replace("T", " ");
         time = time.replace("Z", "");
@@ -74,7 +74,7 @@ public class ProcessDatabase {
                 ud = "UNREG";
                 S_message = "UNREG_IMMEDIATE";
             }
-        }else{
+        } else {
             S_message = "RECURRING";
         }
         //cdate = dateFormat.parse(time);
@@ -128,7 +128,7 @@ public class ProcessDatabase {
                 str_msisdn = rs.getString("msisdn");
 
             }
-            
+
             //this.Log.info("XML service : " + service + " destination " + destination + " SQL str_service " + str_service + " str_product " + str_product);
         } catch (Exception e) {
             //System.out.println("Error delivery_request : " + e);
@@ -251,9 +251,9 @@ public class ProcessDatabase {
                 }
             }
         }
-        
+
         ///////////////////// delivery_report
-       try {
+        try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
             //////////////////services หา ID บริการ
@@ -261,13 +261,13 @@ public class ProcessDatabase {
             stmt = conn.createStatement();
             sql = "select * from services where service_id = '" + service + "' AND access_number = '" + destination + "' ";
             rs = stmt.executeQuery(sql);
-            String ser="";
+            String ser = "";
             while (rs.next()) {
                 ser = rs.getString("id");
             }
-            
+
             sql = "INSERT INTO delivery_report(TransactionID,ServiceID,MSISDN,Content,MMS_status,StatusCode,Date,OperId,FRDN,SSSActionReport) "
-                    + "VALUES ('" + message + "','" + ser + "','" + number + "','" + "" + "','" + code + "','" + code + "','" + date_format + "','3','true','"+""+"')";
+                    + "VALUES ('" + message + "','" + ser + "','" + number + "','" + "" + "','" + code + "','" + code + "','" + date_format + "','3','true','" + S_message + "')";
             this.Log.info("Log delivery_report : " + sql);
             stmt.execute(sql);
 
