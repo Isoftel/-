@@ -61,7 +61,6 @@ public class ProcessDatabase {
             S_message = "RECURRING";
         }
         S_message = "Message acknowledged by SMSC";
-        String message_id = (getdata(result, "message id=\"", 3, ""));
         String code = (getdata(result, "code", 1, "code"));
         String date_format = dateFormat.format(NewDate);
 
@@ -74,8 +73,8 @@ public class ProcessDatabase {
             stmt = conn.createStatement();
             sql = "select * from services where service_id = '" + service + "' AND access_number = '" + destination + "' ";
             rs = stmt.executeQuery(sql);
-            sql = "INSERT INTO delivery_report(TransactionID,ServiceID,MSISDN,Content,MMS_status,StatusCode,Date,OperId,FRDN,SSSActionReport) "
-                    + "VALUES ('" + message_id + "','" + service + "','" + number + "','" + "" + "','" + code + "','" + code + "','" + date_format + "','3','true','" + S_message + "')";
+            sql = "INSERT INTO delivery_report(TransactionID,ServiceID,MSISDN,Content,MMS_status,StatusCode,Date,OperId,FRDN) "
+                    + "VALUES ('" + message + "','" + service + "','" + number + "','" + "" + "','" + code + "','" + code + "','" + date_format + "','3','true')";
             this.Log.info("Log delivery_report : " + sql);
             stmt.execute(sql);
 
