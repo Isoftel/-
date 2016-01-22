@@ -131,7 +131,6 @@ public class ProcessDatabase {
 
             //this.Log.info("XML service : " + service + " destination " + destination + " SQL str_service " + str_service + " str_product " + str_product);
         } catch (Exception e) {
-            //System.out.println("Error delivery_request : " + e);
             this.Log.info("Error report : " + e);
         } finally {
             try {
@@ -266,8 +265,8 @@ public class ProcessDatabase {
                 ser = rs.getString("id");
             }
 
-            sql = "INSERT INTO delivery_report(TransactionID,ServiceID,MSISDN,Content,MMS_status,StatusCode,Date,OperId,FRDN,SSSActionReport) "
-                    + "VALUES ('" + message + "','" + ser + "','" + number + "','" + "" + "','" + code + "','" + code + "','" + date_format + "','3','true','" + S_message + "')";
+            sql = "INSERT INTO delivery_report(TransactionID,ServiceID,MSISDN,Content,MMS_status,StatusCode,Date,OperId,FRDN) "
+                    + "VALUES ('" + message + "','" + ser + "','" + number + "','" + "" + "','" + code + "','" + code + "','" + date_format + "','3','true')";
             this.Log.info("Log delivery_report : " + sql);
             stmt.execute(sql);
 
