@@ -64,6 +64,10 @@ public class ProcessDatabase {
         }
 
         ///////////////////////////////////////
+        if (code.equals("102")) {
+            ud = "C";
+        }
+
         time = time.replace("T", " ");
         time = time.replace("Z", "");
         if (!destination.equals("4557878")) {
