@@ -1,6 +1,8 @@
 package com.database;
 
+import com.table_data.chack_102;
 import com.table_data.data_user;
+import com.table_data.data_userun;
 import com.xml.Post_XML;
 import com.xml.Set_XML;
 import java.nio.charset.Charset;
@@ -196,6 +198,7 @@ public class Wap_Push implements Runnable {
 
         private void getPhoneNummber(String Command, String ch) {
             try {
+                List<chack_102> msisdn_number = new ArrayList();
                 Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
                 String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
                 conn = DriverManager.getConnection(connectionUrl);
@@ -224,13 +227,41 @@ public class Wap_Push implements Runnable {
                     GetXML = xml.PostXml(RegXML, msg.getString("ip_mo"), user_pass, "mt");
                     this.Log.info("Get XML WapPush : " + GetXML);
                     String messageid = insert.getdata(GetXML, "destination messageid=\"", 3, "");
+                    String code_get = insert.getdata(GetXML, "code", 1, "code");
+
+                    if (code_get.equals("102")) {
+                        chack_102 number = new chack_102();
+                        number.setMsisdn(this.map.get("access_number").toString());
+                        msisdn_number.add(number);
+                    }
+
                     InserSendedConten(rs, messageid);
                 }
-                conn.close();
+
+                ///////////////////////////
+                conn = DriverManager.getConnection(connectionUrl);
+                stmt = conn.createStatement();
+
+                for (int i = 0; i < msisdn_number.size(); i++) {
+                    rs = stmt.executeQuery("SELECT * FROM mobile WHERE mobile_id = '"+msisdn_number.get(i).getMsisdn()+"'");
+                    while (rs.next()) {
+                        String sql_insert = "INSERT INTO dbo.register (api_req, reg_channel, mobile_id, service_id, "
+                                + " reg_date, status,status_code) "
+                                + "VALUES('UNREG','SMS', '"+rs.getString("msisdn")+"', '" + serviceid + "',getdate(),'0','0')";
+                        stmt.execute(sql_insert);
+                    }
+                }
+                ////////////////////////////  
+                
             } catch (ClassNotFoundException ex) {
                 this.Log.info("Error getPhoneNummber : " + ex);
             } catch (SQLException ex) {
                 this.Log.info("Error getPhoneNummber : " + ex);
+            }finally{
+                try {
+                    conn.close();
+                } catch (Exception e) {
+                }
             }
         }
 

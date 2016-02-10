@@ -64,9 +64,9 @@ public class ProcessDatabase {
         }
 
         ///////////////////////////////////////
-        if (code.equals("102")) {
-            ud = "C";
-        }
+//        if (code.equals("102")) {
+//            ud = "C";
+//        }
 
         time = time.replace("T", " ");
         time = time.replace("Z", "");
@@ -255,7 +255,7 @@ public class ProcessDatabase {
             }
         }
 
-        ///////////////////// delivery_report
+        ///////////////////// delivery-report
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
@@ -271,7 +271,7 @@ public class ProcessDatabase {
 
             sql = "INSERT INTO delivery_report(TransactionID,ServiceID,MSISDN,Content,MMS_status,StatusCode,Date,OperId,FRDN) "
                     + "VALUES ('" + message + "','" + ser + "','" + number + "','" + "" + "','" + code + "','" + code + "','" + date_format + "','3','true')";
-            this.Log.info("Log delivery_report : " + sql);
+            this.Log.info("Log delivery report : " + sql);
             stmt.execute(sql);
 
         } catch (Exception e) {
@@ -321,7 +321,7 @@ public class ProcessDatabase {
 
             sql = "INSERT INTO delivery_report(TransactionID,ServiceID,MSISDN,Content,MMS_status,StatusCode,Date,OperId,FRDN,SSSActionReport,MessageID) "
                     + "VALUES ('" + message_id + "','" + service + "','" + number + "','" + message + "','" + code + "','" + code + "','" + date_format + "','3','true','" + S_message + "','" + message_id + "')";
-            this.Log.info("Log delivery_report : " + sql);
+            this.Log.info("Log delivery report data : " + sql);
             stmt.execute(sql);
 //            sql = "INSERT INTO delivery_request(TransactionID,product_id,MSISDN,Content,StatusCode,cdate,service_id) "
 //                    + "VALUES ('" + message + "','" + message_id + "','" + number + "','" + destination + "','" + code + "','" + cdate_sms + "','" + service + "')";
