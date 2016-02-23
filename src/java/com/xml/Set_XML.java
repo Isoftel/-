@@ -3,13 +3,14 @@ package com.xml;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class Set_XML {
-
+    Locale locale = new Locale("en", "US");
     Date date = new Date();
     ResourceBundle msg = ResourceBundle.getBundle("configs");
-    DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
+    DateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z",locale);
 
     ///ส่งค่าเดียวแล้ว reture String ที่ได้รับจากฟั่ง True หลังจากส่ง XML แล้ว
     public String getXmlReg(String Service_id, String Number_type, String Text_Service, String Access, String id_pass, String type) {

@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import org.apache.log4j.Logger;
 
@@ -40,12 +41,12 @@ public class SMS_Worning implements Runnable {
     Connection conn2 = null;
     Statement stmt2 = null;
     ResultSet rs2 = null;
-
+    Locale locale = new Locale("en", "US");
     List<data_sms> user_data = new ArrayList<data_sms>();
 
     private List<data_sms> sms_data = SMS();
     Date NewDate = new Date();
-    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S", locale);
     String new_date_format = dateFormat.format(NewDate);
 
     @Override

@@ -12,6 +12,7 @@ import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -21,9 +22,9 @@ import org.apache.commons.codec.binary.Hex;
 import org.apache.log4j.Logger;
 
 public class DeliveryRequest_true extends HttpServlet {
-    
-    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    DateFormat Format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+    Locale locale = new Locale("en", "US");
+    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",locale);
+    DateFormat Format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss",locale);
     Date date = new Date();
     
     ProcessDatabase insert = new ProcessDatabase();

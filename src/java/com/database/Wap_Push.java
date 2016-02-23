@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import org.apache.log4j.Logger;
@@ -58,6 +59,7 @@ public class Wap_Push implements Runnable {
 
     DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
     Date NewDate = new Date();
+    Locale locale = new Locale("en", "US");
 
     @Override
     public void run() {
@@ -67,7 +69,6 @@ public class Wap_Push implements Runnable {
     }
 
     public List<data_user> ProcessWapPush() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         user_room.clear();
         String sql = "";
         String service_id = "";
@@ -76,8 +77,9 @@ public class Wap_Push implements Runnable {
         String time_con = "";
         try {
             //เวลาปุจจุบัน
-            String date_new = dateFormat.format(NewDate);
-
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", locale);
+            String date_new = sdf.format(NewDate);
+            System.out.println("New Date ProcessWapPush : " + date_new);
             String id_ser = "";
             String access = "";
             String text = "";

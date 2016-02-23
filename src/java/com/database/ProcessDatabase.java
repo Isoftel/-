@@ -12,6 +12,7 @@ import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import org.apache.log4j.Logger;
 
@@ -32,11 +33,11 @@ public class ProcessDatabase {
     Connection conn = null;
     Statement stmt = null;
     ResultSet rs = null;
-
-    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+    Locale locale = new Locale("en", "US");
+    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S", locale);
     Date cdate = null;
     Date NewDate = new Date();
-
+    
     public String ProcessDatabase(String result, PrintWriter out) {
         String sql = null;
         Set_XML str_xml = new Set_XML();
@@ -84,7 +85,7 @@ public class ProcessDatabase {
         //cdate = dateFormat.parse(time);
         String New_date = "";
         try {
-            DateFormat Format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            DateFormat Format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", locale);
             Date convertedDate = Format.parse(time);
             New_date = Format.format(convertedDate);
             this.Log.info("New_date " + New_date);

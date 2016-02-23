@@ -13,6 +13,7 @@ import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import org.apache.log4j.Logger;
 
@@ -31,8 +32,9 @@ public class XML_insert {
     String data_base2 = msg.getString("data2");
     String user = msg.getString("user");
     String pass = msg.getString("pass");
-
-    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+    
+    Locale locale = new Locale("en", "US");
+    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S", locale);
     Date NewDate = new Date();
 
     public String insert_r(String xml, String id, String Request, String detail_status, String reg_unreg) {

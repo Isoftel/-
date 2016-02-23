@@ -14,8 +14,6 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
-//import java.text.DateFormat;
-//import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
 import org.apache.commons.httpclient.HttpClient;

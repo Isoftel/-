@@ -12,6 +12,7 @@ import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import javax.servlet.ServletConfig;
@@ -28,10 +29,11 @@ public class run_api extends HttpServlet implements Runnable {
     Logger Log = Logger.getLogger(this.getClass());
 
     Date date = new Date();
+    Locale locale = new Locale("en", "US");
     //HH:mm:ss
-    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", locale);
 
-    DateFormat Format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+    DateFormat Format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", locale);
 
     @Override
     public void init(ServletConfig config) {
@@ -74,8 +76,8 @@ public class run_api extends HttpServlet implements Runnable {
     }
 
     public void worning() {
-        DateFormat dateFormat_set_start = new SimpleDateFormat("yyyy-MM-dd 15:33:10");
-        DateFormat dateFormat_set_end = new SimpleDateFormat("yyyy-MM-dd 15:38:35");
+        DateFormat dateFormat_set_start = new SimpleDateFormat("yyyy-MM-dd 15:33:10", locale);
+        DateFormat dateFormat_set_end = new SimpleDateFormat("yyyy-MM-dd 15:38:35", locale);
         try {
             String date_warning = dateFormat.format(date);
             String date_start = dateFormat_set_start.format(date);
