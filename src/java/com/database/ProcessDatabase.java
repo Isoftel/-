@@ -270,7 +270,7 @@ public class ProcessDatabase {
             }
 
             sql = "INSERT INTO delivery_report(TransactionID,ServiceID,MSISDN,Content,MMS_status,StatusCode,Date,OperId,FRDN) "
-                    + "VALUES ('" + message + "','" + ser + "','" + number + "','" + "" + "','" + code + "','" + code + "','" + date_format + "','3','true')";
+                    + "VALUES ('" + message + "','" + ser + "','" + number + "','" + "" + "','" + code + "','" + code + "','" + New_date + "','3','true')";
             this.Log.info("Log delivery report : " + sql);
             stmt.execute(sql);
 
@@ -299,10 +299,6 @@ public class ProcessDatabase {
 //        } else if (message.equals("Successfully sent to phone")) {
 //        }
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
-            conn = DriverManager.getConnection(connectionUrl);
-            stmt = conn.createStatement();
             String S_message = "";
             if (message.equals("The service is not associated to given subscriber") || message.equals("Message rejected by SMSC")) {
                 S_message = "UNREG_IMMEDIATE";
@@ -310,19 +306,25 @@ public class ProcessDatabase {
                 //REG_SUCCESS
                 S_message = "RECURRING";
             }
-
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            String connectionUrl = "jdbc:sqlserver://" + local + ";databaseName=" + data_base + ";user=" + user + ";password=" + pass + ";";
+            conn = DriverManager.getConnection(connectionUrl);
+            stmt = conn.createStatement();
             sql = "select * from services where access_number = '" + destination + "' ";
             rs = stmt.executeQuery(sql);
             Log.info(sql);
             while (rs.next()) {
                 service = rs.getString("id");
             }
-            ////////////////
-
+            conn.close();
+            ////////////////////////////
+            conn = DriverManager.getConnection(connectionUrl);
+            stmt = conn.createStatement();
             sql = "INSERT INTO delivery_report(TransactionID,ServiceID,MSISDN,Content,MMS_status,StatusCode,Date,OperId,FRDN,SSSActionReport,MessageID) "
                     + "VALUES ('" + message_id + "','" + service + "','" + number + "','" + message + "','" + code + "','" + code + "','" + date_format + "','3','true','" + S_message + "','" + message_id + "')";
             this.Log.info("Log delivery report data : " + sql);
             stmt.execute(sql);
+            
 //            sql = "INSERT INTO delivery_request(TransactionID,product_id,MSISDN,Content,StatusCode,cdate,service_id) "
 //                    + "VALUES ('" + message + "','" + message_id + "','" + number + "','" + destination + "','" + code + "','" + cdate_sms + "','" + service + "')";
 //            stmt.execute(sql);
@@ -330,9 +332,10 @@ public class ProcessDatabase {
 //            stmt.executeUpdate(sql);
             return result;
         } catch (Exception e) {
-            this.Log.info("Error SMS : " + e);
+            this.Log.info("Error Process ProcessSMS : " + e);
         } finally {
             try {
+                this.Log.info("Run Finally");
                 conn.close();
             } catch (Exception e) {
             }

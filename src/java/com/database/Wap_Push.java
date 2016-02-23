@@ -88,7 +88,7 @@ public class Wap_Push implements Runnable {
             conn = DriverManager.getConnection(connectionUrl);
             stmt = conn.createStatement();
             rs = stmt.executeQuery("exec sp_CheckContent '" + date_new + "','3'");
-            //this.Log.info("Sql sp: " + "exec sp_CheckContent '" + date_new + "','3'");
+            this.Log.info("Sql ProcessWapPush : " + "exec sp_CheckContent '" + date_new + "','3'");
             while (rs.next()) {
 
                 //this.Log.info("rs : " + rs.getString("contents_name") + " : " + rs.getInt("id"));
@@ -98,7 +98,9 @@ public class Wap_Push implements Runnable {
                 sql = "INSERT INTO content_sended(send_date,service_id,content_id,oper) "
                         + "VALUES ('" + date_new + "','" + rs.getString("service_id") + "','" + rs.getString("id") + "','3')";
                 stmt.execute(sql);
+                this.Log.info("Sql ProcessWapPush IN : " + sql);
             }
+
             conn.close();
 
         } catch (Exception e) {
@@ -142,8 +144,9 @@ public class Wap_Push implements Runnable {
         public void run() {
             map = ProcessVw_getApiDetail();
             getPhoneNummber("exec dbo.sp_getMobileFree '" + serviceid + "','3'", "free");
+            this.Log.info("exec dbo.sp_getMobileFree '" + serviceid + "','3'");
             getPhoneNummber("exec dbo.sp_getMobileCharge '" + serviceid + "','3'", "charge");
-
+            this.Log.info("exec dbo.sp_getMobileCharge '" + serviceid + "','3'");
         }
 
         private HashMap ProcessVw_getApiDetail() {
@@ -243,21 +246,22 @@ public class Wap_Push implements Runnable {
                 stmt = conn.createStatement();
 
                 for (int i = 0; i < msisdn_number.size(); i++) {
-                    rs = stmt.executeQuery("SELECT * FROM mobile WHERE mobile_id = '"+msisdn_number.get(i).getMsisdn()+"'");
+                    rs = stmt.executeQuery("SELECT * FROM mobile WHERE mobile_id = '" + msisdn_number.get(i).getMsisdn() + "'");
                     while (rs.next()) {
                         String sql_insert = "INSERT INTO dbo.register (api_req, reg_channel, mobile_id, service_id, "
                                 + " reg_date, status,status_code) "
-                                + "VALUES('UNREG','SMS', '"+rs.getString("msisdn")+"', '" + serviceid + "',getdate(),'0','0')";
+                                + "VALUES('UNREG','SMS', '" + rs.getString("mobile_id") + "', '" + serviceid + "',getdate(),'0','0')";
                         stmt.execute(sql_insert);
+                        this.Log.info("SQL insert 102 : " + sql_insert);
                     }
                 }
                 ////////////////////////////  
-                
+
             } catch (ClassNotFoundException ex) {
                 this.Log.info("Error getPhoneNummber : " + ex);
             } catch (SQLException ex) {
                 this.Log.info("Error getPhoneNummber : " + ex);
-            }finally{
+            } finally {
                 try {
                     conn.close();
                 } catch (Exception e) {

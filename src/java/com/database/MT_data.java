@@ -132,7 +132,7 @@ public class MT_data implements Runnable {
                     insert_r.insert_sms(GetXML);
 
                 } catch (Exception e) {
-                    this.Log.info("Error SMS : " + e);
+                    this.Log.info("Error ThreaDraco : " + e);
                 }
             }
         }
@@ -323,12 +323,16 @@ public class MT_data implements Runnable {
 
             rs.close();
             stmt.close();
-            conn.close();
             //this.Log.info("return ProcessRegister " + data_message.size()+" Database Connection close "+conn.isClosed());
 
         } catch (Exception e) {
             //System.out.println("Error : " + e);
-            this.Log.info("Error ProcessSMS " + e);
+            this.Log.info("Error MT ProcessSMS " + e);
+        } finally{
+            try {
+                conn.close();
+            } catch (Exception e) {
+            }
         }
         return data_message;
     }
